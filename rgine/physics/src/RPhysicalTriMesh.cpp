@@ -28,12 +28,4 @@
 
 #include "RPhysicalTriMesh.h"
 
-RPhysicalTriMesh::RPhysicalTriMesh() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalTriMesh::~RPhysicalTriMesh() {
-	// TODO Auto-generated destructor stub
-}
 

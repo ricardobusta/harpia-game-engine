@@ -27,13 +27,3 @@
  */
 
 #include "RPhysicalCone.h"
-
-RPhysicalCone::RPhysicalCone() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalCone::~RPhysicalCone() {
-	// TODO Auto-generated destructor stub
-}
-

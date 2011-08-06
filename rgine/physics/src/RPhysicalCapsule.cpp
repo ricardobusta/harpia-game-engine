@@ -26,14 +26,19 @@
  * Created on: Aug 5, 2011
  */
 
-#include "RPhysicalCapsule.h"
+//#include "RPhysicalCapsule.h"
+/*
+RPhysicalCapsule::RPhysicalCapsule(REntity *entity, double mass)
+    :RPhysicalObject(entity, mass) {
 
-RPhysicalCapsule::RPhysicalCapsule() {
-	// TODO Auto-generated constructor stub
+    float radius, height;
+    vector3df scale = irrcapsule->getScale();
 
-}
+    vector3df min = ((IAnimatedMeshSceneNode*)irrcapsule)->getMesh()->getBoundingBox().MinEdge;
+    vector3df max = ((IAnimatedMeshSceneNode*)irrcapsule)->getMesh()->getBoundingBox().MaxEdge;
 
-RPhysicalCapsule::~RPhysicalCapsule() {
-	// TODO Auto-generated destructor stub
-}
+    radius = ((max.X - min.X)/2.0)*scale.X;
+    height = (max.Y - min.Y)*scale.Y;
 
+    initialize(new btCapsuleShape(radius, height - 2.0*radius));
+}*/

@@ -26,6 +26,7 @@
  * Created on: Aug 5, 2011
  */
 
+/*
 #include "RPhysicalBox.h"
 
 RPhysicalBox::RPhysicalBox(REntity* entity, double mass)
@@ -42,4 +43,4 @@ RPhysicalBox::RPhysicalBox(REntity* entity, double mass)
 
 RPhysicalBox::~RPhysicalBox() {
 	// TODO Auto-generated destructor stub
-}
+}*/

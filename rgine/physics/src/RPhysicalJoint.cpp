@@ -28,12 +28,4 @@
 
 #include "RPhysicalJoint.h"
 
-RPhysicalJoint::RPhysicalJoint() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalJoint::~RPhysicalJoint() {
-	// TODO Auto-generated destructor stub
-}
 
