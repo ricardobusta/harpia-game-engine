@@ -28,12 +28,4 @@
 
 #include "RPhysicalSphere.h"
 
-RPhysicalSphere::RPhysicalSphere() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalSphere::~RPhysicalSphere() {
-	// TODO Auto-generated destructor stub
-}
 

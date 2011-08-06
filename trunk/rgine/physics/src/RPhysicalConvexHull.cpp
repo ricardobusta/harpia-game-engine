@@ -26,14 +26,4 @@
  * Created on: Aug 5, 2011
  */
 
-#include "RPhysicalConvexHull.h"
-
-RPhysicalConvexHull::RPhysicalConvexHull() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalConvexHull::~RPhysicalConvexHull() {
-	// TODO Auto-generated destructor stub
-}
-
+//#include "RPhysicalConvexHull.h"

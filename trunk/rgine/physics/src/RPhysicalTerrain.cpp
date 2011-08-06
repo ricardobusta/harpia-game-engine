@@ -28,12 +28,4 @@
 
 #include "RPhysicalTerrain.h"
 
-RPhysicalTerrain::RPhysicalTerrain() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalTerrain::~RPhysicalTerrain() {
-	// TODO Auto-generated destructor stub
-}
 

@@ -28,6 +28,7 @@
 
 #include "RPhysicalObject.h"
 
+/*
 #include <RPoint3f.h>
 #include <cmath>
 
@@ -116,7 +117,7 @@ REntity* RPhysicalObject::getEntity() {
 
 /*MeshBuffer* RPhysicalObject::getMeshBuffer() {
     return ((IAnimatedMeshSceneNode*)irrnode)->getMesh()->getMesh(0)->getMeshBuffer(0);
-}*/
+}*
 
 Vector3D RPhysicalObject::getScale() {
     return (entity->scale);
@@ -167,3 +168,4 @@ void RPhysicalObject::setLinearDamping(float damp) {
 bool RPhysicalObject::isColliding(RPhysicalObject* obj) {
     return (rigidBody->checkCollideWith(obj->getRigidBody()));
 }
+*/

@@ -28,12 +28,4 @@
 
 #include "RPhysicalCylinder.h"
 
-RPhysicalCylinder::RPhysicalCylinder() {
-	// TODO Auto-generated constructor stub
-
-}
-
-RPhysicalCylinder::~RPhysicalCylinder() {
-	// TODO Auto-generated destructor stub
-}
 
