@@ -31,7 +31,7 @@
 
 #include "RPhysicalObject.h"
 
-#include <RPoint3f.h>
+#include <RVector3f.h>
 #include <btBulletDynamicsCommon.h>
 
 class RPhysicalObject;
@@ -54,8 +54,8 @@ private:
 			RPhysicalObject* obj2, btVector3 anchor, btVector3 axis);
 
 public:
-	RPhysicalJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, RPoint3f anchor,
-			RPoint3f axis);
+	RPhysicalJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, RVector3f anchor,
+			RVector3f axis);
 	~RPhysicalJoint();
 
 	JointType getType();

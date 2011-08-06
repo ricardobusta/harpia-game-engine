@@ -30,7 +30,7 @@
 
 #include <SDL/SDL_opengl.h>
 
-void rglDrawTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color) {
+void rglDrawTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RColor color) {
 	glBegin(GL_TRIANGLES);
 	glColor3ub(color.r(), color.g(), color.b());
 	glVertex3f(p1.x(), p1.y(), p1.z());
@@ -39,7 +39,7 @@ void rglDrawTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color) {
 	glEnd();
 }
 
-void rglDrawQuad(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f p4,
+void rglDrawQuad(RVector3f p1, RVector3f p2, RVector3f p3, RVector3f p4,
 		RColor color) {
 	glBegin(GL_QUADS);
 	glColor3ub(color.r(), color.g(), color.b());
@@ -50,7 +50,7 @@ void rglDrawQuad(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f p4,
 	glEnd();
 }
 
-void rglDrawLineStrip(vector<RPoint3f> points, RColor color) {
+void rglDrawLineStrip(vector<RVector3f> points, RColor color) {
 	glBegin(GL_LINE_STRIP);
 	glColor3ub(color.r(), color.g(), color.b());
 	for (unsigned int i = 0; i < points.size(); i++) {

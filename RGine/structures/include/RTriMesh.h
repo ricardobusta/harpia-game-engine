@@ -29,7 +29,7 @@
 #ifndef RTRIMESH_H_
 #define RTRIMESH_H_
 
-#include "RPoint3f.h"
+#include "RVector3f.h"
 #include "RColor.h"
 #include <vector>
 using namespace std;
@@ -50,16 +50,16 @@ public:
 	 * @param normal Normal of that vertex. Default is (0,0,1).
 	 * @param color Color of that vertex. Default is white.
 	 */
-	void addPoint(RPoint3f point, RPoint3f normal, RColor color=RColor(255,255,255));
-	void addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color=RColor(255,255,255));
-	void addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f normal, RColor color=RColor(255,255,255));
+	void addPoint(RVector3f point, RVector3f normal, RColor color=RColor(255,255,255));
+	void addTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RColor color=RColor(255,255,255));
+	void addTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RVector3f normal, RColor color=RColor(255,255,255));
 	/**
 	 * Get a point at the given position.
 	 *
 	 * @param at Index of the wanted vertex.
 	 * @return The point of that vertex.
 	 */
-	RPoint3f getPoint(int at);
+	RVector3f getPoint(int at);
 	/**
 	 * Remove the vertex from the triangular mesh.
 	 *
@@ -68,8 +68,8 @@ public:
 	void removePoint(int at);
 
 public: //make private
-	vector<RPoint3f> points;
-	vector<RPoint3f> normals;
+	vector<RVector3f> points;
+	vector<RVector3f> normals;
 	vector<RColor> colors;
 };
 

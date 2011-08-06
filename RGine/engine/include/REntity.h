@@ -33,7 +33,7 @@
 
 #include <RFrame.h>
 #include <RTriMesh.h>
-#include <RPoint3f.h>
+#include <RVector3f.h>
 
 class RPhysicalObject;
 
@@ -56,9 +56,9 @@ public:
 	RMatrix4f getAbsoluteTransformation();
 
 public://TODO make private
-	RPoint3f position;
-	RPoint3f rotation;
-	RPoint3f scale;
+	RVector3f position;
+	RVector3f rotation;
+	RVector3f scale;
 
 	bool hasPhysics;
 	RPhysicalObject *physicalObject;

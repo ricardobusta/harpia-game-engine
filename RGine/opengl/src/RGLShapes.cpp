@@ -30,7 +30,7 @@
 
 #include <SDL/SDL_opengl.h>
 #include <cmath>
-#include <RPoint3f.h>
+#include <RVector3f.h>
 
 void rglDrawCylinder(float radius, float height, unsigned int div,
 		RColor color) {
@@ -139,7 +139,7 @@ void rglDrawBox(float width, float height, float depth, RColor color) {
 	float h = height / 2;
 	float d = depth / 2;
 
-	RPoint3f p[8];
+	RVector3f p[8];
 	p[0].set(w, h, d);
 	p[1].set(w, h, -d);
 	p[2].set(-w, h, -d);
@@ -364,7 +364,7 @@ RTriMesh rglGenBox(float width, float height, float depth, RColor color) {
 	float h = height / 2;
 	float d = depth / 2;
 
-	RPoint3f p[8];
+	RVector3f p[8];
 	p[0].set(w, h, d);
 	p[1].set(w, h, -d);
 	p[2].set(-w, h, -d);
@@ -373,7 +373,7 @@ RTriMesh rglGenBox(float width, float height, float depth, RColor color) {
 	p[5].set(w, -h, -d);
 	p[6].set(-w, -h, -d);
 	p[7].set(-w, -h, d);
-	RPoint3f n[6];
+	RVector3f n[6];
 	n[0].set(1, 0, 0); //right
 	n[1].set(0, 1, 0); //top
 	n[2].set(0, 0, 1); //near
@@ -412,7 +412,7 @@ RTriMesh rglGenCapsule(float radius, float height, unsigned int div,
 		RColor color) {
 	RTriMesh mesh;
 	float h = height / 2;
-	RPoint3f p1, p2, p3;
+	RVector3f p1, p2, p3;
 	float s, c, s1, c1, o;
 	float sb, cb, sb1, cb1;
 	float ang = (1.0 / div) * (M_PI);
@@ -481,7 +481,7 @@ RTriMesh rglGenSphere(float radius, unsigned int div, RColor color) {
 	RTriMesh mesh;
 	float sa, sa1, ca, ca1;
 	float sb, sb1, cb, cb1;
-	RPoint3f p1, p2, p3;
+	RVector3f p1, p2, p3;
 	float ang = ((1.0 / div) * (M_PI));
 	for (unsigned int i = 0; i < 2 * div; i++) {
 		for (unsigned int j = 0; j < div; j++) {

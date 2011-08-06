@@ -8,7 +8,7 @@
 #ifndef RFRAME_H_
 #define RFRAME_H_
 
-#include "RPoint3f.h"
+#include "RVector3f.h"
 
 #include "RMatrix4f.h"
 
@@ -64,12 +64,16 @@ public:
 	void rotate(float angle, float x, float y, float z);
 
 	/**
-	 * Get the frame 4x4 matrix.
+	 * Get the frame 4x4 matrix for opengl commands.
 	 *
 	 * @return The 4x4 matrix ready to be used with opengl commands.
 	 */
 	float* getTransformation();
 
+	/**
+	 * Get the frame 4x4 matrix structure.
+	 * @return The RMatrix4f structure.
+	 */
 	RMatrix4f getMatrix();
 private:
 	/**

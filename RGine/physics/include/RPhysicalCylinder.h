@@ -31,6 +31,9 @@
 
 #include "RPhysicalObject.h"
 
+/**
+ * Cylinder shaped physical object.
+ */
 class RPhysicalCylinder : public RPhysicalObject {
 public:
     RPhysicalCylinder(RPhysicalObject *entity, double mass);

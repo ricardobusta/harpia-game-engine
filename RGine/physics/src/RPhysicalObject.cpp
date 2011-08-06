@@ -28,8 +28,7 @@
 
 #include "RPhysicalObject.h"
 
-/*
-#include <RPoint3f.h>
+#include <RVector3f.h>
 #include <cmath>
 
 RPhysicalObject::RPhysicalObject(REntity* entity, double mass) {
@@ -48,7 +47,7 @@ void RPhysicalObject::initializeTerrain(btCollisionShape* shape, btDefaultMotion
 }
 
 void RPhysicalObject::initialize(btCollisionShape* shape) {
-    RPoint3f pos, rotation;
+    RVector3f pos, rotation;
     pos = entity->position;//irrnode->getPosition();
     rotation = entity->rotation;//irrnode->getRotation();
     btQuaternion rot;
@@ -79,7 +78,7 @@ RPhysicalObject::~RPhysicalObject() {
     delete shape;
 }
 
-void RPhysicalObject::Update() {
+void RPhysicalObject::update() {
     btVector3 pos = rigidBody->getCenterOfMassPosition();
     btQuaternion rot = rigidBody->getOrientation();
     btVector3 eulerRot;
@@ -102,8 +101,8 @@ void RPhysicalObject::Update() {
     eulerRot.setZ( eulerRot.z()*180.0/M_PI );
 
     if(entity != NULL) {
-        entity->position = Vector3D(pos.x(), pos.y(), pos.z());
-        entity->rotation = Vector3D(eulerRot.x(), eulerRot.y(), eulerRot.z());
+        entity->position = RVector3f(pos.x(), pos.y(), pos.z());
+        entity->rotation = RVector3f(eulerRot.x(), eulerRot.y(), eulerRot.z());
     }
 }
 
@@ -112,22 +111,22 @@ btRigidBody* RPhysicalObject::getRigidBody() {
 }
 
 REntity* RPhysicalObject::getEntity() {
-    return entity;
+    return (entity);
 }
 
 /*MeshBuffer* RPhysicalObject::getMeshBuffer() {
     return ((IAnimatedMeshSceneNode*)irrnode)->getMesh()->getMesh(0)->getMeshBuffer(0);
-}*
+}*/
 
-Vector3D RPhysicalObject::getScale() {
+RVector3f RPhysicalObject::getScale() {
     return (entity->scale);
 }
 
-Vector3D RPhysicalObject::getPosition() {
+RVector3f RPhysicalObject::getPosition() {
     return (entity->position);
 }
 
-Vector3D RPhysicalObject::getRotation() {
+RVector3f RPhysicalObject::getRotation() {
     return (entity->rotation);
 }
 
@@ -168,4 +167,3 @@ void RPhysicalObject::setLinearDamping(float damp) {
 bool RPhysicalObject::isColliding(RPhysicalObject* obj) {
     return (rigidBody->checkCollideWith(obj->getRigidBody()));
 }
-*/
