@@ -22,22 +22,42 @@
  *
  * @section DESCRIPTION
  * 
- * File: RPhysicalCone.h
- * Created on: Aug 5, 2011
+ * File: RBoundingBox.cpp
+ * Created on: Aug 6, 2011
  */
 
-#ifndef RPHYSICALCONE_H_
-#define RPHYSICALCONE_H_
+#include "RBoundingBox.h"
 
-#include "RPhysicalObject.h"
+RBoundingBox::RBoundingBox() {
+	// TODO Auto-generated constructor stub
 
-/**
- * Cone shaped physical object.
- */
-class RPhysicalCone : public RPhysicalObject {
-public:
-    RPhysicalCone(REntity *entity, double mass);
-    ~RPhysicalCone() {};
-};
+}
 
-#endif /* RPHYSICALCONE_H_ */
+RBoundingBox::~RBoundingBox() {
+	// TODO Auto-generated destructor stub
+}
+
+RVector3f RBoundingBox::getMaxVertex() const
+{
+    return (maxVertex);
+}
+
+RVector3f RBoundingBox::getMinVertex() const
+{
+    return (minVertex);
+}
+
+void RBoundingBox::setMaxVertex(RVector3f maxVertex)
+{
+    this->maxVertex = maxVertex;
+}
+
+void RBoundingBox::setMinVertex(RVector3f minVertex)
+{
+    this->minVertex = minVertex;
+}
+
+
+
+
+

@@ -34,6 +34,9 @@
 #include <BulletCollision/Gimpact/btGImpactShape.h>
 #include <BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h>
 
+/**
+ * Triangular mesh physical object.
+ */
 class TriMesh : public RPhysicalObject {
 private:
     btTriangleMesh* trimesh;

@@ -31,12 +31,14 @@
 
 #include "RPhysicalObject.h"
 
-/*
+/**
+ * Convex Hull physical object.
+ */
 class RPhysicalConvexHull : public RPhysicalObject {
 public:
     RPhysicalConvexHull(REntity *entity, double mass);
     ~RPhysicalConvexHull();
-};*/
+};
 
 
 #endif /* RPHYSICALCONVEXHULL_H_ */

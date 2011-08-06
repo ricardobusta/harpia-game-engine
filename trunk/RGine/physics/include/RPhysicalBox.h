@@ -29,12 +29,11 @@
 #ifndef RPHYSICALBOX_H_
 #define RPHYSICALBOX_H_
 
-/**
- *
- */
-
 #include "RPhysicalObject.h"
 
+/**
+ * Box shaped physical object.
+ */
 class RPhysicalBox : public RPhysicalObject {
 public:
     RPhysicalBox(REntity* entity, double mass);

@@ -37,7 +37,7 @@ RTriMesh::~RTriMesh() {
 	// TODO Auto-generated destructor stub
 }
 
-void RTriMesh::addPoint(RPoint3f point, RPoint3f normal, RColor color)
+void RTriMesh::addPoint(RVector3f point, RVector3f normal, RColor color)
 {
 	points.push_back(point);
 	normals.push_back(normal);
@@ -46,11 +46,11 @@ void RTriMesh::addPoint(RPoint3f point, RPoint3f normal, RColor color)
 
 
 
-void RTriMesh::addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color)
+void RTriMesh::addTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RColor color)
 {
-	RPoint3f px1 = p1-p3;
-	RPoint3f px2 = p2-p3;
-	RPoint3f n = (px1^px2).unit();
+	RVector3f px1 = p1-p3;
+	RVector3f px2 = p2-p3;
+	RVector3f n = (px1^px2).unit();
 	points.push_back(p1);
 	points.push_back(p2);
 	points.push_back(p3);
@@ -62,7 +62,7 @@ void RTriMesh::addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color)
 	colors.push_back(color);
 }
 
-void RTriMesh::addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f n, RColor color)
+void RTriMesh::addTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RVector3f n, RColor color)
 {
 	points.push_back(p1);
 	points.push_back(p2);
@@ -77,7 +77,7 @@ void RTriMesh::addTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f n, RC
 
 
 
-RPoint3f RTriMesh::getPoint(int at)
+RVector3f RTriMesh::getPoint(int at)
 {
 	return (points.at(at));
 }

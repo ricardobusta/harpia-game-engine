@@ -31,6 +31,9 @@
 
 #include "RPhysicalObject.h"
 
+/**
+ * Sphere shaped physical object.
+ */
 class RPhysicalSphere : public RPhysicalObject {
 public:
     RPhysicalSphere(REntity *entity, double mass);

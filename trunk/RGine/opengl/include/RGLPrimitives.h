@@ -29,7 +29,7 @@
 #ifndef RGLPRIMITIVES_H_
 #define RGLPRIMITIVES_H_
 
-#include "RPoint3f.h"
+#include "RVector3f.h"
 #include "RColor.h"
 #include "vector" //TODO replace std::vector with RVector
 using namespace std;
@@ -42,7 +42,7 @@ using namespace std;
  * @param p3 Third point.
  * @param color Color.
  */
-void rglDrawTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color);
+void rglDrawTriangle(RVector3f p1, RVector3f p2, RVector3f p3, RColor color);
 
 /**
  * Draw a quad using OpenGL commands.
@@ -53,7 +53,7 @@ void rglDrawTriangle(RPoint3f p1, RPoint3f p2, RPoint3f p3, RColor color);
  * @param p4 Fourth point.
  * @param color Color.
  */
-void rglDrawQuad(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f p4,
+void rglDrawQuad(RVector3f p1, RVector3f p2, RVector3f p3, RVector3f p4,
 		RColor color);
 
 /**
@@ -62,7 +62,7 @@ void rglDrawQuad(RPoint3f p1, RPoint3f p2, RPoint3f p3, RPoint3f p4,
  * @param points
  * @param color
  */
-void rglDrawLineStrip(vector<RPoint3f> points, RColor color);
+void rglDrawLineStrip(vector<RVector3f> points, RColor color);
 
 /*
  * TODO more primitives.

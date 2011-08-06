@@ -31,8 +31,17 @@
 
 #include "RPhysicalObject.h"
 
+/**
+ * Capsule shaped physical object.
+ */
 class RPhysicalCapsule : public RPhysicalObject {
 public:
+	/**
+	 * Creates a physical capsule attached to that entity.
+	 *
+	 * @param entity Entity that will have this physical property.
+	 * @param mass Mass of that entity.
+	 */
     RPhysicalCapsule(REntity *entity, double mass);
     ~RPhysicalCapsule() {};
 };

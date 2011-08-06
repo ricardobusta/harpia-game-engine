@@ -36,8 +36,6 @@
 #include <REntity.h>
 #include "RPhysicalJoint.h"
 
-#define Vector3D RPoint3f
-
 enum RShape {
 	RSHAPE_SPHERE,
 	RSHAPE_BOX,
@@ -49,6 +47,7 @@ enum RShape {
 };
 
 /**
+ * Generic Physical Object Representation.
  * This class will be used by the physics engine to represent an object with
  * physical behavior.
  */
@@ -69,7 +68,7 @@ protected:
 			btDefaultMotionState* motionState);
 	void initialize(btCollisionShape* shape);
 
-	void Update();
+	void update();
 public:
 
 	btRigidBody* getRigidBody();
@@ -82,9 +81,9 @@ public:
 	~RPhysicalObject();
 
 	//MeshBuffer* getMeshBuffer();
-	Vector3D getScale();
-	Vector3D getPosition();
-	Vector3D getRotation();
+	RVector3f getScale();
+	RVector3f getPosition();
+	RVector3f getRotation();
 	RMatrix4f getAbsoluteTransformation();
 
 	float getAngularVel();

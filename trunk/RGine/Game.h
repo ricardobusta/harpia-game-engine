@@ -59,7 +59,7 @@ private:
 	/**
 	 * Camera position
 	 */
-	RPoint3f cam;
+	RVector3f cam;
 	/**
 	 * Camera frame (transformations: rotation, scale etc)
 	 */
