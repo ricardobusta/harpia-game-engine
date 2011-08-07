@@ -64,6 +64,7 @@ protected:
 	 * @return The key structure.
 	 */
 	RSDLKeyStruct key(int id);
+public:
 	/**
 	 * SDL object.
 	 */

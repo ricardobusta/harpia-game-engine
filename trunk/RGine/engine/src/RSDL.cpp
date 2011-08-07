@@ -26,6 +26,8 @@
  * Created on: Aug 5, 2011
  */
 
+//#define ORTHO
+
 #include "RSDL.h"
 
 #include <list>
@@ -74,8 +76,12 @@ void RSDL::opengl_resize() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, width, height);
+#ifdef ORTHO
 	glOrtho(0.0, width, 0.0, height, -2000, 1000);
-	//glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
+#else
+	glFrustum(-width / 20, width / 20, -height / 20, height / 20, 50, 6000);
+	glTranslatef(0, 0, -1000);
+#endif
 	//glMatrixMode(GL_TEXTURE);
 	glMatrixMode(GL_MODELVIEW);
 }
@@ -122,6 +128,10 @@ int RSDL::timer_getTicks() {
 		}
 	}
 	return (0);
+}
+
+int RSDL::timer_getCurrentTick(){
+	return SDL_GetTicks();
 }
 
 void RSDL::timer_delay() {

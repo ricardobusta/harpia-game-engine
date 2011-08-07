@@ -75,8 +75,8 @@ void Game::logic() {
 	}
 
 //	obj.frame.setIdentity();
-	objList[0].position = RVector3f(200, 200, 0);
-	objList[1].position = RVector3f(300, 300, 0);
+	objList[0].position = RVector3f(200, 0, 0);
+	objList[1].position = RVector3f(-200, 0, 0);
 //	obj.frame.rotate(cam.x(), 1, 0, 0);
 //	obj.frame.rotate(cam.y(), 0, 1, 0);
 //	obj.frame.scale(cam.z(), cam.z(), cam.z());

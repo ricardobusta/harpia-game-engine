@@ -31,7 +31,7 @@
 RPhysicalBox::RPhysicalBox(REntity* entity, double mass) :
 RPhysicalObject(entity, mass) {
 	btVector3 size;
-	RVector3f scale = entity->scale;
+	RVector3f scale = entity->getScale();
 	RVector3f minVertex = entity->getBoundingBox().getMinVertex();
 	RVector3f maxVertex = entity->getBoundingBox().getMaxVertex();
 
