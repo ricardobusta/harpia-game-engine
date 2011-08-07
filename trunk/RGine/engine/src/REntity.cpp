@@ -62,6 +62,47 @@ RMatrix4f REntity::getAbsoluteTransformation()
 	return f.getMatrix();
 }
 
+RVector3f REntity::getPosition() const
+{
+    return position;
+}
+
+RVector3f REntity::getRotation() const
+{
+    return rotation;
+}
+
+RVector3f REntity::getScale() const
+{
+    return scale;
+}
+
+void REntity::setPosition(RVector3f position)
+{
+    this->position = position;
+}
+
+void REntity::setRotation(RVector3f rotation)
+{
+    this->rotation = rotation;
+}
+
+void REntity::setScale(RVector3f scale)
+{
+    this->scale = scale;
+}
+
+RBoundingBox REntity::getBoundingBox()
+{
+	RBoundingBox bbox;
+	bbox.set(triMesh);
+	return bbox;
+}
+
+
+
+
+
 
 
 

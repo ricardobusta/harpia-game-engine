@@ -28,6 +28,8 @@
 
 #include "RBoundingBox.h"
 
+#include <RVector3f.h>
+
 RBoundingBox::RBoundingBox() {
 	// TODO Auto-generated constructor stub
 
@@ -37,27 +39,48 @@ RBoundingBox::~RBoundingBox() {
 	// TODO Auto-generated destructor stub
 }
 
-RVector3f RBoundingBox::getMaxVertex() const
-{
-    return (maxVertex);
+RVector3f RBoundingBox::getMaxVertex() const {
+	return (maxVertex);
 }
 
-RVector3f RBoundingBox::getMinVertex() const
-{
-    return (minVertex);
+RVector3f RBoundingBox::getMinVertex() const {
+	return (minVertex);
 }
 
-void RBoundingBox::setMaxVertex(RVector3f maxVertex)
-{
-    this->maxVertex = maxVertex;
+void RBoundingBox::setMaxVertex(RVector3f maxVertex) {
+	this->maxVertex = maxVertex;
 }
 
-void RBoundingBox::setMinVertex(RVector3f minVertex)
-{
-    this->minVertex = minVertex;
+void RBoundingBox::setMinVertex(RVector3f minVertex) {
+	this->minVertex = minVertex;
 }
 
+void RBoundingBox::set(RTriMesh mesh) {
+	if (mesh.size() > 0) {
+		minVertex = mesh.getPoint(0);
+		maxVertex = mesh.getPoint(0);
+	}
+	for (int i = 1; i < mesh.size(); i++) {
+		RVector3f p = mesh.getPoint(i);
+		if (minVertex.x() > p.x()) {
+			minVertex.setX(p.x());
+		}
+		if (maxVertex.x() < p.x()) {
+			maxVertex.setX(p.x());
+		}
+		if (minVertex.y() > p.y()) {
+			minVertex.setY(p.y());
+		}
+		if (maxVertex.y() < p.y()) {
+			maxVertex.setY(p.y());
+		}
+		if (minVertex.z() > p.z()) {
+			minVertex.setZ(p.z());
+		}
+		if (maxVertex.z() < p.z()) {
+			maxVertex.setZ(p.z());
+		}
 
-
-
+	}
+}
 

@@ -44,6 +44,6 @@
  * @param propFan
  * @param color
  */
-void rglDrawCog(float r1, float r2, float r3, float ang1, float ang2, unsigned int div=10, unsigned int fans=10, float propFan=0.5f, RColor color);
+//void rglDrawCog(float r1, float r2, float r3, float ang1, float ang2, unsigned int div=10, unsigned int fans=10, float propFan=0.5f, RColor color);
 
 #endif /* RGLRGINELOGO_H_ */

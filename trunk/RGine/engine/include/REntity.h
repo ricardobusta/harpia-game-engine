@@ -34,6 +34,7 @@
 #include <RFrame.h>
 #include <RTriMesh.h>
 #include <RVector3f.h>
+#include <RBoundingBox.h>
 
 class RPhysicalObject;
 
@@ -54,6 +55,14 @@ public:
 	virtual void render();
 
 	RMatrix4f getAbsoluteTransformation();
+    RVector3f getPosition() const;
+    RVector3f getRotation() const;
+    RVector3f getScale() const;
+    void setPosition(RVector3f position);
+    void setRotation(RVector3f rotation);
+    void setScale(RVector3f scale);
+
+    RBoundingBox getBoundingBox();
 
 public://TODO make private
 	RVector3f position;
