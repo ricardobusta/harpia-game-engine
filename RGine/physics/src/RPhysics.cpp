@@ -97,7 +97,7 @@ RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape,
 		phyObject = new RPhysicalCapsule(object, mass);
 		break;
 	case RSHAPE_CONE:
-//		phyObject = new RPhysicalCone(object, mass);
+		phyObject = new RPhysicalCone(object, mass);
 		break;
 	case RSHAPE_CONVEXHULL:
 		//phyObject = new RPhysicalConvexHull(object, mass);
@@ -110,6 +110,9 @@ RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape,
 		break;
 	case RSHAPE_TRIMESH:
 		//phyObject = new RPhysicalTriMesh(object, mass);
+		break;
+	default:
+		phyObject = new RPhysicalSphere(object, mass);
 		break;
 	}
 
