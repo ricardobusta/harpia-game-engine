@@ -28,14 +28,16 @@
 
 #include "RPhysicalBox.h"
 
-RPhysicalBox::RPhysicalBox(REntity* entity, double mass)
-    :RPhysicalObject(entity, mass) {
-    btVector3 size;
-    RVector3f scale = entity->scale;
+RPhysicalBox::RPhysicalBox(REntity* entity, double mass) :
+RPhysicalObject(entity, mass) {
+	btVector3 size;
+	RVector3f scale = entity->scale;
+	RVector3f minVertex = entity->getBoundingBox().getMinVertex();
+	RVector3f maxVertex = entity->getBoundingBox().getMaxVertex();
 
-//    size.setX(scale.X*((entity->triMesh.getBoundingBox().MaxEdge.x() - entity->triMesh.getBoundingBox().MinEdge.x())/2.0 );
-//    size.setY(scale.Y*(((IAnimatedMeshSceneNode*)irrbox)->getMesh()->getBoundingBox().MaxEdge.Y - ((IAnimatedMeshSceneNode*)irrbox)->getMesh()->getBoundingBox().MinEdge.Y)/2.0 );
-//    size.setZ(scale.Z*(((IAnimatedMeshSceneNode*)irrbox)->getMesh()->getBoundingBox().MaxEdge.Z - ((IAnimatedMeshSceneNode*)irrbox)->getMesh()->getBoundingBox().MinEdge.Z)/2.0 );
+	size.setX(scale.x()*((maxVertex.x() - minVertex.x())/2.0 ));
+	size.setY(scale.y()*((maxVertex.y() - minVertex.y())/2.0 ));
+	size.setZ(scale.z()*((maxVertex.z() - minVertex.z())/2.0 ));
 
-    initialize(new btBoxShape( size ));
+	initialize(new btBoxShape(size));
 }

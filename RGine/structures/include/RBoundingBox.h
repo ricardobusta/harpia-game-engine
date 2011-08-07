@@ -30,6 +30,7 @@
 #define RBOUNDINGBOX_H_
 
 #include <RVector3f.h>
+#include "RTriMesh.h"
 
 /**
  *
@@ -43,6 +44,8 @@ public:
     void setMinVertex(RVector3f minVertex);
 	RVector3f getMaxVertex() const;
     RVector3f getMinVertex() const;
+
+    void set(RTriMesh mesh);
 private:
     RVector3f minVertex;
     RVector3f maxVertex;

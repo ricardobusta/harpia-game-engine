@@ -67,6 +67,8 @@ public:
 	 */
 	void removePoint(int at);
 
+	unsigned int size();
+
 public: //make private
 	vector<RVector3f> points;
 	vector<RVector3f> normals;
