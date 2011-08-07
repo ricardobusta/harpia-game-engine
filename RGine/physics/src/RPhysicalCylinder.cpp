@@ -28,4 +28,15 @@
 
 #include "RPhysicalCylinder.h"
 
+RPhysicalCylinder::RPhysicalCylinder(REntity *entity, double mass)
+    :RPhysicalObject(entity, mass) {
+    RVector3f scale = entity->getScale();
+    RVector3f minVertex = entity->getBoundingBox().getMinVertex();
+    RVector3f maxVertex = entity->getBoundingBox().getMaxVertex();
 
+    float rX = ((maxVertex.x() - minVertex.x())/2.0)*scale.x();
+    float rZ = ((maxVertex.z() - minVertex.z())/2.0)*scale.z();
+    float h = ((maxVertex.y() - minVertex.y())*scale.y())/2.0;
+
+    initialize(new btCylinderShape(btVector3(rX, h, rZ)));
+}

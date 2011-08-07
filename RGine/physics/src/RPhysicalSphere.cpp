@@ -28,4 +28,15 @@
 
 #include "RPhysicalSphere.h"
 
+RPhysicalSphere::RPhysicalSphere(REntity *entity, double mass)
+    :RPhysicalObject(entity, mass) {
+	RVector3f scale = entity->getScale();
+	RVector3f minVertex = entity->getBoundingBox().getMinVertex();
+	RVector3f maxVertex = entity->getBoundingBox().getMaxVertex();
 
+    float radius = (scale.y() * ((maxVertex.y() - minVertex.y()) /2.0));
+
+    btSphereShape* pSphere = new btSphereShape( radius );
+
+    initialize(pSphere);
+}

@@ -30,7 +30,7 @@
 
 RMain::RMain() {
 	phy = new RPhysics(this);
-	phy->setGravity(1);
+	phy->setGravity(9.8);
 }
 
 RMain::~RMain() {

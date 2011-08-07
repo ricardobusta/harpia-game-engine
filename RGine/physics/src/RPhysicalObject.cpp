@@ -95,7 +95,7 @@ void RPhysicalObject::update() {
     eulerRot.setX(atan2(2.0f * (Y * Z + X * W), -XSquared - YSquared + ZSquared + WSquared));
     eulerRot.setY(asin(-2.0f * (X * Z - Y * W)));
     eulerRot.setZ(atan2(2.0f * (X * Y + Z * W), XSquared - YSquared - ZSquared + WSquared));
-    //eulerRot *= RADTODEG;
+
     eulerRot.setX( eulerRot.x()*180.0/M_PI );
     eulerRot.setY( eulerRot.y()*180.0/M_PI );
     eulerRot.setZ( eulerRot.z()*180.0/M_PI );
@@ -113,10 +113,6 @@ btRigidBody* RPhysicalObject::getRigidBody() {
 REntity* RPhysicalObject::getEntity() {
     return (entity);
 }
-
-/*MeshBuffer* RPhysicalObject::getMeshBuffer() {
-    return ((IAnimatedMeshSceneNode*)irrnode)->getMesh()->getMesh(0)->getMeshBuffer(0);
-}*/
 
 RVector3f RPhysicalObject::getScale() {
     return (entity->scale);
