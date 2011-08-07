@@ -27,3 +27,20 @@
  */
 
 #include "RGLCommands.h"
+
+#include <SDL/SDL_opengl.h>
+
+void rglSetMatrix(RMatrix4f rMatrix4f)
+{
+	glLoadMatrixf(rMatrix4f.data);
+}
+
+
+
+RMatrix4f rglGetMatrix()
+{
+	RMatrix4f m;
+	glGetFloatv(GL_MODELVIEW,m.data);
+	return (m);
+}
+

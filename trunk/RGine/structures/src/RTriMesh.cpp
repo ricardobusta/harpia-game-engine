@@ -91,7 +91,7 @@ void RTriMesh::removePoint(int at)
 
 unsigned int RTriMesh::size()
 {
-	return points.size();
+	return (points.size());
 }
 
 

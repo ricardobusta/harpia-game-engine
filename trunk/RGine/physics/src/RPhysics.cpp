@@ -28,8 +28,12 @@
 
 #include "RPhysics.h"
 
-RPhysics::RPhysics()
+#include <RMain.h>
+
+RPhysics::RPhysics(RMain *main)
 {
+	this->main = main;
+
     broadphase = new btDbvtBroadphase();
 
     collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -63,7 +67,7 @@ RPhysics::~RPhysics()
     delete dynamicsWorld;
 }
 
-void RPhysics::UpdatePhysics() {
+void RPhysics::updatePhysics() {
 	unsigned int tick = main->sdl.timer_getCurrentTick();
     unsigned int TDeltaTime = lastTick - tick;
     lastTick = tick;
@@ -121,12 +125,12 @@ RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape, float mas
 }
 
 RPhysicalJoint* RPhysics::createJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, RVector3f anchor, RVector3f axis) {
-    //RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2, anchor, axis);
-    //dynamicsWorld->addConstraint(jt->getConstraint(), true);
+    RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2, btVector3(anchor.x(),anchor.y(),anchor.z()), btVector3(axis.x(),axis.y(),axis.z()));
+    dynamicsWorld->addConstraint(jt->getConstraint(), true);
 
-    //jointList.push_back(jt);
+    jointList.push_back(jt);
 
-    //return (jt);
+    return (jt);
 }
 
 void RPhysics::removeJoint(RPhysicalJoint* joint) {

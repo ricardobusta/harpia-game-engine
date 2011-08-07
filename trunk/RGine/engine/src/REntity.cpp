@@ -29,6 +29,8 @@
 #include "REntity.h"
 
 #include <RFrame.h>
+#include <RGLShapes.h>
+#include <RGLCommands.h>
 
 REntity::REntity() {
 	hasMesh = false;
@@ -45,9 +47,10 @@ void REntity::handle(){
 
 void REntity::render()
 {
-	if(hasMesh){
-
-	}
+//	if(hasMesh){
+		rglSetMatrix(getAbsoluteTransformation());
+		rglDrawTriMesh(triMesh);
+//	}
 }
 
 /*TODO if physics bug the issue might be here*/
@@ -59,22 +62,22 @@ RMatrix4f REntity::getAbsoluteTransformation()
 	f.rotate(rotation.z(),0,0,1);
 	f.move(position.x(),position.y(),position.z());
 	f.scale(scale.x(),scale.y(),scale.z());
-	return f.getMatrix();
+	return (f.getMatrix());
 }
 
 RVector3f REntity::getPosition() const
 {
-    return position;
+    return (position);
 }
 
 RVector3f REntity::getRotation() const
 {
-    return rotation;
+    return (rotation);
 }
 
 RVector3f REntity::getScale() const
 {
-    return scale;
+    return (scale);
 }
 
 void REntity::setPosition(RVector3f position)
@@ -96,7 +99,7 @@ RBoundingBox REntity::getBoundingBox()
 {
 	RBoundingBox bbox;
 	bbox.set(triMesh);
-	return bbox;
+	return (bbox);
 }
 
 

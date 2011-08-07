@@ -31,6 +31,9 @@
 
 #include "RSDL.h"
 
+#include <RVector.h>
+#include <REntity.h>
+#include <RPhysics.h>
 
 
 /**
@@ -50,6 +53,7 @@ public:
 	 */
 	int run();
 
+	vector<REntity> entityList;
 protected:
 	/**
 	 * Gets the mouse structure.
@@ -64,11 +68,15 @@ protected:
 	 * @return The key structure.
 	 */
 	RSDLKeyStruct key(int id);
+
+	REntity* newEntity();
 public:
 	/**
 	 * SDL object.
 	 */
 	RSDL sdl;
+
+	RPhysics *phy;
 
 private:
 
