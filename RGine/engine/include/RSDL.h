@@ -145,6 +145,7 @@ private:
 	int timer_pausedTicks;
 	int fps;
 
+
 	//Timer
 	void timer_init();
 	void timer_start();
@@ -153,6 +154,7 @@ private:
 	void timer_unpause();
 	void timer_delay();
 	int timer_getTicks();
+
 public:
 	RSDL();
 	virtual ~RSDL();
@@ -218,6 +220,8 @@ public:
 	 * @return Screen height.
 	 */
 	int getHeight();
+
+	int timer_getCurrentTick(); //TODO put on private somehow?
 };
 
 #endif /* RSDL_H_ */

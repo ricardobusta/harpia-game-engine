@@ -29,8 +29,6 @@
 #ifndef RPHYSICALOBJECT_H_
 #define RPHYSICALOBJECT_H_
 
-#include "RPhysicalJoint.h"
-
 #include <cmath>
 #include <btBulletDynamicsCommon.h>
 #include <REntity.h>
@@ -52,7 +50,8 @@ enum RShape {
  * physical behavior.
  */
 class RPhysicalObject {
-	friend class RJoint;
+	friend class RPhysicalJoint;
+	friend class RPhysics;
 
 private:
 	btRigidBody* rigidBody;

@@ -29,23 +29,23 @@
 #ifndef RPHYSICALJOINT_H_
 #define RPHYSICALJOINT_H_
 
-#include "RPhysicalObject.h"
+//#include "RPhysicalObject.h"
 
 #include <RVector3f.h>
 #include <btBulletDynamicsCommon.h>
 
-class RPhysicalObject;
-
-enum JointType {
+enum RJointType {
 	RJOINT_HINGE, RJOINT_UNIVERSAL, RJOINT_BALL, RJOINT_FIXED
 };
+
+class RPhysicalObject;
 
 class RPhysicalJoint {
 public:
 	btTypedConstraint* getConstraint();
 
 private:
-	JointType type;
+	//RJointType type;
 
 	btTypedConstraint* constraint;
 
@@ -54,11 +54,11 @@ private:
 			RPhysicalObject* obj2, btVector3 anchor, btVector3 axis);
 
 public:
-	RPhysicalJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, RVector3f anchor,
-			RVector3f axis);
+	RPhysicalJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, btVector3 anchor,
+			btVector3 axis);
 	~RPhysicalJoint();
 
-	JointType getType();
+	//RJointType getType();
 
 	//Hinge Joint
 	void setLimits(float min, float max);
