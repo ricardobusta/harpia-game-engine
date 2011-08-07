@@ -85,29 +85,34 @@ void Game::init() {
 
 	objList[2].triMesh = rglGenCapsule(50, 100, 10, RColor(255, 255, 255));
 	objList[2].setPosition(RVector3f(0, -200, 0));
+
+	objList[0].physicalObject = phy->applyPhysics(&objList[0], RSHAPE_BOX, 1);
+	objList[1].physicalObject = phy->applyPhysics(&objList[1], RSHAPE_SPHERE,1);
+	objList[2].physicalObject = phy->applyPhysics(&objList[2], RSHAPE_CAPSULE,1);
+	objList[0].physicalObject->getRigidBody()->setGravity(btVector3(0,0,0));
+	objList[1].physicalObject->getRigidBody()->setGravity(btVector3(0,-1,0));
+	objList[2].physicalObject->getRigidBody()->setGravity(btVector3(0,1, 0));
 }
 
 #include "RString.h"
 
 void Game::logic() {
 	if (mouse().left.down) {
-		objList[0].physicalObject = phy->applyPhysics(&objList[0], RSHAPE_BOX, 1);
-		objList[1].physicalObject = phy->applyPhysics(&objList[1], RSHAPE_SPHERE,1);
-		objList[2].physicalObject = phy->applyPhysics(&objList[2], RSHAPE_CAPSULE,1);
-		objList[0].physicalObject->getRigidBody()->setGravity(btVector3(0,0,0));
-		objList[0].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,20,0));
-		objList[1].physicalObject->getRigidBody()->setGravity(btVector3(0,-2,0));
-		objList[1].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,30,0));
-		objList[2].physicalObject->getRigidBody()->setGravity(btVector3(0,-1, 0));
-		objList[2].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,40,0));
-		cout << "derp" << endl;
+		objList[0].physicalObject->getRigidBody()->setActivationState(true);
+		objList[1].physicalObject->getRigidBody()->setActivationState(true);
+		objList[2].physicalObject->getRigidBody()->setActivationState(true);
+		objList[2].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,10,0));
+		objList[2].physicalObject->getRigidBody()->applyTorque(		btVector3(30, 30, 30));
+//		objList[0].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,20,0));
+//		objList[1].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,30,0));
+//		objList[2].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,40,0));
+
 		//		objList[0].rotation.setY(objList[0].rotation.y()+mouse().speed.x());
 		//		objList[0].rotation.setX(objList[0].rotation.x()+mouse().speed.y());
-		objList[2].physicalObject->getRigidBody()->applyTorque(
-				btVector3(30, 30, 30));
+
 	}
 	if (mouse().right.down) {
-		cout << "darp" << endl;
+
 		//objList[0].physicalObject->getRigidBody()->applyCentralImpulse(btVector3(0,10,0));
 		//		objList[1].rotation.setY(objList[1].rotation.y()+mouse().speed.x());
 		//		objList[1].rotation.setX(objList[1].rotation.x()+mouse().speed.y());

@@ -27,3 +27,15 @@
  */
 
 #include "RPhysicalCone.h"
+
+RPhysicalCone::RPhysicalCone(REntity *entity, double mass)
+    :RPhysicalObject(entity, mass) {
+    RVector3f scale = entity->getScale();
+    RVector3f minVertex = entity->getBoundingBox().getMinVertex();
+    RVector3f maxVertex = entity->getBoundingBox().getMaxVertex();
+
+    float radius = ((maxVertex.x() - minVertex.x())/2.0)*scale.x();
+    float height = (maxVertex.y() - minVertex.y())*scale.y();
+
+    initialize(new btConeShape(radius, height));
+}

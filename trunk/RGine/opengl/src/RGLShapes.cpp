@@ -349,8 +349,9 @@ void rglDrawConvexHull() {
 void rglDrawTriMesh(RTriMesh mesh) {
 	glBegin(GL_TRIANGLES);
 	for (unsigned int i = 0; i < mesh.points.size(); i++) {
-		float col = ((float)(i+1)/(float)mesh.points.size()); //TODO remove after debugging is complete
-		glColor3f(mesh.colors[i].rF()*col, mesh.colors[i].gF()*col, mesh.colors[i].bF()*col);
+		float col = ((float) (i + 1) / (float) mesh.points.size()); //TODO remove after debugging is complete
+		glColor3f(mesh.colors[i].rF() * col, mesh.colors[i].gF() * col,
+				mesh.colors[i].bF() * col);
 		glNormal3fv(mesh.normals[i].getVector().data());
 		glVertex3fv(mesh.points[i].getVector().data());
 	}
@@ -468,6 +469,35 @@ RTriMesh rglGenCapsule(float radius, float height, unsigned int div,
 
 RTriMesh rglGenCone(float radius, float height, unsigned int div,
 		RColor color) {
+	RTriMesh mesh;
+
+	float ang = (2.0 / div) * (M_PI);
+	float h = height / 2;
+	RVector3f p1,p2,p3;
+	float c, s, c1, s1;
+
+	for (unsigned int i = 0; i < div; i++) {
+		float ca = (i / (float) div);
+		glColor3f(color.rF() * ca, color.gF() * ca, color.bF() * ca);
+		c = radius * cos(ang * i);
+		c1 = radius * cos(ang * (i + 1));
+		s = -radius * sin(ang * i);
+		s1 = -radius * sin(ang * (i + 1));
+
+		//bot
+		p1.set(0,-h,0);
+		p2.set(c1,-h,s1);
+		p3.set(c,-h,s);
+		mesh.addTriangle(p1, p2, p3, color);
+
+		//side bot
+		p1.set(c,-h,s);
+		p2.set(c1,-h,s1);
+		p3.set(0,h,0);
+		mesh.addTriangle(p1, p2, p3, color);
+	}
+
+	return mesh;
 }
 
 RTriMesh rglGenConvexHull() {
@@ -475,6 +505,47 @@ RTriMesh rglGenConvexHull() {
 
 RTriMesh rglGenCylinder(float radius, float height, unsigned int div,
 		RColor color) {
+	RTriMesh mesh;
+
+	float ang = (2.0 / div) * (M_PI);
+	float h = height / 2;
+	RVector3f p1,p2,p3;
+	float c, s, c1, s1;
+
+	for (unsigned int i = 0; i < div; i++) {
+		float ca = (i / (float) div);
+		glColor3f(color.rF() * ca, color.gF() * ca, color.bF() * ca);
+		c = radius * cos(ang * i);
+		c1 = radius * cos(ang * (i + 1));
+		s = -radius * sin(ang * i);
+		s1 = -radius * sin(ang * (i + 1));
+		//top
+		p1.set(0,h,0);
+		p2.set(c,h,s);
+		p3.set(c1,h,s1);
+		mesh.addTriangle(p1, p2, p3, color);
+
+		//bot
+		p1.set(0,-h,0);
+		p2.set(c1,-h,s1);
+		p3.set(c,-h,s);
+		mesh.addTriangle(p1, p2, p3, color);
+
+
+		//side top
+		p1.set(c1,h,s1);
+		p2.set(c,h,s);
+		p3.set(c,-h,s);
+		mesh.addTriangle(p1, p2, p3, color);
+
+		//side bot
+		p1.set(c,-h,s);
+		p2.set(c1,-h,s1);
+		p3.set(c1,h,s1);
+		mesh.addTriangle(p1, p2, p3, color);
+	}
+
+	return mesh;
 }
 
 RTriMesh rglGenSphere(float radius, unsigned int div, RColor color) {

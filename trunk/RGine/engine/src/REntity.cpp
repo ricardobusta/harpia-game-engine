@@ -57,9 +57,10 @@ void REntity::render()
 RMatrix4f REntity::getAbsoluteTransformation()
 {
 	RFrame f;
+	f.rotate(rotation.z(),0,0,1);
 	f.rotate(rotation.y(),0,1,0);
 	f.rotate(rotation.x(),1,0,0);
-	f.rotate(rotation.z(),0,0,1);
+
 	f.move(position.x(),position.y(),position.z());
 	f.scale(scale.x(),scale.y(),scale.z());
 	return (f.getMatrix());
