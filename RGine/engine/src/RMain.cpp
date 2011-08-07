@@ -29,11 +29,12 @@
 #include "RMain.h"
 
 RMain::RMain() {
-	// TODO Auto-generated constructor stub
+	phy = new RPhysics(this);
+	phy->setGravity(1);
 }
 
 RMain::~RMain() {
-	// TODO Auto-generated destructor stub
+	delete phy;
 }
 
 int RMain::run() {
@@ -44,6 +45,7 @@ int RMain::run() {
 	while (!sdl.finished()) {
 		sdl.input();
 		logic();
+		phy->updatePhysics();
 		sdl.render_begin();
 		render();
 		sdl.render_end();
@@ -61,6 +63,20 @@ RSDLKeyStruct RMain::key(int id) {
 	return (sdl.key(id));
 }
 
+REntity *RMain::newEntity()
+{
+	entityList.push_back(REntity());
+	return (&entityList.back());
+}
+
+#include <RGLText.h>
+
 void RMain::render() {
-	//TODO render all entities and widgets properly
+	glLoadIdentity();
+	RGLText txt("|cFF0000t|c00FF00este\n|rteste",50,0,300,200,1);
+	txt.setColor(1,1,1);
+	txt.draw();
+	for(unsigned int i=0;i<entityList.size();i++){
+		entityList[i].render();
+	}
 }

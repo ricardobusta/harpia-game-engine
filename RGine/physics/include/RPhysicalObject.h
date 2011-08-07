@@ -32,7 +32,7 @@
 #include <cmath>
 #include <btBulletDynamicsCommon.h>
 #include <REntity.h>
-#include "RPhysicalJoint.h"
+//#include "RPhysicalJoint.h"
 
 enum RShape {
 	RSHAPE_SPHERE,
@@ -43,6 +43,8 @@ enum RShape {
 	RSHAPE_CONVEXHULL,
 	RSHAPE_TRIMESH
 };
+
+class RPhysicalJoint;
 
 /**
  * Generic Physical Object Representation.

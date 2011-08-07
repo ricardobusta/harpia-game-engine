@@ -41,58 +41,83 @@ Game::~Game() {
 void Game::init() {
 	cam.setZ(1);
 
+//	REntity* e;
+//
+//	e = newEntity();
+//	//e->triMesh = rglGenBox(200, 200, 200, RColor(0.1f, 0.1f, 0.9f));
+//	e->triMesh = rglGenCapsule(10,20,10,RColor(255,255,0));
+//	e->setPosition(RVector3f(0,0,0));
+//
+////	e->physicalObject = phy->applyPhysics(e,RSHAPE_BOX,0.1);
+//
+//	e = newEntity();
+//	e->triMesh = rglGenCapsule(50,100,10,RColor(255,0,255));
+//	e->setPosition(RVector3f(0,200,0));
+//
+////	e->physicalObject = phy->applyPhysics(e,RSHAPE_BOX,0.1);
+//
+//	e = newEntity();
+//	e->triMesh = rglGenCapsule(50,100,10,RColor(0,255,255));
+//	e->setPosition(RVector3f(0,-200,0));
+//
+//	e->physicalObject = phy->applyPhysics(e,RSHAPE_BOX,0.1);
+
+
+	objList.push_back(REntity());
 	objList.push_back(REntity());
 	objList.push_back(REntity());
 
 	objList[0].triMesh = rglGenBox(200, 20, 200, RColor(0.1f, 0.1f, 0.9f));
-	objList[1].triMesh = rglGenCapsule(100,200,10,RColor(255,255,255));
-//	obj.triMesh = rglGenSphere(100, 16, RColor(255, 255, 255));
+	objList[0].setPosition(RVector3f(0,0,0));
+	objList[1].physicalObject = phy->applyPhysics(&objList[0],RSHAPE_BOX,1);
+	objList[1].physicalObject->getRigidBody()->applyCentralForce(btVector3(0,50,0));
+	objList[1].triMesh = rglGenCapsule(50,100,10,RColor(255,255,255));
+	objList[1].setPosition(RVector3f(0,200,0));
+	objList[1].physicalObject = phy->applyPhysics(&objList[1],RSHAPE_BOX,1);
+	objList[2].triMesh = rglGenCapsule(50,100,10,RColor(255,255,255));
+	objList[2].setPosition(RVector3f(0,-200,0));
+	objList[2].physicalObject = phy->applyPhysics(&objList[2],RSHAPE_BOX,1);
 }
 
 #include "RString.h"
 
 void Game::logic() {
 	if (mouse().left.isDown) {
-		objList[0].rotation.setY(objList[0].rotation.y()+mouse().speed.x());
-		objList[0].rotation.setX(objList[0].rotation.x()+mouse().speed.y());
-		//cam.setX(cam.x() + mouse().speed.y());
-		//cam.setY(cam.y() + mouse().speed.x());
-		//frame.setPosition(mouse().position.x(),sdl.getHeight()-mouse().position.y(),0);
+//		objList[0].rotation.setY(objList[0].rotation.y()+mouse().speed.x());
+//		objList[0].rotation.setX(objList[0].rotation.x()+mouse().speed.y());
+
 	}
 	if(mouse().right.isDown){
-		objList[1].rotation.setY(objList[1].rotation.y()+mouse().speed.x());
-				objList[1].rotation.setX(objList[1].rotation.x()+mouse().speed.y());
+//		objList[1].rotation.setY(objList[1].rotation.y()+mouse().speed.x());
+//		objList[1].rotation.setX(objList[1].rotation.x()+mouse().speed.y());
 	}
 	if (key(SDLK_EQUALS).isDown) {
 //	if(mouse().wheelup.isDown){
-		//cam.setZ(cam.z() + 0.01);
-		objList[0].scale*1.01;
+//		objList[0].scale*1.01;
 	}
 	if (key(SDLK_MINUS).isDown) {
 //	if(mouse().wheeldown.isDown){
-		//cam.setZ(cam.z() - 0.01);
-		objList[0].scale*0.99;
+//		objList[0].scale*0.99;
 	}
 
 //	obj.frame.setIdentity();
-	objList[0].position = RVector3f(200, 0, 0);
-	objList[1].position = RVector3f(-200, 0, 0);
+	//objList[0].position = RVector3f(200, 0, 0);
+	//objList[1].position = RVector3f(-200, 0, 0);
 //	obj.frame.rotate(cam.x(), 1, 0, 0);
 //	obj.frame.rotate(cam.y(), 0, 1, 0);
 //	obj.frame.scale(cam.z(), cam.z(), cam.z());
 }
 
 void Game::render() {
-	for(unsigned int i=0;i<objList.size();i++){
-		glLoadMatrixf(objList[i].getAbsoluteTransformation().gl());
-		rglDrawTriMesh(objList[i].triMesh);
-	}
-
-
 	glLoadIdentity();
 	RGLText txt("|cFF0000t|c00FF00este\n|rteste",50,0,300,200,1);
 	txt.setColor(1,1,1);
 	txt.draw();
+	for(unsigned int i=0;i<objList.size();i++){
+		glLoadMatrixf(objList[i].getAbsoluteTransformation().gl());
+		objList[i].render();
+		//rglDrawTriMesh(objList[i].triMesh);
+	}
 
 	//glLoadMatrixf(frame.getMatrix());
 

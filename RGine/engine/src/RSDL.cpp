@@ -131,7 +131,7 @@ int RSDL::timer_getTicks() {
 }
 
 int RSDL::timer_getCurrentTick(){
-	return SDL_GetTicks();
+	return (SDL_GetTicks());
 }
 
 void RSDL::timer_delay() {

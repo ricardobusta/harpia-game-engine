@@ -42,14 +42,16 @@
 #include "RPhysicalSphere.h"
 #include "RPhysicalTerrain.h"
 #include "RPhysicalTriMesh.h"
+#include "RPhysicalObject.h"
 
 #include <RVector.h>
-#include <RMain.h>
+
+class RMain;
 
 class RPhysics
 {
     public:
-        RPhysics();
+        RPhysics(RMain *main);
         virtual ~RPhysics();
     public:
         RMain *main;
@@ -70,7 +72,7 @@ class RPhysics
 
         void setGravity(double gravity);
 
-        void UpdatePhysics();
+        void updatePhysics();
 
         void step();
 

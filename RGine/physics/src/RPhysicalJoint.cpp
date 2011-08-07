@@ -27,11 +27,10 @@
  */
 
 #include "RPhysicalJoint.h"
-#include "RPhysicalObject.h"
 
 RPhysicalJoint::RPhysicalJoint(RPhysicalObject* obj1, RPhysicalObject* obj2,
 		btVector3 anchor, btVector3 axis = btVector3(0, 0, 1)) {
-	//type = RJOINT_HINGE;
+	jointType = RJ_HINGE;
 	constraint = createHinge(obj1, obj2,
 			btVector3(anchor.x(), anchor.y(), anchor.z()),
 			btVector3(axis.x(), axis.y(), axis.z()));
@@ -41,9 +40,9 @@ RPhysicalJoint::~RPhysicalJoint() {
 	delete constraint;
 }
 
-//RJointType RPhysicalJoint::getType() {
-//	return (type);
-//}
+Joints RPhysicalJoint::getType() {
+	return (jointType);
+}
 
 btTypedConstraint* RPhysicalJoint::getConstraint() {
 	return (constraint);
@@ -65,20 +64,20 @@ btHingeConstraint* RPhysicalJoint::createHinge(RPhysicalObject* obj1,
 		}
 
 void RPhysicalJoint::setLimits(float min, float max) {
-//	if (type == 0 /*JTHinge*/) {
-//		btScalar radMin = min * M_PI / 180.0, radMax = max * M_PI / 180.0;
-//
-//		((btHingeConstraint*) constraint)->setLimit(radMin, radMax);
-//	}
+	if (jointType == RJ_HINGE) {
+		btScalar radMin = min * M_PI / 180.0, radMax = max * M_PI / 180.0;
+
+		((btHingeConstraint*) constraint)->setLimit(radMin, radMax);
+	}
 }
 
 void RPhysicalJoint::move(float force) {
-//	if (type == 0/*JTHinge*/) {
-//		if (force == 0) {
-//			((btHingeConstraint*) constraint)->enableMotor(false);
-//			return;
-//		}
-//		((btHingeConstraint*) constraint)->enableAngularMotor(true, force,
-//				100.0);
-//	}
+	if (jointType == RJ_HINGE) {
+		if (force == 0) {
+			((btHingeConstraint*) constraint)->enableMotor(false);
+			return;
+		}
+		((btHingeConstraint*) constraint)->enableAngularMotor(true, force,
+				100.0);
+	}
 }
