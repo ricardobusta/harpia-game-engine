@@ -36,7 +36,7 @@
  */
 class RPhysicalCylinder : public RPhysicalObject {
 public:
-    RPhysicalCylinder(RPhysicalObject *entity, double mass);
+    RPhysicalCylinder(REntity *entity, double mass);
     ~RPhysicalCylinder() {};
 };
 

@@ -34,7 +34,7 @@
 //
 //class Terrain : public RPhysicalObject {
 //public:
-//    Terrain(REntity* entity, RImage* heightfield, RPoint3f scale);
+//    Terrain(REntity* entity, RImage* heightfield, RVector3f scale);
 //    ~Terrain();
 //
 //    float getHeight(float x, float y);

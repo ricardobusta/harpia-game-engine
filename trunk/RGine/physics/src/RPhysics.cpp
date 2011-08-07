@@ -30,121 +30,119 @@
 
 #include <RMain.h>
 
-RPhysics::RPhysics(RMain *main)
-{
+RPhysics::RPhysics(RMain *main) {
 	this->main = main;
 
-    broadphase = new btDbvtBroadphase();
+	broadphase = new btDbvtBroadphase();
 
-    collisionConfiguration = new btDefaultCollisionConfiguration();
-    dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	collisionConfiguration = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collisionConfiguration);
 
-    btGImpactCollisionAlgorithm::registerAlgorithm(dispatcher);
+	btGImpactCollisionAlgorithm::registerAlgorithm(dispatcher);
 
-    solver = new btSequentialImpulseConstraintSolver;
+	solver = new btSequentialImpulseConstraintSolver;
 
-    dynamicsWorld = new btContinuousDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
+	dynamicsWorld = new btContinuousDynamicsWorld(dispatcher, broadphase,
+			solver, collisionConfiguration);
 }
 
-RPhysics::~RPhysics()
-{
-    while (!jointList.empty()) {
-        dynamicsWorld->removeConstraint(jointList.back()->getConstraint());
-        delete jointList.back();
-        jointList.pop_back();
-    }
+RPhysics::~RPhysics() {
+	while (!jointList.empty()) {
+		dynamicsWorld->removeConstraint(jointList.back()->getConstraint());
+		delete jointList.back();
+		jointList.pop_back();
+	}
 
-    while (!objectList.empty()) {
-        dynamicsWorld->removeRigidBody(objectList.back()->getRigidBody());
-        delete objectList.back();
-        objectList.pop_back();
-    }
+	while (!objectList.empty()) {
+		dynamicsWorld->removeRigidBody(objectList.back()->getRigidBody());
+		delete objectList.back();
+		objectList.pop_back();
+	}
 
-    delete broadphase;
-    delete collisionConfiguration;
-    delete dispatcher;
-    delete solver;
-    delete dynamicsWorld;
+	delete broadphase;
+	delete collisionConfiguration;
+	delete dispatcher;
+	delete solver;
+	delete dynamicsWorld;
 }
 
 void RPhysics::updatePhysics() {
 	unsigned int tick = main->sdl.timer_getCurrentTick();
-    unsigned int TDeltaTime = lastTick - tick;
-    lastTick = tick;
+	unsigned int TDeltaTime = lastTick - tick;
+	lastTick = tick;
 
-    dynamicsWorld->stepSimulation(TDeltaTime * 0.001f, 60);
+	dynamicsWorld->stepSimulation(TDeltaTime * 0.001f, 60);
 
-    for(unsigned int i = 0; i < objectList.size(); i++)
-        objectList[i]->update();
+	for (unsigned int i = 0; i < objectList.size(); i++)
+		objectList[i]->update();
 
 }
 
 void RPhysics::step() {
-    btScalar dt = (btScalar)clock.getTimeMicroseconds();
-    clock.reset();
+	btScalar dt = (btScalar) clock.getTimeMicroseconds();
+	clock.reset();
 
-    dynamicsWorld->stepSimulation(dt/1000000.f);
+	dynamicsWorld->stepSimulation(dt / 1000000.f);
 }
 
-RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape, float mass) {
-    RPhysicalObject* phyObject;
-    switch(shape) {
-    case RSHAPE_SPHERE:
-        //phyObject = new RPhysicalSphere(object, mass);
-        break;
+RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape,
+		float mass) {
+	RPhysicalObject* phyObject;
+	switch (shape) {
 
-    case RSHAPE_BOX:
-        phyObject = new RPhysicalBox(object, mass);
-        break;
+	case RSHAPE_BOX:
+		phyObject = new RPhysicalBox(object, mass);
+		break;
+	case RSHAPE_CAPSULE:
+		phyObject = new RPhysicalCapsule(object, mass);
+		break;
+	case RSHAPE_CONE:
+//		phyObject = new RPhysicalCone(object, mass);
+		break;
+	case RSHAPE_CONVEXHULL:
+		//phyObject = new RPhysicalConvexHull(object, mass);
+		break;
+	case RSHAPE_CYLINDER:
+		phyObject = new RPhysicalCylinder(object, mass);
+		break;
+	case RSHAPE_SPHERE:
+		phyObject = new RPhysicalSphere(object, mass);
+		break;
+	case RSHAPE_TRIMESH:
+		//phyObject = new RPhysicalTriMesh(object, mass);
+		break;
+	}
 
-    case RSHAPE_CAPSULE:
-        //phyObject = new RPhysicalCapsule(object, mass);
-        break;
+	objectList.push_back(phyObject);
+	dynamicsWorld->addRigidBody(phyObject->getRigidBody());
 
-    case RSHAPE_CYLINDER:
-        //phyObject = new RPhysicalCylinder(object, mass);
-        break;
-
-    case RSHAPE_CONE:
-        //phyObject = new RPhysicalCone(object, mass);
-        break;
-
-    case RSHAPE_CONVEXHULL:
-        //phyObject = new RPhysicalConvexHull(object, mass);
-        break;
-
-    case RSHAPE_TRIMESH:
-        //phyObject = new RPhysicalTriMesh(object, mass);
-        break;
-    }
-
-    objectList.push_back(phyObject);
-    dynamicsWorld->addRigidBody(phyObject->getRigidBody());
-
-    return (phyObject);
+	return (phyObject);
 }
 
-RPhysicalJoint* RPhysics::createJoint(RPhysicalObject* obj1, RPhysicalObject* obj2, RVector3f anchor, RVector3f axis) {
-    RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2, btVector3(anchor.x(),anchor.y(),anchor.z()), btVector3(axis.x(),axis.y(),axis.z()));
-    dynamicsWorld->addConstraint(jt->getConstraint(), true);
+RPhysicalJoint* RPhysics::createJoint(RPhysicalObject* obj1,
+		RPhysicalObject* obj2, RVector3f anchor, RVector3f axis) {
+	RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2,
+			btVector3(anchor.x(), anchor.y(), anchor.z()),
+			btVector3(axis.x(), axis.y(), axis.z()));
+	dynamicsWorld->addConstraint(jt->getConstraint(), true);
 
-    jointList.push_back(jt);
+	jointList.push_back(jt);
 
-    return (jt);
+	return (jt);
 }
 
 void RPhysics::removeJoint(RPhysicalJoint* joint) {
-    for(unsigned int i = 0; i < jointList.size(); i++) {
-        if(jointList[i] == joint) {
-            dynamicsWorld->removeConstraint(jointList[i]->getConstraint());
-            delete jointList[i];
-            jointList.erase(jointList.begin() + i);
+	for (unsigned int i = 0; i < jointList.size(); i++) {
+		if (jointList[i] == joint) {
+			dynamicsWorld->removeConstraint(jointList[i]->getConstraint());
+			delete jointList[i];
+			jointList.erase(jointList.begin() + i);
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 }
 
 void RPhysics::setGravity(double gravity) {
-    dynamicsWorld->setGravity(btVector3(0,-gravity,0));
+	dynamicsWorld->setGravity(btVector3(0, -gravity, 0));
 }
