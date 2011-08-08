@@ -35,6 +35,7 @@
  *
  */
 void rglSetMatrix(RMatrix4f);
+void rglMultMatrix(RMatrix4f);
 RMatrix4f rglGetMatrix();
 
 #endif /* RGLCOMMANDS_H_ */

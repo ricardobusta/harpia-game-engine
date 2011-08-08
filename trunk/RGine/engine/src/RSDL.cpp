@@ -36,6 +36,8 @@ using namespace std;
 RSDL::RSDL() {
 	width = 560;
 	height = 400;
+//	width = 1200;
+//	height = 700;
 	bpp = 32;
 	quit = false;
 }

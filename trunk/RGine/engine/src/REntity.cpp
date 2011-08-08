@@ -48,7 +48,7 @@ void REntity::handle(){
 void REntity::render()
 {
 //	if(hasMesh){
-		rglSetMatrix(getAbsoluteTransformation());
+		rglMultMatrix(getAbsoluteTransformation());
 		rglDrawTriMesh(triMesh);
 //	}
 }
