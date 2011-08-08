@@ -127,11 +127,11 @@ RPhysicalJoint* RPhysics::createJoint(RPhysicalObject* obj1,
 	RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2,
 			btVector3(anchor.x(), anchor.y(), anchor.z()),
 			btVector3(axis.x(), axis.y(), axis.z()));
-	dynamicsWorld->addConstraint(jt->getConstraint(), true);
+	//dynamicsWorld->addConstraint(jt->getConstraint(), true);
 
-	jointList.push_back(jt);
+	//jointList.push_back(jt);
 
-	return (jt);
+	//return (jt);
 }
 
 void RPhysics::removeJoint(RPhysicalJoint* joint) {

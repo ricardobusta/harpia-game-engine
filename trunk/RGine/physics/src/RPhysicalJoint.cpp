@@ -52,10 +52,10 @@ btHingeConstraint* RPhysicalJoint::createHinge(RPhysicalObject* obj1,
 		RPhysicalObject* obj2, btVector3 anchor, btVector3 axis) {
 	btVector3 anchorInA, anchorInB;
 
-	anchorInA = anchor;
+//	anchorInA = anchor;
 
-	anchorInB = obj2->getRigidBody()->getCenterOfMassTransform().inverse()
-			* (obj1->getRigidBody()->getCenterOfMassTransform() * anchor);
+//	anchorInB = obj2->getRigidBody()->getCenterOfMassTransform().inverse()
+//			* (obj1->getRigidBody()->getCenterOfMassTransform() * anchor);
 
 	return (new btHingeConstraint(
 			*(obj1->getRigidBody()), *(obj2->getRigidBody()), anchorInA, anchorInB, axis, axis, true)
