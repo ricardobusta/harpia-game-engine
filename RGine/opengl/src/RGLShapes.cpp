@@ -464,7 +464,7 @@ RTriMesh rglGenCapsule(float radius, float height, unsigned int div,
 			}
 		}
 	}
-	return mesh;
+	return (mesh);
 }
 
 RTriMesh rglGenCone(float radius, float height, unsigned int div,
@@ -497,10 +497,12 @@ RTriMesh rglGenCone(float radius, float height, unsigned int div,
 		mesh.addTriangle(p1, p2, p3, color);
 	}
 
-	return mesh;
+	return (mesh);
 }
 
 RTriMesh rglGenConvexHull() {
+	RTriMesh mesh;
+	return (mesh);
 }
 
 RTriMesh rglGenCylinder(float radius, float height, unsigned int div,
@@ -545,7 +547,7 @@ RTriMesh rglGenCylinder(float radius, float height, unsigned int div,
 		mesh.addTriangle(p1, p2, p3, color);
 	}
 
-	return mesh;
+	return (mesh);
 }
 
 RTriMesh rglGenSphere(float radius, unsigned int div, RColor color) {

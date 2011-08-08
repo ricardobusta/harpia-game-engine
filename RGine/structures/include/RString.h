@@ -34,19 +34,19 @@ using namespace std;
 
 #define RString string
 
-/* TODO this class
-/**
- * This class is used to store an array of characters.
- *
-class RString{
-public:
-	RString();
-	virtual ~RString();
-
-	RString operator=(string);
-	RString operator=(const char*);
-private:
-	string data;
-};*/
+// TODO this class
+///**
+// * This class is used to store an array of characters.
+// *
+//class RString{
+//public:
+//	RString();
+//	virtual ~RString();
+//
+//	RString operator=(string);
+//	RString operator=(const char*);
+//private:
+//	string data;
+//};
 
 #endif /* RSTRING_H_ */

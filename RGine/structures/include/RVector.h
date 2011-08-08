@@ -34,14 +34,14 @@ using namespace std;
 
 #define RVector vector
 
-/*TODO this class
-/**
- * Class used to store an array of objects.
- *
-class RVector {
-public:
-	RVector();
-	virtual ~RVector();
-};*/
+//TODO this class
+///**
+// * Class used to store an array of objects.
+// *
+//class RVector {
+//public:
+//	RVector();
+//	virtual ~RVector();
+//};
 
 #endif /* RVECTOR_H_ */

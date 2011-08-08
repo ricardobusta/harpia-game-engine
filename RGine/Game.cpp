@@ -68,16 +68,26 @@ void Game::init() {
 	objList[1].physicalObject = phy->applyPhysics(&objList[1], RSHAPE_CYLINDER,
 			1);
 
+	//Wheel 2
+	objList[5].triMesh = rglGenCylinder(100, 100, 500, RColor(255, 0, 0));
+	objList[5].setPosition(RVector3f(-250, 0, 0));
+	objList[5].setRotation(RVector3f(90, 0, 0));
+	objList[5].physicalObject = phy->applyPhysics(&objList[5], RSHAPE_CYLINDER,
+			1);
+
+//	phy->createJoint(objList[1].physicalObject,objList[2].physicalObject,RVector3f(0,0,0),RVector3f(0,0,1));
+//	phy->jointList.push_back(btHingeConstraint(objList[1].physicalObject, btTransform(btQuaternion(0,0,0,1),btVector3(0,0,1)),true));
+
 	//Obstacle 1
 	objList[2].triMesh = rglGenCylinder(30, 200, 500, RColor(255, 0, 0));
-	objList[2].setPosition(RVector3f(-500, 0, 0));
+	objList[2].setPosition(RVector3f(-650, 0, 0));
 	objList[2].setRotation(RVector3f(90, 0, 0));
 	objList[2].physicalObject = phy->applyPhysics(&objList[2], RSHAPE_CYLINDER,
 			5);
 
 	//Obstacle 2
 	objList[3].triMesh = rglGenBox(400, 10, 300, RColor(0, 0, 255));
-	objList[3].setPosition(RVector3f(-480, 100, 0));
+	objList[3].setPosition(RVector3f(-600, 100, 0));
 	objList[3].physicalObject = phy->applyPhysics(&objList[3], RSHAPE_BOX, 1);
 
 	//Obstacle 3
@@ -87,10 +97,12 @@ void Game::init() {
 	objList[4].physicalObject = phy->applyPhysics(&objList[4], RSHAPE_CONE, 5);
 
 	//boxes
-	for(int i=5;i<12;i++){
-		objList[i].triMesh = rglGenBox(50, 50, 300, RColor(0, 255-(80*(i-5)), 80*(i-5)));
-		objList[i].setPosition(RVector3f(-2500, i*200, 0));
-		objList[i].physicalObject = phy->applyPhysics(&objList[i], RSHAPE_BOX, 1);
+	for (int i = 6; i < 12; i++) {
+		objList[i].triMesh = rglGenBox(50, 50, 300,
+				RColor(0, 255 - (80 * (i - 5)), 80 * (i - 5)));
+		objList[i].setPosition(RVector3f(-2500, i * 200, 0));
+		objList[i].physicalObject = phy->applyPhysics(&objList[i], RSHAPE_BOX,
+				1);
 	}
 }
 
