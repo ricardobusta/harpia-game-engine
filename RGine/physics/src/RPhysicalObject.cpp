@@ -122,6 +122,23 @@ RVector3f RPhysicalObject::getPosition() {
     return (entity->position);
 }
 
+//void RPhysicalObject::setPosition(RVector3f rotation){
+//		rigidBody->setActivationState(false);
+//		RVector3f pos = entity->position;//irrnode->getPosition();
+//	    btQuaternion rot;
+//	    rot.setEuler(rotation.y()*M_PI/180.0, rotation.x()*M_PI/180.0, rotation.z()*M_PI/180.0);
+//
+//	    this->shape = shape;
+//
+//	    btTransform trans;
+//	    trans.setIdentity();
+//
+//	    trans.setRotation(rot);
+//	    trans.setOrigin(btVector3(pos.x(), pos.y(), pos.z()));
+//
+//	    this->rigidBody->setCenterOfMassTransform(trans);
+//}
+
 RVector3f RPhysicalObject::getRotation() {
     return (entity->rotation);
 }

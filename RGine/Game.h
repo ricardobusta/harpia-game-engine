@@ -57,13 +57,9 @@ public:
 	void render();
 private:
 	/**
-	 * Camera position
-	 */
-	RVector3f cam;
-	/**
 	 * Camera frame (transformations: rotation, scale etc)
 	 */
-	RFrame frame;
+	RFrame camera;
 
 	vector<REntity> objList;
 };

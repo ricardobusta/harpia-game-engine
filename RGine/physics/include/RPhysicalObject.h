@@ -81,7 +81,8 @@ public:
 	RPhysicalObject(REntity* entity, double mass);
 	~RPhysicalObject();
 
-	//MeshBuffer* getMeshBuffer();
+//	void setPosition(RVector3f);
+
 	RVector3f getScale();
 	RVector3f getPosition();
 	RVector3f getRotation();

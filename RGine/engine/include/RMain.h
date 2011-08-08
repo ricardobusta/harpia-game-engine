@@ -78,6 +78,8 @@ public:
 
 	RPhysics *phy;
 
+	RFrame camera;
+
 private:
 
 	virtual void render();

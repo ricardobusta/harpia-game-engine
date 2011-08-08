@@ -37,6 +37,11 @@ void rglSetMatrix(RMatrix4f rMatrix4f)
 
 
 
+void rglMultMatrix(RMatrix4f rMatrix4f)
+{
+	glMultMatrixf(rMatrix4f.data);
+}
+
 RMatrix4f rglGetMatrix()
 {
 	RMatrix4f m;
