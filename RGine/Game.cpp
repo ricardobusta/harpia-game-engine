@@ -40,85 +40,96 @@ Game::~Game() {
 }
 
 void Game::init() {
-
+	camx = 0;
+	camy = 0;
 	phy->setGravity(9.8);
 
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-	objList.push_back(REntity());
-
 	//Floor
-	objList[0].triMesh = rglGenBox(5000, 100, 500, RColor(0, 255, 0));
-	objList[0].setPosition(RVector3f(-2500, -400, 0));
-	objList[0].physicalObject = phy->applyPhysics(&objList[0], RSHAPE_BOX, 0);
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenBox(5000, 100, 500, RColor(0, 255, 0));
+	objList.back().setPosition(RVector3f(-2500, -400, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_BOX, 0);
 
 	//Wheel 1
-	objList[1].triMesh = rglGenCylinder(100, 100, 500, RColor(255, 0, 0));
-	objList[1].setPosition(RVector3f(0, 0, 0));
-	objList[1].setRotation(RVector3f(90, 0, 0));
-	objList[1].physicalObject = phy->applyPhysics(&objList[1], RSHAPE_CYLINDER,
-			1);
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenCylinder(100, 300, 500, RColor(255, 0, 0));
+	objList.back().setPosition(RVector3f(0, 0, 0));
+	objList.back().setRotation(RVector3f(90, 0, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_CYLINDER, 1);
+	wheel = &objList.back();
+	/*
+	 //Wheel 2
+	 objList.push_back(REntity());
+	 objList.back().triMesh = rglGenCylinder(100, 100, 500, RColor(255, 0, 0));
+	 objList.back().setPosition(RVector3f(-250, 0, 0));
+	 objList.back().setRotation(RVector3f(90, 0, 0));
+	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CYLINDER,
+	 1);
 
-	//Wheel 2
-	objList[5].triMesh = rglGenCylinder(100, 100, 500, RColor(255, 0, 0));
-	objList[5].setPosition(RVector3f(-250, 0, 0));
-	objList[5].setRotation(RVector3f(90, 0, 0));
-	objList[5].physicalObject = phy->applyPhysics(&objList[5], RSHAPE_CYLINDER,
-			1);
+	 //	phy->createJoint(objList[1].physicalObject,objList[2].physicalObject,RVector3f(0,0,0),RVector3f(0,0,1));
+	 //	phy->jointList.push_back(btHingeConstraint(objList[1].physicalObject, btTransform(btQuaternion(0,0,0,1),btVector3(0,0,1)),true));
 
-//	phy->createJoint(objList[1].physicalObject,objList[2].physicalObject,RVector3f(0,0,0),RVector3f(0,0,1));
-//	phy->jointList.push_back(btHingeConstraint(objList[1].physicalObject, btTransform(btQuaternion(0,0,0,1),btVector3(0,0,1)),true));
+	 //Obstacle 1
+	 objList.push_back(REntity());
+	 objList.back().triMesh = rglGenCylinder(30, 200, 500, RColor(255, 0, 0));
+	 objList.back().setPosition(RVector3f(-650, 0, 0));
+	 objList.back().setRotation(RVector3f(90, 0, 0));
+	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CYLINDER,
+	 5);
 
-	//Obstacle 1
-	objList[2].triMesh = rglGenCylinder(30, 200, 500, RColor(255, 0, 0));
-	objList[2].setPosition(RVector3f(-650, 0, 0));
-	objList[2].setRotation(RVector3f(90, 0, 0));
-	objList[2].physicalObject = phy->applyPhysics(&objList[2], RSHAPE_CYLINDER,
-			5);
+	 //Obstacle 2
+	 objList.push_back(REntity());
+	 objList.back().triMesh = rglGenBox(400, 10, 300, RColor(0, 0, 255));
+	 objList.back().setPosition(RVector3f(-600, 100, 0));
+	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_BOX, 1);
 
-	//Obstacle 2
-	objList[3].triMesh = rglGenBox(400, 10, 300, RColor(0, 0, 255));
-	objList[3].setPosition(RVector3f(-600, 100, 0));
-	objList[3].physicalObject = phy->applyPhysics(&objList[3], RSHAPE_BOX, 1);
-
-	//Obstacle 3
-	objList[4].triMesh = rglGenCone(200, 600, 300, RColor(0, 0, 255));
-	objList[4].setPosition(RVector3f(-3000, 100, 0));
-	objList[4].setRotation(RVector3f(180, 0, 0));
-	objList[4].physicalObject = phy->applyPhysics(&objList[4], RSHAPE_CONE, 5);
-
+	 //Obstacle 3
+	 objList.push_back(REntity());
+	 objList.back().triMesh = rglGenCone(200, 600, 300, RColor(0, 0, 255));
+	 objList.back().setPosition(RVector3f(-3000, 100, 0));
+	 objList.back().setRotation(RVector3f(180, 0, 0));
+	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CONE, 5);
+	 */
 	//boxes
-	for (int i = 6; i < 12; i++) {
-		objList[i].triMesh = rglGenBox(50, 50, 300,
-				RColor(0, 255 - (80 * (i - 5)), 80 * (i - 5)));
-		objList[i].setPosition(RVector3f(-2500, i * 200, 0));
-		objList[i].physicalObject = phy->applyPhysics(&objList[i], RSHAPE_BOX,
-				1);
+	for (int k = 0; k < 5; k++) {
+		for (int j = 0; j < 5; j++) {
+			for (int i = 0; i < 10aa; i++) {
+				objList.push_back(REntity());
+				objList.back().triMesh = rglGenBox(50, 50, 50,
+						RColor(255*k/9, 255*j/9, (255 * i / 9)));
+				objList.back().setPosition(
+						RVector3f(-1000+k*-100, i * 200, (j - 2) * 100));
+				objList.back().physicalObject = phy->applyPhysics(
+						&objList.back(), RSHAPE_BOX, 1);
+			}
+		}
 	}
+
 }
 
 #include "RString.h"
 
 void Game::logic() {
 	if (mouse().left.isDown) {
-		objList[1].physicalObject->getRigidBody()->setActivationState(true);
+		wheel->physicalObject->getRigidBody()->setActivationState(true);
 		//objList[1].physicalObject->getRigidBody()->applyCentralImpulse(
 		//btVector3(0, 10, 0));
-		objList[1].physicalObject->getRigidBody()->applyCentralImpulse(
+		wheel->physicalObject->getRigidBody()->applyCentralImpulse(
 				btVector3(-10, 0, 0));
-		objList[1].physicalObject->getRigidBody()->applyTorqueImpulse(
+		wheel->physicalObject->getRigidBody()->applyTorqueImpulse(
 				btVector3(0, 0, 500));
 	}
 	if (mouse().right.down) {
+		objList.push_back(REntity());
+		objList.back().triMesh = rglGenSphere(50, 10, RColor(0, 0, 255));
+		objList.back().setPosition(
+				RVector3f(wheel->getPosition().x() - camx, camy, 1000));
+		objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+				RSHAPE_SPHERE, 1);
+		objList.back().physicalObject->getRigidBody()->applyCentralImpulse(
+				btVector3(0, 10, -500));
 		//objList[0].physicalObject->getRigidBody()->setActivationState(true);
 		//objList[0].physicalObject->getRigidBody()->setMassProps(1,btVector3(0,0,0));
 	}
@@ -126,21 +137,34 @@ void Game::logic() {
 	}
 	if (key(SDLK_MINUS).isDown) {
 	}
+	if (key(SDLK_a).isDown) {
+		camx += 10;
+	}
+	if (key(SDLK_d).isDown) {
+		camx -= 10;
+	}
+	if (key(SDLK_s).isDown) {
+		camy -= 10;
+	}
+	if (key(SDLK_w).isDown) {
+		camy += 10;
+	}
 }
 
 void Game::render() {
-	camera.setPosition(-objList[1].getPosition().x(), 0, -300);
-	rglSetMatrix(camera.getMatrix());
+	camera.setPosition(
+			RVector3f(-wheel->getPosition().x() + camx, -camy, -400));
+	rglSetMatrix(camera.getAbsoluteTransformation());
 	RGLText txt("|cFF0000t|c00FF00este\n|rGravidade: 9.8", 25,
-			objList[1].getPosition().x() - 300,
-			objList[1].getPosition().y() + 300, objList[1].getPosition().z(),
-			1);
+			wheel->getPosition().x() - 300, wheel->getPosition().y() + 300,
+			wheel->getPosition().z(), 1);
 	txt.setColor(1, 1, 1);
 	txt.draw();
-	for (unsigned int i = 0; i < objList.size(); i++) {
-		rglSetMatrix(camera.getMatrix());
+	list<REntity>::iterator it;
+	for (it = objList.begin(); it != objList.end(); it++) {
+		rglSetMatrix(camera.getAbsoluteTransformation());
 		//glMultMatrixf(objList[i].getAbsoluteTransformation().gl());
-		objList[i].render();
+		(*it).render();
 		//rglDrawTriMesh(objList[i].triMesh);
 	}
 
