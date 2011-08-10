@@ -86,15 +86,19 @@ RVector3f RVector3f::operator =(RVector3f p) {
 	return (*this);
 }
 
-RVector3f RVector3f::operator +(RVector3f rPoint3f) {
+RVector3f RVector3f::operator +(RVector3f p) {
 	RVector3f r;
-	//TODO
+	r.x_ = x_ + p.x_;
+	r.x_ = y_ + p.y_;
+	r.x_ = z_ + p.z_;
 	return (r);
 }
 
-RVector3f RVector3f::operator -(RVector3f rPoint3f) {
+RVector3f RVector3f::operator -(RVector3f p) {
 	RVector3f r;
-	//TODO
+	r.x_ = x_ - p.x_;
+	r.x_ = y_ - p.y_;
+	r.x_ = z_ - p.z_;
 	return (r);
 }
 
@@ -104,35 +108,42 @@ float RVector3f::operator *(RVector3f p) {
 
 RVector3f RVector3f::operator ^(RVector3f rPoint3f) {
 	RVector3f r;
-	//TODO
+	//r.x_ = x_ + rPoint3f.x_;
+	//r.x_ = y_ + rPoint3f.y_;
+	//r.x_ = z_ + rPoint3f.z_;
 	return (r);
 }
 
-RVector3f RVector3f::operator *(float float1) {
+RVector3f RVector3f::operator *(float f) {
+	RVector3f r;
+	r.x_ = x_ * f;
+	r.x_ = y_ * f;
+	r.x_ = z_ * f;
+	return (r);
+}
+
+RVector3f RVector3f::operator /(float f) {
+	RVector3f r;
+	r.x_ = x_ / f;
+	r.x_ = y_ / f;
+	r.x_ = z_ / f;
+	return (r);
+}
+
+bool RVector3f::compare(RVector3f p) {
+	if(x_ == p.x_ and y_ == p.y_ and z_ == p.z_)
+		return (true);
+	else
+		return (false);
+}
+
+RVector3f RVector3f::set(RVector3f p) {
 	RVector3f r;
 	//TODO
 	return (r);
 }
 
-RVector3f RVector3f::operator /(float float1) {
-	RVector3f r;
-	//TODO
-	return (r);
-}
-
-bool RVector3f::compare(RVector3f rPoint3f) {
-	RVector3f r;
-	//TODO
-	return (true);
-}
-
-RVector3f RVector3f::set(RVector3f rPoint3f) {
-	RVector3f r;
-	//TODO
-	return (r);
-}
-
-RVector3f RVector3f::add(RVector3f rPoint3f) {
+RVector3f RVector3f::add(RVector3f p) {
 	RVector3f r;
 	//TODO
 	return (r);
