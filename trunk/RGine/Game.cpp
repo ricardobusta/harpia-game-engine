@@ -33,6 +33,10 @@
 #include <REntity.h>
 #include <RGLCommands.h>
 
+#include <btBulletDynamicsCommon.h>
+#include <btBulletCollisionCommon.h>
+#include <RPhysicalJoint.h>
+
 Game::Game() {
 }
 
@@ -46,73 +50,160 @@ void Game::init() {
 
 	//Floor
 	objList.push_back(REntity());
-	objList.back().triMesh = rglGenBox(5000, 100, 500, RColor(0, 255, 0));
-	objList.back().setPosition(RVector3f(-2500, -400, 0));
+	objList.back().triMesh = rglGenBox(10000, 100, 50, RColor(0, 255, 0));
+	objList.back().setPosition(RVector3f(0, -200, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_BOX, 0);
+
+	//wall1
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenBox(50, 5000, 50, RColor(0, 255, 0));
+	objList.back().setPosition(RVector3f(5000, 0, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_BOX, 0);
+
+	//wall2
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenBox(50, 5000, 50, RColor(0, 255, 0));
+	objList.back().setPosition(RVector3f(-5000, 2000, 0));
 	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
 			RSHAPE_BOX, 0);
 
 	//Wheel 1
 	objList.push_back(REntity());
-	objList.back().triMesh = rglGenCylinder(100, 300, 500, RColor(255, 0, 0));
-	objList.back().setPosition(RVector3f(0, 0, 0));
+	objList.back().triMesh = rglGenCylinder(100, 50, 500,
+			RColor(255, 255, 255));
+	objList.back().setPosition(RVector3f(10, 0, 0));
 	objList.back().setRotation(RVector3f(90, 0, 0));
 	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
 			RSHAPE_CYLINDER, 1);
 	wheel = &objList.back();
-	/*
-	 //Wheel 2
-	 objList.push_back(REntity());
-	 objList.back().triMesh = rglGenCylinder(100, 100, 500, RColor(255, 0, 0));
-	 objList.back().setPosition(RVector3f(-250, 0, 0));
-	 objList.back().setRotation(RVector3f(90, 0, 0));
-	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CYLINDER,
-	 1);
+	wheel->physicalObject->getRigidBody()->setAngularFactor(btVector3(0, 0, 1));
+	wheel->physicalObject->getRigidBody()->setLinearFactor(btVector3(1, 1, 0));
 
-	 //	phy->createJoint(objList[1].physicalObject,objList[2].physicalObject,RVector3f(0,0,0),RVector3f(0,0,1));
-	 //	phy->jointList.push_back(btHingeConstraint(objList[1].physicalObject, btTransform(btQuaternion(0,0,0,1),btVector3(0,0,1)),true));
+	//Wheel 2
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenCylinder(100, 50, 500, RColor(200, 200, 200));
+	objList.back().setPosition(RVector3f(-250, 0, 0));
+	objList.back().setRotation(RVector3f(90, 0, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_CYLINDER, 1);
+	objList.back().physicalObject->getRigidBody()->setAngularFactor(
+			btVector3(0, 0, 1));
+	objList.back().physicalObject->getRigidBody()->setLinearFactor(
+			btVector3(1, 1, 0));
+	object = &objList.back();
 
-	 //Obstacle 1
-	 objList.push_back(REntity());
-	 objList.back().triMesh = rglGenCylinder(30, 200, 500, RColor(255, 0, 0));
-	 objList.back().setPosition(RVector3f(-650, 0, 0));
-	 objList.back().setRotation(RVector3f(90, 0, 0));
-	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CYLINDER,
-	 5);
+	//vehicle center
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenBox(300, 50, 60, RColor(255, 255, 255));
+	objList.back().setPosition(RVector3f(0, 0, 0));
+	objList.back().setRotation(RVector3f(180, 0, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_BOX, 1);
+	objList.back().physicalObject->getRigidBody()->setAngularFactor(
+			btVector3(0, 0, 1));
+	objList.back().physicalObject->getRigidBody()->setLinearFactor(
+			btVector3(1, 1, 0));
+	center = &objList.back();
 
-	 //Obstacle 2
-	 objList.push_back(REntity());
-	 objList.back().triMesh = rglGenBox(400, 10, 300, RColor(0, 0, 255));
-	 objList.back().setPosition(RVector3f(-600, 100, 0));
-	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_BOX, 1);
+	//	phy->createJoint(objList[1].physicalObject,objList[2].physicalObject,RVector3f(0,0,0),RVector3f(0,0,1));
+	//	phy->jointList.push_back(btHingeConstraint(objList[1].physicalObject, btTransform(btQuaternion(0,0,0,1),btVector3(0,0,1)),true));
 
-	 //Obstacle 3
-	 objList.push_back(REntity());
-	 objList.back().triMesh = rglGenCone(200, 600, 300, RColor(0, 0, 255));
-	 objList.back().setPosition(RVector3f(-3000, 100, 0));
-	 objList.back().setRotation(RVector3f(180, 0, 0));
-	 objList.back().physicalObject = phy->applyPhysics(&objList.back(), RSHAPE_CONE, 5);
-	 */
+	//Obstacle 1
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenCylinder(30, 50, 50, RColor(255, 0, 0));
+	objList.back().setPosition(RVector3f(-650, 0, 0));
+	objList.back().setRotation(RVector3f(90, 0, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_CYLINDER, 5);
+	objList.back().physicalObject->getRigidBody()->setAngularFactor(
+			btVector3(0, 0, 1));
+	objList.back().physicalObject->getRigidBody()->setLinearFactor(
+			btVector3(1, 1, 0));
+
+	//Obstacle 2
+	objList.push_back(REntity());
+	objList.back().triMesh = rglGenBox(400, 10, 50, RColor(0, 0, 255));
+	objList.back().setPosition(RVector3f(-600, 100, 0));
+	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+			RSHAPE_BOX, 1);
+	objList.back().physicalObject->getRigidBody()->setAngularFactor(
+			btVector3(0, 0, 1));
+	objList.back().physicalObject->getRigidBody()->setLinearFactor(
+			btVector3(1, 1, 0));
+
+	//	phy->createJoint(wheel->physicalObject, object->physicalObject,
+	//			RVector3f(0, 0, 0), RVector3f(0, 0, 1));
+
+	//Obstacle 3
+	//	objList.push_back(REntity());
+	//	objList.back().triMesh = rglGenCone(200, 600, 50, RColor(0, 0, 255));
+	//	objList.back().setPosition(RVector3f(-3000, 100, 0));
+	//	objList.back().setRotation(RVector3f(180, 0, 0));
+	//	objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+	//			RSHAPE_CONE, 5);
+	//	objList.back().physicalObject->getRigidBody()->setAngularFactor(
+	//			btVector3(0, 0, 1));
+	//	objList.back().physicalObject->getRigidBody()->setLinearFactor(
+	//			btVector3(1, 1, 0));
+
 	//boxes
-	for (int k = 0; k < 5; k++) {
-		for (int j = 0; j < 5; j++) {
-			for (int i = 0; i < 10aa; i++) {
-				objList.push_back(REntity());
-				objList.back().triMesh = rglGenBox(50, 50, 50,
-						RColor(255*k/9, 255*j/9, (255 * i / 9)));
-				objList.back().setPosition(
-						RVector3f(-1000+k*-100, i * 200, (j - 2) * 100));
-				objList.back().physicalObject = phy->applyPhysics(
-						&objList.back(), RSHAPE_BOX, 1);
-			}
+
+	for (int k = 0; k < 10; k++) {
+		//		for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 10; i++) {
+			objList.push_back(REntity());
+			objList.back().triMesh = rglGenBox(50, 50, 50,
+					RColor(255 * k / 4, 255 * 4 / 4, (255 * i / 9)));
+			objList.back().setPosition(
+					//						RVector3f(-1000+k*-100, i * 100, (j - 2) * 100));
+					RVector3f(-1000 + k * -100, i * 100, 0));
+			objList.back().physicalObject = phy->applyPhysics(&objList.back(),
+					RSHAPE_BOX, 1);
+			objList.back().physicalObject->getRigidBody()->setActivationState(
+					false);
+
+			objList.back().physicalObject->getRigidBody()->setAngularFactor(
+					btVector3(0, 0, 1));
+			objList.back().physicalObject->getRigidBody()->setLinearFactor(
+					btVector3(1, 1, 0));
 		}
+		//		}
 	}
+
+	/*	btPoint2PointConstraint* jt = new btPoint2PointConstraint(
+	 *(wheel->physicalObject->getRigidBody())
+	 ,btVector3(0,0,0));*/
+	btPoint2PointConstraint* jt = new btPoint2PointConstraint(
+			*(wheel->physicalObject->getRigidBody()),
+			*(center->physicalObject->getRigidBody()),
+			btVector3(0,0,0),
+			btVector3(150,0,0));
+	/*new btHingeConstraint(wheel->physicalObject,object->physicalObject,
+			 btVector3(),btVector3(),btVector3(),btVector3());
+			 RPhysicalJoint(wheel->physicalObject, object->physicalObject,
+			 btVector3(),
+			 btVector3());
+	 */
+
+	phy	->dynamicsWorld->addConstraint(jt, true);
+
+	jt = new btPoint2PointConstraint(
+				*(object->physicalObject->getRigidBody()),
+				*(center->physicalObject->getRigidBody()),
+				btVector3(0,0,0),
+				btVector3(-150,0,0));
+
+	phy	->dynamicsWorld->addConstraint(jt, true);
+	//phy->jointList.push_back(jt);
 
 }
 
 #include "RString.h"
 
 void Game::logic() {
-	if (mouse().left.isDown) {
+	if (key(SDLK_LEFT).isDown) {
 		wheel->physicalObject->getRigidBody()->setActivationState(true);
 		//objList[1].physicalObject->getRigidBody()->applyCentralImpulse(
 		//btVector3(0, 10, 0));
@@ -121,11 +212,21 @@ void Game::logic() {
 		wheel->physicalObject->getRigidBody()->applyTorqueImpulse(
 				btVector3(0, 0, 500));
 	}
-	if (mouse().right.down) {
+	if (key(SDLK_RIGHT).isDown) {
+		wheel->physicalObject->getRigidBody()->setActivationState(true);
+		//objList[1].physicalObject->getRigidBody()->applyCentralImpulse(
+		//btVector3(0, 10, 0));
+		wheel->physicalObject->getRigidBody()->applyCentralImpulse(
+				btVector3(10, 0, 0));
+		wheel->physicalObject->getRigidBody()->applyTorqueImpulse(
+				btVector3(0, 0, -500));
+	}
+	if (mouse().left.down) {
 		objList.push_back(REntity());
-		objList.back().triMesh = rglGenSphere(50, 10, RColor(0, 0, 255));
+		objList.back().triMesh = rglGenSphere(50, 4, RColor(255, 255, 0));
 		objList.back().setPosition(
-				RVector3f(wheel->getPosition().x() - camx, camy, 1000));
+				RVector3f(-camera.getPosition().x(), -camera.getPosition().y(),
+						-camera.getPosition().z()));
 		objList.back().physicalObject = phy->applyPhysics(&objList.back(),
 				RSHAPE_SPHERE, 1);
 		objList.back().physicalObject->getRigidBody()->applyCentralImpulse(
@@ -138,16 +239,16 @@ void Game::logic() {
 	if (key(SDLK_MINUS).isDown) {
 	}
 	if (key(SDLK_a).isDown) {
-		camx += 10;
+		camx += 30;
 	}
 	if (key(SDLK_d).isDown) {
-		camx -= 10;
+		camx -= 30;
 	}
 	if (key(SDLK_s).isDown) {
-		camy -= 10;
+		camy -= 30;
 	}
 	if (key(SDLK_w).isDown) {
-		camy += 10;
+		camy += 30;
 	}
 }
 
@@ -155,11 +256,12 @@ void Game::render() {
 	camera.setPosition(
 			RVector3f(-wheel->getPosition().x() + camx, -camy, -400));
 	rglSetMatrix(camera.getAbsoluteTransformation());
+	/*
 	RGLText txt("|cFF0000t|c00FF00este\n|rGravidade: 9.8", 25,
 			wheel->getPosition().x() - 300, wheel->getPosition().y() + 300,
 			wheel->getPosition().z(), 1);
 	txt.setColor(1, 1, 1);
-	txt.draw();
+	txt.draw();*/
 	list<REntity>::iterator it;
 	for (it = objList.begin(); it != objList.end(); it++) {
 		rglSetMatrix(camera.getAbsoluteTransformation());

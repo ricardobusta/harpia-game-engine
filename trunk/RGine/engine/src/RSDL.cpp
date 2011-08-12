@@ -137,8 +137,9 @@ int RSDL::timer_getCurrentTick(){
 }
 
 void RSDL::timer_delay() {
-	if (timer_getTicks() < 1000 / fps) {
-		SDL_Delay((1000 / fps) - timer_getTicks());
+	timer_currentTick = timer_getTicks();
+	if (timer_currentTick < 1000 / fps) {
+		SDL_Delay((1000 / fps) - timer_currentTick);
 	}
 }
 

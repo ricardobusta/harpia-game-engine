@@ -64,8 +64,8 @@ private:
 	float camx;
 	float camy;
 
-	list<REntity> objList;
-
+	REntity *object;
+	REntity *center;
 	REntity *wheel;
 };
 

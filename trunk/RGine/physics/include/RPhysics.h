@@ -44,7 +44,7 @@
 #include "RPhysicalTriMesh.h"
 #include "RPhysicalObject.h"
 
-#include <RVector.h>
+#include <RList.h>
 
 class RMain;
 
@@ -66,8 +66,8 @@ class RPhysics
         btContinuousDynamicsWorld* dynamicsWorld;
         btClock clock;
 
-        vector<RPhysicalObject*> objectList;
-        vector<RPhysicalJoint*> jointList;
+        list<RPhysicalObject*> objectList;
+        list<RPhysicalJoint*> jointList;
         RPhysicalObject *terrain;
 
         void setGravity(double gravity);
