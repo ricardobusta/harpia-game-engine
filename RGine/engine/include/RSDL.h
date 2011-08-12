@@ -143,6 +143,7 @@ private:
 	int timer_startTicks;
 	bool timer_paused;
 	int timer_pausedTicks;
+	int timer_currentTick;
 	int fps;
 
 

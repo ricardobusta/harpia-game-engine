@@ -73,8 +73,9 @@ void RPhysics::updatePhysics() {
 
 	dynamicsWorld->stepSimulation(TDeltaTime * 0.001f, 60);
 
-	for (unsigned int i = 0; i < objectList.size(); i++)
-		objectList[i]->update();
+	list<RPhysicalObject*>::iterator it;
+	for (it = objectList.begin(); it != objectList.end(); it++)
+		(*it)->update();
 
 }
 
@@ -127,20 +128,20 @@ RPhysicalJoint* RPhysics::createJoint(RPhysicalObject* obj1,
 	RPhysicalJoint* jt = new RPhysicalJoint(obj1, obj2,
 			btVector3(anchor.x(), anchor.y(), anchor.z()),
 			btVector3(axis.x(), axis.y(), axis.z()));
-	//dynamicsWorld->addConstraint(jt->getConstraint(), true);
+	dynamicsWorld->addConstraint(jt->getConstraint(), true);
 
-	//jointList.push_back(jt);
+	jointList.push_back(jt);
 
-	//return (jt);
+	return (jt);
 }
 
 void RPhysics::removeJoint(RPhysicalJoint* joint) {
-	for (unsigned int i = 0; i < jointList.size(); i++) {
-		if (jointList[i] == joint) {
-			dynamicsWorld->removeConstraint(jointList[i]->getConstraint());
-			delete jointList[i];
-			jointList.erase(jointList.begin() + i);
-
+	list<RPhysicalJoint*>::iterator it;
+	for (it = jointList.begin(); it != jointList.end(); it++) {
+		if ((*it) == joint) {
+			dynamicsWorld->removeConstraint((*it)->getConstraint());
+			delete (*it);
+			jointList.erase(it);
 			return;
 		}
 	}

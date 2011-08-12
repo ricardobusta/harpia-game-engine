@@ -63,20 +63,7 @@ RSDLKeyStruct RMain::key(int id) {
 	return (sdl.key(id));
 }
 
-REntity *RMain::newEntity()
-{
-	entityList.push_back(REntity());
-	return (&entityList.back());
-}
-
 #include <RGLText.h>
 
 void RMain::render() {
-	glLoadIdentity();
-	RGLText txt("|cFF0000t|c00FF00este\n|rteste",50,0,300,200,1);
-	txt.setColor(1,1,1);
-	txt.draw();
-	for(unsigned int i=0;i<entityList.size();i++){
-		entityList[i].render();
-	}
 }
