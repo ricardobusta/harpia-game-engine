@@ -31,6 +31,7 @@
 #include <RFrame.h>
 #include <RGLShapes.h>
 #include <RGLCommands.h>
+#include <RMain.h>
 
 REntity::REntity() {
 	hasMesh = false;
@@ -86,14 +87,29 @@ void REntity::setPosition(RVector3f position)
     this->position = position;
 }
 
+void REntity::setPosition(float x, float y, float z)
+{
+    this->position = RVector3f(x,y,z);
+}
+
 void REntity::setRotation(RVector3f rotation)
 {
     this->rotation = rotation;
 }
 
+void REntity::setRotation(float x, float y, float z)
+{
+    this->rotation = RVector3f(x,y,z);
+}
+
 void REntity::setScale(RVector3f scale)
 {
     this->scale = scale;
+}
+
+void REntity::setScale(float x, float y, float z)
+{
+    this->scale = RVector3f(x,y,z);
 }
 
 RBoundingBox REntity::getBoundingBox()
@@ -102,6 +118,45 @@ RBoundingBox REntity::getBoundingBox()
 	bbox.set(triMesh);
 	return (bbox);
 }
+
+void REntity::setBoxMesh(float width, float height, float depth, RColor color)
+{
+	//Make Mesh
+	triMesh = rglGenBox(width,height,depth,color);
+}
+
+void REntity::setBoxPhysics(float mass){
+	//Make Physics
+	physicalObject = parent->phy->applyPhysics(this, RSHAPE_BOX, mass);
+}
+
+void REntity::setCylinderMesh(float radius, float height, unsigned int div, RColor color)
+{
+	//Make Mesh
+	triMesh = rglGenCylinder(radius,height,div,color);
+}
+
+void REntity::setCylinderPhysics(float mass)
+{
+	//Make Physics
+		physicalObject = parent->phy->applyPhysics(this, RSHAPE_CYLINDER, mass);
+}
+
+void REntity::setSphereMesh(float radius, unsigned int div, RColor color)
+{
+	//Make Mesh
+	triMesh = rglGenSphere(radius,div,color);
+}
+
+void REntity::setSpherePhysics(float mass)
+{
+	//Make Physics
+			physicalObject = parent->phy->applyPhysics(this, RSHAPE_SPHERE, mass);
+}
+
+
+
+
 
 
 

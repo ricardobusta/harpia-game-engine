@@ -28,6 +28,8 @@
 
 #include "RMain.h"
 
+#include <RGLCommands.h>
+
 RMain::RMain() {
 	phy = new RPhysics(this);
 	phy->setGravity(9.8);
@@ -44,6 +46,7 @@ int RMain::run() {
 	init();
 	while (!sdl.finished()) {
 		sdl.input();
+//		main_logic();
 		logic();
 		phy->updatePhysics();
 		sdl.render_begin();
@@ -65,5 +68,28 @@ RSDLKeyStruct RMain::key(int id) {
 
 #include <RGLText.h>
 
+REntity *RMain::newObject()
+{
+	objList.push_back(REntity());
+	objList.back().parent = this;
+	return (&objList.back());
+}
+
+void RMain::removeObject(REntity *object)
+{
+//	objList.remove();
+}
+
+void RMain::main_logic(){
+
+}
+
 void RMain::render() {
+	for (list<REntity>::iterator it = objList.begin(); it != objList.end(); it++) {
+		rglSetMatrix(camera.getAbsoluteTransformation());
+		//glMultMatrixf(objList[i].getAbsoluteTransformation().gl());
+		(*it).handle();
+		(*it).render();
+		//rglDrawTriMesh(objList[i].triMesh);
+	}
 }
