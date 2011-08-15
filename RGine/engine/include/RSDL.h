@@ -120,14 +120,11 @@ private:
 	int width;
 	int height;
 	int bpp;
+	void resize();
 
 	//Control
 	SDL_Event event;
 	bool quit;
-
-	//OpenGL
-	bool opengl_init();
-	void opengl_resize();
 
 	//Keyboard
 	RSDLKeyStruct key_[SDLK_LAST];

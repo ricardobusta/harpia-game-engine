@@ -53,7 +53,7 @@ public:
 	 */
 	int run();
 
-	vector<REntity> entityList;
+	vector<REntity> DELETETHISASAP; //TODO remove this o-o
 protected:
 	/**
 	 * Gets the mouse structure.
@@ -69,6 +69,9 @@ protected:
 	 */
 	RSDLKeyStruct key(int id);
 
+	REntity* newObject();
+	void removeObject(REntity*);
+
 public:
 	/**
 	 * SDL object.
@@ -77,13 +80,15 @@ public:
 
 	RPhysics *phy;
 
-	list<REntity> objList;
-
-	RFrame camera;
+	REntity camera;
 
 private:
+	list<REntity> objList;
 
-	virtual void render();
+	void render();
+	void main_logic();
+
+//	virtual void render();
 	virtual void init()=0;
 	virtual void logic()=0;
 };

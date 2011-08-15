@@ -27,6 +27,7 @@
  */
 
 //#define ORTHO
+#define OPENGL
 
 #include "RSDL.h"
 
@@ -36,8 +37,8 @@ using namespace std;
 RSDL::RSDL() {
 	width = 560;
 	height = 400;
-//	width = 1200;
-//	height = 700;
+	//	width = 1200;
+	//	height = 700;
 	bpp = 32;
 	quit = false;
 }
@@ -46,46 +47,54 @@ RSDL::~RSDL() {
 }
 
 bool RSDL::init() {
+#ifdef OPENGL
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_SetVideoMode(width, height, bpp, SDL_OPENGL | SDL_RESIZABLE);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_WM_SetCaption("Ricardo's Engine!", NULL);
-	opengl_init();
-	atexit(SDL_Quit);
-	return (true);
-}
-
-void RSDL::render_begin() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-}
-
-void RSDL::render_end() {
-	SDL_GL_SwapBuffers();
-}
-
-bool RSDL::opengl_init() {
 	glClearColor(0, 0, 0, 1);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
-	opengl_resize();
+	resize();
+	atexit(SDL_Quit);
+#else /*OPENGL*/
+#endif /*OPENGL*/
 	return (true);
 }
 
-void RSDL::opengl_resize() {
+void RSDL::render_begin() {
+#ifdef OPENGL
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+#else /*OPENGL*/
+#endif /*OPENGL*/
+}
+
+void RSDL::render_end() {
+#ifdef OPENGL
+	SDL_GL_SwapBuffers();
+#else /*OPENGL*/
+#endif /*OPENGL*/
+}
+
+void RSDL::resize() {
+#ifdef OPENGL
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0, 0, width, height);
 #ifdef ORTHO
 	glOrtho(0.0, width, 0.0, height, -2000, 1000);
-#else
+#else /*ORTHO*/
+
 	glFrustum(-width / 20, width / 20, -height / 20, height / 20, 50, 6000);
 	glTranslatef(0, 0, -1000);
-#endif
+#endif /*ORTHO*/
 	//glMatrixMode(GL_TEXTURE);
 	glMatrixMode(GL_MODELVIEW);
+#else /*OPENGL*/
+#endif /*OPENGL*/
 }
 
 void RSDL::timer_init() {
@@ -132,7 +141,7 @@ int RSDL::timer_getTicks() {
 	return (0);
 }
 
-int RSDL::timer_getCurrentTick(){
+int RSDL::timer_getCurrentTick() {
 	return (SDL_GetTicks());
 }
 

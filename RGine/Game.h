@@ -51,22 +51,19 @@ public:
 	 * This method comes before the rendering phase, where the game logic is made.
 	 */
 	void logic();
-	/**
-	 * This method defines how the game graphics should be rendered.
-	 */
-	void render();
+
 private:
 	/**
 	 * Camera frame (transformations: rotation, scale etc)
 	 */
-	REntity camera;
+//	REntity camera;
 
 	float camx;
 	float camy;
 
-	REntity *object;
+	REntity *wheel2;
 	REntity *center;
-	REntity *wheel;
+	REntity *wheel1;
 };
 
 #endif /* GAME_H_ */

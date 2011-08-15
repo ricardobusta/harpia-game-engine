@@ -37,6 +37,7 @@
 #include <RBoundingBox.h>
 
 class RPhysicalObject;
+class RMain;
 
 /**
  * Every single object in the game will be an entity.
@@ -55,16 +56,22 @@ public:
 	virtual void render();
 
 	RMatrix4f getAbsoluteTransformation();
-    RVector3f getPosition() const;
-    RVector3f getRotation() const;
-    RVector3f getScale() const;
-    void setPosition(RVector3f position);
-    void setRotation(RVector3f rotation);
-    void setScale(RVector3f scale);
+	RVector3f getPosition() const;
+	RVector3f getRotation() const;
+	RVector3f getScale() const;
+	void setPosition(RVector3f position);
+	void setRotation(RVector3f rotation);
+	void setScale(RVector3f scale);
+	void setPosition(float x, float y, float z);
+	void setRotation(float x, float y, float z);
+	void setScale(float x, float y, float z);
 
-    RBoundingBox getBoundingBox();
+	RBoundingBox getBoundingBox();
 
-public://TODO make private
+public:
+	//TODO make private
+	RMain *parent;
+
 	RVector3f position;
 	RVector3f rotation;
 	RVector3f scale;
@@ -74,6 +81,16 @@ public://TODO make private
 
 	bool hasMesh;
 	RTriMesh triMesh;
+
+	//Mesh
+	void setBoxMesh(float width, float height, float depth, RColor color);
+	void setBoxPhysics(float mass);
+	void setCylinderMesh(float radius, float height, unsigned int div,
+			RColor color);
+	void setCylinderPhysics(float mass);
+	void setSphereMesh(float radius, unsigned int div,
+				RColor color);
+		void setSpherePhysics(float mass);
 };
 
 #endif /* RENTITY_H_ */
