@@ -22,28 +22,40 @@
  *
  * @section DESCRIPTION
  * 
- * File: RPhysicalTriMesh.h
- * Created on: Aug 5, 2011
+ * File: Vehicle.h
+ * Created on: Aug 15, 2011
  */
 
-#ifndef RPHYSICALTRIMESH_H_
-#define RPHYSICALTRIMESH_H_
+#ifndef VEHICLE_H_
+#define VEHICLE_H_
 
-#include "RPhysicalObject.h"
-
-#include <BulletCollision/Gimpact/btGImpactShape.h>
-#include <BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h>
+#include <RTriMesh.h>
+#include <RVector3f.h>
+#include <RMain.h>
 
 /**
- * Triangular mesh physical object.
+ *
  */
-class RPhysicalTriMesh : public RPhysicalObject {
-private:
-    btTriangleMesh* trimesh;
-
+class Vehicle {
 public:
-    RPhysicalTriMesh(REntity *entity, double mass);
-    ~RPhysicalTriMesh();
+	Vehicle(RMain* parent);
+	virtual ~Vehicle();
+
+	RMain *parent;
+
+	REntity* wheel0;
+	REntity* wheel1;
+	REntity* body;
+
+	void buildVehicle(float angle0, float magnitude0, float angle1,
+			float magnitude1, float angle2, float magnitude2, float angle3,
+			float magnitude3, float angle4, float magnitude4, float angle5,
+			float magnitude5, float angle6, float magnitude6, float angle7,
+			float magnitude7, unsigned int wheel0axis, float wheel0radius,
+			float wheel0angle, unsigned int wheel1axis, float wheel1radius,
+			float wheel1angle);
+
+	RVector3f vector[8];
 };
 
-#endif /* RPHYSICALTRIMESH_H_ */
+#endif /* VEHICLE_H_ */

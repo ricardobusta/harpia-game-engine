@@ -84,13 +84,23 @@ public:
 
 	//Mesh
 	void setBoxMesh(float width, float height, float depth, RColor color);
-	void setBoxPhysics(float mass);
 	void setCylinderMesh(float radius, float height, unsigned int div,
 			RColor color);
+	void setSphereMesh(float radius, unsigned int div, RColor color);
+	void setTriMesh(RTriMesh mesh);
+
+	//Physics
+	void setBoxPhysics(float mass);
 	void setCylinderPhysics(float mass);
-	void setSphereMesh(float radius, unsigned int div,
-				RColor color);
-		void setSpherePhysics(float mass);
+	void setSpherePhysics(float mass);
+	void setTriMeshPhysics(float mass);
+
+	void set2DXYPhysics();
+	void set2DXZPhysics();
+	void set2DYZPhysics();
+	void set3DPhysics();
+	void addPointConstraint(RVector3f);
+	void addPointConstraint(RVector3f, REntity* pair, RVector3f);
 };
 
 #endif /* RENTITY_H_ */

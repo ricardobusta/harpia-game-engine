@@ -73,6 +73,8 @@ public: //make private
 	vector<RVector3f> points;
 	vector<RVector3f> normals;
 	vector<RColor> colors;
+
+	RTriMesh operator=(RTriMesh);
 };
 
 #endif /* RTRIMESH_H_ */
