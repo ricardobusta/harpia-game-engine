@@ -94,6 +94,16 @@ unsigned int RTriMesh::size()
 	return (points.size());
 }
 
+RTriMesh RTriMesh::operator =(RTriMesh v)
+{
+	points = v.points;
+	normals = v.normals;
+	colors = v.colors;
+	return *this;
+}
+
+
+
 
 
 

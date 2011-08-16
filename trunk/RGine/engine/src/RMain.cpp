@@ -68,7 +68,7 @@ RSDLKeyStruct RMain::key(int id) {
 
 #include <RGLText.h>
 
-REntity *RMain::newObject()
+REntity *RMain::newEntity()
 {
 	objList.push_back(REntity());
 	objList.back().parent = this;

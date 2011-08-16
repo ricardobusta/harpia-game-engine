@@ -110,7 +110,7 @@ RPhysicalObject* RPhysics::applyPhysics(REntity* object, RShape shape,
 		phyObject = new RPhysicalSphere(object, mass);
 		break;
 	case RSHAPE_TRIMESH:
-		//phyObject = new RPhysicalTriMesh(object, mass);
+		phyObject = new RPhysicalTriMesh(object, mass);
 		break;
 	default:
 		phyObject = new RPhysicalSphere(object, mass);

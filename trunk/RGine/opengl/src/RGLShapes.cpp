@@ -32,6 +32,32 @@
 #include <cmath>
 #include <RVector3f.h>
 
+void rglDrawTriMesh(RTriMesh mesh) {
+	glBegin(GL_TRIANGLES);
+	for (unsigned int i = 0; i < mesh.points.size(); i++) {
+		float col = ((float) (i + 1) / (float) mesh.points.size()); //TODO remove after debugging is complete
+//		float col = 1;
+		glColor3f(mesh.colors[i].rF() * col, mesh.colors[i].gF() * col,
+				mesh.colors[i].bF() * col);
+		glNormal3fv(mesh.normals[i].getVector().data());
+		glVertex3fv(mesh.points[i].getVector().data());
+	}
+	glEnd();
+}
+
+void rglDrawTriMeshWired(RTriMesh mesh){
+	glBegin(GL_LINES);
+	for (unsigned int i = 0; i < mesh.points.size()-1; i++) {
+		glColor3f(mesh.colors[i].rF(), mesh.colors[i].gF(),
+				mesh.colors[i].bF());
+		glNormal3fv(mesh.normals[i].getVector().data());
+		glVertex3fv(mesh.points[i].getVector().data());
+		glNormal3fv(mesh.normals[i+1].getVector().data());
+		glVertex3fv(mesh.points[i+1].getVector().data());
+	}
+	glEnd();
+}
+
 void rglDrawCylinder(float radius, float height, unsigned int div,
 		RColor color) {
 	float ang = (2.0 / div) * (M_PI);
@@ -346,17 +372,8 @@ void rglDrawSphere(float radius, unsigned int div, RColor color) {
 void rglDrawConvexHull() {
 }
 
-void rglDrawTriMesh(RTriMesh mesh) {
-	glBegin(GL_TRIANGLES);
-	for (unsigned int i = 0; i < mesh.points.size(); i++) {
-		float col = ((float) (i + 1) / (float) mesh.points.size()); //TODO remove after debugging is complete
-		glColor3f(mesh.colors[i].rF() * col, mesh.colors[i].gF() * col,
-				mesh.colors[i].bF() * col);
-		glNormal3fv(mesh.normals[i].getVector().data());
-		glVertex3fv(mesh.points[i].getVector().data());
-	}
-	glEnd();
-}
+
+
 
 RTriMesh rglGenBox(float width, float height, float depth, RColor color) {
 	RTriMesh mesh;

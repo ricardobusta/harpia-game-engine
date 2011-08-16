@@ -69,9 +69,6 @@ protected:
 	 */
 	RSDLKeyStruct key(int id);
 
-	REntity* newObject();
-	void removeObject(REntity*);
-
 public:
 	/**
 	 * SDL object.
@@ -81,6 +78,9 @@ public:
 	RPhysics *phy;
 
 	REntity camera;
+
+	REntity* newEntity();
+		void removeObject(REntity*);
 
 private:
 	list<REntity> objList;

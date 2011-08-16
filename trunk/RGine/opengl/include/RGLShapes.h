@@ -94,6 +94,8 @@ void rglDrawSphere(float radius, unsigned int div, RColor color);
  */
 void rglDrawTriMesh(RTriMesh mesh);
 
+void rglDrawTriMeshWired(RTriMesh mesh);
+
 /**
  * Generate a box and returns a tringle mesh.
  *

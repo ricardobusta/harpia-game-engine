@@ -61,9 +61,9 @@ private:
 	float camx;
 	float camy;
 
-	REntity *wheel2;
-	REntity *center;
 	REntity *wheel1;
+	REntity *body;
+	REntity *wheel0;
 };
 
 #endif /* GAME_H_ */
