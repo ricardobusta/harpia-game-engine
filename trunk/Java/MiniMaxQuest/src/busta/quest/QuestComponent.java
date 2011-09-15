@@ -14,4 +14,6 @@ public class QuestComponent extends Canvas implements Runnable {
 	public void stop(){
 		
 	}
+	
+	public static void main(String[] arg){}
 }
