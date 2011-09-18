@@ -7,34 +7,40 @@ import javax.imageio.ImageIO;
 public class Bitmap {
 	public final int width;
 	public final int height;
-	public final int[] pixel;
+	public final int[] pixels;
 
-	Bitmap(int width, int height) {
+	public Bitmap(int width, int height) {
 		this.width = width;
 		this.height = height;
-		pixel = new int[width * height];
+		pixels = new int[width * height];
 	}
 
-	Bitmap(String fileName) {
+	public Bitmap(String fileName) {
 		try {
+//			BufferedImage img = ImageIO.read(Bitmap.class.getResource(fileName));
 			BufferedImage img = ImageIO.read(Bitmap.class.getResource(fileName));
 			width = img.getWidth();
 			height = img.getHeight();
-			pixel = new int[width * height];
+			pixels = new int[width * height];
 
-			img.getRGB(0, 0, width, height, pixel, 0, width);
-			for (int i = 0; i < pixel.length; i++) {
-				pixel[i] = ((pixel[i] & 0xf) >> 2);
+			img.getRGB(0, 0, width, height, pixels, 0, width);
+			for (int i = 0; i < pixels.length; i++) {
+				pixels[i] = ((pixels[i] & 0xf) >> 2);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Bitmap(String fileName, int alphaColor){
+		this(fileName);
+		setAlphaColor(alphaColor);
+	}
 
-	void setAlphaColor(int col) {
-		for (int i = 0; i < pixel.length; i++) {
-			if (pixel[i] == col) {
-				pixel[i] = -1;
+	void setAlphaColor(int alphaColor) {
+		for (int i = 0; i < pixels.length; i++) {
+			if (pixels[i] == alphaColor) {
+				pixels[i] = -1;
 			}
 		}
 	}
@@ -42,7 +48,7 @@ public class Bitmap {
 	void fill(int x0, int y0, int x1, int y1, int color) {
 		for (int y = y0; y < y1; y++) {
 			for (int x = x0; x < x1; x++) {
-				pixel[x + (y * width)] = color;
+				pixels[x + (y * width)] = color;
 			}
 		}
 	}
