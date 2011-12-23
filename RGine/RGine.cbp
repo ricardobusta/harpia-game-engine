@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="RGine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\RGine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\RGine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="RG\include" />
+			<Add directory="RGAUX\include" />
+			<Add directory="C:\SDL-1.2.14\include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32" />
+			<Add option="-lSDLmain" />
+			<Add option="-lSDL" />
+			<Add option="-lopengl32" />
+			<Add directory="C:\SDL-1.2.14\lib" />
+		</Linker>
+		<Unit filename="RGAUX\include\RGColor.h" />
+		<Unit filename="RGAUX\src\RGColor.cpp" />
+		<Unit filename="RG\include\RGGame.h" />
+		<Unit filename="RG\include\RGGraphics.h" />
+		<Unit filename="RG\include\RGInput.h" />
+		<Unit filename="RG\include\RGScene.h" />
+		<Unit filename="RG\src\RGGame.cpp" />
+		<Unit filename="RG\src\RGGraphics.cpp" />
+		<Unit filename="RG\src\RGInput.cpp" />
+		<Unit filename="RG\src\RGScene.cpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
