@@ -39,10 +39,15 @@
 			<Add option="-lSDLmain" />
 			<Add option="-lSDL" />
 			<Add option="-lopengl32" />
+			<Add option="-lSDL_image" />
 			<Add directory="C:\SDL-1.2.14\lib" />
 		</Linker>
 		<Unit filename="RGAUX\include\RGColor.h" />
+		<Unit filename="RGAUX\include\RGImage.h" />
+		<Unit filename="RGAUX\include\RGTriangleMesh.h" />
 		<Unit filename="RGAUX\src\RGColor.cpp" />
+		<Unit filename="RGAUX\src\RGImage.cpp" />
+		<Unit filename="RGAUX\src\RGTriangleMesh.cpp" />
 		<Unit filename="RG\include\RGGame.h" />
 		<Unit filename="RG\include\RGGraphics.h" />
 		<Unit filename="RG\include\RGInput.h" />

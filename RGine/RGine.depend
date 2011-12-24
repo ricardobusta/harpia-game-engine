@@ -14,7 +14,7 @@
 1324527395 source:d:\proj\rgine\main.cpp
 	"RGGame.h"
 
-1324598235 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1324600191 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
 
 1324598199 d:\proj\rgine\rg\include\rggraphics.h
@@ -219,4 +219,20 @@
 1324592609 d:\proj\rgine\rg\include\rginput.h
 	"SDL/SDL.h"
 	<list>
+
+1324654729 source:d:\proj\rgine\rgaux\src\rgimage.cpp
+	"RGImage.h"
+
+1324654833 d:\proj\rgine\rgaux\include\rgimage.h
+	<string>
+
+1324601572 source:d:\proj\rgine\rg\src\rgscene.cpp
+	"RGScene.h"
+
+1324601572 d:\proj\rgine\rg\include\rgscene.h
+
+1324667771 source:d:\proj\rgine\rgaux\src\rgtrianglemesh.cpp
+	"RGTriangleMesh.h"
+
+1324667771 d:\proj\rgine\rgaux\include\rgtrianglemesh.h
 
