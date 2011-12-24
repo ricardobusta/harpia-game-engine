@@ -11,7 +11,7 @@ RGImage::~RGImage()
     }
 }
 
-void RGImage::load(string filename){
+int RGImage::load(string filename){
     if(image != NULL){
         SDL_FreeSurface( image );
     }
