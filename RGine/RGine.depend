@@ -220,10 +220,11 @@
 	"SDL/SDL.h"
 	<list>
 
-1324654729 source:d:\proj\rgine\rgaux\src\rgimage.cpp
+1324690950 source:d:\proj\rgine\rgaux\src\rgimage.cpp
 	"RGImage.h"
 
-1324654833 d:\proj\rgine\rgaux\include\rgimage.h
+1324679301 d:\proj\rgine\rgaux\include\rgimage.h
+	"SDL/SDL_image.h"
 	<string>
 
 1324601572 source:d:\proj\rgine\rg\src\rgscene.cpp
@@ -235,4 +236,10 @@
 	"RGTriangleMesh.h"
 
 1324667771 d:\proj\rgine\rgaux\include\rgtrianglemesh.h
+
+1258249878 c:\sdl-1.2.14\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
 
