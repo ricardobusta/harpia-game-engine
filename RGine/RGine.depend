@@ -2,9 +2,10 @@
 1333648747 source:d:\proj\rgine\rg\src\rggame.cpp
 	"RGGame.h"
 
-1333648593 d:\proj\rgine\rg\include\rggame.h
+1333663212 d:\proj\rgine\rg\include\rggame.h
 	"RGGraphics.h"
 	"RGInput.h"
+	"RGScene.h"
 
 1324463007 source:d:\proj\rgine\rgaux\src\rgcolor.cpp
 	"RGColor.h"

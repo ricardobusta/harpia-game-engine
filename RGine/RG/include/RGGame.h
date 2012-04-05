@@ -3,6 +3,7 @@
 
 #include "RGGraphics.h"
 #include "RGInput.h"
+#include "RGScene.h"
 
 class RGGame
 {
@@ -13,7 +14,11 @@ class RGGame
         RGGraphics graphics;
         //RGInput in;
 
+        RGScene scene;
+
         int run();
+
+        virtual void logic();
     protected:
     private:
 };
