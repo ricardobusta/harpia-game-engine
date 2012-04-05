@@ -10,8 +10,8 @@ class RGGame
         RGGame();
         virtual ~RGGame();
 
-        //RGGraphics graphics;
-        //RGInput input;
+        RGGraphics graphics;
+        //RGInput in;
 
         int run();
     protected:

@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1333648251 source:d:\proj\rgine\rg\src\rggame.cpp
+1333648747 source:d:\proj\rgine\rg\src\rggame.cpp
 	"RGGame.h"
 
-1333648270 d:\proj\rgine\rg\include\rggame.h
+1333648593 d:\proj\rgine\rg\include\rggame.h
 	"RGGraphics.h"
 	"RGInput.h"
 
@@ -14,12 +14,15 @@
 1324527395 source:d:\proj\rgine\main.cpp
 	"RGGame.h"
 
-1324600191 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1333652643 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
+	<iostream>
 
-1324598199 d:\proj\rgine\rg\include\rggraphics.h
+1333653041 d:\proj\rgine\rg\include\rggraphics.h
 	"SDL/SDL.h"
 	"SDL/SDL_opengl.h"
+	"SDL/SDL_image.h"
+	<iostream>
 
 1255800450 c:\sdl-1.2.14\include\sdl\sdl.h
 	"SDL_main.h"
