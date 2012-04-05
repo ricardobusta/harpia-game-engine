@@ -8,6 +8,10 @@
 
  #include "SDL/SDL.h"
  #include "SDL/SDL_opengl.h"
+ #include "SDL/SDL_image.h"
+
+ #include <iostream>
+ using namespace std;
 
 class RGGraphics
 {
@@ -20,6 +24,11 @@ class RGGraphics
         void render(/*scene*/);
         void delay();
         void end();
+
+//Texture tests
+        GLuint loadTexture(string filename);
+        GLuint texture1;
+        GLuint texture2;
     protected:
     private:
         int width;

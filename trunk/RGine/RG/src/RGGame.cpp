@@ -7,14 +7,15 @@ RGGame::~RGGame() {
 }
 
 int RGGame::run() {
-    RGGraphics graphics;
-    RGInput input;
+    RGInput in;
+
     graphics.init();
-    while(!input.quit()) {
-        input.input();
+    while(!in.quit()) {
+        in.input();
         graphics.render();
         graphics.delay();
     }
     graphics.end();
+
     return 0;
 }
