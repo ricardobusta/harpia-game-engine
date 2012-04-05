@@ -30,8 +30,8 @@ void RGGraphics::init() {
     timerInit();
     timerStart();
 
-    texture1 = loadTexture( "image.bmp" );
-    texture2 = loadTexture( "image2.bmp" );
+    loadTexture( "image.bmp" , "tex1");
+    loadTexture( "image2.bmp" , "tex2");
 }
 
 void RGGraphics::resize(int w, int h) {
@@ -51,18 +51,34 @@ void RGGraphics::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glBindTexture( GL_TEXTURE_2D, texture2 );
+    useTexture("tex2");
+    //glBindTexture( GL_TEXTURE_2D, texture2 );
 
     glBegin(GL_QUADS);
     glTexCoord2f(0,0);
     glVertex3f(0,0,0);
     glTexCoord2f(1,0);
-    glVertex3f(200,0,0);
+    glVertex3f(100,0,0);
     glTexCoord2f(1,1);
-    glVertex3f(200,200,0);
+    glVertex3f(100,100,0);
     glTexCoord2f(0,1);
-    glVertex3f(0,200,0);
+    glVertex3f(0,100,0);
     glEnd();
+
+    useTexture("tex1");
+    //glBindTexture( GL_TEXTURE_2D, texture2 );
+    glTranslatef(100,0,0);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,0);
+    glVertex3f(0,0,0);
+    glTexCoord2f(1,0);
+    glVertex3f(100,0,0);
+    glTexCoord2f(1,1);
+    glVertex3f(100,100,0);
+    glTexCoord2f(0,1);
+    glVertex3f(0,100,0);
+    glEnd();
+
 
     SDL_GL_SwapBuffers();
 }
@@ -119,7 +135,7 @@ void RGGraphics::timerDelay() {
     }
 }
 
-GLuint RGGraphics::loadTexture( string filename ) {
+void RGGraphics::loadTexture( string filename, string key ) {
     GLuint texture;			// This is a handle to our texture object
     SDL_Surface *surface = NULL;	// This surface will tell us the details of the image
     GLenum texture_format;
@@ -162,6 +178,7 @@ GLuint RGGraphics::loadTexture( string filename ) {
                 texture_format = GL_BGR;
         } else {
             printf("warning: the image is not truecolor..  this will probably break\n");
+            SDL_Quit();
             // this error should not go unhandled
         }
 
@@ -189,5 +206,9 @@ GLuint RGGraphics::loadTexture( string filename ) {
         SDL_FreeSurface( surface );
     }
 
-    return texture;
+    textureMap[key] = texture;
+}
+
+void RGGraphics::useTexture(string key){
+    glBindTexture( GL_TEXTURE_2D, textureMap[key] );
 }
