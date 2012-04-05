@@ -6,49 +6,51 @@
  * including pure SDL, SDL+OpenGL etc...
  */
 
- #include "SDL/SDL.h"
- #include "SDL/SDL_opengl.h"
- #include "SDL/SDL_image.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
+#include "SDL/SDL_image.h"
 
- #include <iostream>
- using namespace std;
+#include <map>
+#include <iostream>
+using namespace std;
 
-class RGGraphics
-{
-    public:
-        RGGraphics();
-        virtual ~RGGraphics();
+class RGGraphics {
+public:
+    RGGraphics();
+    virtual ~RGGraphics();
 
-        void init();
-        void resize(int width, int height);
-        void render(/*scene*/);
-        void delay();
-        void end();
+//Main Game Loop
+    void init();
+    void resize(int width, int height);
+    void render(/*scene*/);
+    void delay();
+    void end();
 
-//Texture tests
-        GLuint loadTexture(string filename);
-        GLuint texture1;
-        GLuint texture2;
-    protected:
-    private:
-        int width;
-        int height;
-        int depth;
+//Texture Management
+    void loadTexture(string filename, string key);
+    map<string,GLuint> textureMap;
+    void useTexture(string key);
+
+protected:
+private:
+    int width;
+    int height;
+    int depth;
 
     //TIMER
-        int timerStartTicks;
-        int timerPausedTicks;
-        bool timerPaused;
-        bool timerStarted;
-        int fps;
+    int timerStartTicks;
+    int timerPausedTicks;
+    bool timerPaused;
+    bool timerStarted;
+    int fps;
 
-        void timerInit();
-        void timerStart();
-        void timerStop();
-        void timerPause();
-        void timerUnpause();
-        int timerGetTicks();
-        void timerDelay();
+    void timerInit();
+    void timerStart();
+    void timerStop();
+    void timerPause();
+    void timerUnpause();
+    int timerGetTicks();
+    void timerDelay();
 };
 
 #endif // RGGRAPHICS_H
