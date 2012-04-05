@@ -8,10 +8,10 @@ RGGame::~RGGame() {
 
 int RGGame::run() {
     RGGraphics graphics;
-    RGInput in;
+    RGInput input;
     graphics.init();
-    while(!in.quit()) {
-        in.input();
+    while(!input.quit()) {
+        input.input();
         graphics.render();
         graphics.delay();
     }
