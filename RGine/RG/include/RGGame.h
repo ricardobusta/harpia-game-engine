@@ -14,12 +14,13 @@ class RGGame
 
         RGGraphics graphics;
         RGSound sound;
-        //RGInput in;
+        RGInput in;
 
         RGScene scene;
 
         int run();
 
+        virtual void init()=0;
         virtual void logic()=0;
     protected:
     private:

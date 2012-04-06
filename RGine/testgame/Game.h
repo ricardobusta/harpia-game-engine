@@ -9,6 +9,7 @@ class Game:public RGGame
         Game();
         virtual ~Game();
 
+        void init();
         void logic();
     protected:
     private:
