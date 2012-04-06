@@ -40,6 +40,7 @@
 			<Add option="-lSDL" />
 			<Add option="-lopengl32" />
 			<Add option="-lSDL_image" />
+			<Add option="-lSDL_mixer" />
 			<Add directory="C:\SDL-1.2.14\lib" />
 		</Linker>
 		<Unit filename="RGAUX\include\RGColor.h" />
@@ -52,11 +53,15 @@
 		<Unit filename="RG\include\RGGraphics.h" />
 		<Unit filename="RG\include\RGInput.h" />
 		<Unit filename="RG\include\RGScene.h" />
+		<Unit filename="RG\include\RGSound.h" />
 		<Unit filename="RG\src\RGGame.cpp" />
 		<Unit filename="RG\src\RGGraphics.cpp" />
 		<Unit filename="RG\src\RGInput.cpp" />
 		<Unit filename="RG\src\RGScene.cpp" />
+		<Unit filename="RG\src\RGSound.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="testgame\Game.cpp" />
+		<Unit filename="testgame\Game.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

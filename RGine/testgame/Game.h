@@ -1,12 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "RGGame.h"
 
-class Game
+class Game:public RGGame
 {
     public:
         Game();
         virtual ~Game();
+
+        void logic();
     protected:
     private:
 };

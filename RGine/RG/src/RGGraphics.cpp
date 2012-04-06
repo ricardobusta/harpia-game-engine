@@ -8,6 +8,8 @@ RGGraphics::RGGraphics() {
 
 RGGraphics::~RGGraphics() {
     //dtor
+
+    //TODO clean textures and models
 }
 
 void RGGraphics::init() {
@@ -30,8 +32,8 @@ void RGGraphics::init() {
     timerInit();
     timerStart();
 
-    loadTexture( "image.bmp" , "tex1");
-    loadTexture( "image2.bmp" , "tex2");
+    loadTexture( "media\\image.bmp" , "tex1");
+    loadTexture( "media\\image2.bmp" , "tex2");
 }
 
 void RGGraphics::resize(int w, int h) {
@@ -42,9 +44,11 @@ void RGGraphics::resize(int w, int h) {
     glViewport(0,0,width, height);
     glOrtho( 0.0,width, 0.0,height , -2000,1000);
     //glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
-    //glMatrixMode(GL_TEXTURE);
+    glMatrixMode(GL_TEXTURE);
+    //glRotatef(180,0,0,1);
+    //glScalef(-1,1,1);
     //texture
-    glMatrixMode(GL_MODELVIEW);
+    glMatrixMode( GL_MODELVIEW );
 }
 
 void RGGraphics::render() {
@@ -55,28 +59,28 @@ void RGGraphics::render() {
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0,0);
-    glVertex3f(0,0,0);
-    glTexCoord2f(1,0);
-    glVertex3f(100,0,0);
-    glTexCoord2f(1,1);
-    glVertex3f(100,100,0);
     glTexCoord2f(0,1);
-    glVertex3f(0,100,0);
+    glVertex3f(0,0,0);
+    glTexCoord2f(1,1);
+    glVertex3f(150,0,0);
+    glTexCoord2f(1,0);
+    glVertex3f(150,150,0);
+    glTexCoord2f(0,0);
+    glVertex3f(0,150,0);
     glEnd();
 
     useTexture("tex1");
     //glBindTexture( GL_TEXTURE_2D, texture2 );
-    glTranslatef(100,0,0);
+    glTranslatef(150,0,0);
     glBegin(GL_QUADS);
-    glTexCoord2f(0,0);
-    glVertex3f(0,0,0);
-    glTexCoord2f(1,0);
-    glVertex3f(100,0,0);
-    glTexCoord2f(1,1);
-    glVertex3f(100,100,0);
     glTexCoord2f(0,1);
-    glVertex3f(0,100,0);
+    glVertex3f(0,0,0);
+    glTexCoord2f(1,1);
+    glVertex3f(150,0,0);
+    glTexCoord2f(1,0);
+    glVertex3f(150,150,0);
+    glTexCoord2f(0,0);
+    glVertex3f(0,150,0);
     glEnd();
 
 

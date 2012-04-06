@@ -4,9 +4,9 @@
  * I will add more information later.
  */
 
-#include "RGGame.h"
+#include "testgame/Game.h"
 
 int main(int argc, char *argv[]){
-    RGGame game;
+    Game game;
     return game.run();
 }
