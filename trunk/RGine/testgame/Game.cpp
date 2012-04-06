@@ -9,3 +9,6 @@ Game::~Game()
 {
     //dtor
 }
+
+void Game::logic(){
+}

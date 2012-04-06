@@ -27,4 +27,6 @@ int RGImage::load(string filename){
 
         SDL_FreeSurface( loadedImage );
     }
+
+    return 0;
 }

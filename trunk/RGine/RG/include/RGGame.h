@@ -4,6 +4,7 @@
 #include "RGGraphics.h"
 #include "RGInput.h"
 #include "RGScene.h"
+#include "RGSound.h"
 
 class RGGame
 {
@@ -12,13 +13,14 @@ class RGGame
         virtual ~RGGame();
 
         RGGraphics graphics;
+        RGSound sound;
         //RGInput in;
 
         RGScene scene;
 
         int run();
 
-        virtual void logic();
+        virtual void logic()=0;
     protected:
     private:
 };

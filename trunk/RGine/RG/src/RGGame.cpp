@@ -10,6 +10,7 @@ int RGGame::run() {
     RGInput in;
 
     graphics.init();
+    sound.init();
     while(!in.quit()) {
         in.input();
         graphics.render();
@@ -19,3 +20,4 @@ int RGGame::run() {
 
     return 0;
 }
+
