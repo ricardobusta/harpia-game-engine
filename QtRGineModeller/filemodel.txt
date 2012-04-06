@@ -1,0 +1,12 @@
+#1st character indicates what's to come.
+#m = model, p = part, and v = vertex
+#every v has 8 arguments that are x, y, z, u, v, r, g, b in that order. all float.
+m test
+p head
+v 0 0 0
+v 1 1 1
+v 2 2 2
+p body
+v 3 3 3
+v 4 4 4
+v 5 5 5

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "glwidget.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,10 @@ public:
     
 private:
     Ui::MainWindow *ui;
+
+    GLWidget *glwidget;
+
+    void resizeEvent(QResizeEvent *);
 };
 
 #endif // MAINWINDOW_H
