@@ -4,6 +4,7 @@
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
+    model.load("filemodel.txt");
 }
 
 GLWidget::~GLWidget()
@@ -52,8 +53,8 @@ void GLWidget::initializeGL(){
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, memission);
     */
 
-    //glDisable(GL_LIGHTING);
-    glEnable(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
 
     //object->makeObject();
 }
@@ -91,5 +92,24 @@ void GLWidget::resizeGL(int w, int h){
     glMatrixMode(GL_MODELVIEW);
 }
 
+#include <iostream>
+using namespace std;
+
 void GLWidget::drawScene(){
+    static float c;
+
+    glTranslatef(0,0,-300);
+    glRotatef(c+=1,0,1,0);
+
+    for(int i=0;i<model.object.size();i++){
+        glBegin(GL_LINE_LOOP);
+        for(int j=0;j<model.object[i].vertex.size();j++){
+            glColor3f(1,1,1);
+            //glColor3f(model.object[i].vertex[j].r,model.object[i].vertex[j].g,model.object[i].vertex[j].b);
+            //glTexCoord2f(model.object[i].vertex[j].u,model.object[i].vertex[j].v);
+            //glNormal3f(model.object[i].vertex[j].nx,model.object[i].vertex[j].ny,model.object[i].vertex[j].nz);
+            glVertex3f(model.object[i].vertex[j].x,model.object[i].vertex[j].y,model.object[i].vertex[j].z);
+        }
+        glEnd();
+    }
 }

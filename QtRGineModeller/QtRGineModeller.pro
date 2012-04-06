@@ -16,15 +16,15 @@ SOURCES += main.cpp\
     glwidget.cpp \
     material.cpp \
     object.cpp \
-    face.cpp \
-    vertex.cpp
+    vertex.cpp \
+    model.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
     material.h \
     object.h \
-    face.h \
-    vertex.h
+    vertex.h \
+    model.h
 
 FORMS    += mainwindow.ui
 
