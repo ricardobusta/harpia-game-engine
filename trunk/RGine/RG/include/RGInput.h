@@ -46,7 +46,7 @@ public:
     void input();
     bool quit();
 protected:
-private:
+public:
     SDL_Event event;
 
     //Quit event

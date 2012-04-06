@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1333677421 source:d:\proj\rgine\rg\src\rggame.cpp
+1333683450 source:d:\proj\rgine\rg\src\rggame.cpp
 	"RGGame.h"
 
-1333676064 d:\proj\rgine\rg\include\rggame.h
+1333683321 d:\proj\rgine\rg\include\rggame.h
 	"RGGraphics.h"
 	"RGInput.h"
 	"RGScene.h"
@@ -16,7 +16,7 @@
 1333668971 source:d:\proj\rgine\main.cpp
 	"testgame/Game.h"
 
-1333677273 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1333683018 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
 
 1333654533 d:\proj\rgine\rg\include\rggraphics.h
@@ -221,7 +221,7 @@
 1324593894 source:d:\proj\rgine\rg\src\rginput.cpp
 	"RGInput.h"
 
-1324592609 d:\proj\rgine\rg\include\rginput.h
+1333683411 d:\proj\rgine\rg\include\rginput.h
 	"SDL/SDL.h"
 	<list>
 
@@ -450,13 +450,13 @@
 	<windows.h>
 	<stddef.h>
 
-1333669008 source:d:\proj\rgine\testgame\game.cpp
+1333683393 source:d:\proj\rgine\testgame\game.cpp
 	"Game.h"
 
-1333668938 d:\proj\rgine\testgame\game.h
+1333682697 d:\proj\rgine\testgame\game.h
 	"RGGame.h"
 
-1333677498 source:d:\proj\rgine\rg\src\rgsound.cpp
+1333683005 source:d:\proj\rgine\rg\src\rgsound.cpp
 	"RGSound.h"
 
 1333677366 d:\proj\rgine\rg\include\rgsound.h

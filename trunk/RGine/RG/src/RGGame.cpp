@@ -7,12 +7,12 @@ RGGame::~RGGame() {
 }
 
 int RGGame::run() {
-    RGInput in;
-
     graphics.init();
     sound.init();
+    init();
     while(!in.quit()) {
         in.input();
+        logic();
         graphics.render();
         graphics.delay();
     }

@@ -15,11 +15,11 @@ RGSound::~RGSound()
 void RGSound::init(){
     Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
 
-    loadMusic( "media\\beat.wav", "beat" );
-    loadSound( "media\\scratch.wav", "scratch" );
+    //loadMusic( "media/beat.wav", "beat" );
+    //loadSound( "media/scratch.wav", "scratch" );
 
-    playMusic("beat");
-    playSound("scratch");
+    //playMusic("beat");
+    //playSound("scratch");
 }
 
 void RGSound::loadMusic( string filename, string key ){

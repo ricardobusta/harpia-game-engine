@@ -32,8 +32,9 @@ void RGGraphics::init() {
     timerInit();
     timerStart();
 
-    loadTexture( "media\\image.bmp" , "tex1");
-    loadTexture( "media\\image2.bmp" , "tex2");
+    //loadTexture( "media/image.bmp" , "tex1");
+    //loadTexture( "media/image2.bmp" , "tex2");
+    //loadTexture( "media/image3.bmp" , "tex3");
 }
 
 void RGGraphics::resize(int w, int h) {
@@ -58,30 +59,84 @@ void RGGraphics::render() {
     useTexture("tex2");
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
+    static float c=0;
+
+    glTranslatef(100,100,0);
+    glRotatef(c+=0.1,0,1,0);
+    glRotatef(c/3,1,0,0);
+
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
-    glVertex3f(0,0,0);
+    glVertex3f(-100,-100,100);
     glTexCoord2f(1,1);
-    glVertex3f(150,0,0);
+    glVertex3f(100,-100,100);
     glTexCoord2f(1,0);
-    glVertex3f(150,150,0);
+    glVertex3f(100,100,100);
     glTexCoord2f(0,0);
-    glVertex3f(0,150,0);
+    glVertex3f(-100,100,100);
+    glEnd();
+
+
+    useTexture("tex1");
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(100,-100,100);
+    glTexCoord2f(1,1);
+    glVertex3f(100,-100,-100);
+    glTexCoord2f(1,0);
+    glVertex3f(100,100,-100);
+    glTexCoord2f(0,0);
+    glVertex3f(100,100,100);
     glEnd();
 
     useTexture("tex1");
-    //glBindTexture( GL_TEXTURE_2D, texture2 );
-    glTranslatef(150,0,0);
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
-    glVertex3f(0,0,0);
+    glVertex3f(-100,-100,-100);
     glTexCoord2f(1,1);
-    glVertex3f(150,0,0);
+    glVertex3f(-100,-100,100);
     glTexCoord2f(1,0);
-    glVertex3f(150,150,0);
+    glVertex3f(-100,100,100);
     glTexCoord2f(0,0);
-    glVertex3f(0,150,0);
+    glVertex3f(-100,100,-100);
     glEnd();
+
+    useTexture("tex2");
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(100,-100,-100);
+    glTexCoord2f(1,1);
+    glVertex3f(-100,-100,-100);
+    glTexCoord2f(1,0);
+    glVertex3f(-100,100,-100);
+    glTexCoord2f(0,0);
+    glVertex3f(100,100,-100);
+    glEnd();
+
+    useTexture("tex3");
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(-100,100,100);
+    glTexCoord2f(1,1);
+    glVertex3f(100,100,100);
+    glTexCoord2f(1,0);
+    glVertex3f(100,100,-100);
+    glTexCoord2f(0,0);
+    glVertex3f(-100,100,-100);
+    glEnd();
+
+    useTexture("tex3");
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(100,-100,-100);
+    glTexCoord2f(1,1);
+    glVertex3f(100,-100,100);
+    glTexCoord2f(1,0);
+    glVertex3f(-100,-100,100);
+    glTexCoord2f(0,0);
+    glVertex3f(-100,-100,-100);
+    glEnd();
+
 
 
     SDL_GL_SwapBuffers();
