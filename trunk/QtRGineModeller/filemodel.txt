@@ -1,12 +1,16 @@
 #1st character indicates what's to come.
 #m = model, p = part, and v = vertex
 #every v has 8 arguments that are x, y, z, u, v, r, g, b in that order. all float.
-m test
-p head
+m triforce
+p left
 v 0 0 0
-v 1 1 1
-v 2 2 2
-p body
-v 3 3 3
-v 4 4 4
-v 5 5 5
+v 200 0 0
+v 100 100 0
+p top
+v 100 100 0
+v 300 100 0
+v 200 200 0
+p right
+v 200 0 0
+v 400 0 0
+v 300 100 0

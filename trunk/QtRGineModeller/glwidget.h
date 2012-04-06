@@ -3,6 +3,8 @@
 
 #include <QGLWidget>
 
+#include "model.h"
+
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -16,6 +18,8 @@ public:
     void resizeGL(int w, int h);
 
     void drawScene();
+
+    Model model;
 
     int w,h,side;
 };
