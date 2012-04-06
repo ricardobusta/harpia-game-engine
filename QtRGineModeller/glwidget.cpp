@@ -4,7 +4,6 @@
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
-    model.load("filemodel.txt");
 }
 
 GLWidget::~GLWidget()
@@ -101,14 +100,39 @@ void GLWidget::drawScene(){
     glTranslatef(0,0,-300);
     glRotatef(c+=1,0,1,0);
 
-    for(int i=0;i<model.object.size();i++){
+    glBegin(GL_LINES);
+    //x
+    glColor3f(1,0,0);
+    glVertex3f(0,0,0);
+    glVertex3f(100,0,0);
+    //y
+    glColor3f(0,1,0);
+    glVertex3f(0,0,0);
+    glVertex3f(0,100,0);
+    //z
+    glColor3f(0,0,1);
+    glVertex3f(0,0,0);
+    glVertex3f(0,0,100);
+    glEnd();
+
+    foreach(Object obj, model.object){
         glBegin(GL_LINE_LOOP);
-        for(int j=0;j<model.object[i].vertex.size();j++){
-            glColor3f(1,1,1);
+        int j=0;
+        foreach(Vertex ver, obj.vertex){
             //glColor3f(model.object[i].vertex[j].r,model.object[i].vertex[j].g,model.object[i].vertex[j].b);
             //glTexCoord2f(model.object[i].vertex[j].u,model.object[i].vertex[j].v);
             //glNormal3f(model.object[i].vertex[j].nx,model.object[i].vertex[j].ny,model.object[i].vertex[j].nz);
-            glVertex3f(model.object[i].vertex[j].x,model.object[i].vertex[j].y,model.object[i].vertex[j].z);
+            if(ver.facename.compare(model.currentFace)==0){
+                glColor3f(1,0,0);
+            }else{
+                glColor3f(1,1,1);
+            }
+            glVertex3f(ver.x,ver.y,ver.z);
+            if(j%3==2){
+                glEnd();
+                glBegin(GL_LINE_LOOP);
+            }
+            j++;
         }
         glEnd();
     }

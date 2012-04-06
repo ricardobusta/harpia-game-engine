@@ -23,6 +23,22 @@ private:
     GLWidget *glwidget;
 
     void resizeEvent(QResizeEvent *);
+
+    QString filename;
+
+public slots:
+    void buildTree();
+
+    void loadFile();
+    void saveFile();
+
+    void addFace();
+    void removeFace();
+
+    void addObject();
+    void removeObject();
+
+    void selectVertex();
 };
 
 #endif // MAINWINDOW_H

@@ -8,6 +8,10 @@ class Vertex
 public:
     Vertex();
 
+    QString name;
+    QString facename;
+    QString objectname;
+
     float x,y,z;
     float nx,ny,nz;
     float u,v;
