@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <QList>
+#include <QMap>
 #include "vertex.h"
 #include <QString>
 
@@ -12,7 +12,7 @@ public:
 
     QString name;
 
-    QList<Vertex> vertex;
+    QMap<QString,Vertex> vertex;
 };
 
 #endif // OBJECT_H

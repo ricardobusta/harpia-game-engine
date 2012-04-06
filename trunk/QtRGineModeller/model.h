@@ -10,9 +10,19 @@ public:
 
     QString name;
 
-    QList<Object> object;
+    QMap<QString,Object> object;
 
     void load(QString filename);
+    void save(QString filename);
+
+    void clear();
+
+    int facecount;
+    int vertcount;
+
+    QString currentObject;
+    QString currentFace;
+    QString currentVertex;
 };
 
 #endif // MODEL_H
