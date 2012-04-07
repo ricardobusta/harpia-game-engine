@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->spin_z,SIGNAL(valueChanged(double)),this,SLOT(changeZ(double)));
 
     //ui->statusBar->showMessage("testing status bar");
+
+    QImage texture;
+    texture.load("image.bmp");
+    QImage::
 }
 
 MainWindow::~MainWindow()
