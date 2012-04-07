@@ -23,6 +23,8 @@ public:
     QString currentObject;
     QString currentFace;
     QString currentVertex;
+
+    QString faceVertex[3];
 };
 
 #endif // MODEL_H

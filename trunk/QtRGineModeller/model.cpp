@@ -75,10 +75,11 @@ void Model::save(QString filename)
         foreach(Object obj, object){
             out << "p " << obj.name << "\r\n";
             foreach(Vertex ver, obj.vertex){
-                out << "v " << ver.x << " " << ver.y << " " << ver.z << "\r\n";
+                out << "v " << ver.x << " " << ver.y << " " << ver.z;
+                out << " " << ver.u << " " << ver.v;
+                out << " " << ver.r << " " << ver.g << " " << ver.b << "\r\n";
             }
         }
-
     }
     file.close();
 }

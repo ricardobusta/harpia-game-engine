@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>926</width>
-    <height>555</height>
+    <width>1120</width>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -110,21 +110,33 @@
        <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
       </item>
       <item row="5" column="1">
-       <widget class="QSlider" name="horizontalSlider">
+       <widget class="QSlider" name="sliderR">
+        <property name="maximum">
+         <number>255</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QSlider" name="horizontalSlider_2">
+       <widget class="QSlider" name="sliderG">
+        <property name="maximum">
+         <number>255</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QSlider" name="horizontalSlider_3">
+       <widget class="QSlider" name="sliderB">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="singleStep">
+         <number>0</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -224,7 +236,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>926</width>
+     <width>1120</width>
      <height>21</height>
     </rect>
    </property>

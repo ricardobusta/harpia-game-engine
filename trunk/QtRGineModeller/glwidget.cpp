@@ -172,16 +172,34 @@ void GLWidget::drawVertex(float x, float y, float z){
     glEnd();
 }
 
+void GLWidget::drawSelectedFace(){
+    if(model.currentFace!=""){
+        Vertex vert;
+
+        glBegin(GL_LINE_LOOP);
+        glColor3f(1,0,0);
+        vert = model.object[model.currentObject].vertex[model.faceVertex[0]];
+        glVertex3f(vert.x,vert.y,vert.z);
+        vert = model.object[model.currentObject].vertex[model.faceVertex[1]];
+        glVertex3f(vert.x,vert.y,vert.z);
+        vert = model.object[model.currentObject].vertex[model.faceVertex[2]];
+        glVertex3f(vert.x,vert.y,vert.z);
+        glEnd();
+    }
+}
+
 void GLWidget::drawScene(){
     drawAxis();
 
-    if(model.currentObject!="" and model.currentVertex!=""){
+    if(model.currentVertex!=""){
         drawVertex(
                     model.object[model.currentObject].vertex[model.currentVertex].x,
                     model.object[model.currentObject].vertex[model.currentVertex].y,
                     model.object[model.currentObject].vertex[model.currentVertex].z
                     );
     }
+
+    drawSelectedFace();
 
     foreach(Object obj, model.object){
         //glBegin(GL_LINE_LOOP);
@@ -191,11 +209,8 @@ void GLWidget::drawScene(){
             //glColor3f(model.object[i].vertex[j].r,model.object[i].vertex[j].g,model.object[i].vertex[j].b);
             //glTexCoord2f(model.object[i].vertex[j].u,model.object[i].vertex[j].v);
             //glNormal3f(model.object[i].vertex[j].nx,model.object[i].vertex[j].ny,model.object[i].vertex[j].nz);
-            if(ver.facename.compare(model.currentFace)==0){
-                glColor3f(1,0,0);
-            }else{
-                glColor3f(1,1,1);
-            }
+
+            glColor3f(ver.r,ver.g,ver.b);
             glVertex3f(ver.x,ver.y,ver.z);
             /*
             if(j%3==2){

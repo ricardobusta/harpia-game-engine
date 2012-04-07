@@ -27,17 +27,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionAdd_Face,SIGNAL(triggered()),this,SLOT(addFace()));
 
-    connect(ui->objectstructure,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(selectVertex()));
+    connect(ui->objectstructure,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(selection()));
 
     connect(ui->spin_x,SIGNAL(valueChanged(double)),this,SLOT(changeX(double)));
     connect(ui->spin_y,SIGNAL(valueChanged(double)),this,SLOT(changeY(double)));
     connect(ui->spin_z,SIGNAL(valueChanged(double)),this,SLOT(changeZ(double)));
 
+    connect(ui->sliderR,SIGNAL(valueChanged(int)),this,SLOT(changeR(int)));
+    connect(ui->sliderG,SIGNAL(valueChanged(int)),this,SLOT(changeG(int)));
+    connect(ui->sliderB,SIGNAL(valueChanged(int)),this,SLOT(changeB(int)));
+
     //ui->statusBar->showMessage("testing status bar");
 
     QImage texture;
     texture.load("image.bmp");
-    QImage::
+    //QImage::
 }
 
 MainWindow::~MainWindow()
@@ -49,24 +53,45 @@ void MainWindow::resizeEvent(QResizeEvent *){
     glwidget->resize(ui->glframe->size());
 }
 
-void MainWindow::selectVertex(){
+void MainWindow::selection(){
+    if(ui->objectstructure->currentItem()->text(1)== "F"){
+        glwidget->model.currentVertex = "";
+        glwidget->model.currentObject = ui->objectstructure->currentItem()->text(2);
+        glwidget->model.currentFace = ui->objectstructure->currentItem()->text(0);
+
+        int fc=0;
+        foreach(Vertex vert, glwidget->model.object[glwidget->model.currentObject].vertex){
+            if(vert.facename == glwidget->model.currentFace){
+                glwidget->model.faceVertex[fc] = vert.name;
+                fc++;
+                if(fc>2) {break;}
+            }
+        }
+    }
     if(ui->objectstructure->currentItem()->text(1)== "V"){
         glwidget->model.currentVertex = ui->objectstructure->currentItem()->text(0);
         glwidget->model.currentObject = ui->objectstructure->currentItem()->text(2);
         glwidget->model.currentFace = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.currentVertex].facename;
 
+        int fc=0;
+        foreach(Vertex vert, glwidget->model.object[glwidget->model.currentObject].vertex){
+            if(vert.facename == glwidget->model.currentFace){
+                glwidget->model.faceVertex[fc] = vert.name;
+                fc++;
+                if(fc>2) {break;}
+            }
+        }
 
         Vertex vert = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.currentVertex];
-
         ui->spin_x->setValue(vert.x);
         ui->spin_y->setValue(vert.y);
         ui->spin_z->setValue(vert.z);
 
-        QString status;
+        /*QString status;
         status.append("Object: ").append(glwidget->model.currentObject);
         status.append(" Face: ").append(glwidget->model.currentFace);
         status.append(" Vertex: ").append(glwidget->model.currentVertex);
-        ui->statusBar->showMessage(status);
+        ui->statusBar->showMessage(status);*/
     }else{
         glwidget->model.currentVertex = "";
         glwidget->model.currentFace = "";
@@ -117,9 +142,9 @@ void MainWindow::buildTree(){
 void MainWindow::saveFile()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-                                 tr("Save"),
-                                 filename,
-                                 tr("All Files (*)"));
+                                                    tr("Save"),
+                                                    filename,
+                                                    tr("All Files (*)"));
     if (!fileName.isEmpty()){
         filename = fileName;
 
@@ -199,6 +224,30 @@ void MainWindow::changeZ(double val){
     }
 }
 
+void MainWindow::changeR(int val)
+{
+    QString vert = glwidget->model.currentVertex;
+    QString obj = glwidget->model.currentObject;
+    if(obj!="" and vert!=""){
+        glwidget->model.object[obj].vertex[vert].r = val/255.0;
+    }
+}
+void MainWindow::changeG(int val)
+{
+    QString vert = glwidget->model.currentVertex;
+    QString obj = glwidget->model.currentObject;
+    if(obj!="" and vert!=""){
+        glwidget->model.object[obj].vertex[vert].g = val/255.0;
+    }
+}
+void MainWindow::changeB(int val)
+{
+    QString vert = glwidget->model.currentVertex;
+    QString obj = glwidget->model.currentObject;
+    if(obj!="" and vert!=""){
+        glwidget->model.object[obj].vertex[vert].b = val/255.0;
+    }
+}
 
 /*    QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Confirma"),
