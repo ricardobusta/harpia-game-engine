@@ -38,11 +38,14 @@ public slots:
     void addObject();
     void removeObject();
 
-    void selectVertex();
+    void selection();
 
     void changeX(double val);
     void changeY(double val);
     void changeZ(double val);
+    void changeR(int val);
+    void changeG(int val);
+    void changeB(int val);
 };
 
 #endif // MAINWINDOW_H
