@@ -1,13 +1,33 @@
 #include "glwidget.h"
 #include "material.h"
 
+#include <QMouseEvent>
+
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
+    xRot = yRot = zRot = 0;
+    zdist = 500;
 }
 
 GLWidget::~GLWidget()
 {
+}
+
+void GLWidget::mousePressEvent(QMouseEvent * event){
+    lastpos = event->pos();
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent * event){
+    int speedx = event->pos().x() - lastpos.x();
+    int speedy = event->pos().y() - lastpos.y();
+
+    //if(event->button() & Qt::RightButton){
+    xRot += speedy;
+    yRot += speedx;
+    //}
+
+    lastpos = event->pos();
 }
 
 void GLWidget::initializeGL(){
@@ -68,7 +88,7 @@ void GLWidget::paintGL(){
     }else if(n==2){
         glTranslated(spacing, 0.0, 0);
     }*/
-    int xRot = 0,yRot = 0,zRot = 0;
+    glTranslatef(0,0,-zdist);
     glRotated(xRot, 1.0, 0.0, 0.0);
     glRotated(yRot, 0.0, 1.0, 0.0);
     glRotated(zRot, 0.0, 0.0, 1.0);
@@ -86,20 +106,15 @@ void GLWidget::resizeGL(int w, int h){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //int zoom = 1;
-    //glOrtho(-250/zoom,250/zoom,-250/zoom,250/zoom,1000/zoom,-1000/zoom);
-    glFrustum(-1,1,-1,1,1,1000);
+    glOrtho(-500,500,-500,500,-1000,1000);
+    //glFrustum(-1,1,-1,1,1,1000);
     glMatrixMode(GL_MODELVIEW);
 }
 
 #include <iostream>
 using namespace std;
 
-void GLWidget::drawScene(){
-    static float c;
-
-    glTranslatef(0,0,-300);
-    glRotatef(c+=1,0,1,0);
-
+void GLWidget::drawAxis(){
     glBegin(GL_LINES);
     //x
     glColor3f(1,0,0);
@@ -114,9 +129,62 @@ void GLWidget::drawScene(){
     glVertex3f(0,0,0);
     glVertex3f(0,0,100);
     glEnd();
+}
+
+void GLWidget::drawVertex(float x, float y, float z){
+    float scale=10;
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,0);
+
+    glVertex3f(x-scale,y-scale,z+scale);
+    glVertex3f(x+scale,y-scale,z+scale);
+    glVertex3f(x+scale,y+scale,z+scale);
+    glVertex3f(x-scale,y+scale,z+scale);
+
+    glVertex3f(x+scale,y-scale,z+scale);
+    glVertex3f(x+scale,y-scale,z-scale);
+    glVertex3f(x+scale,y+scale,z-scale);
+    glVertex3f(x+scale,y+scale,z+scale);
+
+    glVertex3f(x-scale,y-scale,z-scale);
+    glVertex3f(x-scale,y-scale,z+scale);
+    glVertex3f(x-scale,y+scale,z+scale);
+    glVertex3f(x-scale,y+scale,z-scale);
+
+    glVertex3f(x+scale,y-scale,z-scale);
+    glVertex3f(x-scale,y-scale,z-scale);
+    glVertex3f(x-scale,y+scale,z-scale);
+    glVertex3f(x+scale,y+scale,z-scale);
+
+    glVertex3f(x-scale,y+scale,z+scale);
+    glVertex3f(x+scale,y+scale,z+scale);
+    glVertex3f(x+scale,y+scale,z-scale);
+    glVertex3f(x-scale,y+scale,z-scale);
+
+
+    glVertex3f(x+scale,y-scale,z-scale);
+    glVertex3f(x+scale,y-scale,z+scale);
+    glVertex3f(x-scale,y-scale,z+scale);
+    glVertex3f(x-scale,y-scale,z-scale);
+
+    glEnd();
+}
+
+void GLWidget::drawScene(){
+    drawAxis();
+
+    if(model.currentObject!="" and model.currentVertex!=""){
+        drawVertex(
+                    model.object[model.currentObject].vertex[model.currentVertex].x,
+                    model.object[model.currentObject].vertex[model.currentVertex].y,
+                    model.object[model.currentObject].vertex[model.currentVertex].z
+                    );
+    }
 
     foreach(Object obj, model.object){
-        glBegin(GL_LINE_LOOP);
+        //glBegin(GL_LINE_LOOP);
+        glBegin(GL_TRIANGLES);
         int j=0;
         foreach(Vertex ver, obj.vertex){
             //glColor3f(model.object[i].vertex[j].r,model.object[i].vertex[j].g,model.object[i].vertex[j].b);
@@ -128,10 +196,12 @@ void GLWidget::drawScene(){
                 glColor3f(1,1,1);
             }
             glVertex3f(ver.x,ver.y,ver.z);
+            /*
             if(j%3==2){
                 glEnd();
                 glBegin(GL_LINE_LOOP);
             }
+            */
             j++;
         }
         glEnd();

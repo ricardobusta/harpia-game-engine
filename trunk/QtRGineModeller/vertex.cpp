@@ -2,6 +2,9 @@
 
 Vertex::Vertex()
 {
+    x = y = z = 0;
+    u = v = 0;
+    r = g = b = 0;
 }
 
 Vertex Vertex::operator =(Vertex v){
