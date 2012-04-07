@@ -11,6 +11,10 @@ Model::Model()
 {
     facecount = 0;
     vertcount = 0;
+
+    currentObject = "";
+    currentFace = "";
+    currentVertex = "";
 }
 
 void Model::load(QString filename)

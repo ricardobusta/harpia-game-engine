@@ -39,6 +39,10 @@ public slots:
     void removeObject();
 
     void selectVertex();
+
+    void changeX(double val);
+    void changeY(double val);
+    void changeZ(double val);
 };
 
 #endif // MAINWINDOW_H
