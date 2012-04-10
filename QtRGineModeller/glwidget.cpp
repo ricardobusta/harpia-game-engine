@@ -175,7 +175,6 @@ void GLWidget::drawVertex(float x, float y, float z){
 void GLWidget::drawSelectedFace(){
     if(model.currentFace!=""){
         Vertex vert;
-
         glBegin(GL_LINE_LOOP);
         glColor3f(1,0,0);
         vert = model.object[model.currentObject].vertex[model.faceVertex[0]];
@@ -189,8 +188,11 @@ void GLWidget::drawSelectedFace(){
 }
 
 void GLWidget::drawScene(){
-    drawAxis();
 
+    glLineWidth(3);
+    drawAxis();
+    drawSelectedFace();
+    glLineWidth(1);
     if(model.currentVertex!=""){
         drawVertex(
                     model.object[model.currentObject].vertex[model.currentVertex].x,
@@ -199,7 +201,7 @@ void GLWidget::drawScene(){
                     );
     }
 
-    drawSelectedFace();
+
 
     foreach(Object obj, model.object){
         //glBegin(GL_LINE_LOOP);

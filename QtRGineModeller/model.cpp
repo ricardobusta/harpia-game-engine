@@ -48,6 +48,13 @@ void Model::load(QString filename)
                 object[lastObject].vertex[lastVertex].x = list.at(1).toFloat();
                 object[lastObject].vertex[lastVertex].y = list.at(2).toFloat();
                 object[lastObject].vertex[lastVertex].z = list.at(3).toFloat();
+                if(list.size()==9){
+                    object[lastObject].vertex[lastVertex].u = list.at(4).toFloat();
+                    object[lastObject].vertex[lastVertex].v = list.at(5).toFloat();
+                    object[lastObject].vertex[lastVertex].r = list.at(6).toFloat();
+                    object[lastObject].vertex[lastVertex].g = list.at(7).toFloat();
+                    object[lastObject].vertex[lastVertex].b = list.at(8).toFloat();
+                }
                 object[lastObject].vertex[lastVertex].name = lastVertex;
                 object[lastObject].vertex[lastVertex].facename = lastFace;
                 object[lastObject].vertex[lastVertex].objectname = lastObject;
