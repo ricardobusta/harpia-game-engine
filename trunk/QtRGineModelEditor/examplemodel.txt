@@ -1,6 +1,6 @@
 #comments
 
-Model model_name
+s model_name
 k keyframenumber
 k keyframenumber
 k keyframenumber
