@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //this->resize(this->size());
     //glwidget->resize(ui->glframe->size());
 
+    ui->vertexEdit->hide();
+
     QTimer *timer = new QTimer();
 
     connect(timer,SIGNAL(timeout()),glwidget,SLOT(update()));
@@ -54,7 +56,9 @@ void MainWindow::resizeEvent(QResizeEvent *){
 }
 
 void MainWindow::selection(){
-    if(ui->objectstructure->currentItem()->text(1)== "F"){
+    ui->vertexEdit->hide();
+    Vertex vert;
+    if(ui->objectstructure->currentItem()->text(1)== "Face"){
         glwidget->model.currentVertex = "";
         glwidget->model.currentObject = ui->objectstructure->currentItem()->text(2);
         glwidget->model.currentFace = ui->objectstructure->currentItem()->text(0);
@@ -67,8 +71,10 @@ void MainWindow::selection(){
                 if(fc>2) {break;}
             }
         }
-    }
-    if(ui->objectstructure->currentItem()->text(1)== "V"){
+
+        vert = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.faceVertex[0]];
+    }else if(ui->objectstructure->currentItem()->text(1)== "Vertex"){
+        ui->vertexEdit->show();
         glwidget->model.currentVertex = ui->objectstructure->currentItem()->text(0);
         glwidget->model.currentObject = ui->objectstructure->currentItem()->text(2);
         glwidget->model.currentFace = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.currentVertex].facename;
@@ -82,21 +88,26 @@ void MainWindow::selection(){
             }
         }
 
-        Vertex vert = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.currentVertex];
-        ui->spin_x->setValue(vert.x);
-        ui->spin_y->setValue(vert.y);
-        ui->spin_z->setValue(vert.z);
+        vert = glwidget->model.object[glwidget->model.currentObject].vertex[glwidget->model.currentVertex];
 
-        /*QString status;
-        status.append("Object: ").append(glwidget->model.currentObject);
-        status.append(" Face: ").append(glwidget->model.currentFace);
-        status.append(" Vertex: ").append(glwidget->model.currentVertex);
-        ui->statusBar->showMessage(status);*/
     }else{
         glwidget->model.currentVertex = "";
         glwidget->model.currentFace = "";
         glwidget->model.currentObject = "";
     }
+
+    ui->spin_x->setValue(vert.x);
+    ui->spin_y->setValue(vert.y);
+    ui->spin_z->setValue(vert.z);
+    ui->sliderR->setValue(vert.r*255);
+    ui->sliderG->setValue(vert.g*255);
+    ui->sliderB->setValue(vert.b*255);
+
+    QString status;
+    status.append("Object: ").append(glwidget->model.currentObject);
+    status.append(" Face: ").append(glwidget->model.currentFace);
+    status.append(" Vertex: ").append(glwidget->model.currentVertex);
+    ui->statusBar->showMessage(status);
 }
 
 void MainWindow::buildTree(){
@@ -105,7 +116,7 @@ void MainWindow::buildTree(){
     ui->objectstructure->clear();
     ui->objectstructure->addTopLevelItem(modelitem = new QTreeWidgetItem(0));
     modelitem->setText(0,glwidget->model.name);
-    modelitem->setText(1,"M");
+    modelitem->setText(1,"Model");
     modelitem->setText(2,"-");
     modelitem->setText(3,"yes");
     //int totfacecount = 0;
@@ -113,7 +124,7 @@ void MainWindow::buildTree(){
     foreach(Object obj, glwidget->model.object){
         modelitem->addChild(objitem = new QTreeWidgetItem(0));
         objitem->setText(0,obj.name);
-        objitem->setText(1,"O");
+        objitem->setText(1,"Part");
         objitem->setText(2,obj.name);
         objitem->setText(3,"yes");
         int vertcount = 0;
@@ -121,18 +132,18 @@ void MainWindow::buildTree(){
             if(vertcount==0){
                 objitem->addChild(faceitem = new QTreeWidgetItem(0));
                 faceitem->setText(0,ver.facename);
-                faceitem->setText(1,"F");
+                faceitem->setText(1,"Face");
                 faceitem->setText(2,obj.name);
                 //faceitem->setText(3,ver.facename);
-                faceitem->setText(3,"yes");
+                faceitem->setText(3,ver.facename);
             }
             faceitem->addChild(vertexitem = new QTreeWidgetItem(0));
             vertexitem->setText(0,ver.name);
-            vertexitem->setText(1,"V");
+            vertexitem->setText(1,"Vertex");
             vertexitem->setText(2,obj.name);
             //vertexitem->setText(3,ver.facename);
             //vertexitem->setText(4,ver.name);
-            vertexitem->setText(3,"yes");
+            vertexitem->setText(3,ver.facename);
             vertcount++;
             vertcount = vertcount%3;
         }
@@ -227,25 +238,43 @@ void MainWindow::changeZ(double val){
 void MainWindow::changeR(int val)
 {
     QString vert = glwidget->model.currentVertex;
+    QString face = glwidget->model.currentFace;
     QString obj = glwidget->model.currentObject;
     if(obj!="" and vert!=""){
         glwidget->model.object[obj].vertex[vert].r = val/255.0;
+    }
+    else if(obj!="" and face!=""){
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[0]].r = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[1]].r = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[2]].r = val/255.0;
     }
 }
 void MainWindow::changeG(int val)
 {
     QString vert = glwidget->model.currentVertex;
+    QString face = glwidget->model.currentFace;
     QString obj = glwidget->model.currentObject;
     if(obj!="" and vert!=""){
         glwidget->model.object[obj].vertex[vert].g = val/255.0;
+    }
+    else if(obj!="" and face!=""){
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[0]].g = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[1]].g = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[2]].g = val/255.0;
     }
 }
 void MainWindow::changeB(int val)
 {
     QString vert = glwidget->model.currentVertex;
+    QString face = glwidget->model.currentFace;
     QString obj = glwidget->model.currentObject;
     if(obj!="" and vert!=""){
         glwidget->model.object[obj].vertex[vert].b = val/255.0;
+    }
+    else if(obj!="" and face!=""){
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[0]].b = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[1]].b = val/255.0;
+        glwidget->model.object[obj].vertex[glwidget->model.faceVertex[2]].b = val/255.0;
     }
 }
 
