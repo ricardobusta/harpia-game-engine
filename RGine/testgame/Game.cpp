@@ -13,6 +13,8 @@ Game::~Game()
 void Game::logic(){
     if(in.keyboardstate[SDLK_a].down){
         sound.playSound("scratch");
+    }
+    if(in.keyboardstate[SDLK_s].down){
         sound.playMusic("beat");
     }
 }
