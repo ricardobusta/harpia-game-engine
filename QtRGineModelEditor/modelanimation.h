@@ -5,6 +5,9 @@ class ModelAnimation
 {
 public:
     ModelAnimation();
+
+    int keyframeStart;
+    int keyframeEnd;
 };
 
 #endif // MODELANIMATION_H
