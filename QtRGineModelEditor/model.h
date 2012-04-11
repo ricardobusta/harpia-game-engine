@@ -27,6 +27,10 @@ public:
 
     void load(QString filename);
     void addFace();
+
+    /*-------------*/
+    QString currentObject;
+
 };
 
 #endif // MODEL_H
