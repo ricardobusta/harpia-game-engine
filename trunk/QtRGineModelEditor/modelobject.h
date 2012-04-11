@@ -6,7 +6,6 @@
 #include "modelvertex.h"
 #include "modelnormal.h"
 #include "modeltexcoord.h"
-#include "material.h"
 #include "modelface.h"
 
 class ModelObject
@@ -19,7 +18,8 @@ public:
     QMap<int, ModelTexCoord> texcoord;
 
     bool hide;
-    Material material;
+    int material;
+    QString texture;
     QMap<int, ModelFace> face;
 };
 

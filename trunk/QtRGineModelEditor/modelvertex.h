@@ -5,6 +5,8 @@ class ModelVertex
 {
 public:
     ModelVertex();
+
+    float x,y,z;
 };
 
 #endif // MODELVERTEX_H
