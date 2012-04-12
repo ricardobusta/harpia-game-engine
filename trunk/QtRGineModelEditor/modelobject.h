@@ -13,6 +13,8 @@ class ModelObject
 public:
     ModelObject();
 
+    QString name;
+
     QMap<int, ModelVertex> vertex;
     QMap<int, ModelNormal> normal;
     QMap<int, ModelTexCoord> texcoord;

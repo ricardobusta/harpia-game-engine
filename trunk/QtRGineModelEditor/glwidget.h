@@ -3,7 +3,7 @@
 
 #include <QGLWidget>
 
-//#include "model.h"
+#include "model.h"
 
 class GLWidget : public QGLWidget
 {
@@ -22,7 +22,7 @@ public:
     int w,h,side;
 
     void drawScene();
-    //Model model;
+    Model model;
 
     QPoint lastpos;
     void mouseMoveEvent(QMouseEvent * event);

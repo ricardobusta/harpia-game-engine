@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(timer,SIGNAL(timeout()),glwidget,SLOT(update()));
     timer->start(10);
+
+    glwidget->model.load("testfile.txt");
 }
 
 MainWindow::~MainWindow()

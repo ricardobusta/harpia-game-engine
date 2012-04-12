@@ -6,6 +6,8 @@ class ModelVertex
 public:
     ModelVertex();
 
+    int id;
+
     float x,y,z;
 };
 

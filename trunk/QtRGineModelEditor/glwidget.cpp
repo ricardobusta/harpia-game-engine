@@ -193,6 +193,17 @@ void GLWidget::drawScene(){
     drawAxis();
     drawSelectedFace();
     glLineWidth(1);
+
+    glBegin(GL_TRIANGLES);
+    foreach(ModelObject o, model.object){
+        foreach(ModelFace f, o.face){
+            for(int i=0;i<3;i++){
+                glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);
+            }
+        }
+    }
+    glEnd();
+
     /*
     if(model.currentVertex!=""){
         drawVertex(

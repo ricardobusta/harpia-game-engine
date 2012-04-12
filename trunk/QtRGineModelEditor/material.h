@@ -9,6 +9,8 @@ class Material
 public:
     Material();
 
+    int id;
+
     float emission[4];
     float specular[4];
     float diffuse[4];

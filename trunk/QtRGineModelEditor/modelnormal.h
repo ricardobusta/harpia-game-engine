@@ -5,6 +5,10 @@ class ModelNormal
 {
 public:
     ModelNormal();
+
+    int id;
+
+    float x,y,z;
 };
 
 #endif // MODELNORMAL_H
