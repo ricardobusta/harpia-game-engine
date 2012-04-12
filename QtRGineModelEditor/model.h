@@ -25,12 +25,12 @@ public:
     //materials
     QMap<int,Material> material;
 
+    void save(QString filename);
     void load(QString filename);
     void addFace();
 
     /*-------------*/
     QString currentObject;
-
 };
 
 #endif // MODEL_H

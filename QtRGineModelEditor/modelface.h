@@ -6,6 +6,8 @@ class ModelFace
 public:
     ModelFace();
 
+    int id;
+
     int vertex[3];
     int normal[3];
     int texcoord[3];

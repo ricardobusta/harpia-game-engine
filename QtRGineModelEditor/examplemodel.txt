@@ -7,7 +7,7 @@ s model_name
 #a animation_name frame_start frame_end
 #a animation_name frame_start frame_end
 #a animation_name frame_start frame_end
-m material_name emission[4]
+m emission[4]
 m material_name <properties>*
 m material_name <properties>*
 o object_name texture_name material_name

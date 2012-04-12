@@ -5,6 +5,10 @@ class ModelTexCoord
 {
 public:
     ModelTexCoord();
+
+    int id;
+
+    float u,v;
 };
 
 #endif // MODELTEXCOORD_H
