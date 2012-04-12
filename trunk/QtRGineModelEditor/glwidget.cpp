@@ -188,14 +188,16 @@ void GLWidget::drawSelectedFace(){
 }
 
 void GLWidget::drawScene(){
-
     glLineWidth(3);
     drawAxis();
     drawSelectedFace();
     glLineWidth(1);
 
+    glColor3f(1,1,0);
+
     glBegin(GL_TRIANGLES);
     foreach(ModelObject o, model.object){
+        model.material[o.material].gl();
         foreach(ModelFace f, o.face){
             for(int i=0;i<3;i++){
                 glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);
@@ -203,37 +205,4 @@ void GLWidget::drawScene(){
         }
     }
     glEnd();
-
-    /*
-    if(model.currentVertex!=""){
-        drawVertex(
-                    model.object[model.currentObject].vertex[model.currentVertex].x,
-                    model.object[model.currentObject].vertex[model.currentVertex].y,
-                    model.object[model.currentObject].vertex[model.currentVertex].z
-                    );
-    }
-
-
-
-    foreach(Object obj, model.object){
-        //glBegin(GL_LINE_LOOP);
-        glBegin(GL_TRIANGLES);
-        int j=0;
-        foreach(Vertex ver, obj.vertex){
-            //glColor3f(model.object[i].vertex[j].r,model.object[i].vertex[j].g,model.object[i].vertex[j].b);
-            //glTexCoord2f(model.object[i].vertex[j].u,model.object[i].vertex[j].v);
-            //glNormal3f(model.object[i].vertex[j].nx,model.object[i].vertex[j].ny,model.object[i].vertex[j].nz);
-
-            glColor3f(ver.r,ver.g,ver.b);
-            glVertex3f(ver.x,ver.y,ver.z);
-            /*
-            if(j%3==2){
-                glEnd();
-                glBegin(GL_LINE_LOOP);
-            }*
-
-            j++;
-        }
-        glEnd();
-    }*/
 }

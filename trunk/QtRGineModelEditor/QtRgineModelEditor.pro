@@ -15,24 +15,12 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     glwidget.cpp \
     material.cpp \
-    model.cpp \
-    modelobject.cpp \
-    modelface.cpp \
-    modelvertex.cpp \
-    modelnormal.cpp \
-    modeltexcoord.cpp \
-    modelanimation.cpp
+    model.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
     material.h \
-    model.h \
-    modelobject.h \
-    modelface.h \
-    modelvertex.h \
-    modelnormal.h \
-    modeltexcoord.h \
-    modelanimation.h
+    model.h
 
 FORMS    += mainwindow.ui
 

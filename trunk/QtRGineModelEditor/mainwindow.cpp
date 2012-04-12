@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(10);
 
     glwidget->model.load("testfile.txt");
+    updateLists();
 }
 
 MainWindow::~MainWindow()
@@ -26,4 +27,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *){
     glwidget->resize(ui->glframe->size());
+}
+
+void MainWindow::updateLists(){
+    ui->objectList->clear();
+    ui->faceList->clear();
+    foreach(ModelObject o, glwidget->model.object){
+        ui->objectList->addItem( new QListWidgetItem(o.name) );
+        foreach(ModelFace f, o.face){
+            ui->faceList->addItem( new QListWidgetItem( QString::number(f.id) ) );
+        }
+        foreach(ModelVertex v, o.vertex){
+            ui->vertexList->addItem( new QListWidgetItem( QString::number(v.id) ) );
+        }
+        foreach(ModelNormal n, o.normal){
+            ui->normalList->addItem( new QListWidgetItem( QString::number(n.id) ) );
+        }
+        foreach(ModelTexCoord t, o.texcoord){
+            ui->texList->addItem( new QListWidgetItem( QString::number(t.id) ) );
+        }
+    }
 }
