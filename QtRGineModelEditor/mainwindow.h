@@ -18,6 +18,7 @@ public:
     ~MainWindow();
     
     void resizeEvent(QResizeEvent *);
+    void updateLists();
 private:
     Ui::MainWindow *ui;
 

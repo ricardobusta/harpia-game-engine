@@ -3,9 +3,83 @@
 
 #include <QMap>
 #include <QString>
-#include "modelobject.h"
-#include "modelanimation.h"
 #include "material.h"
+
+/**************************************************************************\
+    Model Structure Classes
+\**************************************************************************/
+
+class ModelAnimation
+{
+public:
+    ModelAnimation(){}
+
+    int keyframeStart;
+    int keyframeEnd;
+};
+
+class ModelNormal
+{
+public:
+    ModelNormal(){}
+
+    int id;
+
+    float x,y,z;
+};
+
+class ModelVertex
+{
+public:
+    ModelVertex(){}
+
+    int id;
+
+    float x,y,z;
+};
+
+class ModelTexCoord
+{
+public:
+    ModelTexCoord(){}
+
+    int id;
+
+    float u,v;
+};
+
+class ModelFace
+{
+public:
+    ModelFace(){}
+
+    int id;
+
+    int vertex[3];
+    int normal[3];
+    int texcoord[3];
+};
+
+class ModelObject
+{
+public:
+    ModelObject(){}
+
+    QString name;
+
+    QMap<int, ModelVertex> vertex;
+    QMap<int, ModelNormal> normal;
+    QMap<int, ModelTexCoord> texcoord;
+    QMap<int, ModelFace> face;
+
+    bool hide; //make per-keyframe option
+    int material;
+    QString texture;
+};
+
+/**************************************************************************\
+    Main Model Class
+\**************************************************************************/
 
 class Model
 {
@@ -28,9 +102,6 @@ public:
     void save(QString filename);
     void load(QString filename);
     void addFace();
-
-    /*-------------*/
-    QString currentObject;
 };
 
 #endif // MODEL_H

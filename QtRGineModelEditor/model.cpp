@@ -166,9 +166,9 @@ void Model::save(QString filename){
             out << " " << m.specular[0] << " " << m.specular[1] << " " << m.specular[2] << " " << m.specular[3];
             out << " " << m.shininess[0] << "\r\n";
         }
-        foreach(int k,this->keyframe){
+        /*foreach(int k,this->keyframe){
 
-        }
+        }*/
         foreach(ModelObject o, this->object){
             out << "o " << o.name << " " << o.material << " " << o.texture << "\r\n";
             foreach(ModelVertex v, o.vertex){
