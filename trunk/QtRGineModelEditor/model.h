@@ -67,14 +67,14 @@ public:
 
     QString name;
 
+    bool hide; //make per-keyframe option
+    int material;
+    QString texture;
+
     QMap<int, ModelVertex> vertex;
     QMap<int, ModelNormal> normal;
     QMap<int, ModelTexCoord> texcoord;
     QMap<int, ModelFace> face;
-
-    bool hide; //make per-keyframe option
-    int material;
-    QString texture;
 };
 
 /**************************************************************************\
