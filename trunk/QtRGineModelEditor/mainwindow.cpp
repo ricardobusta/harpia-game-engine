@@ -9,15 +9,22 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("RGine Model Editor v0.0 - By Ricardo Bustamante");
+
     glwidget = new GLWidget(ui->glframe);
 
+    //Update Opengl Timer
     QTimer *timer = new QTimer();
-
     connect(timer,SIGNAL(timeout()),glwidget,SLOT(update()));
     timer->start(10);
 
     glwidget->model.load("testfile.txt");
     updateLists();
+
+    //Connects
+
+    connect(ui->editTabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabChanged(int)));
+    connect(ui->face_Add,SIGNAL(clicked()),this,SLOT(faceAddClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -47,4 +54,20 @@ void MainWindow::updateLists(){
             ui->texList->addItem( new QListWidgetItem( QString::number(t.id) ) );
         }
     }
+    foreach(Material m, glwidget->model.material){
+        ui->materialList->addItem( new QListWidgetItem( QString::number(m.id) ) );
+    }
+}
+
+#include <iostream>
+using namespace std;
+void MainWindow::tabChanged(int t){
+    currentTab = t;
+}
+
+void MainWindow::faceAddClicked(){
+    glwidget->model.currentObject = "oname";
+
+    glwidget->model.addFace();
+    updateLists();
 }

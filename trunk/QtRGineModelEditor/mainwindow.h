@@ -18,11 +18,20 @@ public:
     ~MainWindow();
     
     void resizeEvent(QResizeEvent *);
-    void updateLists();
 private:
     Ui::MainWindow *ui;
 
     GLWidget *glwidget;
+    int currentMode();
+    void updateLists();
+
+    int currentTab;
+private slots:
+    //General Control Functions
+    void tabChanged(int t);
+
+    //Face Control Functions
+    void faceAddClicked();
 };
 
 #endif // MAINWINDOW_H
