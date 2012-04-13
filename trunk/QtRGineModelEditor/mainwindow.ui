@@ -34,14 +34,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="objectAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="objectRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -62,7 +62,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="objectName"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_2">
@@ -79,10 +79,10 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_2"/>
+           <widget class="QLineEdit" name="objectTexture"/>
           </item>
           <item row="1" column="1">
-           <widget class="QComboBox" name="comboBox"/>
+           <widget class="QComboBox" name="objectMaterial"/>
           </item>
          </layout>
         </item>
@@ -96,14 +96,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="materialAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="materialRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -115,7 +115,7 @@
          <widget class="QListWidget" name="materialList"/>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_11">
+         <widget class="QComboBox" name="materialType">
           <item>
            <property name="text">
             <string>Emission</string>
@@ -139,21 +139,28 @@
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="horizontalSlider">
+         <widget class="QSlider" name="materialRed">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="horizontalSlider_2">
+         <widget class="QSlider" name="materialGreen">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="horizontalSlider_3">
+         <widget class="QSlider" name="materialBlue">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="materialAlpha">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -169,14 +176,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="vertexAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="vertexRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -261,14 +268,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="normalAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="normalRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -282,10 +289,10 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QDial" name="dial_2"/>
+           <widget class="QDial" name="normalAlpha"/>
           </item>
           <item>
-           <widget class="QDial" name="dial"/>
+           <widget class="QDial" name="normalTheta"/>
           </item>
          </layout>
         </item>
@@ -293,20 +300,20 @@
       </widget>
       <widget class="QWidget" name="tab_tex">
        <attribute name="title">
-        <string>TexCoord</string>
+        <string>Texture</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QPushButton" name="pushButton_10">
+           <widget class="QPushButton" name="textureAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_9">
+           <widget class="QPushButton" name="textureRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -323,10 +330,10 @@
            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
           </property>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_4"/>
+           <widget class="QDoubleSpinBox" name="textureU"/>
           </item>
           <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+           <widget class="QDoubleSpinBox" name="textureV"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_7">
@@ -354,14 +361,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QPushButton" name="face_Add">
+           <widget class="QPushButton" name="faceAdd">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="face_Remove">
+           <widget class="QPushButton" name="faceRemove">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -375,31 +382,31 @@
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="1" column="1">
-           <widget class="QComboBox" name="comboBox_2"/>
+           <widget class="QComboBox" name="faceVertex1"/>
           </item>
           <item row="1" column="2">
-           <widget class="QComboBox" name="comboBox_3"/>
+           <widget class="QComboBox" name="faceNormal1"/>
           </item>
           <item row="1" column="3">
-           <widget class="QComboBox" name="comboBox_4"/>
+           <widget class="QComboBox" name="faceTexture1"/>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="comboBox_5"/>
+           <widget class="QComboBox" name="faceVertex2"/>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="comboBox_6"/>
+           <widget class="QComboBox" name="faceVertex3"/>
           </item>
           <item row="3" column="2">
-           <widget class="QComboBox" name="comboBox_7"/>
+           <widget class="QComboBox" name="faceNormal3"/>
           </item>
           <item row="2" column="2">
-           <widget class="QComboBox" name="comboBox_8"/>
+           <widget class="QComboBox" name="faceNormal2"/>
           </item>
           <item row="3" column="3">
-           <widget class="QComboBox" name="comboBox_9"/>
+           <widget class="QComboBox" name="faceTexture3"/>
           </item>
           <item row="2" column="3">
-           <widget class="QComboBox" name="comboBox_10"/>
+           <widget class="QComboBox" name="faceTexture2"/>
           </item>
           <item row="0" column="1">
            <widget class="QLabel" name="label_9">
@@ -424,6 +431,12 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_12">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>1</string>
             </property>
@@ -431,6 +444,12 @@
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_13">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>2</string>
             </property>
@@ -438,6 +457,12 @@
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_14">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>3</string>
             </property>
@@ -482,6 +507,7 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionNew"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -544,6 +570,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

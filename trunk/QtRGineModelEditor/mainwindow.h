@@ -26,12 +26,30 @@ private:
     void updateLists();
 
     int currentTab;
+
+    QString filename;
 private slots:
     //General Control Functions
     void tabChanged(int t);
+    void save();
+    void load();
+    void newModel();
+
+    //Object Control Functions
+    void objectAddClicked();
+    void objectRemoveClicked();
+
+    //Material Control Functions
+    void materialAddClicked();
+    void materialRemoveClicked();
 
     //Face Control Functions
     void faceAddClicked();
+    void faceRemoveClicked();
+
+    //Vertex Control Functions
+    void vertexAddClicked();
+    void vertexRemoveClicked();
 };
 
 #endif // MAINWINDOW_H

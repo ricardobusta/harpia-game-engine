@@ -12,7 +12,9 @@
 class ModelAnimation
 {
 public:
-    ModelAnimation(){}
+    ModelAnimation(){
+        keyframeStart=keyframeEnd=0;
+    }
 
     int keyframeStart;
     int keyframeEnd;
@@ -21,7 +23,9 @@ public:
 class ModelNormal
 {
 public:
-    ModelNormal(){}
+    ModelNormal(){
+        x=y=z=0;
+    }
 
     int id;
 
@@ -31,7 +35,9 @@ public:
 class ModelVertex
 {
 public:
-    ModelVertex(){}
+    ModelVertex(){
+        x=y=z=0;
+    }
 
     int id;
 
@@ -41,7 +47,9 @@ public:
 class ModelTexCoord
 {
 public:
-    ModelTexCoord(){}
+    ModelTexCoord(){
+        u=v=0;
+    }
 
     int id;
 
@@ -51,7 +59,11 @@ public:
 class ModelFace
 {
 public:
-    ModelFace(){}
+    ModelFace(){
+        for(int i=0;i<3;i++){
+            vertex[i]=normal[i]=texcoord[i]=0;
+        }
+    }
 
     int id;
 
@@ -63,7 +75,11 @@ public:
 class ModelObject
 {
 public:
-    ModelObject(){}
+    ModelObject(){
+        material=0;
+        texture="";
+        hide=false;
+    }
 
     QString name;
 
@@ -99,6 +115,7 @@ public:
     //materials
     QMap<int,Material> material;
 
+    void clear();
     void save(QString filename);
     void load(QString filename);
 
@@ -106,6 +123,9 @@ public:
 
     int maxVertexId;
     int maxFaceId;
+
+    int currentVertexId;
+    int currentFaceId;
 
     void addFace();
     void addVertex();

@@ -4,8 +4,9 @@
 
 Material::Material()
 {
+    id=0;
     for(int i=0;i<4;i++){
-        specular[i]=1;
+        specular[i]=0;
         diffuse[i]=1;
         emission[i]=0;
     }
