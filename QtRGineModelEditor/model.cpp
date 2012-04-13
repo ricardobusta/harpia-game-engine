@@ -8,6 +8,25 @@ Model::Model()
 {
     keyframeCount = 0;
     currentObject = "";
+
+    maxFaceId = -1;
+    maxVertexId = -1;
+
+    currentFaceId = -1;
+    currentVertexId = -1;
+}
+
+void Model::clear(){
+    foreach(ModelObject o, object){
+        o.normal.clear();
+        o.texcoord.clear();
+        o.texture.clear();
+        o.vertex.clear();
+    }
+    animation.clear();
+    object.clear();
+    keyframe.clear();
+    material.clear();
 }
 
 void Model::load(QString filename)
@@ -199,11 +218,36 @@ void Model::save(QString filename){
     }
 }
 
+/*
+  Edit Methods
+ */
+
 void Model::addFace()
 {
     if(currentObject!=""){
         maxFaceId++;
         object[currentObject].face[maxFaceId] = ModelFace();
         object[currentObject].face[maxFaceId].id = maxFaceId;
+    }
+}
+
+void Model::addVertex()
+{
+    if(currentObject!=""){
+        maxVertexId++;
+        object[currentObject].vertex[maxVertexId] = ModelVertex();
+        object[currentObject].vertex[maxVertexId].id = maxVertexId;
+    }
+}
+
+void Model::removeFace(){
+    if(currentObject!="" and currentFaceId !=-1){
+        object[currentObject].face.remove(currentFaceId);
+    }
+}
+
+void Model::removeVertex(){
+    if(currentObject!="" and currentVertexId !=-1){
+        object[currentObject].vertex.remove(currentVertexId);
     }
 }
