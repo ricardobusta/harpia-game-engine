@@ -121,15 +121,21 @@ public:
 
     QString currentObject;
 
+    int maxMaterialId;
     int maxVertexId;
     int maxFaceId;
 
+    int currentMaterialId;
     int currentVertexId;
     int currentFaceId;
 
+    void addObject();
+    void addMaterial();
     void addFace();
     void addVertex();
 
+    void removeObject();
+    void removeMaterial();
     void removeFace();
     void removeVertex();
 };
