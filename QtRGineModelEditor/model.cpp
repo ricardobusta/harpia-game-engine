@@ -7,6 +7,7 @@
 Model::Model()
 {
     keyframeCount = 0;
+    currentObject = "";
 }
 
 void Model::load(QString filename)
@@ -93,6 +94,9 @@ void Model::load(QString filename)
             case 'v':
                 if(list.size()==5){
                     currentId = list.at(1).toInt();
+                    if(currentId > maxVertexId){
+                        maxVertexId = currentId;
+                    }
                     object[currentObject].vertex[currentId] = ModelVertex();
                     object[currentObject].vertex[currentId].id = currentId;
                     object[currentObject].vertex[currentId].x = list.at(2).toFloat();
@@ -128,6 +132,9 @@ void Model::load(QString filename)
                 break;
             case 'f':
                 currentId = list.at(1).toInt();
+                if(currentId > maxFaceId){
+                    maxFaceId = currentId;
+                }
                 object[currentObject].face[currentId] = ModelFace();
                 if(list.size()==5){
                     for(int i=0;i<3;i++){
@@ -189,5 +196,14 @@ void Model::save(QString filename){
             }
         }
         file.close();
+    }
+}
+
+void Model::addFace()
+{
+    if(currentObject!=""){
+        maxFaceId++;
+        object[currentObject].face[maxFaceId] = ModelFace();
+        object[currentObject].face[maxFaceId].id = maxFaceId;
     }
 }

@@ -101,7 +101,17 @@ public:
 
     void save(QString filename);
     void load(QString filename);
+
+    QString currentObject;
+
+    int maxVertexId;
+    int maxFaceId;
+
     void addFace();
+    void addVertex();
+
+    void removeFace();
+    void removeVertex();
 };
 
 #endif // MODEL_H
