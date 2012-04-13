@@ -36,10 +36,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->faceRemove,SIGNAL(clicked()),this,SLOT(faceRemoveClicked()));
     connect(ui->vertexRemove,SIGNAL(clicked()),this,SLOT(vertexRemoveClicked()));
 
+    connect(ui->objectList,SIGNAL(currentTextChanged(QString)),this,SLOT(objectSelected(QString)));
+    connect(ui->materialList,SIGNAL(currentTextChanged(QString)),this,SLOT(materialSelected(QString)));
     connect(ui->faceList,SIGNAL(currentTextChanged(QString)),this,SLOT(faceSelected(QString)));
+    connect(ui->vertexList,SIGNAL(currentTextChanged(QString)),this,SLOT(vertexSelected(QString)));
 
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(load()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
+    connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newModel()));
 
     connect(ui->splitter,SIGNAL(splitterMoved(int,int)),glwidget,SLOT(hide()));
 
@@ -133,8 +137,11 @@ void MainWindow::objectRemoveClicked(){
     updateLists();
 }
 
-void MainWindow::objectSelected(){
-
+void MainWindow::objectSelected(QString t){
+    glwidget->model.currentObject = t;
+    ui->objectName->setText(t);
+    ui->objectMaterial->setCurrentIndex(ui->objectMaterial->findText(t));
+    ui->objectTexture->setText(glwidget->model.object[t].texture);
 }
 
 /* Material Control */
@@ -148,8 +155,8 @@ void MainWindow::materialRemoveClicked(){
     updateLists();
 }
 
-void MainWindow::materialSelected(){
-
+void MainWindow::materialSelected(QString t){
+    glwidget->model.currentMaterialId = t.toInt();
 }
 
 /* Face Control */
@@ -164,8 +171,8 @@ void MainWindow::faceRemoveClicked(){
     updateLists();
 }
 
-void MainWindow::faceSelected(QString v){
-    glwidget->model.currentFaceId = v.toInt();
+void MainWindow::faceSelected(QString t){
+    glwidget->model.currentFaceId = t.toInt();
 }
 
 /* Vertex Control */
@@ -180,6 +187,6 @@ void MainWindow::vertexRemoveClicked(){
     updateLists();
 }
 
-void MainWindow::vertexSelected(){
-
+void MainWindow::vertexSelected(QString t){
+    glwidget->model.currentVertexId = t.toInt();
 }

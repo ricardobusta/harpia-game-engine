@@ -40,12 +40,12 @@ private slots:
     //Object Control Functions
     void objectAddClicked();
     void objectRemoveClicked();
-    void objectSelected();
+    void objectSelected(QString);
 
     //Material Control Functions
     void materialAddClicked();
     void materialRemoveClicked();
-    void materialSelected();
+    void materialSelected(QString);
 
     //Face Control Functions
     void faceAddClicked();
@@ -55,7 +55,7 @@ private slots:
     //Vertex Control Functions
     void vertexAddClicked();
     void vertexRemoveClicked();
-    void vertexSelected();
+    void vertexSelected(QString);
 };
 
 #endif // MAINWINDOW_H

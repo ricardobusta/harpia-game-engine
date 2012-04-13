@@ -262,8 +262,14 @@ void Model::addVertex()
     }
 }
 
-void Model::removeObject(){}
-void Model::removeMaterial(){}
+void Model::removeObject(){
+    if(currentObject!=""){
+        object.remove(currentObject);
+    }
+}
+void Model::removeMaterial(){
+    material.remove(currentMaterialId);
+}
 
 void Model::removeFace(){
     if(currentObject!="" and currentFaceId !=-1){
