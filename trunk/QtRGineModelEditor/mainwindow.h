@@ -29,6 +29,8 @@ private:
 
     QString filename;
 private slots:
+    //GLWidget
+
     //General Control Functions
     void tabChanged(int t);
     void save();
@@ -38,18 +40,22 @@ private slots:
     //Object Control Functions
     void objectAddClicked();
     void objectRemoveClicked();
+    void objectSelected();
 
     //Material Control Functions
     void materialAddClicked();
     void materialRemoveClicked();
+    void materialSelected();
 
     //Face Control Functions
     void faceAddClicked();
     void faceRemoveClicked();
+    void faceSelected(QString);
 
     //Vertex Control Functions
     void vertexAddClicked();
     void vertexRemoveClicked();
+    void vertexSelected();
 };
 
 #endif // MAINWINDOW_H

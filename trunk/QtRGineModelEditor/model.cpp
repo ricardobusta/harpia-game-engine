@@ -6,17 +6,21 @@
 
 Model::Model()
 {
-    keyframeCount = 0;
-    currentObject = "";
-
-    maxFaceId = -1;
-    maxVertexId = -1;
-
-    currentFaceId = -1;
-    currentVertexId = -1;
+    clear();
 }
 
 void Model::clear(){
+    keyframeCount = 0;
+    currentObject = "";
+
+    maxMaterialId = -1;
+    maxFaceId = -1;
+    maxVertexId = -1;
+
+    currentMaterialId = -1;
+    currentFaceId = -1;
+    currentVertexId = -1;
+
     foreach(ModelObject o, object){
         o.normal.clear();
         o.texcoord.clear();
@@ -222,6 +226,24 @@ void Model::save(QString filename){
   Edit Methods
  */
 
+void Model::addObject(){
+    int i=0;
+    while(object.contains(QString("New Object ").append(QString::number(i)))){
+        i++;
+    }
+    currentObject = QString("New Object ").append(QString::number(i));
+    object[currentObject] = ModelObject();
+    object[currentObject].name = currentObject;
+}
+
+void Model::addMaterial(){
+    if(currentObject!=""){
+        maxMaterialId++;
+        material[maxMaterialId] = Material();
+        material[maxMaterialId].id = maxMaterialId;
+    }
+}
+
 void Model::addFace()
 {
     if(currentObject!=""){
@@ -239,6 +261,9 @@ void Model::addVertex()
         object[currentObject].vertex[maxVertexId].id = maxVertexId;
     }
 }
+
+void Model::removeObject(){}
+void Model::removeMaterial(){}
 
 void Model::removeFace(){
     if(currentObject!="" and currentFaceId !=-1){

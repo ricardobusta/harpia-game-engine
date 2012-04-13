@@ -36,8 +36,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->faceRemove,SIGNAL(clicked()),this,SLOT(faceRemoveClicked()));
     connect(ui->vertexRemove,SIGNAL(clicked()),this,SLOT(vertexRemoveClicked()));
 
+    connect(ui->faceList,SIGNAL(currentTextChanged(QString)),this,SLOT(faceSelected(QString)));
+
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(load()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
+
+    connect(ui->splitter,SIGNAL(splitterMoved(int,int)),glwidget,SLOT(hide()));
+
+    this->showMaximized();
 }
 
 MainWindow::~MainWindow()
@@ -121,9 +127,14 @@ void MainWindow::objectAddClicked(){
     glwidget->model.addObject();
     updateLists();
 }
+
 void MainWindow::objectRemoveClicked(){
     glwidget->model.removeObject();
     updateLists();
+}
+
+void MainWindow::objectSelected(){
+
 }
 
 /* Material Control */
@@ -131,9 +142,14 @@ void MainWindow::materialAddClicked(){
     glwidget->model.addMaterial();
     updateLists();
 }
+
 void MainWindow::materialRemoveClicked(){
     glwidget->model.removeMaterial();
     updateLists();
+}
+
+void MainWindow::materialSelected(){
+
 }
 
 /* Face Control */
@@ -148,6 +164,10 @@ void MainWindow::faceRemoveClicked(){
     updateLists();
 }
 
+void MainWindow::faceSelected(QString v){
+    glwidget->model.currentFaceId = v.toInt();
+}
+
 /* Vertex Control */
 
 void MainWindow::vertexAddClicked(){
@@ -158,4 +178,8 @@ void MainWindow::vertexAddClicked(){
 void MainWindow::vertexRemoveClicked(){
     glwidget->model.removeVertex();
     updateLists();
+}
+
+void MainWindow::vertexSelected(){
+
 }
