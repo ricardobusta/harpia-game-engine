@@ -129,6 +129,14 @@ void GLWidget::drawAxis(){
     glColor3f(0,0,1);
     glVertex3f(0,0,0);
     glVertex3f(0,0,100);
+
+    //normal
+    glColor3f(1,1,1);
+    glVertex3f(0,0,0);
+    glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+               ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+               ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                );
     glEnd();
 }
 

@@ -4,10 +4,13 @@
 #include <QMap>
 #include <QString>
 #include "material.h"
+#include "normal.h"
 
 /**************************************************************************\
     Model Structure Classes
 \**************************************************************************/
+
+enum CURRENT_EDIT_MODE{CURRENT_NONE,CURRENT_MODEL,CURRENT_OBJECT,CURRENT_VERTEX,CURRENT_NORMAL,CURRENT_TEXTURE,CURRENT_FACE,CURRENT_MATERIAL};
 
 class ModelAnimation
 {
@@ -24,12 +27,12 @@ class ModelNormal
 {
 public:
     ModelNormal(){
-        x=y=z=0;
+        a=t=0;
     }
 
     int id;
 
-    float x,y,z;
+    int a,t;
 };
 
 class ModelVertex
@@ -119,25 +122,44 @@ public:
     void save(QString filename);
     void load(QString filename);
 
-    QString currentObject;
+    CURRENT_EDIT_MODE current_mode;
+
+    QString currentObjectId;
 
     int maxMaterialId;
+    int maxNormalId;
     int maxVertexId;
     int maxFaceId;
+    int maxTextureId;
 
     int currentMaterialId;
+    int currentNormalId;
     int currentVertexId;
     int currentFaceId;
+    int currentTextureId;
 
-    void addObject();
-    void addMaterial();
-    void addFace();
-    void addVertex();
+    ModelVertex *currentVertex();
+    ModelNormal *currentNormal();
+    ModelFace *currentFace();
 
+    /* Object Control */
+    void objectAdd();
     void removeObject();
+
+    /* Material Control */
+    void materialAdd();
     void removeMaterial();
+
+    /* Face Control */
+    void faceAdd();
     void removeFace();
+
+    /* Vertex Control */
+    void addVertex();
     void removeVertex();
+    void changeVertexX(float v);
+    void changeVertexY(float v);
+    void changeVertexZ(float v);
 };
 
 #endif // MODEL_H
