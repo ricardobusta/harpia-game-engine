@@ -15,16 +15,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     glwidget.cpp \
     material.cpp \
-    model.cpp
+    model.cpp \
+    normal.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
     material.h \
-    model.h
+    model.h \
+    normal.h
 
 FORMS    += mainwindow.ui
 
 OTHER_FILES += \
-    examplemodel.txt \
     testfile.txt \
     savedtestfile.txt

@@ -9,17 +9,52 @@ Model::Model()
     clear();
 }
 
+/* Support Methods */
+
+ModelVertex *Model::currentVertex()
+{
+    if(current_mode == CURRENT_VERTEX){
+        return &object[currentObjectId].vertex[currentVertexId];
+    }else{
+        return NULL;
+    }
+}
+
+ModelNormal *Model::currentNormal()
+{
+    if(current_mode == CURRENT_NORMAL){
+        return &object[currentObjectId].normal[currentNormalId];
+    }else{
+        return NULL;
+    }
+}
+
+ModelFace *Model::currentFace()
+{
+    if(current_mode == CURRENT_FACE){
+        return &object[currentObjectId].face[currentFaceId];
+    }else{
+        return NULL;
+    }
+}
+
+/* Model Control Methods */
+
 void Model::clear(){
     keyframeCount = 0;
-    currentObject = "";
+    currentObjectId = "";
 
     maxMaterialId = -1;
+    maxNormalId = -1;
     maxFaceId = -1;
     maxVertexId = -1;
+    maxTextureId = -1;
 
     currentMaterialId = -1;
+    currentNormalId = -1;
     currentFaceId = -1;
     currentVertexId = -1;
+    currentTextureId = -1;
 
     foreach(ModelObject o, object){
         o.normal.clear();
@@ -130,13 +165,15 @@ void Model::load(QString filename)
                 }
                 break;
             case 'n':
-                if(list.size()==5){
+                if(list.size()==4){
                     currentId = list.at(1).toInt();
+                    if(currentId > maxNormalId){
+                        maxNormalId = currentId;
+                    }
                     object[currentObject].normal[currentId] = ModelNormal();
                     object[currentObject].normal[currentId].id = currentId;
-                    object[currentObject].normal[currentId].x = list.at(2).toFloat();
-                    object[currentObject].normal[currentId].y = list.at(3).toFloat();
-                    object[currentObject].normal[currentId].z = list.at(4).toFloat();
+                    object[currentObject].normal[currentId].a = list.at(2).toFloat();
+                    object[currentObject].normal[currentId].t = list.at(3).toFloat();
                 }else{
                     //loadError();
                 }
@@ -144,6 +181,9 @@ void Model::load(QString filename)
             case 't':
                 if(list.size()==4){
                     currentId = list.at(1).toInt();
+                    if(currentId > maxTextureId){
+                        maxTextureId = currentId;
+                    }
                     object[currentObject].texcoord[currentId] = ModelTexCoord();
                     object[currentObject].texcoord[currentId].id = currentId;
                     object[currentObject].texcoord[currentId].u = list.at(2).toFloat();
@@ -186,9 +226,9 @@ void Model::save(QString filename){
     if (file.open(QIODevice::WriteOnly)){
         QTextStream out(&file);
         out << "s " << name << "\r\n";
-        foreach(ModelAnimation a,this->animation){
+        /*foreach(ModelAnimation a,this->animation){
 
-        }
+        }*/
         foreach(Material m,this->material){
             out << "m "<< m.id;
             out << " " << m.emission[0] << " " << m.emission[1] << " " << m.emission[2] << " " << m.emission[3];
@@ -205,7 +245,7 @@ void Model::save(QString filename){
                 out << "v " << v.id << " "<< v.x << " " << v.y << " " << v.z << "\r\n";
             }
             foreach(ModelNormal n, o.normal){
-                out << "n " << n.id << " "<< n.x << " " << n.y << " " << n.z << "\r\n";
+                out << "n " << n.id << " "<< n.a << " " << n.t << "\r\n";
             }
             foreach(ModelTexCoord t, o.texcoord){
                 out << "t " << t.id << " " << t.u << " " << t.v << "\r\n";
@@ -226,59 +266,80 @@ void Model::save(QString filename){
   Edit Methods
  */
 
-void Model::addObject(){
+
+/* Object Control */
+void Model::objectAdd(){
     int i=0;
     while(object.contains(QString("New Object ").append(QString::number(i)))){
         i++;
     }
-    currentObject = QString("New Object ").append(QString::number(i));
-    object[currentObject] = ModelObject();
-    object[currentObject].name = currentObject;
+    currentObjectId = QString("New Object ").append(QString::number(i));
+    object[currentObjectId] = ModelObject();
+    object[currentObjectId].name = currentObjectId;
 }
 
-void Model::addMaterial(){
-    if(currentObject!=""){
+void Model::removeObject(){
+    if(currentObjectId!=""){
+        object.remove(currentObjectId);
+    }
+}
+
+/* Material Control */
+
+void Model::materialAdd(){
+    if(currentObjectId!=""){
         maxMaterialId++;
         material[maxMaterialId] = Material();
         material[maxMaterialId].id = maxMaterialId;
     }
 }
 
-void Model::addFace()
-{
-    if(currentObject!=""){
-        maxFaceId++;
-        object[currentObject].face[maxFaceId] = ModelFace();
-        object[currentObject].face[maxFaceId].id = maxFaceId;
-    }
-}
-
-void Model::addVertex()
-{
-    if(currentObject!=""){
-        maxVertexId++;
-        object[currentObject].vertex[maxVertexId] = ModelVertex();
-        object[currentObject].vertex[maxVertexId].id = maxVertexId;
-    }
-}
-
-void Model::removeObject(){
-    if(currentObject!=""){
-        object.remove(currentObject);
-    }
-}
 void Model::removeMaterial(){
     material.remove(currentMaterialId);
 }
 
+/* Face Control */
+
+void Model::faceAdd()
+{
+    if(currentObjectId!=""){
+        maxFaceId++;
+        object[currentObjectId].face[maxFaceId] = ModelFace();
+        object[currentObjectId].face[maxFaceId].id = maxFaceId;
+    }
+}
+
 void Model::removeFace(){
-    if(currentObject!="" and currentFaceId !=-1){
-        object[currentObject].face.remove(currentFaceId);
+    if(currentObjectId!="" and currentFaceId !=-1){
+        object[currentObjectId].face.remove(currentFaceId);
+    }
+}
+
+/* Vertex Control */
+
+void Model::addVertex()
+{
+    if(currentObjectId!=""){
+        maxVertexId++;
+        object[currentObjectId].vertex[maxVertexId] = ModelVertex();
+        object[currentObjectId].vertex[maxVertexId].id = maxVertexId;
     }
 }
 
 void Model::removeVertex(){
-    if(currentObject!="" and currentVertexId !=-1){
-        object[currentObject].vertex.remove(currentVertexId);
+    if(currentObjectId!="" and currentVertexId !=-1){
+        object[currentObjectId].vertex.remove(currentVertexId);
     }
+}
+
+void Model::changeVertexX(float v){
+    object[currentObjectId].vertex[currentVertexId].x = v;
+}
+
+void Model::changeVertexY(float v){
+    object[currentObjectId].vertex[currentVertexId].y = v;
+}
+
+void Model::changeVertexZ(float v){
+    object[currentObjectId].vertex[currentVertexId].z = v;
 }

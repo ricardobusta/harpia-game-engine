@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTreeWidgetItem>
 
 #include "glwidget.h"
 
@@ -22,40 +23,43 @@ private:
     Ui::MainWindow *ui;
 
     GLWidget *glwidget;
-    int currentMode();
     void updateLists();
 
-    int currentTab;
-
     QString filename;
+
+    Model *currentmodel;
+
+    /* Control Variables */
+    QString previousObject;
 private slots:
     //GLWidget
+    void normalChanged();
 
     //General Control Functions
-    void tabChanged(int t);
     void save();
     void load();
     void newModel();
 
+    void modelSelect(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
     //Object Control Functions
     void objectAddClicked();
     void objectRemoveClicked();
-    void objectSelected(QString);
 
     //Material Control Functions
     void materialAddClicked();
     void materialRemoveClicked();
-    void materialSelected(QString);
 
     //Face Control Functions
     void faceAddClicked();
     void faceRemoveClicked();
-    void faceSelected(QString);
 
     //Vertex Control Functions
     void vertexAddClicked();
     void vertexRemoveClicked();
-    void vertexSelected(QString);
+    void vertexXChanged(double v);
+    void vertexYChanged(double v);
+    void vertexZChanged(double v);
 };
 
 #endif // MAINWINDOW_H
