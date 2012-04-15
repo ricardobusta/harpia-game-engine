@@ -46,6 +46,14 @@ ModelTexCoord *Model::currentTexture(){
     }
 }
 
+ModelObject *Model::currentObject(){
+    if(currentObjectId!=""){
+        return &object[currentObjectId];
+    }else{
+        return NULL;
+    }
+}
+
 /* Model Control Methods */
 
 void Model::clear(){

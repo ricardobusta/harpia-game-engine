@@ -37,12 +37,9 @@ void GLWidget::initializeGL(){
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    //glEnable(GL_POLYGON_OFFSET_FILL);
-    //glPolygonOffset(1.0,1.0);
-
     glEnable(GL_LIGHTING);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_COLOR_MATERIAL);
+    //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    //glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHT0);
 
     float lspecular[] = {0.3,0.3,0.3,1.0};
@@ -56,27 +53,13 @@ void GLWidget::initializeGL(){
     glLightfv(GL_LIGHT0, GL_POSITION, lposition);
 
     Material mat;
-
+    mat.set(MAT_WHITE);
     mat.gl();
 
-    /*
-    float mspecular[] = {0.5,1,0.5,1.0};
-    float memission[] = {0,0,0,1.0};
-    float mdiffuse[] = {1,0.5,0.5,1.0};
-    float mshininess[] = {1};
-    */
+    //glColor3f(1,0,0);
 
-    /*
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mspecular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mshininess);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mdiffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, memission);
-    */
-
-    glDisable(GL_LIGHTING);
-    //glEnable(GL_LIGHTING);
-
-    //object->makeObject();
+    //glDisable(GL_LIGHTING);
+    /* Texture Test */
 
     QImage texture;
     texture.load("assets/image.bmp");
@@ -94,19 +77,12 @@ void GLWidget::initializeGL(){
 
 void GLWidget::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    /*if(n==1){
-        glTranslated(-spacing, 0.0, 0);
-    }else if(n==2){
-        glTranslated(spacing, 0.0, 0);
-    }*/
     glTranslatef(0,0,-zdist);
     glRotated(xRot, 1.0, 0.0, 0.0);
     glRotated(yRot, 0.0, 1.0, 0.0);
     glRotated(zRot, 0.0, 0.0, 1.0);
-    //glCallList(object->object);
 
     glViewport((w - side) / 2, (h - side) / 2, side, side);
     drawScene();
@@ -120,8 +96,8 @@ void GLWidget::resizeGL(int w, int h){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //int zoom = 1;
-    glOrtho(-500,500,-500,500,-1000,1000);
-    //glFrustum(-1,1,-1,1,1,1000);
+    //glOrtho(-500,500,-500,500,-1000,1000);
+    glFrustum(-1,1,-1,1,1,1000);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -146,16 +122,18 @@ void GLWidget::drawAxis(){
     //normal
     glColor3f(1,1,1);
     glVertex3f(0,0,0);
-    glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-                ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-                ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-                );
+    if(model.current_mode == CURRENT_NORMAL){
+        glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                    ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                    ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                    );
+    }
     glEnd();
 }
 
 void GLWidget::drawCurrentFace(){
     if(model.currentFace()!=NULL){
-        glColor3f(0,1,1);
+        glColor3f(1,1,1);
         ModelVertex *v0 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[0]];
         ModelVertex *v1 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[1]];
         ModelVertex *v2 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[2]];
@@ -175,7 +153,7 @@ void GLWidget::drawCurrentVertex(){
         float z = model.currentVertex()->z;
 
         glBegin(GL_QUADS);
-        glColor3f(1,0,1);
+        glColor3f(1,1,0);
 
         glVertex3f(x-scale,y-scale,z+scale);
         glVertex3f(x+scale,y-scale,z+scale);
@@ -219,16 +197,20 @@ void GLWidget::drawScene(){
     drawCurrentFace();
     drawCurrentVertex();
     glLineWidth(1);
-    //glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
 
-    glColor3f(1,1,1);
+    //glColor3f(1,1,1);
 
     glBegin(GL_TRIANGLES);
     foreach(ModelObject o, model.object){
-        model.material[o.material].gl();
+        //model.material[o.material].set(MAT_GRAY_50);
+        //model.material[o.material].gl();
         foreach(ModelFace f, o.face){
             for(int i=0;i<3;i++){
+                int a=o.normal[f.normal[i]].a,t=o.normal[f.normal[i]].t;
+                glNormal3f(Normal::x(a,t),Normal::y(a,t),Normal::z(a,t));
+                //glNormal3f(0,0,1);
                 glTexCoord2f(o.texcoord[f.texcoord[i]].u,o.texcoord[f.texcoord[i]].v);
                 glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);
             }
