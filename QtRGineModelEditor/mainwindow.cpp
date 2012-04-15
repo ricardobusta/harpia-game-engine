@@ -41,14 +41,30 @@ MainWindow::MainWindow(QWidget *parent) :
     /* object */
     connect(ui->objectAdd,SIGNAL(clicked()),this,SLOT(objectAddClicked()));
     connect(ui->objectRemove,SIGNAL(clicked()),this,SLOT(objectRemoveClicked()));
+    connect(ui->objectName,SIGNAL(editingFinished()),this,SLOT(objectNameChanged()));
+    connect(ui->objectTexture,SIGNAL(editingFinished()),this,SLOT(objectTextureChanged()));
 
     /* material */
     connect(ui->materialAdd,SIGNAL(clicked()),this,SLOT(materialAddClicked()));
     connect(ui->materialRemove,SIGNAL(clicked()),this,SLOT(materialRemoveClicked()));
+    connect(ui->materialType,SIGNAL(currentIndexChanged(QString)),this,SLOT(materialSetType()));
+    connect(ui->materialRed,SIGNAL(valueChanged(int)),this,SLOT(materialSlider1Changed()));
+    connect(ui->materialGreen,SIGNAL(valueChanged(int)),this,SLOT(materialSlider2Changed()));
+    connect(ui->materialBlue,SIGNAL(valueChanged(int)),this,SLOT(materialSlider3Changed()));
+    connect(ui->materialAlpha,SIGNAL(valueChanged(int)),this,SLOT(materialSlider4Changed()));
 
     /* face */
     connect(ui->faceAdd,SIGNAL(clicked()),this,SLOT(faceAddClicked()));
     connect(ui->faceRemove,SIGNAL(clicked()),this,SLOT(faceRemoveClicked()));
+    connect(ui->faceVertex1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex1Changed()));
+    connect(ui->faceVertex2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex2Changed()));
+    connect(ui->faceVertex3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex3Changed()));
+    connect(ui->faceNormal1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal1Changed()));
+    connect(ui->faceNormal2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal2Changed()));
+    connect(ui->faceNormal3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal3Changed()));
+    connect(ui->faceTexture1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture1Changed()));
+    connect(ui->faceTexture2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture2Changed()));
+    connect(ui->faceTexture3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture3Changed()));
 
     /* vertex */
     connect(ui->vertexAdd,SIGNAL(clicked()),this,SLOT(vertexAddClicked()));
@@ -64,8 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newModel()));
 
-    connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalChanged()));
-    connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalChanged()));
+    connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalAChanged()));
+    connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalTChanged()));
 
     TRACE("asd");
 }
@@ -237,8 +253,8 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
             currentmodel->currentObjectId = current->parent()->parent()->text(0);
             currentmodel->currentNormalId = current->text(0).toInt();
-            ui->normalAlpha->setValue(90-currentmodel->currentNormal()->a);
-            ui->normalTheta->setValue((currentmodel->currentNormal()->t+270)%360);
+            ui->normalAlpha->setValue(currentmodel->currentNormal()->a);
+            ui->normalTheta->setValue((currentmodel->currentNormal()->t-90)%360);
         }
         if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
@@ -305,11 +321,16 @@ void MainWindow::vertexZChanged(double v){
     currentmodel->changeVertexZ(v);
 }
 
-/* Temporary */
+/* NormalControl */
 
-void MainWindow::normalChanged(){
+void MainWindow::normalAChanged(){
     if(currentmodel->currentNormal()!=NULL){
         currentmodel->currentNormal()->a = (180-qAbs(ui->normalAlpha->value()-180));
+    }
+}
+
+void MainWindow::normalTChanged(){
+    if(currentmodel->currentNormal()!=NULL){
         currentmodel->currentNormal()->t = ((90+ui->normalTheta->value())%360);
     }
 }
