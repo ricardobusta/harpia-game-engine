@@ -6,6 +6,7 @@
 
 //just for debugging
 #define TRACE(x) ui->statusBar->showMessage(x)
+#define STR(x) QString::number(x)
 
 #include <iostream>
 using namespace std;
@@ -74,7 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->vertexZ,SIGNAL(valueChanged(double)),this,SLOT(vertexZChanged(double)));
 
     /* texture */
-    connect(ui->textureU,SIGNAL(valueChanged(double)),this,SLOT());
+    connect(ui->textureU,SIGNAL(valueChanged(double)),this,SLOT(textureUChanged(double)));
+    connect(ui->textureV,SIGNAL(valueChanged(double)),this,SLOT(textureVChanged(double)));
 
     /* model */
     connect(ui->modelList,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),this,SLOT(modelSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
@@ -104,84 +106,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *){
     glwidget->resize(ui->glframe->size());
-}
-
-void MainWindow::updateLists(){
-    //Clear current tree
-    ui->modelList->clear();
-
-    //Every level of widget items
-    QTreeWidgetItem *firstitem, *seconditemtype,*seconditem, *thirditemtype, *thirditem;
-
-    //Tree Root is a model. Might have more models if more than one is loaded in the future.
-    ui->modelList->addTopLevelItem(firstitem = new QTreeWidgetItem(0));
-    firstitem->setText(0,"Model");
-
-    //Add material type node
-    firstitem->addChild(seconditemtype = new QTreeWidgetItem(0));
-    seconditemtype->setText(0,"Material");
-
-    //Add materials
-    foreach(Material m, currentmodel->material){
-        seconditemtype->addChild(seconditem = new QTreeWidgetItem(0));
-        seconditem->setText(0,QString::number(m.id));
-    }
-
-    //Add object type node
-    firstitem->addChild(seconditemtype = new QTreeWidgetItem(0));
-    seconditemtype->setText(0,"Object");
-
-    //Add objects
-    foreach(ModelObject o, currentmodel->object){
-        seconditemtype->addChild(seconditem = new QTreeWidgetItem(0));
-        seconditem->setText(0,o.name);
-
-        //Add face type node
-        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
-        thirditemtype->setText(0,"Face");
-
-        //Add faces
-        foreach(ModelFace f, o.face){
-            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
-            thirditem->setText(0,QString::number(f.id));
-            // ui->faceList->addItem( new QListWidgetItem( QString::number(f.id) ) );
-        }
-
-        //Add vertex type node
-        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
-        thirditemtype->setText(0,"Vertex");
-
-        //Add vertexes
-        foreach(ModelVertex v, o.vertex){
-            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
-            thirditem->setText(0,QString::number(v.id));
-            //ui->vertexList->addItem( new QListWidgetItem( QString::number(v.id) ) );
-        }
-
-        //Add normal type node
-        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
-        thirditemtype->setText(0,"Normal");
-
-        //Add normals
-        foreach(ModelNormal n, o.normal){
-            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
-            thirditem->setText(0,QString::number(n.id));
-            //ui->normalList->addItem( new QListWidgetItem( QString::number(n.id) ) );
-        }
-
-        //Add texture coordinates type node
-        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
-        thirditemtype->setText(0,"Texture");
-
-        //Add texture coordinates
-        foreach(ModelTexCoord t, o.texcoord){
-            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
-            thirditem->setText(0,QString::number(t.id));
-            //ui->texList->addItem( new QListWidgetItem( QString::number(t.id) ) );
-        }
-    }
-
-    ui->modelList->expandAll();
 }
 
 /* Geral Control */
@@ -221,7 +145,86 @@ void MainWindow::load()
     }
 }
 
+void MainWindow::updateLists(){
+    //Clear current tree
+    ui->modelList->clear();
+
+    //Every level of widget items
+    QTreeWidgetItem *firstitem, *seconditemtype,*seconditem, *thirditemtype, *thirditem;
+
+    //Tree Root is a model. Might have more models if more than one is loaded in the future.
+    ui->modelList->addTopLevelItem(firstitem = new QTreeWidgetItem(0));
+    firstitem->setText(0,"Model");
+
+    //Add material type node
+    firstitem->addChild(seconditemtype = new QTreeWidgetItem(0));
+    seconditemtype->setText(0,"Material");
+
+    //Add materials
+    foreach(Material m, currentmodel->material){
+        seconditemtype->addChild(seconditem = new QTreeWidgetItem(0));
+        seconditem->setText(0,STR(m.id));
+    }
+
+    //Add object type node
+    firstitem->addChild(seconditemtype = new QTreeWidgetItem(0));
+    seconditemtype->setText(0,"Object");
+
+    //Add objects
+    foreach(ModelObject o, currentmodel->object){
+        seconditemtype->addChild(seconditem = new QTreeWidgetItem(0));
+        seconditem->setText(0,o.name);
+
+        //Add face type node
+        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
+        thirditemtype->setText(0,"Face");
+
+        //Add faces
+        foreach(ModelFace f, o.face){
+            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
+            thirditem->setText(0,STR(f.id));
+            // ui->faceList->addItem( new QListWidgetItem( STR(f.id) ) );
+        }
+
+        //Add vertex type node
+        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
+        thirditemtype->setText(0,"Vertex");
+
+        //Add vertexes
+        foreach(ModelVertex v, o.vertex){
+            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
+            thirditem->setText(0,STR(v.id));
+            //ui->vertexList->addItem( new QListWidgetItem( STR(v.id) ) );
+        }
+
+        //Add normal type node
+        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
+        thirditemtype->setText(0,"Normal");
+
+        //Add normals
+        foreach(ModelNormal n, o.normal){
+            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
+            thirditem->setText(0,STR(n.id));
+            //ui->normalList->addItem( new QListWidgetItem( STR(n.id) ) );
+        }
+
+        //Add texture coordinates type node
+        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
+        thirditemtype->setText(0,"Texture");
+
+        //Add texture coordinates
+        foreach(ModelTexCoord t, o.texcoord){
+            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
+            thirditem->setText(0,STR(t.id));
+            //ui->texList->addItem( new QListWidgetItem( STR(t.id) ) );
+        }
+    }
+
+    ui->modelList->expandAll();
+}
+
 /* Model Control */
+
 void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous){
     if(current!=NULL and current->parent()!=NULL){
         currentmodel->current_mode = CURRENT_NONE;
@@ -257,9 +260,42 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
             currentmodel->currentObjectId = current->parent()->parent()->text(0);
             currentmodel->currentFaceId = current->text(0).toInt();
-            if(previousObject!=current->parent()->parent()->text(0)){
 
+            //unecessary to do always, need optimization
+            ui->faceVertex1->clear();
+            ui->faceVertex2->clear();
+            ui->faceVertex3->clear();
+            ui->faceNormal1->clear();
+            ui->faceNormal2->clear();
+            ui->faceNormal3->clear();
+            ui->faceTexture1->clear();
+            ui->faceTexture2->clear();
+            ui->faceTexture3->clear();
+            foreach(ModelVertex v,currentmodel->currentObject()->vertex){
+                ui->faceVertex1->addItem(STR(v.id));
+                ui->faceVertex2->addItem(STR(v.id));
+                ui->faceVertex3->addItem(STR(v.id));
             }
+            foreach(ModelFace f,currentmodel->currentObject()->face){
+                ui->faceNormal1->addItem(STR(f.id));
+                ui->faceNormal2->addItem(STR(f.id));
+                ui->faceNormal3->addItem(STR(f.id));
+            }
+            foreach(ModelTexCoord t,currentmodel->currentObject()->texcoord){
+                ui->faceTexture1->addItem(STR(t.id));
+                ui->faceTexture2->addItem(STR(t.id));
+                ui->faceTexture3->addItem(STR(t.id));
+            }
+            //need optimization above
+            ui->faceVertex1->setCurrentIndex(ui->faceVertex1->findText(STR(currentmodel->currentFace()->vertex[0])));
+            ui->faceVertex2->setCurrentIndex(ui->faceVertex2->findText(STR(currentmodel->currentFace()->vertex[1])));
+            ui->faceVertex3->setCurrentIndex(ui->faceVertex3->findText(STR(currentmodel->currentFace()->vertex[2])));
+            ui->faceNormal1->setCurrentIndex(ui->faceNormal1->findText(STR(currentmodel->currentFace()->normal[0])));
+            ui->faceNormal2->setCurrentIndex(ui->faceNormal2->findText(STR(currentmodel->currentFace()->normal[1])));
+            ui->faceNormal3->setCurrentIndex(ui->faceNormal3->findText(STR(currentmodel->currentFace()->normal[2])));
+            ui->faceTexture1->setCurrentIndex(ui->faceTexture1->findText(STR(currentmodel->currentFace()->texcoord[0])));
+            ui->faceTexture2->setCurrentIndex(ui->faceTexture2->findText(STR(currentmodel->currentFace()->texcoord[1])));
+            ui->faceTexture3->setCurrentIndex(ui->faceTexture3->findText(STR(currentmodel->currentFace()->texcoord[2])));
         }
         if(current->parent()->text(0)=="Normal"){
             currentmodel->current_mode = CURRENT_NORMAL;
@@ -403,6 +439,14 @@ void MainWindow::vertexZChanged(double v){
 }
 
 /* Texture Coordinates Control */
+
+void MainWindow::textureAddClicked()
+{
+}
+
+void MainWindow::textureRemoveClicked()
+{
+}
 
 void MainWindow::textureUChanged(double v){
     currentmodel->currentTexture()->u = v;

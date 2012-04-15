@@ -142,6 +142,7 @@ public:
     ModelNormal *currentNormal();
     ModelFace *currentFace();
     ModelTexCoord *currentTexture();
+    ModelObject *currentObject();
 
     /* Object Control */
     void objectAdd();
