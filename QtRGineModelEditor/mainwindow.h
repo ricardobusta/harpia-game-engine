@@ -77,6 +77,12 @@ private slots:
     void vertexYChanged(double v);
     void vertexZChanged(double v);
 
+    //Texture Control Functions
+    void textureAddClicked();
+    void textureRemoveClicked();
+    void textureUChanged(double v);
+    void textureVChanged(double v);
+
     //Normal Control Functions
     void normalAddClicked();
     void normalRemoveClicked();

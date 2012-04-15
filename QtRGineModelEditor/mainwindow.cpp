@@ -73,6 +73,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->vertexY,SIGNAL(valueChanged(double)),this,SLOT(vertexYChanged(double)));
     connect(ui->vertexZ,SIGNAL(valueChanged(double)),this,SLOT(vertexZChanged(double)));
 
+    /* texture */
+    connect(ui->textureU,SIGNAL(valueChanged(double)),this,SLOT());
+
     /* model */
     connect(ui->modelList,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),this,SLOT(modelSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
 
@@ -83,7 +86,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalAChanged()));
     connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalTChanged()));
 
-    TRACE("asd");
+    QImage texture;
+    texture.load("assets/image.bmp");
+    QImage tex2 = QImage(QSize(64,64),QImage::Format_ARGB32);
+    for(int i=0;i<64;i++){
+        for(int j=0;j<64;j++){
+            tex2.setPixel(i,j,texture.pixel(i*(texture.width()/64.0),j*(texture.height()/64.0)));
+        }
+    }
+    ui->textureDisplay->setPixmap(QPixmap::fromImage(tex2));
 }
 
 MainWindow::~MainWindow()
@@ -244,6 +255,8 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Face"){
             currentmodel->current_mode = CURRENT_FACE;
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
+            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentFaceId = current->text(0).toInt();
             if(previousObject!=current->parent()->parent()->text(0)){
 
             }
@@ -259,6 +272,10 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
+            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentTextureId = current->text(0).toInt();
+            ui->textureU->setValue(currentmodel->currentTexture()->u);
+            ui->textureV->setValue(currentmodel->currentTexture()->v);
         }
     }
 }
@@ -274,6 +291,14 @@ void MainWindow::objectRemoveClicked(){
     updateLists();
 }
 
+void MainWindow::objectNameChanged(){
+
+}
+
+void MainWindow::objectTextureChanged(){
+
+}
+
 /* Material Control */
 void MainWindow::materialAddClicked(){
     currentmodel->materialAdd();
@@ -283,6 +308,26 @@ void MainWindow::materialAddClicked(){
 void MainWindow::materialRemoveClicked(){
     currentmodel->removeMaterial();
     updateLists();
+}
+
+void MainWindow::materialSetType(){
+
+}
+
+void MainWindow::materialSlider1Changed(){
+
+}
+
+void MainWindow::materialSlider2Changed(){
+
+}
+
+void MainWindow::materialSlider3Changed(){
+
+}
+
+void MainWindow::materialSlider4Changed(){
+
 }
 
 /* Face Control */
@@ -295,6 +340,42 @@ void MainWindow::faceAddClicked(){
 void MainWindow::faceRemoveClicked(){
     currentmodel->removeFace();
     updateLists();
+}
+
+void MainWindow::faceVertex1Changed()
+{
+}
+
+void MainWindow::faceVertex2Changed()
+{
+}
+
+void MainWindow::faceVertex3Changed()
+{
+}
+
+void MainWindow::faceNormal1Changed()
+{
+}
+
+void MainWindow::faceNormal2Changed()
+{
+}
+
+void MainWindow::faceNormal3Changed()
+{
+}
+
+void MainWindow::faceTexture1Changed()
+{
+}
+
+void MainWindow::faceTexture2Changed()
+{
+}
+
+void MainWindow::faceTexture3Changed()
+{
 }
 
 /* Vertex Control */
@@ -310,18 +391,36 @@ void MainWindow::vertexRemoveClicked(){
 }
 
 void MainWindow::vertexXChanged(double v){
-    currentmodel->changeVertexX(v);
+    currentmodel->currentVertex()->x = v;
 }
 
 void MainWindow::vertexYChanged(double v){
-    currentmodel->changeVertexY(v);
+    currentmodel->currentVertex()->y = v;
 }
 
 void MainWindow::vertexZChanged(double v){
-    currentmodel->changeVertexZ(v);
+    currentmodel->currentVertex()->z = v;
+}
+
+/* Texture Coordinates Control */
+
+void MainWindow::textureUChanged(double v){
+    currentmodel->currentTexture()->u = v;
+}
+
+void MainWindow::textureVChanged(double v){
+    currentmodel->currentTexture()->v = v;
 }
 
 /* NormalControl */
+
+void MainWindow::normalAddClicked()
+{
+}
+
+void MainWindow::normalRemoveClicked()
+{
+}
 
 void MainWindow::normalAChanged(){
     if(currentmodel->currentNormal()!=NULL){

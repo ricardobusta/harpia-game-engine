@@ -141,6 +141,7 @@ public:
     ModelVertex *currentVertex();
     ModelNormal *currentNormal();
     ModelFace *currentFace();
+    ModelTexCoord *currentTexture();
 
     /* Object Control */
     void objectAdd();
@@ -157,9 +158,6 @@ public:
     /* Vertex Control */
     void addVertex();
     void removeVertex();
-    void changeVertexX(float v);
-    void changeVertexY(float v);
-    void changeVertexZ(float v);
 };
 
 #endif // MODEL_H

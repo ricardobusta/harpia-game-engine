@@ -28,8 +28,8 @@ public:
     void mouseMoveEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
     void drawAxis();
-    void drawVertex(float x, float y, float z);
-    void drawSelectedFace();
+    void drawCurrentVertex();
+    void drawCurrentFace();
 };
 
 #endif // GLWIDGET_H

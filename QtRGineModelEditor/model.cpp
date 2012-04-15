@@ -38,6 +38,14 @@ ModelFace *Model::currentFace()
     }
 }
 
+ModelTexCoord *Model::currentTexture(){
+    if(current_mode == CURRENT_TEXTURE){
+        return &object[currentObjectId].texcoord[currentTextureId];
+    }else{
+        return NULL;
+    }
+}
+
 /* Model Control Methods */
 
 void Model::clear(){
@@ -188,7 +196,6 @@ void Model::load(QString filename)
                     object[currentObject].texcoord[currentId].id = currentId;
                     object[currentObject].texcoord[currentId].u = list.at(2).toFloat();
                     object[currentObject].texcoord[currentId].v = list.at(3).toFloat();
-                    currentId ++;
                 }else{
                     //loadError();
                 }
@@ -330,16 +337,4 @@ void Model::removeVertex(){
     if(currentObjectId!="" and currentVertexId !=-1){
         object[currentObjectId].vertex.remove(currentVertexId);
     }
-}
-
-void Model::changeVertexX(float v){
-    object[currentObjectId].vertex[currentVertexId].x = v;
-}
-
-void Model::changeVertexY(float v){
-    object[currentObjectId].vertex[currentVertexId].y = v;
-}
-
-void Model::changeVertexZ(float v){
-    object[currentObjectId].vertex[currentVertexId].z = v;
 }
