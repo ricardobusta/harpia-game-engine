@@ -36,13 +36,13 @@ void GLWidget::initializeGL(){
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glEnable(GL_TEXTURE_2D);
+
     //glEnable(GL_POLYGON_OFFSET_FILL);
     //glPolygonOffset(1.0,1.0);
 
     glEnable(GL_LIGHTING);
-    //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-    //glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHT0);
 
     float lspecular[] = {0.3,0.3,0.3,1.0};
@@ -77,6 +77,19 @@ void GLWidget::initializeGL(){
     //glEnable(GL_LIGHTING);
 
     //object->makeObject();
+
+    QImage texture;
+    texture.load("assets/image.bmp");
+
+    QImage *tex1 = new QImage( QGLWidget::convertToGLFormat(texture) );
+
+    GLuint *texid = new GLuint;
+    glEnable(GL_TEXTURE_2D);
+    glGenTextures( 1, texid );
+    glBindTexture( GL_TEXTURE_2D, *texid );
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, tex1->width(), tex1->height(), 0, GL_RGBA,GL_UNSIGNED_BYTE, tex1->bits());
 }
 
 void GLWidget::paintGL(){
@@ -134,80 +147,89 @@ void GLWidget::drawAxis(){
     glColor3f(1,1,1);
     glVertex3f(0,0,0);
     glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-               ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-               ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+                ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
                 );
     glEnd();
 }
 
-void GLWidget::drawVertex(float x, float y, float z){
-    float scale=10;
-
-    glBegin(GL_QUADS);
-    glColor3f(1,1,0);
-
-    glVertex3f(x-scale,y-scale,z+scale);
-    glVertex3f(x+scale,y-scale,z+scale);
-    glVertex3f(x+scale,y+scale,z+scale);
-    glVertex3f(x-scale,y+scale,z+scale);
-
-    glVertex3f(x+scale,y-scale,z+scale);
-    glVertex3f(x+scale,y-scale,z-scale);
-    glVertex3f(x+scale,y+scale,z-scale);
-    glVertex3f(x+scale,y+scale,z+scale);
-
-    glVertex3f(x-scale,y-scale,z-scale);
-    glVertex3f(x-scale,y-scale,z+scale);
-    glVertex3f(x-scale,y+scale,z+scale);
-    glVertex3f(x-scale,y+scale,z-scale);
-
-    glVertex3f(x+scale,y-scale,z-scale);
-    glVertex3f(x-scale,y-scale,z-scale);
-    glVertex3f(x-scale,y+scale,z-scale);
-    glVertex3f(x+scale,y+scale,z-scale);
-
-    glVertex3f(x-scale,y+scale,z+scale);
-    glVertex3f(x+scale,y+scale,z+scale);
-    glVertex3f(x+scale,y+scale,z-scale);
-    glVertex3f(x-scale,y+scale,z-scale);
-
-
-    glVertex3f(x+scale,y-scale,z-scale);
-    glVertex3f(x+scale,y-scale,z+scale);
-    glVertex3f(x-scale,y-scale,z+scale);
-    glVertex3f(x-scale,y-scale,z-scale);
-
-    glEnd();
+void GLWidget::drawCurrentFace(){
+    if(model.currentFace()!=NULL){
+        glColor3f(0,1,1);
+        ModelVertex *v0 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[0]];
+        ModelVertex *v1 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[1]];
+        ModelVertex *v2 = &model.object[model.currentObjectId].vertex[model.currentFace()->vertex[2]];
+        glBegin(GL_LINE_LOOP);
+        glVertex3f(v0->x,v0->y,v0->z);
+        glVertex3f(v1->x,v1->y,v1->z);
+        glVertex3f(v2->x,v2->y,v2->z);
+        glEnd();
+    }
 }
 
-void GLWidget::drawSelectedFace(){
-    /*if(model.currentFace!=""){
-        Vertex vert;
-        glBegin(GL_LINE_LOOP);
-        glColor3f(1,0,0);
-        vert = model.object[model.currentObject].vertex[model.faceVertex[0]];
-        glVertex3f(vert.x,vert.y,vert.z);
-        vert = model.object[model.currentObject].vertex[model.faceVertex[1]];
-        glVertex3f(vert.x,vert.y,vert.z);
-        vert = model.object[model.currentObject].vertex[model.faceVertex[2]];
-        glVertex3f(vert.x,vert.y,vert.z);
+void GLWidget::drawCurrentVertex(){
+    if(model.currentVertex()!=NULL){
+        float scale=4;
+        float x = model.currentVertex()->x;
+        float y = model.currentVertex()->y;
+        float z = model.currentVertex()->z;
+
+        glBegin(GL_QUADS);
+        glColor3f(1,0,1);
+
+        glVertex3f(x-scale,y-scale,z+scale);
+        glVertex3f(x+scale,y-scale,z+scale);
+        glVertex3f(x+scale,y+scale,z+scale);
+        glVertex3f(x-scale,y+scale,z+scale);
+
+        glVertex3f(x+scale,y-scale,z+scale);
+        glVertex3f(x+scale,y-scale,z-scale);
+        glVertex3f(x+scale,y+scale,z-scale);
+        glVertex3f(x+scale,y+scale,z+scale);
+
+        glVertex3f(x-scale,y-scale,z-scale);
+        glVertex3f(x-scale,y-scale,z+scale);
+        glVertex3f(x-scale,y+scale,z+scale);
+        glVertex3f(x-scale,y+scale,z-scale);
+
+        glVertex3f(x+scale,y-scale,z-scale);
+        glVertex3f(x-scale,y-scale,z-scale);
+        glVertex3f(x-scale,y+scale,z-scale);
+        glVertex3f(x+scale,y+scale,z-scale);
+
+        glVertex3f(x-scale,y+scale,z+scale);
+        glVertex3f(x+scale,y+scale,z+scale);
+        glVertex3f(x+scale,y+scale,z-scale);
+        glVertex3f(x-scale,y+scale,z-scale);
+
+        glVertex3f(x+scale,y-scale,z-scale);
+        glVertex3f(x+scale,y-scale,z+scale);
+        glVertex3f(x-scale,y-scale,z+scale);
+        glVertex3f(x-scale,y-scale,z-scale);
+
         glEnd();
-    }*/
+    }
 }
 
 void GLWidget::drawScene(){
     glLineWidth(3);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
     drawAxis();
-    drawSelectedFace();
+    drawCurrentFace();
+    drawCurrentVertex();
     glLineWidth(1);
+    //glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
 
-    glColor3f(1,1,0);
+    glColor3f(1,1,1);
 
     glBegin(GL_TRIANGLES);
     foreach(ModelObject o, model.object){
         model.material[o.material].gl();
         foreach(ModelFace f, o.face){
             for(int i=0;i<3;i++){
+                glTexCoord2f(o.texcoord[f.texcoord[i]].u,o.texcoord[f.texcoord[i]].v);
                 glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);
             }
         }
