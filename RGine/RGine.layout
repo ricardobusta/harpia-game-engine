@@ -28,8 +28,8 @@
 	<File name="RG\src\RGGame.cpp" open="1" top="0" tabpos="4">
 		<Cursor position="67" topLine="0" />
 	</File>
-	<File name="RG\src\RGGraphics.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="1646" topLine="42" />
+	<File name="RG\src\RGGraphics.cpp" open="1" top="1" tabpos="6">
+		<Cursor position="653" topLine="102" />
 	</File>
 	<File name="RG\src\RGInput.cpp" open="1" top="0" tabpos="3">
 		<Cursor position="112" topLine="82" />
@@ -40,8 +40,8 @@
 	<File name="main.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="234" topLine="0" />
 	</File>
-	<File name="testgame\Game.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="558" topLine="16" />
+	<File name="testgame\Game.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="558" topLine="5" />
 	</File>
 	<File name="testgame\Game.h" open="0" top="0" tabpos="0">
 		<Cursor position="164" topLine="0" />
