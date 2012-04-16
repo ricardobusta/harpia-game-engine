@@ -36,6 +36,7 @@ void GLWidget::initializeGL(){
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_2D);
 
     glEnable(GL_LIGHTING);
     //glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
@@ -60,7 +61,7 @@ void GLWidget::initializeGL(){
 
     //glDisable(GL_LIGHTING);
     /* Texture Test */
-
+/*
     QImage texture;
     texture.load("assets/image.bmp");
 
@@ -72,7 +73,7 @@ void GLWidget::initializeGL(){
     glBindTexture( GL_TEXTURE_2D, *texid );
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, 4, tex1->width(), tex1->height(), 0, GL_RGBA,GL_UNSIGNED_BYTE, tex1->bits());
+    glTexImage2D(GL_TEXTURE_2D, 0, 4, tex1->width(), tex1->height(), 0, GL_RGBA,GL_UNSIGNED_BYTE, tex1->bits());*/
 }
 
 void GLWidget::paintGL(){
@@ -202,10 +203,12 @@ void GLWidget::drawScene(){
 
     //glColor3f(1,1,1);
 
-    glBegin(GL_TRIANGLES);
+
     foreach(ModelObject o, model.object){
+        model.texture.set(o.texture);
         //model.material[o.material].set(MAT_GRAY_50);
         //model.material[o.material].gl();
+        glBegin(GL_TRIANGLES);
         foreach(ModelFace f, o.face){
             for(int i=0;i<3;i++){
                 int a=o.normal[f.normal[i]].a,t=o.normal[f.normal[i]].t;
@@ -215,6 +218,6 @@ void GLWidget::drawScene(){
                 glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);
             }
         }
+        glEnd();
     }
-    glEnd();
 }

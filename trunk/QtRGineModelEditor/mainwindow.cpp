@@ -24,9 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentmodel = &glwidget->model;
 
-    currentmodel->load("assets/testfile.txt");
-
-    updateLists();
     this->showMaximized();
 
     /* Update Opengl Timer */
@@ -88,6 +85,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalAChanged()));
     connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalTChanged()));
 
+    /* test */
+
+    currentmodel->load("assets/testfile.txt");
+//    currentmodel->texture.load("assets/image.bmp");
+//    currentmodel->texture.load("assets/image2.bmp");
+
+    /*
     QImage texture;
     texture.load("assets/image.bmp");
     QImage tex2 = QImage(QSize(64,64),QImage::Format_ARGB32);
@@ -96,7 +100,9 @@ MainWindow::MainWindow(QWidget *parent) :
             tex2.setPixel(i,j,texture.pixel(i*(texture.width()/64.0),j*(texture.height()/64.0)));
         }
     }
-    ui->textureDisplay->setPixmap(QPixmap::fromImage(tex2));
+    ui->textureDisplay->setPixmap(QPixmap::fromImage(tex2));*/
+
+    updateLists();
 }
 
 MainWindow::~MainWindow()
@@ -138,7 +144,6 @@ void MainWindow::load()
     {
         filename = fileName;
 
-        currentmodel->clear();
         currentmodel->load(filename);
 
         updateLists();
@@ -237,7 +242,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->current_mode = CURRENT_OBJECT;
             ui->modelEditWidgets->setCurrentWidget(ui->objectPage);
             ui->objectName->setText(current->text(0));
-            ui->objectTexture->setText(currentmodel->object[current->text(0)].texture);
+            ui->objectTexture->setText(currentmodel->object[qHash(current->text(0))].textureFileName);
         }
         if(current->parent()->text(0)=="Material"){
             currentmodel->current_mode = CURRENT_MATERIAL;
@@ -247,7 +252,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Vertex"){
             currentmodel->current_mode = CURRENT_VERTEX;
             ui->modelEditWidgets->setCurrentWidget(ui->vertexPage);
-            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentVertexId = current->text(0).toInt();
             if(currentmodel->currentVertex()!=NULL){
                 ui->vertexX->setValue(currentmodel->currentVertex()->x);
@@ -258,7 +263,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Face"){
             currentmodel->current_mode = CURRENT_FACE;
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
-            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentFaceId = current->text(0).toInt();
 
             //unecessary to do always, need optimization
@@ -300,7 +305,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Normal"){
             currentmodel->current_mode = CURRENT_NORMAL;
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
-            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentNormalId = current->text(0).toInt();
             ui->normalAlpha->setValue(currentmodel->currentNormal()->a);
             ui->normalTheta->setValue((currentmodel->currentNormal()->t-90)%360);
@@ -308,7 +313,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
-            currentmodel->currentObjectId = current->parent()->parent()->text(0);
+            currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentTextureId = current->text(0).toInt();
             ui->textureU->setValue(currentmodel->currentTexture()->u);
             ui->textureV->setValue(currentmodel->currentTexture()->v);
