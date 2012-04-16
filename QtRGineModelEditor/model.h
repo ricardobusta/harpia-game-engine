@@ -5,12 +5,15 @@
 #include <QString>
 #include "material.h"
 #include "normal.h"
+#include "texture.h"
 
 /**************************************************************************\
     Model Structure Classes
 \**************************************************************************/
 
 enum CURRENT_EDIT_MODE{CURRENT_NONE,CURRENT_MODEL,CURRENT_OBJECT,CURRENT_VERTEX,CURRENT_NORMAL,CURRENT_TEXTURE,CURRENT_FACE,CURRENT_MATERIAL};
+
+const uint nullStringHash = qHash("");
 
 class ModelAnimation
 {
@@ -75,12 +78,24 @@ public:
     int texcoord[3];
 };
 
+class ModelPivot{
+    public ModelPivot(){
+        x = y = z = 0;
+        a = t = 0;
+    }
+
+    int id;
+
+    float x,y,z;
+    int a, t;
+};
+
 class ModelObject
 {
 public:
     ModelObject(){
         material=0;
-        texture="";
+        texture=nullStringHash;
         hide=false;
     }
 
@@ -88,7 +103,8 @@ public:
 
     bool hide; //make per-keyframe option
     int material;
-    QString texture;
+    uint texture;
+    QString textureFileName;
 
     QMap<int, ModelVertex> vertex;
     QMap<int, ModelNormal> normal;
@@ -109,10 +125,11 @@ public:
 
     int keyframeCount;
 
+    Texture texture;
     //each separated object on the model. has its own vertexes, normals, material and texture.
-    QMap<QString,ModelObject> object;
+    QMap<uint,ModelObject> object;
     //each interval of animation (starting frame and ending frame)
-    QMap<QString, ModelAnimation> animation;
+    QMap<uint, ModelAnimation> animation;
     //map each keyframe into it's frame position
     QMap<int,int> keyframe;
     //materials
@@ -124,8 +141,7 @@ public:
 
     CURRENT_EDIT_MODE current_mode;
 
-    QString currentObjectId;
-
+    uint currentObjectId;
     int maxMaterialId;
     int maxNormalId;
     int maxVertexId;

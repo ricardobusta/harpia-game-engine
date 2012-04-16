@@ -47,7 +47,7 @@ ModelTexCoord *Model::currentTexture(){
 }
 
 ModelObject *Model::currentObject(){
-    if(currentObjectId!=""){
+    if(currentObjectId!=nullStringHash){
         return &object[currentObjectId];
     }else{
         return NULL;
@@ -58,7 +58,7 @@ ModelObject *Model::currentObject(){
 
 void Model::clear(){
     keyframeCount = 0;
-    currentObjectId = "";
+    currentObjectId = nullStringHash;
 
     maxMaterialId = -1;
     maxNormalId = -1;
@@ -75,7 +75,7 @@ void Model::clear(){
     foreach(ModelObject o, object){
         o.normal.clear();
         o.texcoord.clear();
-        o.texture.clear();
+        o.face.clear();
         o.vertex.clear();
     }
     animation.clear();
@@ -86,11 +86,14 @@ void Model::clear(){
 
 void Model::load(QString filename)
 {
+    clear();
+    texture.clear();
+
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
         QTextStream in(&file);
         QString line = in.readLine();
-        QString currentObject = "";
+        uint currentObject = nullStringHash;
         int currentId;
         while (!line.isNull()) {
             QStringList list;
@@ -119,7 +122,7 @@ void Model::load(QString filename)
                 break;
             case 'a':
                 if(list.size()==2){
-                    QString id = list.at(1);
+                    uint id = qHash(list.at(1));
                     animation[id] = ModelAnimation();
                     animation[id].keyframeStart = list.at(2).toInt();
                     animation[id].keyframeEnd = list.at(3).toInt();
@@ -156,11 +159,13 @@ void Model::load(QString filename)
                 break;
             case 'o':
                 if(list.size()==4){
-                    currentObject = list.at(1);
+                    currentObject = qHash(list.at(1));
                     object[currentObject] = ModelObject();
-                    object[currentObject].name = currentObject;
+                    object[currentObject].name = list.at(1);
                     object[currentObject].material = list.at(2).toInt();
-                    object[currentObject].texture = list.at(3);
+                    object[currentObject].textureFileName = list.at(3);
+                    object[currentObject].texture = qHash(list.at(3));
+                    texture.load(list.at(3));
                 }else{
                     //loadError();
                 }
@@ -285,16 +290,17 @@ void Model::save(QString filename){
 /* Object Control */
 void Model::objectAdd(){
     int i=0;
-    while(object.contains(QString("New Object ").append(QString::number(i)))){
+    while(object.contains(qHash(QString("New Object ").append(QString::number(i))))){
         i++;
     }
-    currentObjectId = QString("New Object ").append(QString::number(i));
+    QString oname = QString("New Object ").append(QString::number(i));
+    currentObjectId = qHash(oname);
     object[currentObjectId] = ModelObject();
-    object[currentObjectId].name = currentObjectId;
+    object[currentObjectId].name = oname;
 }
 
 void Model::removeObject(){
-    if(currentObjectId!=""){
+    if(currentObjectId!=nullStringHash){
         object.remove(currentObjectId);
     }
 }
@@ -302,7 +308,7 @@ void Model::removeObject(){
 /* Material Control */
 
 void Model::materialAdd(){
-    if(currentObjectId!=""){
+    if(currentObjectId!=nullStringHash){
         maxMaterialId++;
         material[maxMaterialId] = Material();
         material[maxMaterialId].id = maxMaterialId;
@@ -317,7 +323,7 @@ void Model::removeMaterial(){
 
 void Model::faceAdd()
 {
-    if(currentObjectId!=""){
+    if(currentObjectId!=nullStringHash){
         maxFaceId++;
         object[currentObjectId].face[maxFaceId] = ModelFace();
         object[currentObjectId].face[maxFaceId].id = maxFaceId;
@@ -325,7 +331,7 @@ void Model::faceAdd()
 }
 
 void Model::removeFace(){
-    if(currentObjectId!="" and currentFaceId !=-1){
+    if(currentObjectId!=nullStringHash and currentFaceId !=-1){
         object[currentObjectId].face.remove(currentFaceId);
     }
 }
@@ -334,7 +340,7 @@ void Model::removeFace(){
 
 void Model::addVertex()
 {
-    if(currentObjectId!=""){
+    if(currentObjectId!=nullStringHash){
         maxVertexId++;
         object[currentObjectId].vertex[maxVertexId] = ModelVertex();
         object[currentObjectId].vertex[maxVertexId].id = maxVertexId;
@@ -342,7 +348,7 @@ void Model::addVertex()
 }
 
 void Model::removeVertex(){
-    if(currentObjectId!="" and currentVertexId !=-1){
+    if(currentObjectId!=nullStringHash and currentVertexId !=-1){
         object[currentObjectId].vertex.remove(currentVertexId);
     }
 }
