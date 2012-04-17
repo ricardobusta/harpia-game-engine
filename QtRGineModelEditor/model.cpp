@@ -54,6 +54,14 @@ ModelObject *Model::currentObject(){
     }
 }
 
+ModelPivot *Model::currentPivot(){
+    if(current_mode == CURRENT_PIVOT){
+        return &object[currentObjectId].pivot[currentPivotId];
+    }else{
+        return NULL;
+    }
+}
+
 /* Model Control Methods */
 
 void Model::clear(){
@@ -65,18 +73,21 @@ void Model::clear(){
     maxFaceId = -1;
     maxVertexId = -1;
     maxTextureId = -1;
+    maxPivotId = -1;
 
     currentMaterialId = -1;
     currentNormalId = -1;
     currentFaceId = -1;
     currentVertexId = -1;
     currentTextureId = -1;
+    currentPivotId = -1;
 
     foreach(ModelObject o, object){
         o.normal.clear();
         o.texcoord.clear();
         o.face.clear();
         o.vertex.clear();
+        o.pivot.clear();
     }
     animation.clear();
     object.clear();
@@ -231,6 +242,21 @@ void Model::load(QString filename)
                     //loadError();
                 }
                 break;
+            case 'p':
+                if(list.size()==7){
+                    currentId = qHash(list.at(1));
+                    object[currentObject].pivot[currentId] = ModelPivot();
+                    object[currentObject].pivot[currentId].id = currentId;
+                    object[currentObject].pivot[currentId].name = list.at(1);
+                    object[currentObject].pivot[currentId].x = list.at(2).toFloat();
+                    object[currentObject].pivot[currentId].y = list.at(3).toFloat();
+                    object[currentObject].pivot[currentId].z = list.at(4).toFloat();
+                    object[currentObject].pivot[currentId].a = list.at(5).toFloat();
+                    object[currentObject].pivot[currentId].t = list.at(6).toFloat();
+                }else{
+                    //loadError();
+                }
+                break;
             default:
                 //loadError();
                 break;
@@ -276,6 +302,10 @@ void Model::save(QString filename){
                     out << " " << f.vertex[i] << "/" << f.texcoord[i] << "/" << f.normal[i];
                 }
                 out << "\r\n";
+            }
+            foreach(ModelPivot p, o.pivot){
+                out << "p " << p.name << " " << p.x << " " << p.y << " " << p.z;
+                out << " " << p.a << " " << p.t << "\r\n";
             }
         }
         file.close();
