@@ -286,7 +286,7 @@ void Model::save(QString filename){
 
         }*/
         foreach(ModelObject o, this->object){
-            out << "o " << o.name << " " << o.material << " " << o.texture << "\r\n";
+            out << "o " << o.name << " " << o.material << " " << o.textureFileName << "\r\n";
             foreach(ModelVertex v, o.vertex){
                 out << "v " << v.id << " "<< v.x << " " << v.y << " " << v.z << "\r\n";
             }

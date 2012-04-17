@@ -60,15 +60,10 @@ private slots:
     //Face Control Functions
     void faceAddClicked();
     void faceRemoveClicked();
-    void faceVertex1Changed();
-    void faceVertex2Changed();
-    void faceVertex3Changed();
-    void faceNormal1Changed();
-    void faceNormal2Changed();
-    void faceNormal3Changed();
-    void faceTexture1Changed();
-    void faceTexture2Changed();
-    void faceTexture3Changed();
+    void faceVertexChanged();
+    void faceNormalChanged();
+    void faceTextureChanged();
+    void faceVNumberChanged();
 
     //Vertex Control Functions
     void vertexAddClicked();
