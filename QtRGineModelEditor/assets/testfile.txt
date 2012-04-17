@@ -1,10 +1,10 @@
 s testemodelo
-m mat0 1 1 1 1 1 1 1 1 1 1 1 1 1
-o odois mat0 assets/image3.bmp
-v 6 200 0 0
-v 7 300 0 0
-v 8 300 100 0
-v 9 200 100 0
+m 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+o odois 0 assets/image3.bmp
+v 6 100 0 0
+v 7 200 0 0
+v 8 200 100 0
+v 9 100 100 0
 n 3 59 141
 n 4 57 56
 n 5 133 43
@@ -16,13 +16,13 @@ t 8 0 1
 f 3 6/5/3 7/6/4 8/7/5
 f 4 8/7/5 9/8/6 6/5/3
 p pivot0 0 0 0 0 0
-o oname mat0 assets/image.bmp
-v 0 0 0 0
-v 1 100 0 0
-v 2 50 100 0
-v 3 200 0 0
-v 4 150 100 0
-v 5 100 200 0
+o oname 0 assets/image.bmp
+v 0 -100 0 0
+v 1 0 0 0
+v 2 -50 100 0
+v 3 100 0 0
+v 4 50 100 0
+v 5 0 200 0
 n 0 60 135
 n 1 60 45
 n 2 120 90

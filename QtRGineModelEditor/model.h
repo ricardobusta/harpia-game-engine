@@ -167,6 +167,8 @@ public:
     ModelObject *currentObject();
     ModelPivot *currentPivot();
 
+    int currentFaceVNumber;
+
     /* Object Control */
     void objectAdd();
     void removeObject();

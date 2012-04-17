@@ -54,15 +54,10 @@ MainWindow::MainWindow(QWidget *parent) :
     /* face */
     connect(ui->faceAdd,SIGNAL(clicked()),this,SLOT(faceAddClicked()));
     connect(ui->faceRemove,SIGNAL(clicked()),this,SLOT(faceRemoveClicked()));
-    connect(ui->faceVertex1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex1Changed()));
-    connect(ui->faceVertex2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex2Changed()));
-    connect(ui->faceVertex3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertex3Changed()));
-    connect(ui->faceNormal1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal1Changed()));
-    connect(ui->faceNormal2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal2Changed()));
-    connect(ui->faceNormal3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormal3Changed()));
-    connect(ui->faceTexture1,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture1Changed()));
-    connect(ui->faceTexture2,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture2Changed()));
-    connect(ui->faceTexture3,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTexture3Changed()));
+    connect(ui->faceVertex,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceVertexChanged()));
+    connect(ui->faceNormal,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceNormalChanged()));
+    connect(ui->faceTexture,SIGNAL(currentIndexChanged(QString)),this,SLOT(faceTextureChanged()));
+    connect(ui->faceVNumber,SIGNAL(currentIndexChanged(int)),this,SLOT(faceVNumberChanged()));
 
     /* vertex */
     connect(ui->vertexAdd,SIGNAL(clicked()),this,SLOT(vertexAddClicked()));
@@ -88,8 +83,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /* test */
 
     currentmodel->load("assets/testfile.txt");
-//    currentmodel->texture.load("assets/image.bmp");
-//    currentmodel->texture.load("assets/image2.bmp");
+    //    currentmodel->texture.load("assets/image.bmp");
+    //    currentmodel->texture.load("assets/image2.bmp");
 
     /*
     QImage texture;
@@ -248,19 +243,16 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Model"){
             currentmodel->current_mode = CURRENT_MODEL;
             ui->modelEditWidgets->setCurrentWidget(ui->emptyPage);
-        }else
-        if(current->parent()->text(0)=="Object"){
+        }else if(current->parent()->text(0)=="Object"){
             currentmodel->current_mode = CURRENT_OBJECT;
             ui->modelEditWidgets->setCurrentWidget(ui->objectPage);
             ui->objectName->setText(current->text(0));
             ui->objectTexture->setText(currentmodel->object[qHash(current->text(0))].textureFileName);
-        }else
-        if(current->parent()->text(0)=="Material"){
+        }else if(current->parent()->text(0)=="Material"){
             currentmodel->current_mode = CURRENT_MATERIAL;
             ui->modelEditWidgets->setCurrentWidget(ui->materialPage);
             currentmodel->currentMaterialId = current->text(0).toInt();
-        }else
-        if(current->parent()->text(0)=="Vertex"){
+        }else if(current->parent()->text(0)=="Vertex"){
             currentmodel->current_mode = CURRENT_VERTEX;
             ui->modelEditWidgets->setCurrentWidget(ui->vertexPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
@@ -270,66 +262,46 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
                 ui->vertexY->setValue(currentmodel->currentVertex()->y);
                 ui->vertexZ->setValue(currentmodel->currentVertex()->z);
             }
-        }else
-        if(current->parent()->text(0)=="Face"){
+        }else if(current->parent()->text(0)=="Face"){
             currentmodel->current_mode = CURRENT_FACE;
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentFaceId = current->text(0).toInt();
 
             //unecessary to do always, need optimization
-            ui->faceVertex1->clear();
-            ui->faceVertex2->clear();
-            ui->faceVertex3->clear();
-            ui->faceNormal1->clear();
-            ui->faceNormal2->clear();
-            ui->faceNormal3->clear();
-            ui->faceTexture1->clear();
-            ui->faceTexture2->clear();
-            ui->faceTexture3->clear();
+            ui->faceVertex->clear();
+            ui->faceNormal->clear();
+            ui->faceTexture->clear();
+
             foreach(ModelVertex v,currentmodel->currentObject()->vertex){
-                ui->faceVertex1->addItem(STR(v.id));
-                ui->faceVertex2->addItem(STR(v.id));
-                ui->faceVertex3->addItem(STR(v.id));
+                ui->faceVertex->addItem(STR(v.id));
             }
             foreach(ModelFace f,currentmodel->currentObject()->face){
-                ui->faceNormal1->addItem(STR(f.id));
-                ui->faceNormal2->addItem(STR(f.id));
-                ui->faceNormal3->addItem(STR(f.id));
+                ui->faceNormal->addItem(STR(f.id));
             }
             foreach(ModelTexCoord t,currentmodel->currentObject()->texcoord){
-                ui->faceTexture1->addItem(STR(t.id));
-                ui->faceTexture2->addItem(STR(t.id));
-                ui->faceTexture3->addItem(STR(t.id));
+                ui->faceTexture->addItem(STR(t.id));
             }
             //need optimization above
-            ui->faceVertex1->setCurrentIndex(ui->faceVertex1->findText(STR(currentmodel->currentFace()->vertex[0])));
-            ui->faceVertex2->setCurrentIndex(ui->faceVertex2->findText(STR(currentmodel->currentFace()->vertex[1])));
-            ui->faceVertex3->setCurrentIndex(ui->faceVertex3->findText(STR(currentmodel->currentFace()->vertex[2])));
-            ui->faceNormal1->setCurrentIndex(ui->faceNormal1->findText(STR(currentmodel->currentFace()->normal[0])));
-            ui->faceNormal2->setCurrentIndex(ui->faceNormal2->findText(STR(currentmodel->currentFace()->normal[1])));
-            ui->faceNormal3->setCurrentIndex(ui->faceNormal3->findText(STR(currentmodel->currentFace()->normal[2])));
-            ui->faceTexture1->setCurrentIndex(ui->faceTexture1->findText(STR(currentmodel->currentFace()->texcoord[0])));
-            ui->faceTexture2->setCurrentIndex(ui->faceTexture2->findText(STR(currentmodel->currentFace()->texcoord[1])));
-            ui->faceTexture3->setCurrentIndex(ui->faceTexture3->findText(STR(currentmodel->currentFace()->texcoord[2])));
-        }else
-        if(current->parent()->text(0)=="Normal"){
+            ui->faceVNumber->setCurrentIndex(0);
+            ui->faceVertex->setCurrentIndex(ui->faceVertex->findText(STR(currentmodel->currentFace()->vertex[0])));
+            ui->faceNormal->setCurrentIndex(ui->faceNormal->findText(STR(currentmodel->currentFace()->normal[0])));
+            ui->faceTexture->setCurrentIndex(ui->faceTexture->findText(STR(currentmodel->currentFace()->texcoord[0])));
+        }else if(current->parent()->text(0)=="Normal"){
             currentmodel->current_mode = CURRENT_NORMAL;
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentNormalId = current->text(0).toInt();
             ui->normalAlpha->setValue(currentmodel->currentNormal()->a);
             ui->normalTheta->setValue((currentmodel->currentNormal()->t-90)%360);
-        }else
-        if(current->parent()->text(0)=="Texture"){
+        }else if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentTextureId = current->text(0).toInt();
             ui->textureU->setValue(currentmodel->currentTexture()->u);
             ui->textureV->setValue(currentmodel->currentTexture()->v);
-        }else
-        if(current->parent()->text(0)=="Pivot"){
+        }else if(current->parent()->text(0)=="Pivot"){
             currentmodel->current_mode = CURRENT_PIVOT;
             ui->modelEditWidgets->setCurrentWidget(ui->pivotPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
@@ -405,40 +377,23 @@ void MainWindow::faceRemoveClicked(){
     updateLists();
 }
 
-void MainWindow::faceVertex1Changed()
+void MainWindow::faceVertexChanged()
 {
+//    currentmodel->currentFace()->vertex[currentmodel->currentFaceVNumber] = ui->faceVertex->currentText().toInt();
 }
 
-void MainWindow::faceVertex2Changed()
+void MainWindow::faceNormalChanged()
 {
+    //currentmodel->currentFace()->normal[currentmodel->currentFaceVNumber] = ui->faceNormal->currentText().toInt();
 }
 
-void MainWindow::faceVertex3Changed()
+void MainWindow::faceTextureChanged()
 {
+    //currentmodel->currentFace()->texcoord[currentmodel->currentFaceVNumber] = ui->faceTexture->currentText().toInt();
 }
 
-void MainWindow::faceNormal1Changed()
-{
-}
-
-void MainWindow::faceNormal2Changed()
-{
-}
-
-void MainWindow::faceNormal3Changed()
-{
-}
-
-void MainWindow::faceTexture1Changed()
-{
-}
-
-void MainWindow::faceTexture2Changed()
-{
-}
-
-void MainWindow::faceTexture3Changed()
-{
+void MainWindow::faceVNumberChanged(){
+    currentmodel->currentFaceVNumber = ui->faceVNumber->currentIndex();
 }
 
 /* Vertex Control */

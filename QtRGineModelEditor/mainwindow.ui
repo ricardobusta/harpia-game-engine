@@ -47,7 +47,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>7</number>
         </property>
         <widget class="QWidget" name="emptyPage">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -634,31 +634,13 @@
           <item>
            <layout class="QGridLayout" name="gridLayout">
             <item row="1" column="1">
-             <widget class="QComboBox" name="faceVertex1"/>
+             <widget class="QComboBox" name="faceVertex"/>
             </item>
             <item row="1" column="2">
-             <widget class="QComboBox" name="faceNormal1"/>
+             <widget class="QComboBox" name="faceNormal"/>
             </item>
             <item row="1" column="3">
-             <widget class="QComboBox" name="faceTexture1"/>
-            </item>
-            <item row="2" column="1">
-             <widget class="QComboBox" name="faceVertex2"/>
-            </item>
-            <item row="3" column="1">
-             <widget class="QComboBox" name="faceVertex3"/>
-            </item>
-            <item row="3" column="2">
-             <widget class="QComboBox" name="faceNormal3"/>
-            </item>
-            <item row="2" column="2">
-             <widget class="QComboBox" name="faceNormal2"/>
-            </item>
-            <item row="3" column="3">
-             <widget class="QComboBox" name="faceTexture3"/>
-            </item>
-            <item row="2" column="3">
-             <widget class="QComboBox" name="faceTexture2"/>
+             <widget class="QComboBox" name="faceTexture"/>
             </item>
             <item row="0" column="1">
              <widget class="QLabel" name="label_9">
@@ -682,42 +664,22 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>1</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_13">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>2</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_14">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>3</string>
-              </property>
+             <widget class="QComboBox" name="faceVNumber">
+              <item>
+               <property name="text">
+                <string>1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>3</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>
