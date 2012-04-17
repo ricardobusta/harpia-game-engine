@@ -11,7 +11,7 @@
     Model Structure Classes
 \**************************************************************************/
 
-enum CURRENT_EDIT_MODE{CURRENT_NONE,CURRENT_MODEL,CURRENT_OBJECT,CURRENT_VERTEX,CURRENT_NORMAL,CURRENT_TEXTURE,CURRENT_FACE,CURRENT_MATERIAL};
+enum CURRENT_EDIT_MODE{CURRENT_NONE,CURRENT_MODEL,CURRENT_OBJECT,CURRENT_VERTEX,CURRENT_PIVOT,CURRENT_NORMAL,CURRENT_TEXTURE,CURRENT_FACE,CURRENT_MATERIAL};
 
 const uint nullStringHash = qHash("");
 
@@ -79,10 +79,13 @@ public:
 };
 
 class ModelPivot{
-    public ModelPivot(){
+public:
+    ModelPivot(){
         x = y = z = 0;
         a = t = 0;
     }
+
+    QString name;
 
     int id;
 
@@ -110,6 +113,7 @@ public:
     QMap<int, ModelNormal> normal;
     QMap<int, ModelTexCoord> texcoord;
     QMap<int, ModelFace> face;
+    QMap<int, ModelPivot> pivot;
 };
 
 /**************************************************************************\
@@ -147,18 +151,21 @@ public:
     int maxVertexId;
     int maxFaceId;
     int maxTextureId;
+    int maxPivotId;
 
     int currentMaterialId;
     int currentNormalId;
     int currentVertexId;
     int currentFaceId;
     int currentTextureId;
+    int currentPivotId;
 
     ModelVertex *currentVertex();
     ModelNormal *currentNormal();
     ModelFace *currentFace();
     ModelTexCoord *currentTexture();
     ModelObject *currentObject();
+    ModelPivot *currentPivot();
 
     /* Object Control */
     void objectAdd();

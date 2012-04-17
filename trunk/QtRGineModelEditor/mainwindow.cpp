@@ -223,6 +223,17 @@ void MainWindow::updateLists(){
             thirditem->setText(0,STR(t.id));
             //ui->texList->addItem( new QListWidgetItem( STR(t.id) ) );
         }
+
+        //Add texture coordinates type node
+        seconditem->addChild(thirditemtype = new QTreeWidgetItem(0));
+        thirditemtype->setText(0,"Pivot");
+
+        //Add texture coordinates
+        foreach(ModelPivot p, o.pivot){
+            thirditemtype->addChild(thirditem = new QTreeWidgetItem(0));
+            thirditem->setText(0,p.name);
+            //ui->texList->addItem( new QListWidgetItem( STR(t.id) ) );
+        }
     }
 
     ui->modelList->expandAll();
@@ -237,18 +248,18 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
         if(current->parent()->text(0)=="Model"){
             currentmodel->current_mode = CURRENT_MODEL;
             ui->modelEditWidgets->setCurrentWidget(ui->emptyPage);
-        }
+        }else
         if(current->parent()->text(0)=="Object"){
             currentmodel->current_mode = CURRENT_OBJECT;
             ui->modelEditWidgets->setCurrentWidget(ui->objectPage);
             ui->objectName->setText(current->text(0));
             ui->objectTexture->setText(currentmodel->object[qHash(current->text(0))].textureFileName);
-        }
+        }else
         if(current->parent()->text(0)=="Material"){
             currentmodel->current_mode = CURRENT_MATERIAL;
             ui->modelEditWidgets->setCurrentWidget(ui->materialPage);
             currentmodel->currentMaterialId = current->text(0).toInt();
-        }
+        }else
         if(current->parent()->text(0)=="Vertex"){
             currentmodel->current_mode = CURRENT_VERTEX;
             ui->modelEditWidgets->setCurrentWidget(ui->vertexPage);
@@ -259,7 +270,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
                 ui->vertexY->setValue(currentmodel->currentVertex()->y);
                 ui->vertexZ->setValue(currentmodel->currentVertex()->z);
             }
-        }
+        }else
         if(current->parent()->text(0)=="Face"){
             currentmodel->current_mode = CURRENT_FACE;
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
@@ -301,7 +312,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->faceTexture1->setCurrentIndex(ui->faceTexture1->findText(STR(currentmodel->currentFace()->texcoord[0])));
             ui->faceTexture2->setCurrentIndex(ui->faceTexture2->findText(STR(currentmodel->currentFace()->texcoord[1])));
             ui->faceTexture3->setCurrentIndex(ui->faceTexture3->findText(STR(currentmodel->currentFace()->texcoord[2])));
-        }
+        }else
         if(current->parent()->text(0)=="Normal"){
             currentmodel->current_mode = CURRENT_NORMAL;
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
@@ -309,7 +320,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->currentNormalId = current->text(0).toInt();
             ui->normalAlpha->setValue(currentmodel->currentNormal()->a);
             ui->normalTheta->setValue((currentmodel->currentNormal()->t-90)%360);
-        }
+        }else
         if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
@@ -317,6 +328,17 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->currentTextureId = current->text(0).toInt();
             ui->textureU->setValue(currentmodel->currentTexture()->u);
             ui->textureV->setValue(currentmodel->currentTexture()->v);
+        }else
+        if(current->parent()->text(0)=="Pivot"){
+            currentmodel->current_mode = CURRENT_PIVOT;
+            ui->modelEditWidgets->setCurrentWidget(ui->pivotPage);
+            currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
+            currentmodel->currentPivotId = qHash(current->text(0));
+            if(currentmodel->currentPivot()!=NULL){
+                //ui->vertexX->setValue(currentmodel->currentVertex()->x);
+                //ui->vertexY->setValue(currentmodel->currentVertex()->y);
+                //ui->vertexZ->setValue(currentmodel->currentVertex()->z);
+            }
         }
     }
 }
