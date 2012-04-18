@@ -81,8 +81,7 @@ private slots:
     //Normal Control Functions
     void normalAddClicked();
     void normalRemoveClicked();
-    void normalAChanged();
-    void normalTChanged();
+    void normalATChanged();
 };
 
 #endif // MAINWINDOW_H

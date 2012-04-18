@@ -30,12 +30,12 @@ class ModelNormal
 {
 public:
     ModelNormal(){
-        a=t=0;
+        at=0;
     }
 
     int id;
 
-    int a,t;
+    int at;
 };
 
 class ModelVertex
