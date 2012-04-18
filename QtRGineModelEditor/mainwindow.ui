@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
+    <width>603</width>
     <height>380</height>
    </rect>
   </property>
@@ -47,7 +47,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>7</number>
+         <number>8</number>
         </property>
         <widget class="QWidget" name="emptyPage">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -699,6 +699,7 @@
           </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="objectParentPage"/>
        </widget>
       </item>
      </layout>
@@ -726,7 +727,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>581</width>
+     <width>603</width>
      <height>21</height>
     </rect>
    </property>
@@ -773,6 +774,7 @@
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
+   <addaction name="actionViewAxis"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -810,6 +812,14 @@
   <action name="actionNew">
    <property name="text">
     <string>New</string>
+   </property>
+  </action>
+  <action name="actionViewAxis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>View Axis</string>
    </property>
   </action>
  </widget>
