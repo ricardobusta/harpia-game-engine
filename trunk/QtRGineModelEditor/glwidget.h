@@ -30,6 +30,11 @@ public:
     void drawAxis();
     void drawCurrentVertex();
     void drawCurrentFace();
+
+    bool drawAxisEnabled;
+
+public slots:
+    void toggleDrawAxis(bool enable);
 };
 
 #endif // GLWIDGET_H

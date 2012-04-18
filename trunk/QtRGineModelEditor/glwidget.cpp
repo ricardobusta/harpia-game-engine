@@ -8,6 +8,8 @@ GLWidget::GLWidget(QWidget *parent) :
 {
     xRot = yRot = zRot = 0;
     zdist = 500;
+
+    drawAxisEnabled = false;
 }
 
 GLWidget::~GLWidget()
@@ -61,7 +63,7 @@ void GLWidget::initializeGL(){
 
     //glDisable(GL_LIGHTING);
     /* Texture Test */
-/*
+    /*
     QImage texture;
     texture.load("assets/image.bmp");
 
@@ -106,19 +108,21 @@ void GLWidget::resizeGL(int w, int h){
 using namespace std;
 
 void GLWidget::drawAxis(){
-    glBegin(GL_LINES);
-    //x
-    glColor3f(1,0,0);
-    glVertex3f(0,0,0);
-    glVertex3f(100,0,0);
-    //y
-    glColor3f(0,1,0);
-    glVertex3f(0,0,0);
-    glVertex3f(0,100,0);
-    //z
-    glColor3f(0,0,1);
-    glVertex3f(0,0,0);
-    glVertex3f(0,0,100);
+    if(drawAxisEnabled){
+        glBegin(GL_LINES);
+        //x
+        glColor3f(1,0,0);
+        glVertex3f(0,0,0);
+        glVertex3f(30,0,0);
+        //y
+        glColor3f(0,1,0);
+        glVertex3f(0,0,0);
+        glVertex3f(0,30,0);
+        //z
+        glColor3f(0,0,1);
+        glVertex3f(0,0,0);
+        glVertex3f(0,0,30);
+    }
 
     //normal
     glColor3f(1,1,1);
@@ -191,7 +195,7 @@ void GLWidget::drawCurrentVertex(){
 }
 
 void GLWidget::drawScene(){
-    glLineWidth(3);
+    glLineWidth(2);
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
     drawAxis();
@@ -221,3 +225,9 @@ void GLWidget::drawScene(){
         glEnd();
     }
 }
+
+void GLWidget::toggleDrawAxis(bool enable)
+{
+    drawAxisEnabled = enable;
+}
+

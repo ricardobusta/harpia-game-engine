@@ -80,6 +80,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalAChanged()));
     connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalTChanged()));
 
+    /* Interface */
+
+    connect(ui->actionViewAxis,SIGNAL(toggled(bool)),glwidget,SLOT(toggleDrawAxis(bool)));
+
     /* test */
 
     currentmodel->load("assets/testfile.txt");
@@ -307,10 +311,18 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentPivotId = qHash(current->text(0));
             if(currentmodel->currentPivot()!=NULL){
-                //ui->vertexX->setValue(currentmodel->currentVertex()->x);
-                //ui->vertexY->setValue(currentmodel->currentVertex()->y);
-                //ui->vertexZ->setValue(currentmodel->currentVertex()->z);
+                /*ui->pivotX->setValue(currentmodel->currentPivot()->x);
+                ui->pivotY->setValue(currentmodel->currentPivot()->y);
+                ui->pivotZ->setValue(currentmodel->currentPivot()->z);
+                ui->pivotA->setValue(currentmodel->currentPivot()->a);
+                ui->pivotT->setValue(currentmodel->currentPivot()->t);*/
             }
+        }else if (current->text(0) == "Object"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+        }else if (current->text(0) == "Vertex"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+        }else if (current->text(0) == "Object"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
         }
     }
 }
