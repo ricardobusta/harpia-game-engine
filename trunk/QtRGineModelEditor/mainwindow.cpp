@@ -77,8 +77,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newModel()));
 
-    connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalAChanged()));
-    connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalTChanged()));
+    connect(ui->normalAlpha,SIGNAL(valueChanged(int)),this,SLOT(normalATChanged()));
+    connect(ui->normalTheta,SIGNAL(valueChanged(int)),this,SLOT(normalATChanged()));
 
     /* Interface */
 
@@ -296,8 +296,8 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentNormalId = current->text(0).toInt();
-            ui->normalAlpha->setValue(currentmodel->currentNormal()->a);
-            ui->normalTheta->setValue((currentmodel->currentNormal()->t-90)%360);
+            ui->normalAlpha->setValue(currentmodel->currentNormal()->at/360);
+            ui->normalTheta->setValue(((currentmodel->currentNormal()->at%360)-90)%360);
         }else if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
@@ -460,14 +460,9 @@ void MainWindow::normalRemoveClicked()
 {
 }
 
-void MainWindow::normalAChanged(){
+void MainWindow::normalATChanged(){
     if(currentmodel->currentNormal()!=NULL){
-        currentmodel->currentNormal()->a = (180-qAbs(ui->normalAlpha->value()-180));
-    }
-}
-
-void MainWindow::normalTChanged(){
-    if(currentmodel->currentNormal()!=NULL){
-        currentmodel->currentNormal()->t = ((90+ui->normalTheta->value())%360);
+        currentmodel->currentNormal()->at = (180-qAbs(ui->normalAlpha->value()-180))*360+((90+ui->normalTheta->value())%360);
+        cout << currentmodel->currentNormal()->at << endl;
     }
 }

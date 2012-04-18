@@ -197,15 +197,14 @@ void Model::load(QString filename)
                 }
                 break;
             case 'n':
-                if(list.size()==4){
+                if(list.size()==3){
                     currentId = list.at(1).toInt();
                     if(currentId > maxNormalId){
                         maxNormalId = currentId;
                     }
                     object[currentObject].normal[currentId] = ModelNormal();
                     object[currentObject].normal[currentId].id = currentId;
-                    object[currentObject].normal[currentId].a = list.at(2).toFloat();
-                    object[currentObject].normal[currentId].t = list.at(3).toFloat();
+                    object[currentObject].normal[currentId].at = list.at(2).toInt();
                 }else{
                     //loadError();
                 }
@@ -291,7 +290,7 @@ void Model::save(QString filename){
                 out << "v " << v.id << " "<< v.x << " " << v.y << " " << v.z << "\r\n";
             }
             foreach(ModelNormal n, o.normal){
-                out << "n " << n.id << " "<< n.a << " " << n.t << "\r\n";
+                out << "n " << n.id << " "<< n.at << "\r\n";
             }
             foreach(ModelTexCoord t, o.texcoord){
                 out << "t " << t.id << " " << t.u << " " << t.v << "\r\n";

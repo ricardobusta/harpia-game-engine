@@ -128,9 +128,9 @@ void GLWidget::drawAxis(){
     glColor3f(1,1,1);
     glVertex3f(0,0,0);
     if(model.current_mode == CURRENT_NORMAL){
-        glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-                    ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
-                    ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].a,model.object[model.currentObjectId].normal[model.currentNormalId].t)*110
+        glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
+                    ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
+                    ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
                     );
     }
     glEnd();
@@ -215,8 +215,8 @@ void GLWidget::drawScene(){
         glBegin(GL_TRIANGLES);
         foreach(ModelFace f, o.face){
             for(int i=0;i<3;i++){
-                int a=o.normal[f.normal[i]].a,t=o.normal[f.normal[i]].t;
-                glNormal3f(Normal::x(a,t),Normal::y(a,t),Normal::z(a,t));
+                int at=o.normal[f.normal[i]].at;
+                glNormal3f(Normal::x(at),Normal::y(at),Normal::z(at));
                 //glNormal3f(0,0,1);
                 glTexCoord2f(o.texcoord[f.texcoord[i]].u,o.texcoord[f.texcoord[i]].v);
                 glVertex3f(o.vertex[f.vertex[i]].x,o.vertex[f.vertex[i]].y,o.vertex[f.vertex[i]].z);

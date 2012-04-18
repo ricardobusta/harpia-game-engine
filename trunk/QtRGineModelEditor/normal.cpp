@@ -2,7 +2,8 @@
 
 #include <qmath.h>
 
-float Normal::normal[181][360][3];
+/* 181*360 = 65160 */
+float Normal::normal[NORMAL_SIZE][3];
 Normal::_init Normal::_normal_initializer;
 
 Normal::_init::_init(){
@@ -10,9 +11,10 @@ Normal::_init::_init(){
         float ra = (M_PI/180.0)*(a-90);
         for(int t=0;t<360;t++){
             float rt = (M_PI/180.0)*(t);
-            Normal::normal[a][t][0] = (float)qCos(ra)*qCos(rt);
-            Normal::normal[a][t][1] = (float)qSin(ra);
-            Normal::normal[a][t][2] = (float)qCos(ra)*qSin(rt);
+            int i = a*360+t;
+            Normal::normal[i][0] = (float)qCos(ra)*qCos(rt);
+            Normal::normal[i][1] = (float)qSin(ra);
+            Normal::normal[i][2] = (float)qCos(ra)*qSin(rt);
         }
     }
 }
