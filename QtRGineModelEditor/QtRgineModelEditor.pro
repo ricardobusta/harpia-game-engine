@@ -30,4 +30,5 @@ FORMS    += mainwindow.ui
 
 OTHER_FILES += \
     testfile.txt \
-    savedtestfile.txt
+    savedtestfile.txt \
+    normals.txt

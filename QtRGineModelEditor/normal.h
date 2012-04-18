@@ -7,7 +7,7 @@ class Normal{
 private:
     Normal(){}
 
-    static float normal[NORMAL_SIZE][3];
+    static double normal[NORMAL_SIZE][3];
 
     static class _init{
         public: _init();
