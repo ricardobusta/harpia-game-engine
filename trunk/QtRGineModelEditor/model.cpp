@@ -14,7 +14,7 @@ Model::Model()
 ModelVertex *Model::currentVertex()
 {
     if(current_mode == CURRENT_VERTEX){
-        return &object[currentObjectId].vertex[currentVertexId];
+        return &currentObject()->vertex[currentVertexId];
     }else{
         return NULL;
     }
@@ -23,7 +23,7 @@ ModelVertex *Model::currentVertex()
 ModelNormal *Model::currentNormal()
 {
     if(current_mode == CURRENT_NORMAL){
-        return &object[currentObjectId].normal[currentNormalId];
+        return &currentObject()->normal[currentNormalId];
     }else{
         return NULL;
     }
@@ -32,7 +32,7 @@ ModelNormal *Model::currentNormal()
 ModelFace *Model::currentFace()
 {
     if(current_mode == CURRENT_FACE){
-        return &object[currentObjectId].face[currentFaceId];
+        return &currentObject()->face[currentFaceId];
     }else{
         return NULL;
     }
@@ -40,7 +40,7 @@ ModelFace *Model::currentFace()
 
 ModelTexCoord *Model::currentTexture(){
     if(current_mode == CURRENT_TEXTURE){
-        return &object[currentObjectId].texcoord[currentTextureId];
+        return &currentObject()->texcoord[currentTextureId];
     }else{
         return NULL;
     }
@@ -56,7 +56,7 @@ ModelObject *Model::currentObject(){
 
 ModelPivot *Model::currentPivot(){
     if(current_mode == CURRENT_PIVOT){
-        return &object[currentObjectId].pivot[currentPivotId];
+        return &currentObject()->pivot[currentPivotId];
     }else{
         return NULL;
     }
@@ -242,7 +242,7 @@ void Model::load(QString filename)
                 }
                 break;
             case 'p':
-                if(list.size()==7){
+                if(list.size()==6){
                     currentId = qHash(list.at(1));
                     object[currentObject].pivot[currentId] = ModelPivot();
                     object[currentObject].pivot[currentId].id = currentId;
@@ -250,8 +250,7 @@ void Model::load(QString filename)
                     object[currentObject].pivot[currentId].x = list.at(2).toFloat();
                     object[currentObject].pivot[currentId].y = list.at(3).toFloat();
                     object[currentObject].pivot[currentId].z = list.at(4).toFloat();
-                    object[currentObject].pivot[currentId].a = list.at(5).toFloat();
-                    object[currentObject].pivot[currentId].t = list.at(6).toFloat();
+                    object[currentObject].pivot[currentId].at = list.at(5).toFloat();
                 }else{
                     //loadError();
                 }
@@ -303,8 +302,7 @@ void Model::save(QString filename){
                 out << "\r\n";
             }
             foreach(ModelPivot p, o.pivot){
-                out << "p " << p.name << " " << p.x << " " << p.y << " " << p.z;
-                out << " " << p.a << " " << p.t << "\r\n";
+                out << "p " << p.name << " " << p.x << " " << p.y << " " << p.z << " " << p.at << "\r\n";
             }
         }
         file.close();
@@ -317,7 +315,7 @@ void Model::save(QString filename){
 
 
 /* Object Control */
-void Model::objectAdd(){
+bool Model::addObject(){
     int i=0;
     while(object.contains(qHash(QString("New Object ").append(QString::number(i))))){
         i++;
@@ -326,58 +324,132 @@ void Model::objectAdd(){
     currentObjectId = qHash(oname);
     object[currentObjectId] = ModelObject();
     object[currentObjectId].name = oname;
+    return true;
 }
 
-void Model::removeObject(){
+bool Model::removeObject(){
     if(currentObjectId!=nullStringHash){
         object.remove(currentObjectId);
+        return true;
     }
+    return false;
 }
 
 /* Material Control */
 
-void Model::materialAdd(){
+bool Model::addMaterial(){
     if(currentObjectId!=nullStringHash){
         maxMaterialId++;
         material[maxMaterialId] = Material();
         material[maxMaterialId].id = maxMaterialId;
+        return true;
     }
+    return false;
 }
 
-void Model::removeMaterial(){
-    material.remove(currentMaterialId);
+bool Model::removeMaterial(){
+    if(currentObjectId!=nullStringHash and currentMaterialId!=-1){
+        material.remove(currentMaterialId);
+        return true;
+    }
+    return false;
 }
 
 /* Face Control */
 
-void Model::faceAdd()
+bool Model::addFace()
 {
     if(currentObjectId!=nullStringHash){
         maxFaceId++;
-        object[currentObjectId].face[maxFaceId] = ModelFace();
-        object[currentObjectId].face[maxFaceId].id = maxFaceId;
+        currentObject()->face[maxFaceId] = ModelFace();
+        currentObject()->face[maxFaceId].id = maxFaceId;
+        return true;
     }
+    return false;
 }
 
-void Model::removeFace(){
+bool Model::removeFace(){
     if(currentObjectId!=nullStringHash and currentFaceId !=-1){
-        object[currentObjectId].face.remove(currentFaceId);
+        currentObject()->face.remove(currentFaceId);
+        return true;
     }
+    return false;
 }
 
 /* Vertex Control */
 
-void Model::addVertex()
+bool Model::addVertex()
 {
     if(currentObjectId!=nullStringHash){
         maxVertexId++;
-        object[currentObjectId].vertex[maxVertexId] = ModelVertex();
-        object[currentObjectId].vertex[maxVertexId].id = maxVertexId;
+        currentObject()->vertex[maxVertexId] = ModelVertex();
+        currentObject()->vertex[maxVertexId].id = maxVertexId;
+        return true;
     }
+    return false;
 }
 
-void Model::removeVertex(){
+bool Model::removeVertex(){
     if(currentObjectId!=nullStringHash and currentVertexId !=-1){
-        object[currentObjectId].vertex.remove(currentVertexId);
+        currentObject()->vertex.remove(currentVertexId);
+        return true;
     }
+    return false;
+}
+
+/* Normal Control */
+bool Model::addNormal(){
+    if(currentObjectId!=nullStringHash){
+        maxNormalId++;
+        currentObject()->normal[maxNormalId] = ModelNormal();
+        currentObject()->normal[maxNormalId].id = maxNormalId;
+        return true;
+    }
+    return false;
+}
+
+bool Model::removeNormal(){
+    if(currentObjectId!=nullStringHash and currentNormalId!=-1){
+        currentObject()->normal.remove(currentNormalId);
+        return true;
+    }
+    return false;
+}
+
+/* Texture Control */
+bool Model::addTexture(){
+    if(currentObjectId!=nullStringHash){
+        maxTextureId++;
+        currentObject()->texcoord[maxTextureId] = ModelTexCoord();
+        currentObject()->texcoord[maxTextureId].id = maxTextureId;
+        return true;
+    }
+    return false;
+}
+
+bool Model::removeTexture(){
+    if(currentObjectId!=nullStringHash){
+        currentObject()->texcoord.remove(currentTextureId);
+        return true;
+    }
+    return false;
+}
+
+/* Pivot Control */
+bool Model::addPivot(){
+    if(currentObjectId!=nullStringHash){
+        maxPivotId++;
+        currentObject()->pivot[maxPivotId] = ModelPivot();
+        currentObject()->pivot[maxPivotId].id = maxPivotId;
+        return true;
+    }
+    return false;
+}
+
+bool Model::removePivot(){
+    if(currentObjectId!=nullStringHash and currentPivotId!=-1){
+        currentObject()->pivot.remove(currentPivotId);
+        return true;
+    }
+    return false;
 }

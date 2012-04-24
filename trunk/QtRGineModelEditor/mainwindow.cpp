@@ -67,12 +67,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->vertexZ,SIGNAL(valueChanged(double)),this,SLOT(vertexZChanged(double)));
 
     /* texture */
+    connect(ui->textureAdd,SIGNAL(clicked()),this,SLOT(textureAddClicked()));
+    connect(ui->textureRemove,SIGNAL(clicked()),this,SLOT(textureRemoveClicked()));
     connect(ui->textureU,SIGNAL(valueChanged(double)),this,SLOT(textureUChanged(double)));
     connect(ui->textureV,SIGNAL(valueChanged(double)),this,SLOT(textureVChanged(double)));
 
+    /* normal */
+    connect(ui->normalAdd,SIGNAL(clicked()),this,SLOT(normalAddClicked()));
+    connect(ui->normalRemove,SIGNAL(clicked()),this,SLOT(normalRemoveClicked()));
+
+    /* pivot */
+    connect(ui->pivotAdd,SIGNAL(clicked()),this,SLOT(pivotAddClicked()));
+    connect(ui->pivotRemove,SIGNAL(clicked()),this,SLOT(pivotRemoveClicked()));
+
     /* model */
     connect(ui->modelList,SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),this,SLOT(modelSelect(QTreeWidgetItem*,QTreeWidgetItem*)));
-
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(load()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newModel()));
@@ -87,20 +96,6 @@ MainWindow::MainWindow(QWidget *parent) :
     /* test */
 
     currentmodel->load("assets/testfile.txt");
-    //    currentmodel->texture.load("assets/image.bmp");
-    //    currentmodel->texture.load("assets/image2.bmp");
-
-    /*
-    QImage texture;
-    texture.load("assets/image.bmp");
-    QImage tex2 = QImage(QSize(64,64),QImage::Format_ARGB32);
-    for(int i=0;i<64;i++){
-        for(int j=0;j<64;j++){
-            tex2.setPixel(i,j,texture.pixel(i*(texture.width()/64.0),j*(texture.height()/64.0)));
-        }
-    }
-    ui->textureDisplay->setPixmap(QPixmap::fromImage(tex2));*/
-
     updateLists();
 }
 
@@ -244,18 +239,22 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
     if(current!=NULL and current->parent()!=NULL){
         currentmodel->current_mode = CURRENT_NONE;
         ui->modelEditWidgets->setCurrentWidget(ui->emptyPage);
+
         if(current->parent()->text(0)=="Model"){
             currentmodel->current_mode = CURRENT_MODEL;
             ui->modelEditWidgets->setCurrentWidget(ui->emptyPage);
+
         }else if(current->parent()->text(0)=="Object"){
             currentmodel->current_mode = CURRENT_OBJECT;
             ui->modelEditWidgets->setCurrentWidget(ui->objectPage);
             ui->objectName->setText(current->text(0));
             ui->objectTexture->setText(currentmodel->object[qHash(current->text(0))].textureFileName);
+
         }else if(current->parent()->text(0)=="Material"){
             currentmodel->current_mode = CURRENT_MATERIAL;
             ui->modelEditWidgets->setCurrentWidget(ui->materialPage);
             currentmodel->currentMaterialId = current->text(0).toInt();
+
         }else if(current->parent()->text(0)=="Vertex"){
             currentmodel->current_mode = CURRENT_VERTEX;
             ui->modelEditWidgets->setCurrentWidget(ui->vertexPage);
@@ -266,6 +265,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
                 ui->vertexY->setValue(currentmodel->currentVertex()->y);
                 ui->vertexZ->setValue(currentmodel->currentVertex()->z);
             }
+
         }else if(current->parent()->text(0)=="Face"){
             currentmodel->current_mode = CURRENT_FACE;
             ui->modelEditWidgets->setCurrentWidget(ui->facePage);
@@ -291,6 +291,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->faceVertex->setCurrentIndex(ui->faceVertex->findText(STR(currentmodel->currentFace()->vertex[0])));
             ui->faceNormal->setCurrentIndex(ui->faceNormal->findText(STR(currentmodel->currentFace()->normal[0])));
             ui->faceTexture->setCurrentIndex(ui->faceTexture->findText(STR(currentmodel->currentFace()->texcoord[0])));
+
         }else if(current->parent()->text(0)=="Normal"){
             currentmodel->current_mode = CURRENT_NORMAL;
             ui->modelEditWidgets->setCurrentWidget(ui->normalPage);
@@ -298,6 +299,7 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->currentNormalId = current->text(0).toInt();
             ui->normalAlpha->setValue(currentmodel->currentNormal()->at/360);
             ui->normalTheta->setValue(((currentmodel->currentNormal()->at%360)-90)%360);
+
         }else if(current->parent()->text(0)=="Texture"){
             currentmodel->current_mode = CURRENT_TEXTURE;
             ui->modelEditWidgets->setCurrentWidget(ui->texturePage);
@@ -305,11 +307,15 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             currentmodel->currentTextureId = current->text(0).toInt();
             ui->textureU->setValue(currentmodel->currentTexture()->u);
             ui->textureV->setValue(currentmodel->currentTexture()->v);
+            ui->textureDisplay->setPixmap(currentmodel->texture.imgList[currentmodel->currentTexture()->id]);
+
         }else if(current->parent()->text(0)=="Pivot"){
             currentmodel->current_mode = CURRENT_PIVOT;
             ui->modelEditWidgets->setCurrentWidget(ui->pivotPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentPivotId = qHash(current->text(0));
+            cout << currentmodel->currentPivot()->name.toStdString() << endl;
+            cout << currentmodel->currentPivot()->x << currentmodel->currentPivot()->y << currentmodel->currentPivot()->z << endl;
             if(currentmodel->currentPivot()!=NULL){
                 /*ui->pivotX->setValue(currentmodel->currentPivot()->x);
                 ui->pivotY->setValue(currentmodel->currentPivot()->y);
@@ -317,19 +323,37 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
                 ui->pivotA->setValue(currentmodel->currentPivot()->a);
                 ui->pivotT->setValue(currentmodel->currentPivot()->t);*/
             }
+        }else if (current->text(0) == "Material"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
         }else if (current->text(0) == "Object"){
             ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
+        }else if (current->text(0) == "Face"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
         }else if (current->text(0) == "Vertex"){
             ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
-        }else if (current->text(0) == "Object"){
+
+        }else if (current->text(0) == "Normal"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
+        }else if (current->text(0) == "Texture"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
+        }else if (current->text(0) == "Vertex"){
+            ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
+
+        }else if (current->text(0) == "Pivot"){
             ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
         }
+
     }
 }
 
 /* Object Control */
 void MainWindow::objectAddClicked(){
-    currentmodel->objectAdd();
+    currentmodel->addObject();
     updateLists();
 }
 
@@ -348,7 +372,7 @@ void MainWindow::objectTextureChanged(){
 
 /* Material Control */
 void MainWindow::materialAddClicked(){
-    currentmodel->materialAdd();
+    currentmodel->addMaterial();
     updateLists();
 }
 
@@ -380,7 +404,7 @@ void MainWindow::materialSlider4Changed(){
 /* Face Control */
 
 void MainWindow::faceAddClicked(){
-    currentmodel->faceAdd();
+    currentmodel->addFace();
     updateLists();
 }
 
@@ -391,7 +415,7 @@ void MainWindow::faceRemoveClicked(){
 
 void MainWindow::faceVertexChanged()
 {
-//    currentmodel->currentFace()->vertex[currentmodel->currentFaceVNumber] = ui->faceVertex->currentText().toInt();
+    //    currentmodel->currentFace()->vertex[currentmodel->currentFaceVNumber] = ui->faceVertex->currentText().toInt();
 }
 
 void MainWindow::faceNormalChanged()
@@ -436,10 +460,14 @@ void MainWindow::vertexZChanged(double v){
 
 void MainWindow::textureAddClicked()
 {
+    currentmodel->addTexture();
+    updateLists();
 }
 
 void MainWindow::textureRemoveClicked()
 {
+    currentmodel->removeTexture();
+    updateLists();
 }
 
 void MainWindow::textureUChanged(double v){
@@ -454,15 +482,30 @@ void MainWindow::textureVChanged(double v){
 
 void MainWindow::normalAddClicked()
 {
+    currentmodel->addNormal();
+    updateLists();
 }
 
 void MainWindow::normalRemoveClicked()
 {
+    currentmodel->removeNormal();
+    updateLists();
 }
 
 void MainWindow::normalATChanged(){
     if(currentmodel->currentNormal()!=NULL){
         currentmodel->currentNormal()->at = (180-qAbs(ui->normalAlpha->value()-180))*360+((90+ui->normalTheta->value())%360);
-        cout << currentmodel->currentNormal()->at << endl;
     }
+}
+
+/* Pivot Control */
+
+void MainWindow::pivotAddClicked(){
+    currentmodel->addPivot();
+    updateLists();
+}
+
+void MainWindow::pivotRemoveClicked(){
+    currentmodel->removePivot();
+    updateLists();
 }

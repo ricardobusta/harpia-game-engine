@@ -82,7 +82,7 @@ class ModelPivot{
 public:
     ModelPivot(){
         x = y = z = 0;
-        a = t = 0;
+        at = 0;
     }
 
     QString name;
@@ -90,7 +90,7 @@ public:
     int id;
 
     float x,y,z;
-    int a, t;
+    int at;
 };
 
 class ModelObject
@@ -170,20 +170,32 @@ public:
     int currentFaceVNumber;
 
     /* Object Control */
-    void objectAdd();
-    void removeObject();
+    bool addObject();
+    bool removeObject();
 
     /* Material Control */
-    void materialAdd();
-    void removeMaterial();
+    bool addMaterial();
+    bool removeMaterial();
 
     /* Face Control */
-    void faceAdd();
-    void removeFace();
+    bool addFace();
+    bool removeFace();
 
     /* Vertex Control */
-    void addVertex();
-    void removeVertex();
+    bool addVertex();
+    bool removeVertex();
+
+    /* Normal Control */
+    bool addNormal();
+    bool removeNormal();
+
+    /* TextureControl */
+    bool addTexture();
+    bool removeTexture();
+
+    /* Pivot Control */
+    bool addPivot();
+    bool removePivot();
 };
 
 #endif // MODEL_H

@@ -82,6 +82,10 @@ private slots:
     void normalAddClicked();
     void normalRemoveClicked();
     void normalATChanged();
+
+    //Pivot Control Functions
+    void pivotAddClicked();
+    void pivotRemoveClicked();
 };
 
 #endif // MAINWINDOW_H

@@ -47,7 +47,7 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>8</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="emptyPage">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -354,16 +354,16 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="pivotAdd">
               <property name="text">
-               <string>PushButton</string>
+               <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="pivotRemove">
               <property name="text">
-               <string>PushButton</string>
+               <string>Remove</string>
               </property>
              </widget>
             </item>
@@ -372,23 +372,23 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+             <widget class="QDoubleSpinBox" name="pivotX"/>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+             <widget class="QDoubleSpinBox" name="pivotY"/>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+             <widget class="QDoubleSpinBox" name="pivotZ"/>
             </item>
            </layout>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
-             <widget class="QDial" name="dial_2"/>
+             <widget class="QDial" name="pivotA"/>
             </item>
             <item>
-             <widget class="QDial" name="dial"/>
+             <widget class="QDial" name="pivotT"/>
             </item>
            </layout>
           </item>
