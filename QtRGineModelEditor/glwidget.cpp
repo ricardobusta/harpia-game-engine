@@ -126,12 +126,23 @@ void GLWidget::drawAxis(){
 
     //normal
     glColor3f(1,1,1);
-    glVertex3f(0,0,0);
+
     if(model.current_mode == CURRENT_NORMAL){
-        glVertex3f( Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
-                    ,Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
-                    ,Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].at)*110
-                    );
+        glVertex3f(0,0,0);
+        float x = (Normal::x(model.object[model.currentObjectId].normal[model.currentNormalId].at)*100.0);
+        float y = (Normal::y(model.object[model.currentObjectId].normal[model.currentNormalId].at)*100.0);
+        float z = (Normal::z(model.object[model.currentObjectId].normal[model.currentNormalId].at)*100.0);
+        glVertex3f( x, y, z );
+    }
+    if(model.current_mode == CURRENT_PIVOT){
+        float x = model.object[model.currentObjectId].pivot[model.currentPivotId].x;
+        float y = model.object[model.currentObjectId].pivot[model.currentPivotId].y;
+        float z = model.object[model.currentObjectId].pivot[model.currentPivotId].z;
+        float ax = x+(Normal::x(model.object[model.currentObjectId].pivot[model.currentPivotId].at)*100.0);
+        float ay = y+(Normal::y(model.object[model.currentObjectId].pivot[model.currentPivotId].at)*100.0);
+        float az = z+(Normal::z(model.object[model.currentObjectId].pivot[model.currentPivotId].at)*100.0);
+        glVertex3f( x, y, z );
+        glVertex3f( ax, ay, az );
     }
     glEnd();
 }
