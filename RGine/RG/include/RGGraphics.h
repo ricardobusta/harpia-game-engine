@@ -16,41 +16,41 @@ using namespace std;
 
 class RGGraphics {
 public:
-    RGGraphics();
-    virtual ~RGGraphics();
 
 //Main Game Loop
-    void init();
-    void resize(int width, int height);
-    void render(/*scene*/);
-    void delay();
-    void end();
+    static void init();
+    static void resize(int width, int height);
+    static void render(/*scene*/);
+    static void delay();
+    static void end();
 
 //Texture Management
-    void loadTexture(string filename, string key);
-    map<string,GLuint> textureMap;
-    void useTexture(string key);
+    static map<string,GLuint> textureMap;
+    static void loadTexture(string filename, string key);
+    static void useTexture(string key);
 
 protected:
 private:
-    int width;
-    int height;
-    int depth;
+    RGGraphics();
+
+    static int width;
+    static int height;
+    static int depth;
 
     //TIMER
-    int timerStartTicks;
-    int timerPausedTicks;
-    bool timerPaused;
-    bool timerStarted;
-    int fps;
+    static int timerStartTicks;
+    static int timerPausedTicks;
+    static bool timerPaused;
+    static bool timerStarted;
+    static int fps;
 
-    void timerInit();
-    void timerStart();
-    void timerStop();
-    void timerPause();
-    void timerUnpause();
-    int timerGetTicks();
-    void timerDelay();
+    static void timerInit();
+    static void timerStart();
+    static void timerStop();
+    static void timerPause();
+    static void timerUnpause();
+    static int timerGetTicks();
+    static void timerDelay();
 };
 
 #endif // RGGRAPHICS_H

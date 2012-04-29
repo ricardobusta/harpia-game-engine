@@ -12,7 +12,7 @@ class RGGame
         RGGame();
         virtual ~RGGame();
 
-        RGGraphics graphics;
+        //RGGraphics graphics;
         RGSound sound;
         RGInput in;
 

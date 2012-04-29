@@ -1,15 +1,19 @@
 #include "RGGraphics.h"
 
+    int RGGraphics::width = 320;
+    int RGGraphics::height = 240;
+    int RGGraphics::depth = 32;
+
+    //TIMER
+    int RGGraphics::timerStartTicks = 0;
+    int RGGraphics::timerPausedTicks = 0;
+    bool RGGraphics::timerPaused = false;
+    bool RGGraphics::timerStarted = false;
+    int RGGraphics::fps = 60;
+
+    map<string,GLuint> RGGraphics::textureMap;
+
 RGGraphics::RGGraphics() {
-    width = 320;
-    height = 240;
-    depth = 32;
-}
-
-RGGraphics::~RGGraphics() {
-    //dtor
-
-    //TODO clean textures and models
 }
 
 void RGGraphics::init() {
@@ -34,10 +38,6 @@ void RGGraphics::init() {
     //fps control timer
     timerInit();
     timerStart();
-
-    //loadTexture( "media/image.bmp" , "tex1");
-    //loadTexture( "media/image2.bmp" , "tex2");
-    //loadTexture( "media/image3.bmp" , "tex3");
 }
 
 void RGGraphics::resize(int w, int h) {
@@ -58,7 +58,6 @@ void RGGraphics::resize(int w, int h) {
 void RGGraphics::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
 
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
@@ -132,7 +131,7 @@ void RGGraphics::render() {
     glVertex3f(-100,100,-100);
     glEnd();
 
-    useTexture("tex4");
+    useTexture("tex3");
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
     glVertex3f(100,-100,-100);
@@ -143,8 +142,6 @@ void RGGraphics::render() {
     glTexCoord2f(0,0);
     glVertex3f(-100,-100,-100);
     glEnd();
-
-
 
     SDL_GL_SwapBuffers();
 }
@@ -269,7 +266,7 @@ void RGGraphics::loadTexture( string filename, string key ) {
         SDL_FreeSurface( surface );
     }
 
-    textureMap[key] = texture;
+    RGGraphics::textureMap[key] = texture;
 }
 
 void RGGraphics::useTexture(string key){
