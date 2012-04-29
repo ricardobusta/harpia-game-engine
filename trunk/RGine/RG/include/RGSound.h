@@ -6,23 +6,35 @@
 #include <string>
 using namespace std;
 
-class RGSound
-{
-    public:
-        RGSound();
-        virtual ~RGSound();
+class RGSound {
+private:
+    RGSound();
 
-        void init();
+    ///Attributes
 
-        void loadSound(string filename, string key);
-        map<string,Mix_Chunk*> soundMap;
-        void playSound( string key );
+    //Sound
+    static map<string,Mix_Chunk*> soundMap;
 
-        void loadMusic(string filename, string key);
-        map<string,Mix_Music*> musicMap;
-        void playMusic( string key );
-    protected:
-    private:
+    //Music
+    static map<string,Mix_Music*> musicMap;
+
+    ///Methods
+public:
+
+    ///Attributes
+
+    ///Methods
+
+    //Initialization
+    static void init();
+
+    //Sound
+    static void loadSound(string filename, string key);
+    static void playSound( string key );
+
+    //Music
+    static void loadMusic(string filename, string key);
+    static void playMusic( string key );
 };
 
 #endif // RGSOUND_H

@@ -1,17 +1,23 @@
 #include "RGGraphics.h"
 
-    int RGGraphics::width = 320;
-    int RGGraphics::height = 240;
-    int RGGraphics::depth = 32;
+///Static Declaration
 
-    //TIMER
-    int RGGraphics::timerStartTicks = 0;
-    int RGGraphics::timerPausedTicks = 0;
-    bool RGGraphics::timerPaused = false;
-    bool RGGraphics::timerStarted = false;
-    int RGGraphics::fps = 60;
+//Screen
+int RGGraphics::width = 320;
+int RGGraphics::height = 240;
+int RGGraphics::depth = 32;
 
-    map<string,GLuint> RGGraphics::textureMap;
+//Timer
+int RGGraphics::timerStartTicks = 0;
+int RGGraphics::timerPausedTicks = 0;
+bool RGGraphics::timerPaused = false;
+bool RGGraphics::timerStarted = false;
+int RGGraphics::fps = 60;
+
+//Texture
+map<string,GLuint> RGGraphics::textureMap;
+
+///Methods
 
 RGGraphics::RGGraphics() {
 }
@@ -208,8 +214,7 @@ void RGGraphics::loadTexture( string filename, string key ) {
     surface = IMG_Load( filename.c_str() );
 
     //If the image loaded
-    if( surface != NULL )
-    {
+    if( surface != NULL ) {
         //Create an optimized image
         surface = SDL_DisplayFormat( surface );
 
@@ -269,6 +274,6 @@ void RGGraphics::loadTexture( string filename, string key ) {
     RGGraphics::textureMap[key] = texture;
 }
 
-void RGGraphics::useTexture(string key){
+void RGGraphics::useTexture(string key) {
     glBindTexture( GL_TEXTURE_2D, textureMap[key] );
 }

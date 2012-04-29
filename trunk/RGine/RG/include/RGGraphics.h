@@ -15,35 +15,28 @@
 using namespace std;
 
 class RGGraphics {
-public:
-
-//Main Game Loop
-    static void init();
-    static void resize(int width, int height);
-    static void render(/*scene*/);
-    static void delay();
-    static void end();
-
-//Texture Management
-    static map<string,GLuint> textureMap;
-    static void loadTexture(string filename, string key);
-    static void useTexture(string key);
-
-protected:
 private:
-    RGGraphics();
+    ///Attributes
 
+    //Screen
     static int width;
     static int height;
     static int depth;
 
-    //TIMER
+    //Timer
     static int timerStartTicks;
     static int timerPausedTicks;
     static bool timerPaused;
     static bool timerStarted;
     static int fps;
 
+    //Texture Management
+    static map<string,GLuint> textureMap;
+
+    ///Methods
+    RGGraphics();
+
+    //Timer
     static void timerInit();
     static void timerStart();
     static void timerStop();
@@ -51,6 +44,19 @@ private:
     static void timerUnpause();
     static int timerGetTicks();
     static void timerDelay();
+public:
+    ///Methods
+
+    //Main Game Loop
+    static void init();
+    static void resize(int width, int height);
+    static void render(/*scene*/);
+    static void delay();
+    static void end();
+
+    //Texture
+    static void loadTexture(string filename, string key);
+    static void useTexture(string key);
 };
 
 #endif // RGGRAPHICS_H

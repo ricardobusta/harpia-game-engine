@@ -39,27 +39,39 @@ public:
 };
 
 class RGInput {
-public:
-    RGInput();
-    virtual ~RGInput();
-
-    void input();
-    bool quit();
-protected:
-public:
-    SDL_Event event;
+private:
+    ///Attributes
 
     //Quit event
-    bool quitTriggered;
+    static bool quitTriggered;
+
+    //SDL Event
+    static SDL_Event event;
 
     //Keyboard Input
-    KeyStruct keyboardstate[SDLK_LAST];
-    list<int> keyboardMod;
-    void keyboardReset();
+    static KeyStruct keyboardstate[SDLK_LAST];
+    static list<int> keyboardMod;
 
     //Mouse Input
-    MouseStruct mousestate;
-    void mouseReset();
+    static MouseStruct mousestate;
+
+    ///Methods
+    RGInput();
+
+    //Keyboard Input
+    static void keyboardReset();
+
+    //Mouse Input
+    static void mouseReset();
+public:
+    ///Methods
+
+    //Main Loop
+    static void input();
+    static bool quit();
+
+    //Keyboard
+    static KeyStruct key(unsigned int k);
 };
 
 #endif // RGINPUT_H
