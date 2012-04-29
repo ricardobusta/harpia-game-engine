@@ -16,7 +16,7 @@
 1333668971 source:d:\proj\rgine\main.cpp
 	"testgame/Game.h"
 
-1333840353 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1335671472 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
 
 1333654533 d:\proj\rgine\rg\include\rggraphics.h
@@ -450,7 +450,7 @@
 	<windows.h>
 	<stddef.h>
 
-1333840136 source:d:\proj\rgine\testgame\game.cpp
+1335671610 source:d:\proj\rgine\testgame\game.cpp
 	"Game.h"
 
 1333682697 d:\proj\rgine\testgame\game.h
@@ -474,5 +474,23 @@
 	"close_code.h"
 
 1255800450 c:\sdl-1.2.14\include\sdl\sdl_types.h
+	"SDL_stdinc.h"
+
+1325792434 c:\sdl-1.2.15\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325792940 c:\sdl-1.2.15\include\sdl\sdl_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_types.h
 	"SDL_stdinc.h"
 

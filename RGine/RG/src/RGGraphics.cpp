@@ -26,6 +26,9 @@ void RGGraphics::init() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_BLEND);
+    //glBlendFunc (GL_RGB,GL_ONE_MINUS_SRC_COLOR);
+
     resize(width,height);
 
     //fps control timer
@@ -56,8 +59,12 @@ void RGGraphics::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    useTexture("tex2");
+
     //glBindTexture( GL_TEXTURE_2D, texture2 );
+
+    glColor4f(1,1,1,1);
+
+    useTexture("tex2");
 
     static float c=0;
 
@@ -125,7 +132,7 @@ void RGGraphics::render() {
     glVertex3f(-100,100,-100);
     glEnd();
 
-    useTexture("tex3");
+    useTexture("tex4");
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
     glVertex3f(100,-100,-100);
@@ -208,10 +215,6 @@ void RGGraphics::loadTexture( string filename, string key ) {
     {
         //Create an optimized image
         surface = SDL_DisplayFormat( surface );
-    }
-
-    //if ( (surface = SDL_LoadBMP("image.bmp")) ) {
-    if ( surface != NULL ) {
 
         // Check that the image's width is a power of 2
         if ( (surface->w & (surface->w - 1)) != 0 ) {
@@ -254,6 +257,7 @@ void RGGraphics::loadTexture( string filename, string key ) {
         // Edit the texture object's image data using the information SDL_Surface gives us
         glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,
                       texture_format, GL_UNSIGNED_BYTE, surface->pixels );
+
     } else {
         printf("SDL could not load image.bmp: %s\n", SDL_GetError());
         SDL_Quit();
