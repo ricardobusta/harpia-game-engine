@@ -14,10 +14,10 @@
 		<Cursor position="118" topLine="0" />
 	</File>
 	<File name="RG\include\RGGame.h" open="1" top="0" tabpos="5">
-		<Cursor position="285" topLine="3" />
+		<Cursor position="257" topLine="3" />
 	</File>
-	<File name="RG\include\RGGraphics.h" open="0" top="0" tabpos="7">
-		<Cursor position="351" topLine="15" />
+	<File name="RG\include\RGGraphics.h" open="1" top="0" tabpos="7">
+		<Cursor position="730" topLine="15" />
 	</File>
 	<File name="RG\include\RGInput.h" open="1" top="0" tabpos="2">
 		<Cursor position="809" topLine="27" />
@@ -25,11 +25,11 @@
 	<File name="RG\include\RGSound.h" open="0" top="0" tabpos="0">
 		<Cursor position="474" topLine="5" />
 	</File>
-	<File name="RG\src\RGGame.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="266" topLine="0" />
+	<File name="RG\src\RGGame.cpp" open="1" top="1" tabpos="4">
+		<Cursor position="72" topLine="0" />
 	</File>
-	<File name="RG\src\RGGraphics.cpp" open="1" top="1" tabpos="6">
-		<Cursor position="632" topLine="27" />
+	<File name="RG\src\RGGraphics.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="183" topLine="149" />
 	</File>
 	<File name="RG\src\RGInput.cpp" open="1" top="0" tabpos="3">
 		<Cursor position="112" topLine="82" />
@@ -41,7 +41,7 @@
 		<Cursor position="234" topLine="0" />
 	</File>
 	<File name="testgame\Game.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="531" topLine="6" />
+		<Cursor position="551" topLine="6" />
 	</File>
 	<File name="testgame\Game.h" open="0" top="0" tabpos="0">
 		<Cursor position="164" topLine="0" />
