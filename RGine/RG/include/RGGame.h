@@ -6,24 +6,19 @@
 #include "RGScene.h"
 #include "RGSound.h"
 
-class RGGame
-{
-    public:
-        RGGame();
-        virtual ~RGGame();
+class RGGame {
+public:
+    RGGame();
+    virtual ~RGGame();
 
-        //RGGraphics graphics;
-        RGSound sound;
-        RGInput in;
+    RGScene scene;
 
-        RGScene scene;
+    int run();
 
-        int run();
-
-        virtual void init()=0;
-        virtual void logic()=0;
-    protected:
-    private:
+    virtual void init()=0;
+    virtual void logic()=0;
+protected:
+private:
 };
 
 #endif // RGGAME_H

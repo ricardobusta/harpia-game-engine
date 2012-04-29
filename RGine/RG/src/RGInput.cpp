@@ -1,14 +1,26 @@
 #include "RGInput.h"
 
+///Static Declaration
+
+//Loop Quit Control
+bool RGInput::quitTriggered = false;
+
+//SDL Event
+SDL_Event RGInput::event;
+
+//Keyboard Input
+KeyStruct RGInput::keyboardstate[SDLK_LAST];
+list<int> RGInput::keyboardMod;
+
+//Mouse Input
+MouseStruct RGInput::mousestate;
+
+///Methods
+
 RGInput::RGInput() {
-    quitTriggered = false;
 }
 
-RGInput::~RGInput() {
-    //dtor
-}
-
-bool RGInput::quit(){
+bool RGInput::quit() {
     return quitTriggered;
 }
 
@@ -102,4 +114,8 @@ void RGInput::input() {
             break;
         }
     }
+}
+
+KeyStruct RGInput::key(unsigned int k){
+    return keyboardstate[k];
 }

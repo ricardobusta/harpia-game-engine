@@ -1,29 +1,27 @@
 #include "Game.h"
 
-Game::Game()
-{
+Game::Game() {
     //ctor
 }
 
-Game::~Game()
-{
+Game::~Game() {
     //dtor
 }
 
-void Game::logic(){
-    if(in.keyboardstate[SDLK_a].down){
-        sound.playSound("scratch");
+void Game::logic() {
+    if(RGInput::key(SDLK_a).down) {
+        RGSound::playSound("scratch");
     }
-    if(in.keyboardstate[SDLK_s].down){
-        sound.playMusic("beat");
+    if(RGInput::key(SDLK_s).down) {
+        RGSound::playMusic("beat");
     }
 }
 
-void Game::init(){
+void Game::init() {
     RGGraphics::loadTexture( "media/image.bmp" , "tex1");
     RGGraphics::loadTexture( "media/image2.bmp" , "tex2");
     RGGraphics::loadTexture( "media/image3.bmp" , "tex3");
     //RGGraphics::loadTexture( "media/sprite_test.png" , "tex4");
-    sound.loadMusic( "media/beat.wav", "beat" );
-    sound.loadSound( "media/scratch.wav", "scratch" );
+    RGSound::loadMusic( "media/beat.wav", "beat" );
+    RGSound::loadSound( "media/scratch.wav", "scratch" );
 }
