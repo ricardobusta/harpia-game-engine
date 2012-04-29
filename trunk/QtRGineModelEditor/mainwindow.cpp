@@ -314,14 +314,12 @@ void MainWindow::modelSelect(QTreeWidgetItem* current,QTreeWidgetItem* previous)
             ui->modelEditWidgets->setCurrentWidget(ui->pivotPage);
             currentmodel->currentObjectId = qHash(current->parent()->parent()->text(0));
             currentmodel->currentPivotId = qHash(current->text(0));
-            cout << currentmodel->currentPivot()->name.toStdString() << endl;
-            cout << currentmodel->currentPivot()->x << currentmodel->currentPivot()->y << currentmodel->currentPivot()->z << endl;
             if(currentmodel->currentPivot()!=NULL){
-                /*ui->pivotX->setValue(currentmodel->currentPivot()->x);
+                ui->pivotX->setValue(currentmodel->currentPivot()->x);
                 ui->pivotY->setValue(currentmodel->currentPivot()->y);
                 ui->pivotZ->setValue(currentmodel->currentPivot()->z);
-                ui->pivotA->setValue(currentmodel->currentPivot()->a);
-                ui->pivotT->setValue(currentmodel->currentPivot()->t);*/
+                ui->pivotA->setValue(currentmodel->currentPivot()->at/360);
+                ui->pivotT->setValue(((currentmodel->currentPivot()->at%360)-90)%360);
             }
         }else if (current->text(0) == "Material"){
             ui->modelEditWidgets->setCurrentWidget(ui->objectParentPage);
@@ -404,13 +402,15 @@ void MainWindow::materialSlider4Changed(){
 /* Face Control */
 
 void MainWindow::faceAddClicked(){
-    currentmodel->addFace();
-    updateLists();
+    if(currentmodel->addFace()){
+        updateLists();
+    }
 }
 
 void MainWindow::faceRemoveClicked(){
-    currentmodel->removeFace();
-    updateLists();
+    if(currentmodel->removeFace()){
+        updateLists();
+    }
 }
 
 void MainWindow::faceVertexChanged()

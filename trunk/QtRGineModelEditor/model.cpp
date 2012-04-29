@@ -4,6 +4,9 @@
 #include <QTextStream>
 #include <QStringList>
 
+#include <iostream>
+using namespace std;
+
 Model::Model()
 {
     clear();
@@ -371,6 +374,7 @@ bool Model::addFace()
 bool Model::removeFace(){
     if(currentObjectId!=nullStringHash and currentFaceId !=-1){
         currentObject()->face.remove(currentFaceId);
+        currentFaceId = -1;
         return true;
     }
     return false;
@@ -439,8 +443,10 @@ bool Model::removeTexture(){
 bool Model::addPivot(){
     if(currentObjectId!=nullStringHash){
         maxPivotId++;
+        cout << maxPivotId << endl;
         currentObject()->pivot[maxPivotId] = ModelPivot();
         currentObject()->pivot[maxPivotId].id = maxPivotId;
+        currentObject()->pivot[maxPivotId].name = QString("pivot").append(QString::number(maxPivotId));
         return true;
     }
     return false;
