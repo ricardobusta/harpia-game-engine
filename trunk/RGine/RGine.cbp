@@ -32,7 +32,7 @@
 			<Add option="-Wall" />
 			<Add directory="RG\include" />
 			<Add directory="RGAUX\include" />
-			<Add directory="C:\SDL-1.2.14\include" />
+			<Add directory="C:\SDL-1.2.15\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32" />
@@ -41,7 +41,8 @@
 			<Add option="-lopengl32" />
 			<Add option="-lSDL_image" />
 			<Add option="-lSDL_mixer" />
-			<Add directory="C:\SDL-1.2.14\lib" />
+			<Add directory="C:\SDL-1.2.15\lib" />
+			<Add directory="C:\SDL-1.2.15\lib\x86" />
 		</Linker>
 		<Unit filename="RGAUX\include\RGColor.h" />
 		<Unit filename="RGAUX\include\RGImage.h" />

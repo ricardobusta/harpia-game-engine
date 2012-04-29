@@ -23,6 +23,7 @@ void Game::init(){
     graphics.loadTexture( "media/image.bmp" , "tex1");
     graphics.loadTexture( "media/image2.bmp" , "tex2");
     graphics.loadTexture( "media/image3.bmp" , "tex3");
+    graphics.loadTexture( "media/sprite_test.png" , "tex4");
     sound.loadMusic( "media/beat.wav", "beat" );
     sound.loadSound( "media/scratch.wav", "scratch" );
 }
