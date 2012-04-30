@@ -31,13 +31,14 @@ void RGGraphics::init() {
     atexit(SDL_Quit);
 
     //opengl
-    glClearColor(0,0,0,1);
+    glClearColor(0,0.3,0.4,1);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
-    //glEnable(GL_BLEND);
-    //glBlendFunc (GL_RGB,GL_ONE_MINUS_SRC_COLOR);
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
 
     resize(width,height);
 
@@ -49,21 +50,15 @@ void RGGraphics::init() {
 void RGGraphics::resize(int w, int h) {
     width = w;
     height = h;
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
     glViewport(0,0,width, height);
-    glOrtho( 0.0,width, 0.0,height , -2000,1000);
-    //glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
-    glMatrixMode(GL_TEXTURE);
-    //glRotatef(180,0,0,1);
-    //glScalef(-1,1,1);
-    //texture
-    glMatrixMode( GL_MODELVIEW );
 }
 
 void RGGraphics::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+
+
+    renderScene();
+    //renderInterface();
 
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
@@ -73,7 +68,8 @@ void RGGraphics::render() {
 
     static float c=0;
 
-    glTranslatef(100,100,0);
+    glTranslatef(0,0,-700);
+    //glTranslatef(0,0,100);
     glRotatef(c+=0.1,0,1,0);
     glRotatef(c/3,1,0,0);
 
@@ -89,7 +85,7 @@ void RGGraphics::render() {
     glEnd();
 
 
-    useTexture("tex1");
+    useTexture("tex4");
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
     glVertex3f(100,-100,100);
@@ -147,6 +143,19 @@ void RGGraphics::render() {
     glVertex3f(-100,-100,100);
     glTexCoord2f(0,0);
     glVertex3f(-100,-100,-100);
+    glEnd();
+
+    renderInterface();
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(-100,-100,100);
+    glTexCoord2f(1,1);
+    glVertex3f(100,-100,100);
+    glTexCoord2f(1,0);
+    glVertex3f(100,100,100);
+    glTexCoord2f(0,0);
+    glVertex3f(-100,100,100);
     glEnd();
 
     SDL_GL_SwapBuffers();
@@ -165,6 +174,7 @@ void RGGraphics::timerInit() {
     timerPausedTicks = 0;
     timerPaused = false;
     timerStarted = false;
+    fps = 60;
 }
 void RGGraphics::timerStart() {
     timerStarted = true;
@@ -276,4 +286,29 @@ void RGGraphics::loadTexture( string filename, string key ) {
 
 void RGGraphics::useTexture(string key) {
     glBindTexture( GL_TEXTURE_2D, textureMap[key] );
+}
+
+void RGGraphics::renderScene() {
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    //glOrtho( 0.0,width, 0.0,height , -2000,1000);
+    glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    //Enables and disables
+    glEnable(GL_DEPTH_TEST);
+}
+
+void RGGraphics::renderInterface() {
+    //Set Ortho for interface render
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( 0.0,width, 0.0,height , -2000,1000);
+    //glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    //Enables and disables
+    glDisable(GL_DEPTH_TEST);
 }
