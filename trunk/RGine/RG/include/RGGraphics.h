@@ -44,6 +44,10 @@ private:
     static void timerUnpause();
     static int timerGetTicks();
     static void timerDelay();
+
+    //Render
+    static void renderScene();
+    static void renderInterface();
 public:
     ///Methods
 
