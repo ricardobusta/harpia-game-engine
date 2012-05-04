@@ -55,7 +55,6 @@ public:
     static void init();
     static void resize(int width, int height);
     static void render(/*scene*/);
-    static void delay();
     static void end();
 
     //Texture

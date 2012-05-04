@@ -7,6 +7,7 @@ RGGame::~RGGame() {
 }
 
 int RGGame::run() {
+    RGGraphics::resize(640,480);
     RGGraphics::init();
     RGSound::init();
     init();
@@ -14,7 +15,6 @@ int RGGame::run() {
         RGInput::input();
         logic();
         RGGraphics::render();
-        RGGraphics::delay();
     }
     RGGraphics::end();
 
