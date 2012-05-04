@@ -30,15 +30,24 @@ void RGGraphics::init() {
     SDL_WM_SetCaption( "RGine Game" , NULL);
     atexit(SDL_Quit);
 
+    //SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
+    //SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
+    //SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
+    //SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
+
     //opengl
-    glClearColor(0,0.3,0.4,1);
+    glClearColor(0.0,0.0,0.0,1.0);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
+    //glAlphaFunc(GL_LESS,0.9f);
+    //glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    //glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    //glColor4ub(255,0,0,255);
 
     resize(width,height);
 
@@ -62,13 +71,13 @@ void RGGraphics::render() {
 
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
-    glColor4f(1,1,1,1);
+    glColor4f(1,1,1,0.5);
 
     useTexture("tex2");
 
     static float c=0;
 
-    glTranslatef(0,0,-700);
+    glTranslatef(0,0,-400);
     //glTranslatef(0,0,100);
     glRotatef(c+=0.1,0,1,0);
     glRotatef(c/3,1,0,0);
@@ -147,21 +156,20 @@ void RGGraphics::render() {
 
     renderInterface();
 
+    useTexture("tex4");
     glBegin(GL_QUADS);
     glTexCoord2f(0,1);
-    glVertex3f(-100,-100,100);
+    glVertex2f(0,0);
     glTexCoord2f(1,1);
-    glVertex3f(100,-100,100);
+    glVertex2f(640,0);
     glTexCoord2f(1,0);
-    glVertex3f(100,100,100);
+    glVertex2f(640,150);
     glTexCoord2f(0,0);
-    glVertex3f(-100,100,100);
+    glVertex2f(0,150);
     glEnd();
 
     SDL_GL_SwapBuffers();
-}
 
-void RGGraphics::delay() {
     timerDelay();
 }
 
@@ -241,15 +249,21 @@ void RGGraphics::loadTexture( string filename, string key ) {
         // get the number of channels in the SDL surface
         nOfColors = surface->format->BytesPerPixel;
         if (nOfColors == 4) {   // contains an alpha channel
-            if (surface->format->Rmask == 0x000000ff)
+            if (surface->format->Rmask == 0x000000ff){
                 texture_format = GL_RGBA;
-            else
+                //cout << "rgba" << endl;
+            }else{
                 texture_format = GL_BGRA;
+                //cout << "bgra" << endl;
+            }
         } else if (nOfColors == 3) {   // no alpha channel
-            if (surface->format->Rmask == 0x000000ff)
+            if (surface->format->Rmask == 0x000000ff){
                 texture_format = GL_RGB;
-            else
+                //cout << "rgb" << endl;
+            }else{
                 texture_format = GL_BGR;
+                //cout << "bgr" << endl;
+            }
         } else {
             printf("warning: the image is not truecolor..  this will probably break\n");
             SDL_Quit();
@@ -263,12 +277,14 @@ void RGGraphics::loadTexture( string filename, string key ) {
         glBindTexture( GL_TEXTURE_2D, texture );
 
         // Set the texture's stretching properties
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST /*GL_LINEAR*/);
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
         // Edit the texture object's image data using the information SDL_Surface gives us
         glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,
                       texture_format, GL_UNSIGNED_BYTE, surface->pixels );
+        /*glTexImage2D( GL_TEXTURE_2D, 0, 4, surface->w, surface->h, 0,
+                      GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels );*/
 
     } else {
         printf("SDL could not load image.bmp: %s\n", SDL_GetError());
