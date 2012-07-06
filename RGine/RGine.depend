@@ -16,8 +16,9 @@
 1333668971 source:d:\proj\rgine\main.cpp
 	"testgame/Game.h"
 
-1335975360 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1341595483 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
+	"RGImage.h"
 
 1335786611 d:\proj\rgine\rg\include\rggraphics.h
 	"SDL/SDL.h"
@@ -228,7 +229,7 @@
 1333668800 source:d:\proj\rgine\rgaux\src\rgimage.cpp
 	"RGImage.h"
 
-1324679301 d:\proj\rgine\rgaux\include\rgimage.h
+1336227284 d:\proj\rgine\rgaux\include\rgimage.h
 	"SDL/SDL_image.h"
 	<string>
 
@@ -450,7 +451,7 @@
 	<windows.h>
 	<stddef.h>
 
-1335971838 source:d:\proj\rgine\testgame\game.cpp
+1341594857 source:d:\proj\rgine\testgame\game.cpp
 	"Game.h"
 
 1333682697 d:\proj\rgine\testgame\game.h
