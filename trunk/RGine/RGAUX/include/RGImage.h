@@ -16,7 +16,7 @@ class RGImage
 
         int load(string filename);
     protected:
-    private:
+    public:
         SDL_Surface *image;
 };
 
