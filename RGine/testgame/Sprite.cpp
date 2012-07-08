@@ -4,26 +4,34 @@
 
 Sprite::Sprite()
 {
-    //ctor
+    w = h = 32;
+    x = y = 0;
+    current_frame = 0;
+    frame[0] = new SpriteTexCoords(0,0,1,1);
 }
 
 Sprite::~Sprite()
 {
-    //dtor
 }
 
 void Sprite::render(){
+    RGGraphics::useTexture(tex);
     glBegin(GL_QUADS);
-    glNormal3f(0,0,1);
-    glTexCoord2f(0,1);
-    glVertex3f(x-w,y,100);
-    glTexCoord2f(1,1);
-    glVertex3f(x,y,100);
-    glTexCoord2f(1,0);
-    glVertex3f(x,y+h,100);
-    glTexCoord2f(0,0);
-    glVertex3f(x-w,y+h,100);
+    //glNormal3f(0,0,1);
+    glTexCoord2f(frame[current_frame]->x1,frame[current_frame]->y2);
+    glVertex2f(x-w,y);
+    glTexCoord2f(frame[current_frame]->x2,frame[current_frame]->y2);
+    glVertex2f(x,y);
+    glTexCoord2f(frame[current_frame]->x2,frame[current_frame]->y1);
+    glVertex2f(x,y+h);
+    glTexCoord2f(frame[current_frame]->x1,frame[current_frame]->y1);
+    glVertex2f(x-w,y+h);
     glEnd();
+}
+
+
+void Sprite::setGraphics(string tex){
+    this->tex = tex;
 }
 
 void Sprite::setGeometry(int x, int y, int w, int h){

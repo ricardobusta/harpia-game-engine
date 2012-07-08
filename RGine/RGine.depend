@@ -511,3 +511,87 @@
 1341761923 d:\proj\rgine\testgame\sprite.h
 	<RGEntity.h>
 
+1341770717 source:d:\projects\rgine\rgaux\src\rgcolor.cpp
+	"RGColor.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgcolor.h
+
+1341770717 source:d:\projects\rgine\rgaux\src\rgimage.cpp
+	"RGImage.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgimage.h
+	"SDL/SDL_image.h"
+	<string>
+
+1341770717 source:d:\projects\rgine\rgaux\src\rgtrianglemesh.cpp
+	"RGTriangleMesh.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgtrianglemesh.h
+
+1341770717 source:d:\projects\rgine\rg\src\rgentity.cpp
+	"RGEntity.h"
+
+1341770717 d:\projects\rgine\rg\include\rgentity.h
+
+1341770717 source:d:\projects\rgine\rg\src\rggame.cpp
+	"RGGame.h"
+
+1341770717 d:\projects\rgine\rg\include\rggame.h
+	"RGGraphics.h"
+	"RGInput.h"
+	"RGScene.h"
+	"RGSound.h"
+
+1341770717 d:\projects\rgine\rg\include\rggraphics.h
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+	"SDL/SDL_image.h"
+	<map>
+	<iostream>
+
+1341770717 d:\projects\rgine\rg\include\rginput.h
+	"SDL/SDL.h"
+	<list>
+
+1341770717 d:\projects\rgine\rg\include\rgscene.h
+	<map>
+	<RGEntity.h>
+
+1341770717 d:\projects\rgine\rg\include\rgsound.h
+	<SDL/SDL_mixer.h>
+	<map>
+	<string>
+
+1341779442 source:d:\projects\rgine\rg\src\rggraphics.cpp
+	"RGGraphics.h"
+	"RGImage.h"
+	"RGScene.h"
+
+1341770717 source:d:\projects\rgine\rg\src\rginput.cpp
+	"RGInput.h"
+
+1341770717 source:d:\projects\rgine\rg\src\rgscene.cpp
+	"RGScene.h"
+
+1341770717 source:d:\projects\rgine\rg\src\rgsound.cpp
+	"RGSound.h"
+
+1341770717 source:d:\projects\rgine\main.cpp
+	"testgame/Game.h"
+
+1341775390 d:\projects\rgine\testgame\game.h
+	"RGGame.h"
+
+1341775372 source:d:\projects\rgine\testgame\game.cpp
+	"Game.h"
+	"Sprite.h"
+
+1341773780 d:\projects\rgine\testgame\sprite.h
+	<RGEntity.h>
+	<string>
+	<map>
+
+1341773922 source:d:\projects\rgine\testgame\sprite.cpp
+	"Sprite.h"
+	"RGGraphics.h"
+
