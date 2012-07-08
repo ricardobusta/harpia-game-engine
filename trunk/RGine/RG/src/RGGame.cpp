@@ -14,7 +14,7 @@ int RGGame::run() {
     while(!RGInput::quit()) {
         RGInput::input();
         logic();
-        RGGraphics::render();
+        RGGraphics::render(&scene);
     }
     RGGraphics::end();
 

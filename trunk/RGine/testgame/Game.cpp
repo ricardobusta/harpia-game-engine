@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "Sprite.h"
+
 Game::Game() {
     //ctor
 }
@@ -24,4 +26,10 @@ void Game::init() {
     RGGraphics::loadTexture( "media/image4.tga" , "tex4");
     RGSound::loadMusic( "media/beat.wav", "beat" );
     RGSound::loadSound( "media/scratch.wav", "scratch" );
+
+    Sprite *s = new Sprite();
+    s->setGeometry(100,100,100,100);
+
+    scene.addEntity(s);
+
 }

@@ -2,6 +2,8 @@
 
 #include "RGImage.h"
 
+#include "RGScene.h"
+
 ///Static Declaration
 
 //Screen
@@ -55,7 +57,7 @@ void RGGraphics::init() {
     glEnable(GL_LIGHT0);
 
     //TODO remove this, test purpose only
-    glEnable(GL_NORMALIZE);
+    //glEnable(GL_NORMALIZE);
 
     resize(width,height);
 
@@ -172,8 +174,8 @@ void RGGraphics::loadTexture( string filename, string key ) {
         glBindTexture( GL_TEXTURE_2D, texture );
 
         // Set the texture's stretching properties
-        //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR /*GL_NEAREST/LINEAR*/);
-        //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR /*GL_NEAREST/LINEAR*/);
+//        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
@@ -239,13 +241,17 @@ void RGGraphics::resize(int w, int h) {
     glViewport(0,0,width, height);
 }
 
-void RGGraphics::render() {
+void RGGraphics::render(RGScene *scene) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-    renderScene();
-    //renderInterface();
+    //renderScene();
 
+    renderInterface();
+
+    scene->render();
+    //renderInterface();
+/*
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
     glColor4f(1,1,1,1);
@@ -353,7 +359,7 @@ void RGGraphics::render() {
     glTexCoord2f(0,0);
     glVertex2f(0,480);
     glEnd();
-
+*/
     SDL_GL_SwapBuffers();
 
     timerDelay();

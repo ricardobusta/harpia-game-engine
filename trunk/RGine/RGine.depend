@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1335786638 source:d:\proj\rgine\rg\src\rggame.cpp
+1341757359 source:d:\proj\rgine\rg\src\rggame.cpp
 	"RGGame.h"
 
 1335738310 d:\proj\rgine\rg\include\rggame.h
@@ -16,11 +16,12 @@
 1333668971 source:d:\proj\rgine\main.cpp
 	"testgame/Game.h"
 
-1341595483 source:d:\proj\rgine\rg\src\rggraphics.cpp
+1341762040 source:d:\proj\rgine\rg\src\rggraphics.cpp
 	"RGGraphics.h"
 	"RGImage.h"
+	"RGScene.h"
 
-1335786611 d:\proj\rgine\rg\include\rggraphics.h
+1341757311 d:\proj\rgine\rg\include\rggraphics.h
 	"SDL/SDL.h"
 	"SDL/SDL_opengl.h"
 	"SDL/SDL_image.h"
@@ -233,10 +234,12 @@
 	"SDL/SDL_image.h"
 	<string>
 
-1324601572 source:d:\proj\rgine\rg\src\rgscene.cpp
+1341758865 source:d:\proj\rgine\rg\src\rgscene.cpp
 	"RGScene.h"
 
-1324601572 d:\proj\rgine\rg\include\rgscene.h
+1341758807 d:\proj\rgine\rg\include\rgscene.h
+	<map>
+	<RGEntity.h>
 
 1324667771 source:d:\proj\rgine\rgaux\src\rgtrianglemesh.cpp
 	"RGTriangleMesh.h"
@@ -451,8 +454,9 @@
 	<windows.h>
 	<stddef.h>
 
-1341594857 source:d:\proj\rgine\testgame\game.cpp
+1341762401 source:d:\proj\rgine\testgame\game.cpp
 	"Game.h"
+	"Sprite.h"
 
 1333682697 d:\proj\rgine\testgame\game.h
 	"RGGame.h"
@@ -494,4 +498,16 @@
 
 1325738640 c:\sdl-1.2.15\include\sdl\sdl_types.h
 	"SDL_stdinc.h"
+
+1341667410 source:d:\proj\rgine\rg\src\rgentity.cpp
+	"RGEntity.h"
+
+1341667419 d:\proj\rgine\rg\include\rgentity.h
+
+1341762009 source:d:\proj\rgine\testgame\sprite.cpp
+	"Sprite.h"
+	"RGGraphics.h"
+
+1341761923 d:\proj\rgine\testgame\sprite.h
+	<RGEntity.h>
 
