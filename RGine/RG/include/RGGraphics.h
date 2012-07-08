@@ -14,6 +14,8 @@
 #include <iostream>
 using namespace std;
 
+class RGScene;
+
 class RGGraphics {
 private:
     ///Attributes
@@ -54,7 +56,7 @@ public:
     //Main Game Loop
     static void init();
     static void resize(int width, int height);
-    static void render(/*scene*/);
+    static void render(RGScene *scene);
     static void end();
 
     //Texture

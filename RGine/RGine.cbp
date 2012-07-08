@@ -50,11 +50,13 @@
 		<Unit filename="RGAUX\src\RGColor.cpp" />
 		<Unit filename="RGAUX\src\RGImage.cpp" />
 		<Unit filename="RGAUX\src\RGTriangleMesh.cpp" />
+		<Unit filename="RG\include\RGEntity.h" />
 		<Unit filename="RG\include\RGGame.h" />
 		<Unit filename="RG\include\RGGraphics.h" />
 		<Unit filename="RG\include\RGInput.h" />
 		<Unit filename="RG\include\RGScene.h" />
 		<Unit filename="RG\include\RGSound.h" />
+		<Unit filename="RG\src\RGEntity.cpp" />
 		<Unit filename="RG\src\RGGame.cpp" />
 		<Unit filename="RG\src\RGGraphics.cpp" />
 		<Unit filename="RG\src\RGInput.cpp" />
@@ -63,6 +65,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="testgame\Game.cpp" />
 		<Unit filename="testgame\Game.h" />
+		<Unit filename="testgame\Sprite.cpp" />
+		<Unit filename="testgame\Sprite.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
