@@ -16,7 +16,7 @@ int RGGraphics::timerStartTicks = 0;
 int RGGraphics::timerPausedTicks = 0;
 bool RGGraphics::timerPaused = false;
 bool RGGraphics::timerStarted = false;
-int RGGraphics::fps = 60;
+int RGGraphics::fps = 120;
 
 //Texture
 map<string,GLuint> RGGraphics::textureMap;
@@ -64,6 +64,8 @@ void RGGraphics::init() {
     //fps control timer
     timerInit();
     timerStart();
+
+    renderInterface();
 }
 
 void RGGraphics::loadTexture( string filename, string key ) {
@@ -247,7 +249,7 @@ void RGGraphics::render(RGScene *scene) {
 
     //renderScene();
 
-    renderInterface();
+    //renderInterface();
 
     scene->render();
     //renderInterface();
@@ -374,7 +376,7 @@ void RGGraphics::timerInit() {
     timerPausedTicks = 0;
     timerPaused = false;
     timerStarted = false;
-    fps = 60;
+    fps = 30;
 }
 void RGGraphics::timerStart() {
     timerStarted = true;

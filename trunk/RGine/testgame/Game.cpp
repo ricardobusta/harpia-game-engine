@@ -17,6 +17,22 @@ void Game::logic() {
     if(RGInput::key(SDLK_s).down) {
         RGSound::playMusic("beat");
     }
+    if(RGInput::key(SDLK_LEFT).isDown){
+        s->x -=4;
+    }
+    if(RGInput::key(SDLK_RIGHT).isDown){
+        s->x +=4;
+    }
+    if(RGInput::key(SDLK_UP).isDown){
+        s->y +=10;
+    }
+
+    if(s->y > 0){
+        s->y-=4;
+    }else{
+        s->y = 0;
+    }
+
 }
 
 void Game::init() {
@@ -27,9 +43,9 @@ void Game::init() {
     RGSound::loadMusic( "media/beat.wav", "beat" );
     RGSound::loadSound( "media/scratch.wav", "scratch" );
 
-    Sprite *s = new Sprite();
+    s = new Sprite();
     s->setGeometry(100,100,100,100);
+    s->setGraphics("tex1");
 
     scene.addEntity(s);
-
 }

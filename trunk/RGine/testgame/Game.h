@@ -3,11 +3,16 @@
 
 #include "RGGame.h"
 
+class Sprite;
+
 class Game:public RGGame
 {
     public:
         Game();
         virtual ~Game();
+
+        Sprite *s;
+        Sprite *obj;
 
         void init();
         void logic();
