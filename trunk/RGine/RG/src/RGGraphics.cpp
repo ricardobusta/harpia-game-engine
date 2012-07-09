@@ -16,7 +16,7 @@ int RGGraphics::timerStartTicks = 0;
 int RGGraphics::timerPausedTicks = 0;
 bool RGGraphics::timerPaused = false;
 bool RGGraphics::timerStarted = false;
-int RGGraphics::fps = 120;
+int RGGraphics::fps = 60;
 
 //Texture
 map<string,GLuint> RGGraphics::textureMap;
@@ -41,8 +41,8 @@ void RGGraphics::init() {
 
     //opengl
     glClearColor(0.0,0.0,0.0,1.0);
-    glShadeModel(GL_SMOOTH);
-    glEnable(GL_DEPTH_TEST);
+    //glShadeModel(GL_SMOOTH);
+    //glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
     //glEnable(GL_COLOR_MATERIAL);
@@ -65,7 +65,7 @@ void RGGraphics::init() {
     timerInit();
     timerStart();
 
-    renderInterface();
+    //renderInterface();
 }
 
 void RGGraphics::loadTexture( string filename, string key ) {
@@ -193,7 +193,7 @@ void RGGraphics::loadTexture( string filename, string key ) {
         //free(raw);
 
     } else {
-        printf("SDL could not load image.bmp: %s\n", SDL_GetError());
+        printf("SDL could not load image: %s\n", SDL_GetError());
         SDL_Quit();
         //return 1;
     }
@@ -249,13 +249,14 @@ void RGGraphics::render(RGScene *scene) {
 
     //renderScene();
 
-    //renderInterface();
+    renderInterface();
 
     scene->render();
     //renderInterface();
-/*
+
     //glBindTexture( GL_TEXTURE_2D, texture2 );
 
+    renderScene();
     glColor4f(1,1,1,1);
 
     useTexture("tex2");
@@ -361,7 +362,7 @@ void RGGraphics::render(RGScene *scene) {
     glTexCoord2f(0,0);
     glVertex2f(0,480);
     glEnd();
-*/
+    //*/
     SDL_GL_SwapBuffers();
 
     timerDelay();
@@ -376,7 +377,7 @@ void RGGraphics::timerInit() {
     timerPausedTicks = 0;
     timerPaused = false;
     timerStarted = false;
-    fps = 30;
+    fps = 60;
 }
 void RGGraphics::timerStart() {
     timerStarted = true;
@@ -414,4 +415,5 @@ void RGGraphics::timerDelay() {
     if ( timerGetTicks() < 1000 / fps ) {
         SDL_Delay( ( 1000 / fps ) - timerGetTicks() );
     }
+    timerStartTicks = SDL_GetTicks();
 }

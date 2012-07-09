@@ -18,10 +18,10 @@ void Game::logic() {
         RGSound::playMusic("beat");
     }
     if(RGInput::key(SDLK_LEFT).isDown){
-        s->x -=4;
+        s->x -=10;
     }
     if(RGInput::key(SDLK_RIGHT).isDown){
-        s->x +=4;
+        s->x +=10;
     }
     if(RGInput::key(SDLK_UP).isDown){
         s->y +=10;
