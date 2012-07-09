@@ -37,7 +37,7 @@ private:
 
     ///Methods
     RGGraphics();
-
+public:
     //Timer
     static void timerInit();
     static void timerStart();

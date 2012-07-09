@@ -48,9 +48,9 @@ void RGInput::mouseReset() {
 }
 
 void RGInput::input() {
-    keyboardReset();
+    //keyboardReset();
     //resetar estado do mouse
-    mouseReset();
+    //mouseReset();
     //agora detecta possiveis teclas
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
