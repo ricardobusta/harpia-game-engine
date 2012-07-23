@@ -16,6 +16,7 @@ Sprite::~Sprite()
 
 void Sprite::render(){
     RGGraphics::useTexture(tex);
+    cout << tex << endl;
     glBegin(GL_QUADS);
     //glNormal3f(0,0,1);
     glTexCoord2f(frame[current_frame]->x1,frame[current_frame]->y2);

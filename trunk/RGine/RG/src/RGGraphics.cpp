@@ -16,7 +16,7 @@ int RGGraphics::timerStartTicks = 0;
 int RGGraphics::timerPausedTicks = 0;
 bool RGGraphics::timerPaused = false;
 bool RGGraphics::timerStarted = false;
-int RGGraphics::fps = 60;
+int RGGraphics::fps = 120;
 
 //Texture
 map<string,GLuint> RGGraphics::textureMap;
@@ -29,8 +29,10 @@ RGGraphics::RGGraphics() {
 void RGGraphics::init() {
     //sdl
     SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_SetVideoMode(width,height,depth,SDL_OPENGL|SDL_RESIZABLE);
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+    //SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, 0 );
+    SDL_SetVideoMode(width,height,depth,SDL_OPENGL/*|SDL_RESIZABLE*/);
     SDL_WM_SetCaption( "RGine Game" , NULL);
     atexit(SDL_Quit);
 
@@ -41,29 +43,30 @@ void RGGraphics::init() {
 
     //opengl
     glClearColor(0.0,0.0,0.0,1.0);
-    //glShadeModel(GL_SMOOTH);
-    //glEnable(GL_DEPTH_TEST);
+
     glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
-    //glEnable(GL_COLOR_MATERIAL);
-    //glAlphaFunc(GL_LESS,0.9f);
-    //glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    //glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    //glColor4ub(255,0,0,255);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
+        //glShadeModel(GL_SMOOTH);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_COLOR_MATERIAL);
+    //glAlphaFunc(GL_LESS,0.9f);
+    //glEnable(GL_ALPHA_TEST);
+        //glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    //glColor4ub(255,0,0,255);
     //TODO remove this, test purpose only
     //glEnable(GL_NORMALIZE);
 
     resize(width,height);
 
     //fps control timer
-    timerInit();
-    timerStart();
+    //timerInit();
+    //timerStart();
 
     //renderInterface();
 }
@@ -82,59 +85,8 @@ void RGGraphics::loadTexture( string filename, string key ) {
     //Load the image using SDL_image
     surface = IMG_Load( filename.c_str() );
 
-    //RGImage image;
-//    image.load(filename);
-//    surface = image.image;
-
     //If the image loaded
     if( surface != NULL ) {
-//        w = surface->w;
-//        h = surface->h;
-//        raw = (void*)malloc(w*h*4);
-//        dstPixel = (Uint8 *) raw;
-//
-//        //Create an optimized image
-//        surface = SDL_DisplayFormat( surface );
-//
-//        //Prepares the surface for direct pixel access
-//        SDL_LockSurface(surface);
-//
-//        bpp = surface->format->BytesPerPixel;
-//
-//        for(int i=h-1; i>=0; i--) {
-//            for(int j=0; j<w; j++) {
-//                (Uint8 *) surface->pixels + i * surface->pitch + j * bpp;
-//                switch(bpp) {
-//                case 1:
-//                    truePixel = *srcPixel;
-//                    break;
-//                case 2:
-//                    truePixel = *((Uint16*)srcPixel);
-//                    break;
-//                case 3:
-//                    if(SDL_BYTEORDER == SDL_LIL_ENDIAN) {
-//                        truePixel = srcPixel[0] << 16 | srcPixel[1] << 8 | srcPixel[2];
-//                    } else {
-//                        truePixel = srcPixel[0] | srcPixel[1] << 8 | srcPixel[2] << 16;
-//                    }
-//                    break;
-//                case 4:
-//                    truePixel = *((Uint32*)srcPixel);
-//                    break;
-//                default:
-//                    //error
-//                    return;
-//                    break;
-//                }
-//
-//                SDL_GetRGBA( truePixel, surface->format, &(dstPixel[0]), &(dstPixel[1]), &(dstPixel[2]), &(dstPixel[3]));
-//                dstPixel+=4;
-//            }
-//        }
-//
-//        SDL_UnlockSurface(surface);
-//        SDL_FreeSurface(surface);
-
         // Check that the image's width is a power of 2
         if ( (surface->w & (surface->w - 1)) != 0 ) {
             printf("warning: image.bmp's width is not a power of 2\n");
@@ -180,17 +132,9 @@ void RGGraphics::loadTexture( string filename, string key ) {
 //        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-
-        // Edit the texture object's image data using the information SDL_Surface gives us
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA , w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,  (Uint8 *)raw);
-
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-        glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,texture_format, GL_UNSIGNED_BYTE, surface->pixels );
-        //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-        /*glTexImage2D( GL_TEXTURE_2D, 0, 4, surface->w, surface->h, 0,
-                      GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels );*/
 
-        //free(raw);
+        glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,texture_format, GL_UNSIGNED_BYTE, surface->pixels );
 
     } else {
         printf("SDL could not load image: %s\n", SDL_GetError());
@@ -227,7 +171,7 @@ void RGGraphics::renderInterface() {
     //Set Ortho for interface render
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    glOrtho( 0.0,width, 0.0,height , -2000,1000);
+    glOrtho( 0.0,width, 0.0,height , -1,1);
     //glFrustum (-width/20,width/20, -height/20,height/20, 50,6000);
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
@@ -244,8 +188,8 @@ void RGGraphics::resize(int w, int h) {
 }
 
 void RGGraphics::render(RGScene *scene) {
+    //glDrawBuffer(GL_BACK);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     //renderScene();
 
@@ -254,115 +198,7 @@ void RGGraphics::render(RGScene *scene) {
     scene->render();
     //renderInterface();
 
-    //glBindTexture( GL_TEXTURE_2D, texture2 );
-
-    renderScene();
-    glColor4f(1,1,1,1);
-
-    useTexture("tex2");
-
-    static float c=0;
-
-    glTranslatef(0,0,-400);
-    //glTranslatef(0,0,100);
-    glRotatef(c+=0.1,0,1,0);
-    glRotatef(c/3,1,0,0);
-
-    glPushMatrix();
-    glLoadIdentity();
-    glTranslatef(0,0,-400);
-    //glTranslatef(0,0,100);
-    glRotatef(c/2,0,1,0);
-    glRotatef(c/6,1,0,0);
-    //glScaled(0.5,0.5,0.5);
-    glBegin(GL_QUADS);
-    glNormal3f(0,0,1);
-    glTexCoord2f(0,1);
-    glVertex3f(-100,-100,100);
-    glTexCoord2f(1,1);
-    glVertex3f(100,-100,100);
-    glTexCoord2f(1,0);
-    glVertex3f(100,100,100);
-    glTexCoord2f(0,0);
-    glVertex3f(-100,100,100);
-    glEnd();
-    useTexture("tex1");
-    glBegin(GL_QUADS);
-    glNormal3f(1,0,0);
-    glTexCoord2f(0,1);
-    glVertex3f(100,-100,100);
-    glTexCoord2f(1,1);
-    glVertex3f(100,-100,-100);
-    glTexCoord2f(1,0);
-    glVertex3f(100,100,-100);
-    glTexCoord2f(0,0);
-    glVertex3f(100,100,100);
-    glEnd();
-    useTexture("tex1");
-    glBegin(GL_QUADS);
-    glNormal3f(-1,0,0);
-    glTexCoord2f(0,1);
-    glVertex3f(-100,-100,-100);
-    glTexCoord2f(1,1);
-    glVertex3f(-100,-100,100);
-    glTexCoord2f(1,0);
-    glVertex3f(-100,100,100);
-    glTexCoord2f(0,0);
-    glVertex3f(-100,100,-100);
-    glEnd();
-    useTexture("tex2");
-    glBegin(GL_QUADS);
-    glNormal3f(0,0,-1);
-    glTexCoord2f(0,1);
-    glVertex3f(100,-100,-100);
-    glTexCoord2f(1,1);
-    glVertex3f(-100,-100,-100);
-    glTexCoord2f(1,0);
-    glVertex3f(-100,100,-100);
-    glTexCoord2f(0,0);
-    glVertex3f(100,100,-100);
-    glEnd();
-    useTexture("tex3");
-    glBegin(GL_QUADS);
-    glNormal3f(0,1,0);
-    glTexCoord2f(0,1);
-    glVertex3f(-100,100,100);
-    glTexCoord2f(1,1);
-    glVertex3f(100,100,100);
-    glTexCoord2f(1,0);
-    glVertex3f(100,100,-100);
-    glTexCoord2f(0,0);
-    glVertex3f(-100,100,-100);
-    glEnd();
-    useTexture("tex3");
-    glBegin(GL_QUADS);
-    glNormal3f(0,-1,0);
-    glTexCoord2f(0,1);
-    glVertex3f(100,-100,-100);
-    glTexCoord2f(1,1);
-    glVertex3f(100,-100,100);
-    glTexCoord2f(1,0);
-    glVertex3f(-100,-100,100);
-    glTexCoord2f(0,0);
-    glVertex3f(-100,-100,-100);
-    glEnd();
-    glPopMatrix();
-
-    renderInterface();
-
-    useTexture("tex4");
-    glBegin(GL_QUADS);
-    glNormal3f(0,0,1);
-    glTexCoord2f(0,1);
-    glVertex2f(0,0);
-    glTexCoord2f(1,1);
-    glVertex2f(640,0);
-    glTexCoord2f(1,0);
-    glVertex2f(640,480);
-    glTexCoord2f(0,0);
-    glVertex2f(0,480);
-    glEnd();
-    //*/
+    //glFinish();
     SDL_GL_SwapBuffers();
 
     timerDelay();
@@ -417,3 +253,4 @@ void RGGraphics::timerDelay() {
     }
     timerStartTicks = SDL_GetTicks();
 }
+
