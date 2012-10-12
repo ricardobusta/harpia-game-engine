@@ -15,7 +15,7 @@ Sprite::~Sprite()
 }
 
 void Sprite::render(){
-    RGGraphics::useTexture(tex);
+    //RGGraphics::useTexture(tex);
     cout << tex << endl;
     glBegin(GL_QUADS);
     //glNormal3f(0,0,1);
