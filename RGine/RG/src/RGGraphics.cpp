@@ -46,10 +46,10 @@ void RGGraphics::init() {
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    //glEnable(GL_BLEND);
+    //glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
 
         //glShadeModel(GL_SMOOTH);
     //glEnable(GL_DEPTH_TEST);
@@ -132,7 +132,7 @@ void RGGraphics::loadTexture( string filename, string key ) {
 //        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-        glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+        //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
         glTexImage2D( GL_TEXTURE_2D, 0, nOfColors, surface->w, surface->h, 0,texture_format, GL_UNSIGNED_BYTE, surface->pixels );
 
@@ -193,9 +193,38 @@ void RGGraphics::render(RGScene *scene) {
 
     //renderScene();
 
+    float x=60,y=60,h=60, w=60;
+
+
+    RGGraphics::useTexture("tex1");
+        glBegin(GL_QUADS);
+    glColor3f(1,1,0);
+    glTexCoord2f(0,1);
+    glVertex2f(0,0);
+    glTexCoord2f(1,1);
+    glVertex2f(640,0);
+    glTexCoord2f(1,0);
+    glVertex2f(640,480);
+    glTexCoord2f(0,0);
+    glVertex2f(0,480);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,1);
+    glTexCoord2f(0,1);
+    glVertex2f(x-w,y);
+    glTexCoord2f(1,1);
+    glVertex2f(x,y);
+    glTexCoord2f(1,0);
+    glVertex2f(x,y+h);
+    glTexCoord2f(0,0);
+    glVertex2f(x-w,y+h);
+    glEnd();
+    scene->entities[1]->render();
+
     renderInterface();
 
-    scene->render();
+    //scene->render();
     //renderInterface();
 
     //glFinish();
