@@ -25,9 +25,7 @@ namespace Harpia::Engine {
     public:
         explicit Application();
 
-        bool Execute();
-
-        int Result();
+        int Execute();
 
     private:
         int Initialize();

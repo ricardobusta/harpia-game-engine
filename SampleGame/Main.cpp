@@ -14,7 +14,5 @@ int main(int argc, char **argv) {
     app.configuration.clearColor = Engine::ColorInt(100,0,0);
     app.configuration.windowSize = Engine::Vector2Int(640, 480);
 
-    while(app.Execute()){}
-
-    return app.Result();
+    return app.Execute();
 }

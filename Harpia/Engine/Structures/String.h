@@ -12,12 +12,20 @@ namespace Harpia::Engine {
     private:
         std::string _string;
     public:
-        const char* ToCString();
+        [[nodiscard]] const char *ToCString() const;
 
-        String &operator=(const std::string& s);
-        bool operator==(const std::string& s);
-        bool operator==(String s);
+        String &operator=(const std::string &s);
+
+        bool operator==(const std::string &s) const;
+
+        bool operator==(String s) const;
+
+        explicit operator std::string() const;
+
+        [[nodiscard]] std::string StdString() const;
     };
+
+    std::ostream &operator<<(std::ostream &s, const String &string);
 }
 
 #endif //HARPIAGAMEENGINE_STRING_H

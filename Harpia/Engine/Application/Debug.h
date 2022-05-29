@@ -5,9 +5,13 @@
 #ifndef HARPIAGAMEENGINE_DEBUG_H
 #define HARPIAGAMEENGINE_DEBUG_H
 
+#include "String.h"
+
 namespace Harpia::Engine {
     class Debug {
-
+    public:
+        static void Log(const char * msg);
+        static void Log(String msg);
     };
 }
 

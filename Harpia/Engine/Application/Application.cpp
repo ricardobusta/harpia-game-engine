@@ -3,16 +3,20 @@
 //
 
 #include <SDL.h>
+#include <iostream>
+
 #include "Application.h"
 
-namespace Harpia::Engine {
-    Application::Application() {
-    }
+#include "Debug.h"
 
-    bool Application::Execute() {
+namespace Harpia::Engine {
+    Application::Application() = default;
+
+    int Application::Execute() {
+        Debug::Log("Application is starting");
         _result = Initialize();
         if (_result != 0) {
-            return false;
+            return _result;
         }
 
         bool quit = false;
@@ -22,6 +26,7 @@ namespace Harpia::Engine {
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
                     quit = true;
+                    Debug::Log("Requested to quit");
                 }
             }
 
@@ -30,11 +35,8 @@ namespace Harpia::Engine {
                                     configuration.clearColor.b));
             SDL_UpdateWindowSurface(_window);
         }
+        Debug::Log("Quit");
         Quit();
-        return true;
-    }
-
-    int Application::Result() {
         return _result;
     }
 
