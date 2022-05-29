@@ -6,5 +6,5 @@ cmake_minimum_required(VERSION 3.22)
 project(SampleGame LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(SampleGame Main.cpp)
-target_link_libraries(SampleGame PRIVATE Harpia)
+add_executable(${PROJECT_NAME} Main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE Harpia)

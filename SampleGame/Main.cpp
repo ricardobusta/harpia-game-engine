@@ -6,5 +6,5 @@
 
 int main(){
     Harpia::Core core;
-    core.Test();
+    return core.Test();
 }

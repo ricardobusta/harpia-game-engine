@@ -8,7 +8,7 @@
 namespace Harpia {
     class Core {
     public:
-        void Test();
+        int Test();
     };
 } // Busta
 
