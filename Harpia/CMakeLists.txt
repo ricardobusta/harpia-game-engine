@@ -6,9 +6,8 @@ cmake_minimum_required(VERSION 3.22)
 project(Harpia LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(${PROJECT_NAME} STATIC
-        Core.cpp
-        )
+file(GLOB Harpia_SRC CONFIGURE_DEPENDS "*.cpp" "*.h")
+add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

@@ -10,8 +10,8 @@
 namespace Harpia {
     class Core {
     public:
-        int HelloWorld(Configuration configuration);
+        static int HelloWorld(Configuration configuration);
     };
-} // Busta
+}
 
 #endif //HARPIAGAMEENGINE_CORE_H

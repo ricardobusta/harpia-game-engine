@@ -9,5 +9,8 @@ int main(){
     Harpia::Configuration configuration;
     configuration.windowSize.x = 640;
     configuration.windowSize.y = 480;
+    configuration.clearColor.r = 0;
+    configuration.clearColor.g = 0;
+    configuration.clearColor.b = 120;
     return core.HelloWorld(configuration);
 }

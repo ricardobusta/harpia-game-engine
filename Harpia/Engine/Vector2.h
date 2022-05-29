@@ -6,10 +6,10 @@
 #define HARPIAGAMEENGINE_VECTOR2_H
 
 namespace Harpia::Engine {
-    class Vector2 {
-    public:
-        float x, y;
-    };
-}
+        class Vector2 {
+        public:
+            float x, y;
+        };
+    }
 
 #endif //HARPIAGAMEENGINE_VECTOR2_H

@@ -9,8 +9,8 @@
 
 namespace Harpia {
     int Core::HelloWorld(Configuration configuration) {
-        SDL_Window* window = NULL;
-        SDL_Surface* screenSurface = NULL;
+        SDL_Window *window = nullptr;
+        SDL_Surface *screenSurface = nullptr;
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
             fprintf(stderr, "could not initialize sdl2: %s\n", SDL_GetError());
             return 1;
@@ -21,16 +21,18 @@ namespace Harpia {
                 configuration.windowSize.x, configuration.windowSize.y,
                 SDL_WINDOW_SHOWN
         );
-        if (window == NULL) {
+        if (window == nullptr) {
             fprintf(stderr, "could not create window: %s\n", SDL_GetError());
             return 1;
         }
         screenSurface = SDL_GetWindowSurface(window);
-        SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+        SDL_FillRect(screenSurface, nullptr,
+                     SDL_MapRGB(screenSurface->format, configuration.clearColor.r, configuration.clearColor.g,
+                                configuration.clearColor.b));
         SDL_UpdateWindowSurface(window);
         SDL_Delay(2000);
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 0;
     }
-} // Busta
+}

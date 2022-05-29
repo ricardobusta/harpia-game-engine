@@ -2,9 +2,11 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#include "Vector2.h"
+#include "ColorInt.h"
 
 namespace Harpia {
     namespace Engine {
+        ColorInt::ColorInt() : r(0), g(0), b(0) {
+        }
     }
 }

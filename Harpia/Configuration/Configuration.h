@@ -5,12 +5,14 @@
 #ifndef HARPIAGAMEENGINE_CONFIGURATION_H
 #define HARPIAGAMEENGINE_CONFIGURATION_H
 
-#include "Engine/Vector2.h"
+#include "Engine/Vector2Int.h"
+#include "Engine/ColorInt.h"
 
 namespace Harpia {
     class Configuration {
     public:
-        Engine::Vector2 windowSize;
+        Engine::Vector2Int windowSize;
+        Engine::ColorInt clearColor;
     };
 }
 
