@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Core.h"
 
-namespace Busta {
+namespace Harpia {
     void Core::Test() {
         std::cout << "Hello World!" << std::endl;
     }

@@ -5,7 +5,7 @@
 #ifndef GAME_ENGINE_CORE_H
 #define GAME_ENGINE_CORE_H
 
-namespace Busta {
+namespace Harpia {
     class Core {
     public:
         void Test();
