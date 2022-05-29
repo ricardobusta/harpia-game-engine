@@ -4,7 +4,8 @@
 
 #include "Vector3.h"
 
-namespace Harpia {
-    namespace Engine {
-    } // Harpia
-} // Engine
+namespace Harpia::Engine {
+    Vector3::Vector3(int x, int y, int z)
+        : x(x), y(y), z(z) {
+    }
+}// namespace Harpia::Engine

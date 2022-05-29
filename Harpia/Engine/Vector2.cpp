@@ -4,7 +4,8 @@
 
 #include "Vector2.h"
 
-namespace Harpia {
-    namespace Engine {
+namespace Harpia::Engine {
+    Vector2::Vector2(float x, float y)
+        : x(x), y(y) {
     }
-}
+}// namespace Harpia::Engine

@@ -4,7 +4,5 @@
 
 #include "Asset.h"
 
-namespace Harpia {
-    namespace Engine {
-    }
+namespace Harpia::Engine {
 }

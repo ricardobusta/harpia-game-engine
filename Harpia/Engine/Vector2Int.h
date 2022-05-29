@@ -5,15 +5,13 @@
 #ifndef HARPIAGAMEENGINE_VECTOR2INT_H
 #define HARPIAGAMEENGINE_VECTOR2INT_H
 
-namespace Harpia {
-    namespace Engine {
+namespace Harpia::Engine {
+    struct Vector2Int {
+    public:
+        Vector2Int(int x, int y);
 
-        class Vector2Int {
-        public:
-            int x, y;
-        };
+        int x, y;
+    };
+}// namespace Harpia::Engine
 
-    } // Harpia
-} // Engine
-
-#endif //HARPIAGAMEENGINE_VECTOR2INT_H
+#endif//HARPIAGAMEENGINE_VECTOR2INT_H

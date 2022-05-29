@@ -5,12 +5,10 @@
 #ifndef HARPIAGAMEENGINE_ASSET_H
 #define HARPIAGAMEENGINE_ASSET_H
 
-namespace Harpia {
-    namespace Engine {
-        class Asset {
+namespace Harpia::Engine {
+    class Asset {
 
-        };
-    }
+    };
 }
 
 #endif //HARPIAGAMEENGINE_ASSET_H

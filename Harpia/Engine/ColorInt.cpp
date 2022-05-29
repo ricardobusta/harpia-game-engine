@@ -4,9 +4,7 @@
 
 #include "ColorInt.h"
 
-namespace Harpia {
-    namespace Engine {
-        ColorInt::ColorInt() : r(0), g(0), b(0) {
-        }
+namespace Harpia::Engine {
+    ColorInt::ColorInt() : r(0), g(0), b(0) {
     }
 }

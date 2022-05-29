@@ -4,5 +4,5 @@
 
 project(Harpia.Engine)
 
-file(GLOB Harpia.Engine_SRC CONFIGURE_DEPENDS "*.cpp" "*.h")
+file(GLOB Harpia.Engine_SRC CONFIGURE_DEPENDS "*.cpp")
 add_library(${PROJECT_NAME} STATIC ${Harpia.Engine_SRC})
