@@ -6,5 +6,8 @@
 
 int main(){
     Harpia::Core core;
-    return core.Test();
+    Harpia::Configuration configuration;
+    configuration.windowSize.x = 640;
+    configuration.windowSize.y = 480;
+    return core.HelloWorld(configuration);
 }

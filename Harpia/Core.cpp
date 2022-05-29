@@ -7,11 +7,8 @@
 
 #include "SDL.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-
 namespace Harpia {
-    int Core::Test() {
+    int Core::HelloWorld(Configuration configuration) {
         SDL_Window* window = NULL;
         SDL_Surface* screenSurface = NULL;
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -21,7 +18,7 @@ namespace Harpia {
         window = SDL_CreateWindow(
                 "hello_sdl2",
                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                SCREEN_WIDTH, SCREEN_HEIGHT,
+                configuration.windowSize.x, configuration.windowSize.y,
                 SDL_WINDOW_SHOWN
         );
         if (window == NULL) {

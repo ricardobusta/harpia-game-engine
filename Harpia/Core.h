@@ -2,14 +2,16 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#ifndef GAME_ENGINE_CORE_H
-#define GAME_ENGINE_CORE_H
+#ifndef HARPIAGAMEENGINE_CORE_H
+#define HARPIAGAMEENGINE_CORE_H
+
+#include "Configuration/Configuration.h"
 
 namespace Harpia {
     class Core {
     public:
-        int Test();
+        int HelloWorld(Configuration configuration);
     };
 } // Busta
 
-#endif //GAME_ENGINE_CORE_H
+#endif //HARPIAGAMEENGINE_CORE_H
