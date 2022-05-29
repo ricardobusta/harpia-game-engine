@@ -5,12 +5,20 @@
 #ifndef HARPIAGAMEENGINE_CORE_H
 #define HARPIAGAMEENGINE_CORE_H
 
-#include "Configuration/Configuration.h"
+#include "Engine/Configuration.h"
+#include "SDL.h"
 
-namespace Harpia {
+namespace Harpia::Engine {
     class Core {
+    private:
+        SDL_Window *_window = nullptr;
+        SDL_Surface *_surface = nullptr;
     public:
-        static int HelloWorld(Configuration configuration);
+        int Start();
+
+        void Quit();
+
+        void Draw();
     };
 }
 

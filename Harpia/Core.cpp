@@ -2,37 +2,45 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#include <iostream>
 #include "Core.h"
-
 #include "SDL.h"
+#include <iostream>
 
-namespace Harpia {
-    int Core::HelloWorld(Configuration configuration) {
-        SDL_Window *window = nullptr;
-        SDL_Surface *screenSurface = nullptr;
+namespace Harpia::Engine {
+    int Core::Start() {
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            fprintf(stderr, "could not initialize sdl2: %s\n", SDL_GetError());
+            fprintf(stderr, "SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
-        window = SDL_CreateWindow(
-                "hello_sdl2",
-                SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                configuration.windowSize.x, configuration.windowSize.y,
-                SDL_WINDOW_SHOWN
-        );
-        if (window == nullptr) {
-            fprintf(stderr, "could not create window: %s\n", SDL_GetError());
+
+        _window = SDL_CreateWindow("Test SDL", SDL_WINDOWPOS_UNDEFINED,
+                                   SDL_WINDOWPOS_UNDEFINED, 640, 480,
+                                   SDL_WINDOW_SHOWN);
+
+        if (_window == nullptr) {
+            fprintf(stderr, "Window was not created. SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
-        screenSurface = SDL_GetWindowSurface(window);
-        SDL_FillRect(screenSurface, nullptr,
-                     SDL_MapRGB(screenSurface->format, configuration.clearColor.r, configuration.clearColor.g,
-                                configuration.clearColor.b));
-        SDL_UpdateWindowSurface(window);
-        SDL_Delay(2000);
-        SDL_DestroyWindow(window);
-        SDL_Quit();
+
+        _surface = SDL_GetWindowSurface(_window);
+
         return 0;
     }
-}
+
+    void Core::Draw() {
+        SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, 0, 0, 0));
+        SDL_UpdateWindowSurface(_window);
+        SDL_Delay(15000);
+        SDL_DestroyWindow(_window);
+    }
+
+    void Core::Quit() {
+        SDL_FreeSurface(_surface);
+        _surface = nullptr;
+
+        SDL_DestroyWindow(_window);
+        _window = nullptr;
+
+        SDL_Quit();
+    }
+}// namespace Harpia::Engine

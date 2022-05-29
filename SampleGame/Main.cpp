@@ -3,14 +3,18 @@
 //
 
 #include "Core.h"
+#include <iostream>
 
-int main(){
-    Harpia::Core core;
-    Harpia::Configuration configuration;
-    configuration.windowSize.x = 640;
-    configuration.windowSize.y = 480;
-    configuration.clearColor.r = 0;
-    configuration.clearColor.g = 0;
-    configuration.clearColor.b = 120;
-    return core.HelloWorld(configuration);
+int main(int argc, char **argv) {
+    Harpia::Engine::Core core;
+
+    auto result = core.Start();
+    if (result != 0) {
+        std::cout << "Deu pau" << std::endl;
+        return result;
+    }
+    core.Draw();
+    core.Quit();
+
+    return 0;
 }
