@@ -2,12 +2,43 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#include "Core.h"
-#include "SDL.h"
-#include <iostream>
+#include <SDL.h>
+
+#include "Application.h"
 
 namespace Harpia::Engine {
-    int Core::Start() {
+    Application::Application(Configuration configuration) {
+
+    }
+
+    bool Application::Execute() {
+        _result = Initialize();
+        if(_result!=0){
+            return false;
+        }
+
+        bool quit = false;
+        SDL_Event e;
+
+        while(!quit) {
+            while (SDL_PollEvent(&e) != 0) {
+                if(e.type == SDL_QUIT){
+                    quit = true;
+                }
+            }
+
+            SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, 0, 0, 0));
+            SDL_UpdateWindowSurface(_window);
+        }
+        Quit();
+        return true;
+    }
+
+    int Application::Result() {
+        return _result;
+    }
+
+    int Application::Initialize() {
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
             fprintf(stderr, "SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
             return 1;
@@ -27,14 +58,7 @@ namespace Harpia::Engine {
         return 0;
     }
 
-    void Core::Draw() {
-        SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, 0, 0, 0));
-        SDL_UpdateWindowSurface(_window);
-        SDL_Delay(15000);
-        SDL_DestroyWindow(_window);
-    }
-
-    void Core::Quit() {
+    void Application::Quit() {
         SDL_FreeSurface(_surface);
         _surface = nullptr;
 
@@ -43,4 +67,4 @@ namespace Harpia::Engine {
 
         SDL_Quit();
     }
-}// namespace Harpia::Engine
+}
