@@ -1,0 +1,1 @@
+Simple game engine using C++/SDL/OpenGL developed by Ricardo Bustamante de Queiroz in an attempt to learn how to develop a game engine and create a tool to build quick games and prototypes.

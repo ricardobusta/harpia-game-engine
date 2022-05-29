@@ -1,0 +1,598 @@
+# depslib dependency file v1.0
+1341757359 source:d:\proj\rgine\rg\src\rggame.cpp
+	"RGGame.h"
+
+1335738310 d:\proj\rgine\rg\include\rggame.h
+	"RGGraphics.h"
+	"RGInput.h"
+	"RGScene.h"
+	"RGSound.h"
+
+1324463007 source:d:\proj\rgine\rgaux\src\rgcolor.cpp
+	"RGColor.h"
+
+1324463007 d:\proj\rgine\rgaux\include\rgcolor.h
+
+1333668971 source:d:\proj\rgine\main.cpp
+	"testgame/Game.h"
+
+1341762040 source:d:\proj\rgine\rg\src\rggraphics.cpp
+	"RGGraphics.h"
+	"RGImage.h"
+	"RGScene.h"
+
+1341757311 d:\proj\rgine\rg\include\rggraphics.h
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+	"SDL/SDL_image.h"
+	<map>
+	<iostream>
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255800464 c:\sdl-1.2.14\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_platform.h
+
+1255800450 c:\sdl-1.2.14\include\sdl\begin_code.h
+
+1255800450 c:\sdl-1.2.14\include\sdl\close_code.h
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_keysym.h
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_opengl.h
+	"SDL_config.h"
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<gl.h>
+	<glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<windows.h>
+	<stddef.h>
+
+1335738772 source:d:\proj\rgine\rg\src\rginput.cpp
+	"RGInput.h"
+
+1335738650 d:\proj\rgine\rg\include\rginput.h
+	"SDL/SDL.h"
+	<list>
+
+1333668800 source:d:\proj\rgine\rgaux\src\rgimage.cpp
+	"RGImage.h"
+
+1336227284 d:\proj\rgine\rgaux\include\rgimage.h
+	"SDL/SDL_image.h"
+	<string>
+
+1341758865 source:d:\proj\rgine\rg\src\rgscene.cpp
+	"RGScene.h"
+
+1341758807 d:\proj\rgine\rg\include\rgscene.h
+	<map>
+	<RGEntity.h>
+
+1324667771 source:d:\proj\rgine\rgaux\src\rgtrianglemesh.cpp
+	"RGTriangleMesh.h"
+
+1324667771 d:\proj\rgine\rgaux\include\rgtrianglemesh.h
+
+1258249878 c:\sdl-1.2.14\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1326110988 c:\sdl-1.2.15\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_platform.h
+
+1326110994 c:\sdl-1.2.15\include\sdl\sdl_config_win32.h
+	"SDL_platform.h"
+
+1326111000 c:\sdl-1.2.15\include\sdl\begin_code.h
+
+1325738640 c:\sdl-1.2.15\include\sdl\close_code.h
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_keysym.h
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_opengl.h
+	"SDL_config.h"
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<gl.h>
+	<glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<windows.h>
+	<stddef.h>
+
+1341762401 source:d:\proj\rgine\testgame\game.cpp
+	"Game.h"
+	"Sprite.h"
+
+1333682697 d:\proj\rgine\testgame\game.h
+	"RGGame.h"
+
+1335738408 source:d:\proj\rgine\rg\src\rgsound.cpp
+	"RGSound.h"
+
+1335738394 d:\proj\rgine\rg\include\rgsound.h
+	<SDL/SDL_mixer.h>
+	<map>
+	<string>
+
+1258249952 c:\sdl-1.2.14\include\sdl\sdl_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255800450 c:\sdl-1.2.14\include\sdl\sdl_types.h
+	"SDL_stdinc.h"
+
+1325792434 c:\sdl-1.2.15\include\sdl\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325792940 c:\sdl-1.2.15\include\sdl\sdl_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738640 c:\sdl-1.2.15\include\sdl\sdl_types.h
+	"SDL_stdinc.h"
+
+1341667410 source:d:\proj\rgine\rg\src\rgentity.cpp
+	"RGEntity.h"
+
+1341667419 d:\proj\rgine\rg\include\rgentity.h
+
+1341762009 source:d:\proj\rgine\testgame\sprite.cpp
+	"Sprite.h"
+	"RGGraphics.h"
+
+1341761923 d:\proj\rgine\testgame\sprite.h
+	<RGEntity.h>
+
+1341770717 source:d:\projects\rgine\rgaux\src\rgcolor.cpp
+	"RGColor.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgcolor.h
+
+1341770717 source:d:\projects\rgine\rgaux\src\rgimage.cpp
+	"RGImage.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgimage.h
+	"SDL/SDL_image.h"
+	<string>
+
+1341770717 source:d:\projects\rgine\rgaux\src\rgtrianglemesh.cpp
+	"RGTriangleMesh.h"
+
+1341770717 d:\projects\rgine\rgaux\include\rgtrianglemesh.h
+
+1341770717 source:d:\projects\rgine\rg\src\rgentity.cpp
+	"RGEntity.h"
+
+1341770717 d:\projects\rgine\rg\include\rgentity.h
+
+1344011834 source:d:\projects\rgine\rg\src\rggame.cpp
+	"RGGame.h"
+
+1341770717 d:\projects\rgine\rg\include\rggame.h
+	"RGGraphics.h"
+	"RGInput.h"
+	"RGScene.h"
+	"RGSound.h"
+
+1341781431 d:\projects\rgine\rg\include\rggraphics.h
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+	"SDL/SDL_image.h"
+	<map>
+	<iostream>
+
+1341770717 d:\projects\rgine\rg\include\rginput.h
+	"SDL/SDL.h"
+	<list>
+
+1341770717 d:\projects\rgine\rg\include\rgscene.h
+	<map>
+	<RGEntity.h>
+
+1341770717 d:\projects\rgine\rg\include\rgsound.h
+	<SDL/SDL_mixer.h>
+	<map>
+	<string>
+
+1344018941 source:d:\projects\rgine\rg\src\rggraphics.cpp
+	"RGGraphics.h"
+	"RGImage.h"
+	"RGScene.h"
+
+1341780974 source:d:\projects\rgine\rg\src\rginput.cpp
+	"RGInput.h"
+
+1341770717 source:d:\projects\rgine\rg\src\rgscene.cpp
+	"RGScene.h"
+
+1341770717 source:d:\projects\rgine\rg\src\rgsound.cpp
+	"RGSound.h"
+
+1341770717 source:d:\projects\rgine\main.cpp
+	"testgame/Game.h"
+
+1341775390 d:\projects\rgine\testgame\game.h
+	"RGGame.h"
+
+1343006160 source:d:\projects\rgine\testgame\game.cpp
+	"Game.h"
+	"Sprite.h"
+	<cmath>
+
+1341773780 d:\projects\rgine\testgame\sprite.h
+	<RGEntity.h>
+	<string>
+	<map>
+
+1344013565 source:d:\projects\rgine\testgame\sprite.cpp
+	"Sprite.h"
+	"RGGraphics.h"
+
