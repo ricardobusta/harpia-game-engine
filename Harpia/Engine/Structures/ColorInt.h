@@ -8,7 +8,9 @@
 namespace Harpia::Engine {
     class ColorInt {
     public:
-        ColorInt();
+        explicit ColorInt();
+
+        explicit ColorInt(int r, int g, int b);
 
         int r, g, b;
     };

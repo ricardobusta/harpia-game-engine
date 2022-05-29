@@ -13,12 +13,17 @@ class SDL_Surface;
 
 namespace Harpia::Engine {
     class Application {
+    private:
         int _result = -1;
 
         SDL_Window *_window = nullptr;
         SDL_Surface *_surface = nullptr;
+
     public:
-        explicit Application(Configuration configuration);
+        Configuration configuration;
+
+    public:
+        explicit Application();
 
         bool Execute();
 

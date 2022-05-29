@@ -12,4 +12,5 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         SDL2
         Harpia.Engine.Core
+        Harpia.Engine.Structures
 )

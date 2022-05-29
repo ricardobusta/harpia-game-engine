@@ -3,31 +3,31 @@
 //
 
 #include <SDL.h>
-
 #include "Application.h"
 
 namespace Harpia::Engine {
-    Application::Application(Configuration configuration) {
-
+    Application::Application() {
     }
 
     bool Application::Execute() {
         _result = Initialize();
-        if(_result!=0){
+        if (_result != 0) {
             return false;
         }
 
         bool quit = false;
         SDL_Event e;
 
-        while(!quit) {
+        while (!quit) {
             while (SDL_PollEvent(&e) != 0) {
-                if(e.type == SDL_QUIT){
+                if (e.type == SDL_QUIT) {
                     quit = true;
                 }
             }
 
-            SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, 0, 0, 0));
+            SDL_FillRect(_surface, nullptr,
+                         SDL_MapRGB(_surface->format, configuration.clearColor.r, configuration.clearColor.g,
+                                    configuration.clearColor.b));
             SDL_UpdateWindowSurface(_window);
         }
         Quit();
@@ -44,8 +44,8 @@ namespace Harpia::Engine {
             return 1;
         }
 
-        _window = SDL_CreateWindow("Test SDL", SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, 640, 480,
+        _window = SDL_CreateWindow(configuration.gameTitle.ToCString(), SDL_WINDOWPOS_UNDEFINED,
+                                   SDL_WINDOWPOS_UNDEFINED, configuration.windowSize.x, configuration.windowSize.y,
                                    SDL_WINDOW_SHOWN);
 
         if (_window == nullptr) {

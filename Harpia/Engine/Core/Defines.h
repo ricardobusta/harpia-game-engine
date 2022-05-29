@@ -3,9 +3,10 @@
 //
 
 #ifndef HARPIAGAMEENGINE_DEFINES_H
+#define HARPIAGAMEENGINE_DEFINES_H
 
 #define OUT // Just for signalizing an output parameter
 
-#define HARPIAGAMEENGINE_DEFINES_H
+namespace Harpia::Engine {}
 
 #endif //HARPIAGAMEENGINE_DEFINES_H

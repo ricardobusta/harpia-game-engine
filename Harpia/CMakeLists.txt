@@ -11,7 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 include_directories(
         ${PROJECT_NAME} PUBLIC
-        ThirdParty/SDL2/include
+        ThirdParty/SDL/include
 )
 
 add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
@@ -27,7 +27,10 @@ target_link_libraries(
 
 target_sources(${PROJECT_NAME} PUBLIC ${Harpia_SRC} ${Harpia_HEADERS})
 
-add_subdirectory(ThirdParty/SDL2)
+add_subdirectory(ThirdParty/SDL)
+add_subdirectory(ThirdParty/SDL_image)
+add_subdirectory(ThirdParty/SDL_mixer)
+#add_subdirectory(ThirdParty/SDL_ttf)
 add_subdirectory(Engine/Application)
 add_subdirectory(Engine/Structures)
 add_subdirectory(Engine/Core)

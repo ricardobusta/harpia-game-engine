@@ -8,7 +8,9 @@
 namespace Harpia::Engine {
     struct Vector2Int {
     public:
-        Vector2Int(int x, int y);
+        explicit Vector2Int();
+
+        explicit Vector2Int(int x, int y);
 
         int x, y;
     };

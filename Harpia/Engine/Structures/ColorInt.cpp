@@ -5,6 +5,9 @@
 #include "ColorInt.h"
 
 namespace Harpia::Engine {
-    ColorInt::ColorInt() : r(0), g(0), b(0) {
+    ColorInt::ColorInt(int r, int g, int b) : r(r), g(g), b(b) {
+    }
+
+    ColorInt::ColorInt() : ColorInt(0, 0, 0) {
     }
 }

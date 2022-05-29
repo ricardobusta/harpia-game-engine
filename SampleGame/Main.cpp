@@ -9,7 +9,10 @@
 using namespace Harpia;
 
 int main(int argc, char **argv) {
-    auto app = Engine::Application(Engine::Configuration());
+    auto app = Engine::Application();
+    app.configuration.gameTitle = "Harpia Sample";
+    app.configuration.clearColor = Engine::ColorInt(100,0,0);
+    app.configuration.windowSize = Engine::Vector2Int(640, 480);
 
     while(app.Execute()){}
 

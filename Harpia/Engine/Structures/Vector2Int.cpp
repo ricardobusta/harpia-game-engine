@@ -6,6 +6,9 @@
 
 namespace Harpia::Engine {
     Vector2Int::Vector2Int(int x, int y)
-        : x(x), y(y) {
+            : x(x), y(y) {
+    }
+
+    Vector2Int::Vector2Int() : Vector2Int(0, 0) {
     }
 }// namespace Harpia::Engine
