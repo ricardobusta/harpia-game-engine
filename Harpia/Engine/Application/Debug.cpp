@@ -4,12 +4,6 @@
 
 #include "Debug.h"
 
-#include <iostream>
-
-#include "String.h"
-
 namespace Harpia::Engine {
-    void Debug::Log(std::string msg) {
-        std::cout << msg << std::endl;
-    }
+
 }

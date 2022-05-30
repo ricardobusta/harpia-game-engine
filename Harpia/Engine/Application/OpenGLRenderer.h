@@ -5,21 +5,28 @@
 #ifndef HARPIAGAMEENGINE_GL_H
 #define HARPIAGAMEENGINE_GL_H
 
+#include "GL/glew.h"
+
 //#include <SDL.h>
 //#include <SDL_opengl.h>
+class SDL_Window;
+typedef void *SDL_GLContext;
 
 namespace Harpia::Engine {
     class OpenGLRenderer {
     public:
-//        bool Start(SDL_Window *window);
+        bool Start(SDL_Window *window);
+        void Render();
     private:
-//        GLuint _programID = 0;
-//        GLint _vertexPos2DLocation = -1;
-//        GLuint _vertexBufferObject = 0;
-//        GLuint _indexBufferObject = 0;
-//        SDL_GLContext _context;
+        GLuint _programID = 0;
+        GLint _vertexPos2DLocation = -1;
+        GLuint _vertexBufferObject = 0;
+        GLuint _indexBufferObject = 0;
+        SDL_GLContext _context = 0;
 
-//        bool InitGL();
+        bool InitGL();
+        void PrintProgramLog(GLuint program);
+        void PrintShaderLog(GLuint shader);
     };
 }
 

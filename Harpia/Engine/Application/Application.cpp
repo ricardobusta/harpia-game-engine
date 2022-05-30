@@ -6,6 +6,7 @@
 
 #include "Application.h"
 #include "Debug.h"
+#include "OpenGLRenderer.h"
 
 namespace Harpia::Engine {
     Application::Application() = default;
@@ -20,6 +21,12 @@ namespace Harpia::Engine {
         bool quit = false;
         SDL_Event e;
 
+        auto renderer = new OpenGLRenderer();
+
+        if(!renderer->Start(_window)){
+            return -1;
+        }
+
         while (!quit) {
             while (SDL_PollEvent(&e) != 0) {
                 if (e.type == SDL_QUIT) {
@@ -28,11 +35,16 @@ namespace Harpia::Engine {
                 }
             }
 
-            SDL_FillRect(_surface, nullptr,
-                         SDL_MapRGB(_surface->format, configuration.clearColor.r, configuration.clearColor.g,
-                                    configuration.clearColor.b));
-            SDL_UpdateWindowSurface(_window);
+            renderer->Render();
+
+//            SDL_FillRect(_surface, nullptr,
+//                         SDL_MapRGB(_surface->format, configuration.clearColor.r, configuration.clearColor.g,
+//                                    configuration.clearColor.b));
+//            SDL_UpdateWindowSurface(_window);
         }
+
+        delete(renderer);
+
         Debug::Log("Quit");
         Quit();
         return _result;
@@ -40,16 +52,16 @@ namespace Harpia::Engine {
 
     int Application::Initialize() {
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-            fprintf(stderr, "SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
+            Debug::LogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
 
         _window = SDL_CreateWindow(configuration.gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
                                    SDL_WINDOWPOS_UNDEFINED, configuration.windowSize.x, configuration.windowSize.y,
-                                   SDL_WINDOW_SHOWN);
+                                   SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
         if (_window == nullptr) {
-            fprintf(stderr, "Window was not created. SDL_Error: %s\n", SDL_GetError());
+            Debug::LogError("Window was not created. SDL_Error: %s\n", SDL_GetError());
             return 1;
         }
 

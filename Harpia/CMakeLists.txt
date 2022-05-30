@@ -3,7 +3,7 @@
 #
 
 cmake_minimum_required(VERSION 3.22)
-project(Harpia)
+project(Harpia CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -42,3 +42,11 @@ add_subdirectory(ThirdParty/glew-2.2.0/build/cmake)
 add_subdirectory(Engine/Application)
 add_subdirectory(Engine/Structures)
 add_subdirectory(Engine/Core)
+
+if (WIN32)
+    add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/glew32d.dll ${CMAKE_BINARY_DIR}/
+    )
+endif ()

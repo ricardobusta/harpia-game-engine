@@ -4,8 +4,5 @@
 
 #include "String.h"
 
-#include <stdexcept>
-#include <memory>
-
 namespace Harpia::Engine {
 }
