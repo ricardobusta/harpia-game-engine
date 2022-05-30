@@ -1,4 +1,5 @@
-project(Harpia.Engine.Structures)
+project(Harpia.Engine.Structures CXX)
+set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB ${PROJECT_NAME}_SRC CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/*.cpp)
 file(GLOB ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/*.h)

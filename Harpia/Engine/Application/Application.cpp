@@ -3,17 +3,15 @@
 //
 
 #include <SDL.h>
-#include <iostream>
 
 #include "Application.h"
-
 #include "Debug.h"
 
 namespace Harpia::Engine {
     Application::Application() = default;
 
     int Application::Execute() {
-        Debug::Log("Application is starting");
+        Debug::Log("Application %s is starting", "a");
         _result = Initialize();
         if (_result != 0) {
             return _result;
@@ -46,7 +44,7 @@ namespace Harpia::Engine {
             return 1;
         }
 
-        _window = SDL_CreateWindow(configuration.gameTitle.ToCString(), SDL_WINDOWPOS_UNDEFINED,
+        _window = SDL_CreateWindow(configuration.gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
                                    SDL_WINDOWPOS_UNDEFINED, configuration.windowSize.x, configuration.windowSize.y,
                                    SDL_WINDOW_SHOWN);
 

@@ -6,26 +6,29 @@
 #define HARPIAGAMEENGINE_STRING_H
 
 #include <string>
+#include <stdexcept>
+#include <memory>
+#include <iostream>
 
 namespace Harpia::Engine {
     class String {
-    private:
-        std::string _string;
     public:
-        [[nodiscard]] const char *ToCString() const;
-
-        String &operator=(const std::string &s);
-
-        bool operator==(const std::string &s) const;
-
-        bool operator==(String s) const;
-
-        explicit operator std::string() const;
-
-        [[nodiscard]] std::string StdString() const;
+        template<typename ... Args>
+        static std::string Format(const std::string &format, Args ... args);
     };
 
-    std::ostream &operator<<(std::ostream &s, const String &string);
+    template<typename ... Args>
+    std::string String::Format(const std::string &format, Args ... args) {
+        // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+        int stringSize = std::snprintf(nullptr, 0, format.c_str(), args...) + 1; // Extra space for '\0'
+        std::cout << stringSize << std::endl;
+        if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
+        auto size = static_cast<size_t>( stringSize );
+        std::unique_ptr<char[]> buf(new char[size]);
+        std::snprintf(buf.get(), size, format.c_str(), args...);
+        std::cout << buf.get() << std::endl;
+        return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside NOLINT(modernize-return-braced-init-list)
+    }
 }
 
 #endif //HARPIAGAMEENGINE_STRING_H

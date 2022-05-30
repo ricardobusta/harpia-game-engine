@@ -9,13 +9,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-include_directories(
-        ${PROJECT_NAME} PUBLIC
+list(
+        APPEND
+        ${PROJECT_NAME}_INCLUDES
         ThirdParty/SDL/include
         ThirdParty/glew-2.2.0/include
 )
 
-add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
+include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
+
+add_library(${PROJECT_NAME} SHARED ${Harpia_SRC})
 
 target_link_libraries(
         ${PROJECT_NAME} PRIVATE
@@ -24,12 +27,12 @@ target_link_libraries(
         SDL2
         glew
         SDL2_image
-        SDL2_ttf
+        #SDL2_ttf
         Harpia.Engine.Application
         Harpia.Engine.Structures
 )
 
-target_sources(${PROJECT_NAME} PUBLIC ${Harpia_SRC} ${Harpia_HEADERS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 
 add_subdirectory(ThirdParty/SDL)
 add_subdirectory(ThirdParty/SDL_image)

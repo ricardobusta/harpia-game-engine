@@ -9,7 +9,6 @@
 
 #include "Vector2Int.h"
 #include "ColorInt.h"
-#include "String.h"
 
 namespace Harpia::Engine {
     struct Vector2Int;
@@ -19,7 +18,7 @@ namespace Harpia::Engine {
     public:
         Configuration();
 
-        String gameTitle;
+        std::string gameTitle;
         Vector2Int windowSize;
         ColorInt clearColor;
     };

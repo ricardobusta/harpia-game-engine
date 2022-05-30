@@ -6,12 +6,10 @@
 
 #include <iostream>
 
-namespace Harpia::Engine {
-    void Debug::Log(String msg) {
-        std::cout << msg << std::endl;
-    }
+#include "String.h"
 
-    void Debug::Log(const char *msg) {
+namespace Harpia::Engine {
+    void Debug::Log(std::string msg) {
         std::cout << msg << std::endl;
     }
 }

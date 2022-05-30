@@ -10,8 +10,12 @@
 namespace Harpia::Engine {
     class Debug {
     public:
-        static void Log(const char * msg);
-        static void Log(String msg);
+        static void Log(std::string msg);
+
+        template<typename... Args>
+        static void Log(std::string format, Args ... args){
+            Log(String::Format(format, args...));
+        }
     };
 }
 
