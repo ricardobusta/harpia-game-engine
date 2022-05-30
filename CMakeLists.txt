@@ -4,5 +4,6 @@
 
 cmake_minimum_required(VERSION 3.22)
 project(HarpiaGameEngine)
+
 add_subdirectory(Harpia)
 add_subdirectory(SampleGame)
