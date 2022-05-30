@@ -12,6 +12,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 include_directories(
         ${PROJECT_NAME} PUBLIC
         ThirdParty/SDL/include
+        ThirdParty/glew-2.2.0/include
 )
 
 add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
@@ -21,6 +22,9 @@ target_link_libraries(
         mingw32
         SDL2main
         SDL2
+        glew
+        SDL2_image
+        SDL2_ttf
         Harpia.Engine.Application
         Harpia.Engine.Structures
 )
@@ -31,7 +35,7 @@ add_subdirectory(ThirdParty/SDL)
 add_subdirectory(ThirdParty/SDL_image)
 add_subdirectory(ThirdParty/SDL_mixer)
 #add_subdirectory(ThirdParty/SDL_ttf)
-add_subdirectory(ThirdParty/glew/build/cmake)
+add_subdirectory(ThirdParty/glew-2.2.0/build/cmake)
 add_subdirectory(Engine/Application)
 add_subdirectory(Engine/Structures)
 add_subdirectory(Engine/Core)

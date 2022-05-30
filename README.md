@@ -5,12 +5,33 @@ The original engine was started around 2008, with the name of `RGine`, being upl
 
 -- Ricardo Bustamante (aka Busta)
 
+# Configuration
+
+## Upgrading Dependencies
+
+### GLEW
+
+Glew do not work out of the box. First I added the source.
+This also required installing a bunch of other tools within it, like git and python.
+Then, using msys2 I generated the necessary code with:
+
+```bash
+cd auto
+make
+cd ../
+make
+make install
+make install.all
+```
+
+I also removed the `include` directory from `.gitignore`, so it would get added to the git repo.
+
 # Useful Links
 
 ## EMScripten
 For compiling the project into a web application
 https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
 
-## Lazy Foo' 
+## Lazy Foo'
 Good old SDL tutorials
 https://lazyfoo.net/tutorials/SDL/index.php

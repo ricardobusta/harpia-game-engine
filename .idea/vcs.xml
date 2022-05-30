@@ -2,6 +2,13 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_ttf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/EGL-Registry" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/OpenGL-Registry" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/glfixes" vcs="Git" />
   </component>
 </project>
