@@ -4,15 +4,16 @@
 
 #include <iostream>
 
-#include "Application.h"
+#include "OpenGLApplication.h"
 
 using namespace Harpia;
 
-int main(int argc, char **argv) {
-    auto app = Engine::Application();
-    app.configuration.gameTitle = "Harpia Sample";
-    app.configuration.clearColor = Engine::ColorInt(100,0,0);
-    app.configuration.windowSize = Engine::Vector2Int(640, 480);
+int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
+    auto app = Engine::OpenGLApplication();
+
+    app.configuration->gameTitle = "Harpia Sample";
+    app.configuration->clearColor = Engine::ColorInt(100, 0, 0);
+    app.configuration->windowSize = Engine::Vector2Int(640, 480);
 
     return app.Execute();
 }

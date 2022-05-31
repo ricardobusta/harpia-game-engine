@@ -12,23 +12,28 @@ class SDL_Window;
 class SDL_Surface;
 
 namespace Harpia::Engine {
+    class OpenGLApplication;
+
     class Application {
+    public:
+        Configuration *configuration;
+    protected:
+        SDL_Window *_window = nullptr;
     private:
         int _result = -1;
 
-        SDL_Window *_window = nullptr;
         SDL_Surface *_surface = nullptr;
-
-    public:
-        Configuration configuration;
-
     public:
         explicit Application();
+
+        ~Application();
 
         int Execute();
 
     private:
-        int Initialize();
+        virtual int Initialize();
+
+        virtual void FrameUpdate();
 
         void Quit();
     };
