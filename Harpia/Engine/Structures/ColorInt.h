@@ -6,11 +6,13 @@
 #define HARPIAGAMEENGINE_COLORINT_H
 
 namespace Harpia::Engine {
-    class ColorInt {
+    struct ColorInt {
     public:
         explicit ColorInt();
 
         explicit ColorInt(int r, int g, int b);
+
+        void Set(int r, int g, int b);
 
         int r, g, b;
     };

@@ -7,6 +7,8 @@
 
 #include "Configuration.h"
 
+#include <map>
+
 class SDL_Window;
 
 class SDL_Surface;
@@ -23,6 +25,8 @@ namespace Harpia::Engine {
         int _result = -1;
 
         SDL_Surface *_surface = nullptr;
+
+        std::map<char, int> * _keyMap;
     public:
         explicit Application();
 

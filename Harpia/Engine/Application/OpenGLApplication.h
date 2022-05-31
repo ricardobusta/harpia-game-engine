@@ -9,12 +9,13 @@
 #include "GL/glew.h"
 
 class SDL_Window;
+
 typedef void *SDL_GLContext;
 
 namespace Harpia::Engine {
     class Configuration;
 
-    class OpenGLApplication: public Application {
+    class OpenGLApplication : public Application {
     public:
 
     private:
@@ -26,10 +27,13 @@ namespace Harpia::Engine {
 
     private:
         bool InitGL();
+
         static void PrintProgramLog(GLuint program);
+
         static void PrintShaderLog(GLuint shader);
 
         int Initialize() override;
+
         void FrameUpdate() override;
     };
 }

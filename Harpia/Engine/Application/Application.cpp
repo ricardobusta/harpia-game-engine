@@ -6,18 +6,19 @@
 
 #include "Application.h"
 #include "Debug.h"
-#include "OpenGLApplication.h"
 #include "Configuration.h"
 
 namespace Harpia::Engine {
     Application::Application() {
         Debug::Log("Application created");
         configuration = new Configuration();
+        _keyMap = new std::map<char, int>();
     };
 
     Application::~Application() {
         Debug::Log("Application destroyed");
-        delete (configuration);
+        delete configuration;
+        delete _keyMap;
     }
 
     int Application::Execute() {
@@ -35,6 +36,10 @@ namespace Harpia::Engine {
                 if (e.type == SDL_QUIT) {
                     quit = true;
                     Debug::Log("Requested to quit");
+                }else if(e.type == SDL_KEYDOWN){
+                    if(_keyMap->find(static_cast<char>(e.key.keysym.sym))!=_keyMap->end()){
+                        Debug::Log("Key %s pressed!", e.key.keysym.sym);
+                    }
                 }
             }
 

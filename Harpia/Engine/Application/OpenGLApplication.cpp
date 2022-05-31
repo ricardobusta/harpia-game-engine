@@ -61,7 +61,8 @@ namespace Harpia::Engine {
                         Debug::LogError("LVertexPos2D is not a valid glsl program variable!\n");
                         success = false;
                     } else {
-                        glClearColor(0.f, 0.f, 0.f, 1.f);
+                        auto clearColor = configuration->clearColor;
+                        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
                         GLfloat vertexData[] =
                                 {
                                         -0.5f, -0.5f,

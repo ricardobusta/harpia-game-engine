@@ -6,21 +6,21 @@
 #define HARPIAGAMEENGINE_CONFIGURATION_H
 
 #include <string>
+#include <list>
 
 #include "Vector2Int.h"
-#include "ColorInt.h"
+#include "Color.h"
 
 namespace Harpia::Engine {
-    struct Vector2Int;
-    struct ColorInt;
-
     struct Configuration {
     public:
         Configuration();
+        ~Configuration();
 
         std::string gameTitle;
         Vector2Int windowSize;
-        ColorInt clearColor;
+        Color clearColor;
+        std::list<char> *mappedKeys;
     };
 }
 
