@@ -7,6 +7,6 @@
 
 #define OUT // Just for signalizing an output parameter
 
-namespace Harpia::Engine {}
+namespace Harpia {}
 
 #endif //HARPIAGAMEENGINE_DEFINES_H

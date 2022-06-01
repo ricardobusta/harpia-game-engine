@@ -11,10 +11,11 @@
 #include "Vector2Int.h"
 #include "Color.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct Configuration {
     public:
         Configuration();
+
         ~Configuration();
 
         std::string gameTitle;

@@ -7,14 +7,14 @@
 
 #include "String.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     class Debug {
     public:
-        static void Log(std::string msg){
+        static void Log(std::string msg) {
             std::cout << msg << std::endl;
         }
 
-        static void LogError(std::string msg){
+        static void LogError(std::string msg) {
             std::cerr << msg << std::endl;
         }
 

@@ -15,7 +15,7 @@ class SDL_Window;
 
 class SDL_Surface;
 
-namespace Harpia::Engine {
+namespace Harpia {
     class OpenGLApplication;
 
     class Application {

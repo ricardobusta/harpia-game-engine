@@ -4,7 +4,7 @@
 
 #include "Vector2Int.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     Vector2Int::Vector2Int(int x, int y)
             : x(x), y(y) {
     }

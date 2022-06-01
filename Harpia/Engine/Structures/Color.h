@@ -5,11 +5,11 @@
 #ifndef HARPIAGAMEENGINE_COLOR_H
 #define HARPIAGAMEENGINE_COLOR_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct Color {
         explicit Color();
 
-        explicit Color(float r, float g, float b, float a=1);
+        explicit Color(float r, float g, float b, float a = 1);
 
         float r, g, b, a;
     };

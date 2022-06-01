@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     class Scene {
 
     };

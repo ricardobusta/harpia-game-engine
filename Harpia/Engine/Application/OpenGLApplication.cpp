@@ -10,7 +10,7 @@
 #include "Debug.h"
 #include "Configuration.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     bool OpenGLApplication::InitGL() {
         bool success = true;
 

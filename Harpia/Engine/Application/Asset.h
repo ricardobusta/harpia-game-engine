@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_ASSET_H
 #define HARPIAGAMEENGINE_ASSET_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     class Asset {
 
     };

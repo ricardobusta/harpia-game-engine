@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_KEYSTATE_H
 #define HARPIAGAMEENGINE_KEYSTATE_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct KeyState {
     public:
         bool isDown = false;

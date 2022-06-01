@@ -4,5 +4,5 @@
 
 #include "String.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
 }

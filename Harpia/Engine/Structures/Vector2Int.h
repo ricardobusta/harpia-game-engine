@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_VECTOR2INT_H
 #define HARPIAGAMEENGINE_VECTOR2INT_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct Vector2Int {
     public:
         explicit Vector2Int();

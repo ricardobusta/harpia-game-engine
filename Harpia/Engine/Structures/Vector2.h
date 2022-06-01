@@ -5,13 +5,13 @@
 #ifndef HARPIAGAMEENGINE_VECTOR2_H
 #define HARPIAGAMEENGINE_VECTOR2_H
 
-namespace Harpia::Engine {
-        class Vector2 {
-        public:
-            Vector2(float x, float y);
+namespace Harpia {
+    class Vector2 {
+    public:
+        Vector2(float x, float y);
 
-            float x, y;
-        };
-    }
+        float x, y;
+    };
+}
 
 #endif //HARPIAGAMEENGINE_VECTOR2_H

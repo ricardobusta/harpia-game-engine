@@ -8,7 +8,7 @@
 #include "Debug.h"
 #include "Configuration.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     Application::Application() {
         Debug::Log("Application created");
         configuration = new Configuration();
@@ -47,7 +47,7 @@ namespace Harpia::Engine {
                     case SDL_KEYDOWN: {
                         auto it = _keyMap.find(e.key.keysym.sym);
                         if (it != _keyMap.end()) {
-                            if(!it->second.isDown) {
+                            if (!it->second.isDown) {
                                 it->second.down = true;
                                 it->second.isDown = true;
                                 _dirtyKeys.push_back(e.key.keysym.sym);
@@ -119,7 +119,7 @@ namespace Harpia::Engine {
     }
 
     void Application::CleanKeyState() {
-        for(int key : _dirtyKeys){
+        for (int key: _dirtyKeys) {
             _keyMap[key].down = false;
             _keyMap[key].up = false;
 

@@ -12,7 +12,7 @@ class SDL_Window;
 
 typedef void *SDL_GLContext;
 
-namespace Harpia::Engine {
+namespace Harpia {
     class Configuration;
 
     class OpenGLApplication : public Application {

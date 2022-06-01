@@ -4,4 +4,4 @@
 
 #include "Defines.h"
 
-namespace Harpia::Engine {}
+namespace Harpia {}

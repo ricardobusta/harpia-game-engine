@@ -4,6 +4,6 @@
 
 #include "Debug.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
 
 }

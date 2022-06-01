@@ -4,6 +4,6 @@
 
 #include "KeyState.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
 
 }

@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_VECTOR3_H
 #define HARPIAGAMEENGINE_VECTOR3_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct Vector3 {
     public:
         Vector3(int x, int y, int z);

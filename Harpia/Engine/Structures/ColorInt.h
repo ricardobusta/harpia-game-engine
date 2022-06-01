@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_COLORINT_H
 #define HARPIAGAMEENGINE_COLORINT_H
 
-namespace Harpia::Engine {
+namespace Harpia {
     struct ColorInt {
     public:
         explicit ColorInt();

@@ -4,5 +4,5 @@
 
 #include "Scene.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
 }

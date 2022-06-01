@@ -3,7 +3,7 @@
 //
 #include "Configuration.h"
 
-namespace Harpia::Engine {
+namespace Harpia {
     Configuration::Configuration() {
         mappedKeys = new std::list<int>();
     }

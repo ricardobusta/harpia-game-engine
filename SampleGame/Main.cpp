@@ -7,10 +7,8 @@
 #include "OpenGLApplication.h"
 #include "GameConfig.h"
 
-using namespace Harpia;
-
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-    auto app = Engine::OpenGLApplication();
+    auto app = Harpia::OpenGLApplication();
 
     GameConfig::Configure(app.configuration);
 
