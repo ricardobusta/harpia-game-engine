@@ -14,19 +14,16 @@ namespace Harpia {
     class String {
     public:
         template<typename ... Args>
-        static std::string Format(const std::string &format, Args ... args);
+        static std::string Format(const char *format, Args ... args) {
+            // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+            int stringSize = std::snprintf(nullptr, 0, format, args...) + 1; // Extra space for '\0'
+            if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
+            auto size = static_cast<size_t>( stringSize );
+            std::unique_ptr<char[]> buf(new char[size]);
+            std::snprintf(buf.get(), size, format, args...);
+            return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+        }
     };
-
-    template<typename ... Args>
-    std::string String::Format(const std::string &format, Args ... args) {
-        // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
-        int stringSize = std::snprintf(nullptr, 0, format.c_str(), args...) + 1; // Extra space for '\0'
-        if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
-        auto size = static_cast<size_t>( stringSize );
-        std::unique_ptr<char[]> buf(new char[size]);
-        std::snprintf(buf.get(), size, format.c_str(), args...);
-        return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
-    }
 }
 
 #endif //HARPIAGAMEENGINE_STRING_H

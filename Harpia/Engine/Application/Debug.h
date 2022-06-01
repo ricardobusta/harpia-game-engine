@@ -5,28 +5,56 @@
 #ifndef HARPIAGAMEENGINE_DEBUG_H
 #define HARPIAGAMEENGINE_DEBUG_H
 
+#define HARPIA_DEBUG
+
 #include "String.h"
+
+#ifdef HARPIA_DEBUG
+#define DebugLog(args...) do {Debug::Log(args);} while(0)
+#define DebugLogWarning(args...) do {Debug::Log(args);} while(0)
+#define DebugLogError(args...) do {Debug::LogError(args);} while(0)
+#else
+#define DebugLog(args...)
+#define DebugLogWarning(args...)
+#define DebugLogError(args...)
+#endif
 
 namespace Harpia {
     class Debug {
     public:
-        static void Log(std::string msg) {
-            std::cout << msg << std::endl;
+        static void Log(const char *message) {
+            Print(message);
         }
 
-        static void LogError(std::string msg) {
-            std::cerr << msg << std::endl;
+        static void LogWarning(const char *message) {
+            PrintWarning(message);
+        }
+
+        static void LogError(const char *message) {
+            PrintError(message);
         }
 
         template<typename... Args>
-        static void Log(std::string format, Args ... args) {
-            Log(String::Format(format, args...));
+        static void Log(const char *format, Args ... args) {
+            Print(String::Format(format, args...).c_str());
         }
 
         template<typename... Args>
-        static void LogError(std::string format, Args ... args) {
-            LogError(String::Format(format, args...));
+        static void LogWarning(const char *format, Args ... args) {
+            PrintWarning(String::Format(format, args...).c_str());
         }
+
+        template<typename... Args>
+        static void LogError(const char *format, Args ... args) {
+            PrintError(String::Format(format, args...).c_str());
+        }
+
+    public:
+        static void Print(const char *message);
+
+        static void PrintWarning(const char *message);
+
+        static void PrintError(const char *message);
     };
 }
 

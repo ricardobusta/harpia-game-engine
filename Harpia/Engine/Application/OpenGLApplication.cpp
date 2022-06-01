@@ -28,7 +28,7 @@ namespace Harpia {
         GLint vShaderCompiled = GL_FALSE;
         glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
         if (vShaderCompiled != GL_TRUE) {
-            Debug::LogError("Unable to compile vertex shader %d!\n", vertexShader);
+            DebugLogError("Unable to compile vertex shader %d!\n", vertexShader);
             PrintShaderLog(vertexShader);
             success = false;
         } else {
@@ -43,7 +43,7 @@ namespace Harpia {
             GLint fShaderCompiled = GL_FALSE;
             glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
             if (fShaderCompiled != GL_TRUE) {
-                Debug::LogError("Unable to compile fragment shader %d!\n", fragmentShader);
+                DebugLogError("Unable to compile fragment shader %d!\n", fragmentShader);
                 PrintShaderLog(fragmentShader);
                 success = false;
             } else {
@@ -52,13 +52,13 @@ namespace Harpia {
                 GLint programSuccess = GL_TRUE;
                 glGetProgramiv(_programID, GL_LINK_STATUS, &programSuccess);
                 if (programSuccess != GL_TRUE) {
-                    Debug::LogError("Error linking program %d!\n", _programID);
+                    DebugLogError("Error linking program %d!\n", _programID);
                     PrintProgramLog(_programID);
                     success = false;
                 } else {
                     _vertexPos2DLocation = glGetAttribLocation(_programID, "LVertexPos2D");
                     if (_vertexPos2DLocation == -1) {
-                        Debug::LogError("LVertexPos2D is not a valid glsl program variable!\n");
+                        DebugLogError("LVertexPos2D is not a valid glsl program variable!\n");
                         success = false;
                     } else {
                         auto clearColor = configuration->clearColor;
@@ -96,12 +96,12 @@ namespace Harpia {
 
             glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog);
             if (infoLogLength > 0) {
-                Debug::Log(infoLog);
+                DebugLog(infoLog);
             }
 
             delete[] infoLog;
         } else {
-            Debug::Log("Name %d is not a program\n", program);
+            DebugLog("Name %d is not a program\n", program);
         }
     }
 
@@ -116,19 +116,19 @@ namespace Harpia {
 
             glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog);
             if (infoLogLength > 0) {
-                Debug::Log(infoLog);
+                DebugLog(infoLog);
             }
 
             delete[] infoLog;
         } else {
-            Debug::Log("Name %d is not a shader\n", shader);
+            DebugLog("Name %d is not a shader\n", shader);
         }
     }
 
     int OpenGLApplication::Initialize() {
         auto result = SDL_Init(SDL_INIT_VIDEO);
         if (result < 0) {
-            Debug::LogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
+            DebugLogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
             return result;
         }
 
@@ -146,24 +146,24 @@ namespace Harpia {
 
         _context = SDL_GL_CreateContext(_window);
         if (_context == nullptr) {
-            Debug::LogError("OpenGL context could not be created! SDL Error: %s\n", SDL_GetError());
+            DebugLogError("OpenGL context could not be created! SDL Error: %s\n", SDL_GetError());
             return -1;
         }
 
         glewExperimental = GL_TRUE;
         GLenum glewError = glewInit();
         if (glewError != GLEW_OK) {
-            Debug::LogError("Error initializing GLEW! %s\n", glewGetErrorString(glewError));
+            DebugLogError("Error initializing GLEW! %s\n", glewGetErrorString(glewError));
         }
 
         //Use Vsync
         if (SDL_GL_SetSwapInterval(1) < 0) {
-            Debug::LogError("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+            DebugLogError("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
         }
 
         //Initialize OpenGL
         if (!InitGL()) {
-            Debug::LogError("Unable to initialize OpenGL!\n");
+            DebugLogError("Unable to initialize OpenGL!\n");
             return -1;
         }
 

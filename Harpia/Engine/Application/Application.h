@@ -5,10 +5,9 @@
 #ifndef HARPIAGAMEENGINE_APPLICATION_H
 #define HARPIAGAMEENGINE_APPLICATION_H
 
-#include "Configuration.h"
-
 #include <map>
 
+#include "Configuration.h"
 #include "KeyState.h"
 
 class SDL_Window;

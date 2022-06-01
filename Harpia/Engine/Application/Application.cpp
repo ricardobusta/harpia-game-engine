@@ -2,25 +2,25 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#include <SDL.h>
-
 #include "Application.h"
+
+#include "SDL.h"
 #include "Debug.h"
 #include "Configuration.h"
 
 namespace Harpia {
     Application::Application() {
-        Debug::Log("Application created");
+        DebugLog("Application created");
         configuration = new Configuration();
     };
 
     Application::~Application() {
-        Debug::Log("Application destroyed");
+        DebugLog("Application destroyed");
         delete configuration;
     }
 
     int Application::Execute() {
-        Debug::Log("Application %s is starting", configuration->gameTitle.c_str());
+        DebugLog("Application %s is starting", configuration->gameTitle.c_str());
         _result = Initialize();
         if (_result != 0) {
             return _result;
@@ -28,7 +28,7 @@ namespace Harpia {
 
         _keyMap.clear();
         for (int key: *configuration->mappedKeys) {
-            Debug::Log("Adding key %d to map", key);
+            DebugLog("Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }
 
@@ -42,7 +42,7 @@ namespace Harpia {
                 switch (e.type) {
                     case SDL_QUIT:
                         quit = true;
-                        Debug::Log("Requested to quit");
+                        DebugLog("Requested to quit");
                         break;
                     case SDL_KEYDOWN: {
                         auto it = _keyMap.find(e.key.keysym.sym);
@@ -54,7 +54,7 @@ namespace Harpia {
                             }
 
                             auto k = &it->second;
-                            Debug::Log("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+                            DebugLog("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
                         }
                         break;
                     }
@@ -66,7 +66,7 @@ namespace Harpia {
                             _dirtyKeys.push_back(e.key.keysym.sym);
 
                             auto k = &it->second;
-                            Debug::Log("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+                            DebugLog("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
                         }
                         break;
                     }
@@ -76,7 +76,7 @@ namespace Harpia {
             FrameUpdate();
         }
 
-        Debug::Log("Quit");
+        DebugLog("Quit");
         Quit();
         return _result;
     }
@@ -84,7 +84,7 @@ namespace Harpia {
     int Application::Initialize() {
         auto result = SDL_Init(SDL_INIT_VIDEO);
         if (result < 0) {
-            Debug::LogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
+            DebugLogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
             return result;
         }
 
@@ -93,7 +93,7 @@ namespace Harpia {
                                    SDL_WINDOW_SHOWN);
 
         if (result < 0) {
-            Debug::LogError("Failed to start Renderer. SDL_Error: %s\n", SDL_GetError());
+            DebugLogError("Failed to start Renderer. SDL_Error: %s\n", SDL_GetError());
             return result;
         }
 
@@ -125,7 +125,7 @@ namespace Harpia {
 
             auto it = _keyMap.find(key);
             auto k = &it->second;
-            Debug::Log("Cleaning. KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+            DebugLog("Cleaning. KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
         }
         _dirtyKeys.clear();
     }
