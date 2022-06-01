@@ -24,7 +24,11 @@ namespace Harpia::Engine {
         if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
         auto size = static_cast<size_t>( stringSize );
         std::unique_ptr<char[]> buf(new char[size]);
-        std::snprintf(buf.get(), size, format.c_str(), args...);
+        try {
+            std::snprintf(buf.get(), size, format.c_str(), args...);
+        }catch(char c) {
+            std::runtime_error("Something went wrong. Maybe wrong type conversion.");
+        }
         return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside NOLINT(modernize-return-braced-init-list)
     }
 }

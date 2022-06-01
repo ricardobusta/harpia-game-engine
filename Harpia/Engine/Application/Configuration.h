@@ -20,7 +20,7 @@ namespace Harpia::Engine {
         std::string gameTitle;
         Vector2Int windowSize;
         Color clearColor;
-        std::list<char> *mappedKeys;
+        std::list<int> *mappedKeys;
     };
 }
 

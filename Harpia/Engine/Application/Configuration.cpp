@@ -3,14 +3,12 @@
 //
 #include "Configuration.h"
 
-#include "SDL.h"
-
 namespace Harpia::Engine {
     Configuration::Configuration() {
-        mappedKeys = new std::list<char>();
-    };
+        mappedKeys = new std::list<int>();
+    }
 
     Configuration::~Configuration() {
         delete mappedKeys;
-    };
+    }
 }

@@ -12,13 +12,11 @@ namespace Harpia::Engine {
     Application::Application() {
         Debug::Log("Application created");
         configuration = new Configuration();
-        _keyMap = new std::map<char, int>();
     };
 
     Application::~Application() {
         Debug::Log("Application destroyed");
         delete configuration;
-        delete _keyMap;
     }
 
     int Application::Execute() {
@@ -28,17 +26,49 @@ namespace Harpia::Engine {
             return _result;
         }
 
+        _keyMap.clear();
+        for (int key: *configuration->mappedKeys) {
+            Debug::Log("Adding key %d to map", key);
+            _keyMap[key] = KeyState();
+        }
+
         bool quit = false;
         SDL_Event e;
 
         while (!quit) {
+            CleanKeyState();
+
             while (SDL_PollEvent(&e) != 0) {
-                if (e.type == SDL_QUIT) {
-                    quit = true;
-                    Debug::Log("Requested to quit");
-                }else if(e.type == SDL_KEYDOWN){
-                    if(_keyMap->find(static_cast<char>(e.key.keysym.sym))!=_keyMap->end()){
-                        Debug::Log("Key %s pressed!", e.key.keysym.sym);
+                switch (e.type) {
+                    case SDL_QUIT:
+                        quit = true;
+                        Debug::Log("Requested to quit");
+                        break;
+                    case SDL_KEYDOWN: {
+                        auto it = _keyMap.find(e.key.keysym.sym);
+                        if (it != _keyMap.end()) {
+                            if(!it->second.isDown) {
+                                it->second.down = true;
+                                it->second.isDown = true;
+                                _dirtyKeys.push_back(e.key.keysym.sym);
+                            }
+
+                            auto k = &it->second;
+                            Debug::Log("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+                        }
+                        break;
+                    }
+                    case SDL_KEYUP: {
+                        auto it = _keyMap.find(e.key.keysym.sym);
+                        if (it != _keyMap.end()) {
+                            it->second.isDown = false;
+                            it->second.up = true;
+                            _dirtyKeys.push_back(e.key.keysym.sym);
+
+                            auto k = &it->second;
+                            Debug::Log("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+                        }
+                        break;
                     }
                 }
             }
@@ -86,5 +116,17 @@ namespace Harpia::Engine {
         _window = nullptr;
 
         SDL_Quit();
+    }
+
+    void Application::CleanKeyState() {
+        for(int key : _dirtyKeys){
+            _keyMap[key].down = false;
+            _keyMap[key].up = false;
+
+            auto it = _keyMap.find(key);
+            auto k = &it->second;
+            Debug::Log("Cleaning. KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
+        }
+        _dirtyKeys.clear();
     }
 }

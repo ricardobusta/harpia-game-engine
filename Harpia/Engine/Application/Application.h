@@ -9,6 +9,8 @@
 
 #include <map>
 
+#include "KeyState.h"
+
 class SDL_Window;
 
 class SDL_Surface;
@@ -26,7 +28,8 @@ namespace Harpia::Engine {
 
         SDL_Surface *_surface = nullptr;
 
-        std::map<char, int> * _keyMap;
+        std::map<int, KeyState> _keyMap;
+        std::list<int> _dirtyKeys;
     public:
         explicit Application();
 
@@ -40,6 +43,8 @@ namespace Harpia::Engine {
         virtual void FrameUpdate();
 
         void Quit();
+
+        void CleanKeyState();
     };
 }
 
