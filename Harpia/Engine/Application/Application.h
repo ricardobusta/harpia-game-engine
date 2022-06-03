@@ -5,29 +5,21 @@
 #ifndef HARPIAGAMEENGINE_APPLICATION_H
 #define HARPIAGAMEENGINE_APPLICATION_H
 
-#include <map>
-
 #include "Configuration.h"
-#include "KeyState.h"
 
 class SDL_Window;
 
 namespace Harpia {
-    class OpenGLApplication;
-
     class Renderer;
 
     class Input;
 
     class Application {
     public:
-        Configuration *configuration = nullptr;
+        Configuration configuration;
     private:
         bool _createdWithSuccess = false;
         int _result = -1;
-
-        std::map<int, KeyState> _keyMap;
-        std::list<int> _dirtyKeys;
 
         SDL_Window *_window = nullptr;
         Renderer *_renderer = nullptr;
@@ -43,8 +35,6 @@ namespace Harpia {
         int Initialize();
 
         void Quit();
-
-        void CleanKeyState();
     };
 }
 

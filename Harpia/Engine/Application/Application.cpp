@@ -7,49 +7,54 @@
 #include <SDL.h>
 
 #include "Debug.h"
-#include "Configuration.h"
 #include "Renderer.h"
 #include "Input.h"
 
 namespace Harpia {
     Application::Application(Renderer *renderer) {
-        configuration = new Configuration();
-
         if (renderer == nullptr) {
-            DebugLogError("No renderer set.");
+            DebugLogError("[Application] No renderer set.");
             return;
         }
         _renderer = renderer;
 
+        _input = new Input();
+
         _createdWithSuccess = true;
-        DebugLog("Application created");
-    };
+        DebugLog("[Application] Application created");
+    }
 
     Application::~Application() {
-        delete configuration;
-        DebugLog("Application destroyed");
+        delete _input;
+        DebugLog("[Application] Application destroyed");
     }
 
     int Application::Initialize() {
         auto result = SDL_Init(SDL_INIT_VIDEO);
         if (result < 0) {
-            DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("[Application] SDL was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
-        _window = SDL_CreateWindow(configuration->gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, configuration->windowSize.x, configuration->windowSize.y,
+        _window = SDL_CreateWindow(configuration.gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                                   SDL_WINDOWPOS_UNDEFINED, configuration.windowSize.x, configuration.windowSize.y,
                                    SDL_WINDOW_SHOWN | _renderer->GetWindowFlags());
 
         if (_window == nullptr) {
-            DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
+            DebugLogError("[Application] Window could not be created! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
-        result = _renderer->Initialize(configuration, _window);
+        result = _renderer->Initialize(&configuration, _window);
 
         if (result < 0) {
-            DebugLogError("Renderer was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("[Application] Renderer was not initialized. SDL_Error: %s", SDL_GetError());
+            return result;
+        }
+
+        result = _input->Initialize(&configuration);
+        if (result < 0) {
+            DebugLogError("[Application] Input was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
@@ -72,27 +77,21 @@ namespace Harpia {
 
     int Application::Execute() {
         if (!_createdWithSuccess) {
-            DebugLogError("Application not created with success.");
+            DebugLogError("[Application] Application not created with success.");
             return -1;
         }
 
-        DebugLog("Application %s is starting", configuration->gameTitle.c_str());
+        DebugLog("[Application] Application %s is starting", configuration.gameTitle.c_str());
         _result = Initialize();
         if (_result != 0) {
             return _result;
-        }
-
-        _keyMap.clear();
-        for (int key: *configuration->mappedKeys) {
-            DebugLog("Adding key %d to map", key);
-            _keyMap[key] = KeyState();
         }
 
         bool quit = false;
         SDL_Event e;
 
         while (!quit) {
-            CleanKeyState();
+            _input->CleanKeyState();
 
             while (SDL_PollEvent(&e) != 0) {
                 switch (e.type) {
@@ -101,29 +100,11 @@ namespace Harpia {
                         DebugLog("Requested to quit");
                         break;
                     case SDL_KEYDOWN: {
-                        auto it = _keyMap.find(e.key.keysym.sym);
-                        if (it != _keyMap.end()) {
-                            if (!it->second.isDown) {
-                                it->second.down = true;
-                                it->second.isDown = true;
-                                _dirtyKeys.push_back(e.key.keysym.sym);
-                            }
-
-                            auto k = &it->second;
-                            DebugLog("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
-                        }
+                        _input->OnKeyDown(&e);
                         break;
                     }
                     case SDL_KEYUP: {
-                        auto it = _keyMap.find(e.key.keysym.sym);
-                        if (it != _keyMap.end()) {
-                            it->second.isDown = false;
-                            it->second.up = true;
-                            _dirtyKeys.push_back(e.key.keysym.sym);
-
-                            auto k = &it->second;
-                            DebugLog("KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
-                        }
+                        _input->OnKeyUp(&e);
                         break;
                     }
                 }
@@ -135,17 +116,5 @@ namespace Harpia {
         DebugLog("Quit");
         Quit();
         return _result;
-    }
-
-    void Application::CleanKeyState() {
-        for (int key: _dirtyKeys) {
-            _keyMap[key].down = false;
-            _keyMap[key].up = false;
-
-            auto it = _keyMap.find(key);
-            auto k = &it->second;
-            DebugLog("Cleaning. KeyState isDown: %d down: %d up: %d", k->isDown, k->down, k->up);
-        }
-        _dirtyKeys.clear();
     }
 }
