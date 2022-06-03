@@ -8,7 +8,7 @@
 
 #include "Debug.h"
 #include "Configuration.h"
-#include "Renderer.h"
+#include "Rendering/Renderer.h"
 #include "Input.h"
 
 namespace Harpia {

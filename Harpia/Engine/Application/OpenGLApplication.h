@@ -10,31 +10,20 @@
 
 class SDL_Window;
 
-typedef void *SDL_GLContext;
 
 namespace Harpia {
-    class Configuration;
 
     class OpenGLApplication : public Application {
     public:
 
     private:
-        GLuint _programID = 0;
-        GLint _vertexPos2DLocation = -1;
-        GLuint _vertexBufferObject = 0;
-        GLuint _indexBufferObject = 0;
-        SDL_GLContext _context = nullptr;
+
 
     private:
-        bool InitGL();
 
-        static void PrintProgramLog(GLuint program);
-
-        static void PrintShaderLog(GLuint shader);
-
-        int Initialize() override;
-
-        void FrameUpdate() override;
+//        int Initialize() override;
+//
+//        void FrameUpdate() override;
     };
 }
 
