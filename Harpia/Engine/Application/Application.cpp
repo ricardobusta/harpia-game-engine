@@ -7,9 +7,11 @@
 #include "SDL.h"
 #include "Debug.h"
 #include "Configuration.h"
+#include "Renderer.h"
+#include "Input.h"
 
 namespace Harpia {
-    Application::Application() {
+    Application::Application(Renderer * renderer) {
         DebugLog("Application created");
         configuration = new Configuration();
     };

@@ -17,6 +17,10 @@ class SDL_Surface;
 namespace Harpia {
     class OpenGLApplication;
 
+    class Renderer;
+
+    class Input;
+
     class Application {
     public:
         Configuration *configuration;
@@ -29,8 +33,11 @@ namespace Harpia {
 
         std::map<int, KeyState> _keyMap;
         std::list<int> _dirtyKeys;
+
+        Renderer *_renderer;
+        Input *_input;
     public:
-        explicit Application();
+        explicit Application(Renderer *renderer);
 
         ~Application();
 
