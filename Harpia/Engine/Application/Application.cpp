@@ -4,7 +4,8 @@
 
 #include "Application.h"
 
-#include "SDL.h"
+#include <SDL.h>
+
 #include "Debug.h"
 #include "Configuration.h"
 #include "Renderer.h"

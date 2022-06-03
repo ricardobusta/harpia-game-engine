@@ -3,7 +3,8 @@
 //
 
 #include "Debug.h"
-#include "SDL_log.h"
+
+#include <SDL_log.h>
 
 namespace Harpia {
     void Debug::Print(const char *message) {
