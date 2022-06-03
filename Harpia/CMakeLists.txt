@@ -28,8 +28,8 @@ target_link_libraries(
         glew
         SDL2_image
         #SDL2_ttf
-        Harpia.Engine.Application
-        Harpia.Engine.Structures
+        Harpia.Application
+        Harpia.Structures
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})

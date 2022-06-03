@@ -1,4 +1,4 @@
-project(Harpia.Engine.Application CXX)
+project(Harpia.Application CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB ${PROJECT_NAME}_SRC CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/*.cpp ${PROJECT_SOURCE_DIR}/Rendering/*.cpp)
@@ -17,6 +17,6 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         glew
         SDL2
-        Harpia.Engine.Core
-        Harpia.Engine.Structures
+        Harpia.Core
+        Harpia.Structures
 )
