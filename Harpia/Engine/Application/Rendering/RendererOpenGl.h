@@ -21,8 +21,16 @@ namespace Harpia {
         GLuint _indexBufferObject = 0;
         SDL_GLContext _context = nullptr;
 
+    public:
+        int GetWindowFlags() override;
+
+        void UpdateFrame() override;
+
+        void Destroy() override;
     private:
-        bool InitGL(Configuration * configuration);
+        int RenderingInitialize() override;
+
+        bool InitGL();
 
         static void PrintProgramLog(GLuint program);
 

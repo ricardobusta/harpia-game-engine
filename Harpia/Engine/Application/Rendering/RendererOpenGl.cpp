@@ -4,9 +4,8 @@
 
 #include "RendererOpenGl.h"
 
-#include <GL/glew.h>
 #include <SDL.h>
-#include <SDL_opengl.h>
+#include <GL/glew.h>
 
 #include "Debug.h"
 #include "Configuration.h"
@@ -52,7 +51,7 @@ namespace Harpia {
         }
     }
 
-    bool RendererOpenGL::InitGL(Configuration * configuration) {
+    bool RendererOpenGL::InitGL() {
         bool success = true;
 
         _programID = glCreateProgram();
@@ -102,7 +101,7 @@ namespace Harpia {
                         DebugLogError("LVertexPos2D is not a valid glsl program variable!\n");
                         success = false;
                     } else {
-                        auto clearColor = configuration->clearColor;
+                        auto clearColor = _configuration->clearColor;
                         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
                         GLfloat vertexData[] =
                                 {
@@ -124,5 +123,64 @@ namespace Harpia {
         }
 
         return success;
+    }
+
+    int RendererOpenGL::GetWindowFlags() {
+        return SDL_WINDOW_OPENGL;
+    }
+
+    void RendererOpenGL::UpdateFrame() {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(_programID);
+
+        glEnableVertexAttribArray(_vertexPos2DLocation);
+
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
+        glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
+        glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+
+        glDisableVertexAttribArray(_vertexPos2DLocation);
+
+        glUseProgram(0);
+
+        SDL_GL_SwapWindow(_window);
+    }
+
+    void RendererOpenGL::Destroy() {
+        Renderer::Destroy();
+    }
+
+    int RendererOpenGL::RenderingInitialize() {
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+        _context = SDL_GL_CreateContext(_window);
+        if (_context == nullptr) {
+            DebugLogError("OpenGL context could not be created! SDL Error: %s\n", SDL_GetError());
+            return -1;
+        }
+
+        glewExperimental = GL_TRUE;
+        GLenum glewError = glewInit();
+        if (glewError != GLEW_OK) {
+            DebugLogError("Error initializing GLEW! %s\n", glewGetErrorString(glewError));
+        }
+
+        //Use Vsync
+        if (SDL_GL_SetSwapInterval(1) < 0) {
+            DebugLogError("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+        }
+
+        //Initialize OpenGL
+        if (!InitGL()) {
+            DebugLogError("Unable to initialize OpenGL!\n");
+            return -1;
+        }
+
+        return 0;
     }
 }

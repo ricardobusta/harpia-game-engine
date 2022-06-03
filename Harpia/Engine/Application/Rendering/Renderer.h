@@ -16,15 +16,19 @@ namespace Harpia {
     public:
         virtual int GetWindowFlags();
 
-        virtual int Initialize(Configuration *configuration, SDL_Window *window);
+        int Initialize(Configuration *configuration, SDL_Window *window);
 
         virtual void UpdateFrame();
 
         virtual void Destroy();
     private:
+        virtual int RenderingInitialize();
+
+    protected:
         Configuration *_configuration = nullptr;
-        SDL_Surface *_surface = nullptr;
         SDL_Window *_window = nullptr;
+    private:
+        SDL_Surface *_surface = nullptr;
     };
 
 } // Harpia

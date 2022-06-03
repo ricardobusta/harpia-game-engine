@@ -19,21 +19,20 @@ namespace Harpia {
             DebugLogError("Configuration is null.");
             return -1;
         }
-
         _configuration = configuration;
 
         if(window == nullptr){
             DebugLogError("Window is null.");
             return -1;
         }
-
         _window = window;
 
-        _surface = SDL_GetWindowSurface(window);
-        if (_surface == nullptr) {
-            DebugLogError("SDL Surface not created. SDL_Error: %s", SDL_GetError());
-            return -1;
+        auto result = RenderingInitialize();
+        if(result < 0){
+            DebugLogError("Failed to initialize specifics.");
+            return result;
         }
+
         return 0;
     }
 
@@ -46,5 +45,15 @@ namespace Harpia {
     void Renderer::Destroy() {
         SDL_FreeSurface(_surface);
         _surface = nullptr;
+    }
+
+    int Renderer::RenderingInitialize() {
+        _surface = SDL_GetWindowSurface(_window);
+        if (_surface == nullptr) {
+            DebugLogError("SDL Surface not created. SDL_Error: %s", SDL_GetError());
+            return -1;
+        }
+
+        return 0;
     }
 } // Harpia

@@ -39,7 +39,7 @@ namespace Harpia {
 
         _window = SDL_CreateWindow(configuration->gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
                                    SDL_WINDOWPOS_UNDEFINED, configuration->windowSize.x, configuration->windowSize.y,
-                                   SDL_WINDOW_SHOWN);
+                                   SDL_WINDOW_SHOWN | _renderer->GetWindowFlags());
 
         if (_window == nullptr) {
             DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
