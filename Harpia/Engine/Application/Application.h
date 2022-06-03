@@ -12,8 +12,6 @@
 
 class SDL_Window;
 
-class SDL_Surface;
-
 namespace Harpia {
     class OpenGLApplication;
 
@@ -23,19 +21,17 @@ namespace Harpia {
 
     class Application {
     public:
-        Configuration *configuration;
-    protected:
-        SDL_Window *_window = nullptr;
+        Configuration *configuration = nullptr;
     private:
+        bool _createdWithSuccess = false;
         int _result = -1;
-
-        SDL_Surface *_surface = nullptr;
 
         std::map<int, KeyState> _keyMap;
         std::list<int> _dirtyKeys;
 
-        Renderer *_renderer;
-        Input *_input;
+        SDL_Window *_window = nullptr;
+        Renderer *_renderer = nullptr;
+        Input *_input = nullptr;
     public:
         explicit Application(Renderer *renderer);
 
@@ -44,9 +40,7 @@ namespace Harpia {
         int Execute();
 
     private:
-        virtual int Initialize();
-
-        virtual void FrameUpdate();
+        int Initialize();
 
         void Quit();
 

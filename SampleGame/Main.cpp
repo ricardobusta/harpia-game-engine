@@ -6,10 +6,11 @@
 
 #include "Application.h"
 #include "GameConfig.h"
-#include "Rendering/RendererOpenGl.h"
+#include "RendererOpenGl.h"
+#include "Renderer.h"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-    auto app = Harpia::Application(new Harpia::RendererOpenGL);
+    auto app = Harpia::Application(new Harpia::Renderer);
 
     GameConfig::Configure(app.configuration);
 

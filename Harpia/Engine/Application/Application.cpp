@@ -8,21 +8,74 @@
 
 #include "Debug.h"
 #include "Configuration.h"
-#include "Rendering/Renderer.h"
+#include "Renderer.h"
 #include "Input.h"
 
 namespace Harpia {
-    Application::Application(Renderer * renderer) {
-        DebugLog("Application created");
+    Application::Application(Renderer *renderer) {
         configuration = new Configuration();
+
+        if (renderer == nullptr) {
+            DebugLogError("No renderer set.");
+            return;
+        }
+        _renderer = renderer;
+
+        _createdWithSuccess = true;
+        DebugLog("Application created");
     };
 
     Application::~Application() {
-        DebugLog("Application destroyed");
         delete configuration;
+        DebugLog("Application destroyed");
+    }
+
+    int Application::Initialize() {
+        auto result = SDL_Init(SDL_INIT_VIDEO);
+        if (result < 0) {
+            DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
+            return result;
+        }
+
+        _window = SDL_CreateWindow(configuration->gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                                   SDL_WINDOWPOS_UNDEFINED, configuration->windowSize.x, configuration->windowSize.y,
+                                   SDL_WINDOW_SHOWN);
+
+        if (_window == nullptr) {
+            DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
+            return -1;
+        }
+
+        result = _renderer->Initialize(configuration, _window);
+
+        if (result < 0) {
+            DebugLogError("Renderer was not initialized. SDL_Error: %s", SDL_GetError());
+            return result;
+        }
+
+        return 0;
+    }
+
+    void Application::Quit() {
+        _renderer->Destroy();
+        delete _renderer;
+        _renderer = nullptr;
+
+        delete _input;
+        _input = nullptr;
+
+        SDL_DestroyWindow(_window);
+        _window = nullptr;
+
+        SDL_Quit();
     }
 
     int Application::Execute() {
+        if (!_createdWithSuccess) {
+            DebugLogError("Application not created with success.");
+            return -1;
+        }
+
         DebugLog("Application %s is starting", configuration->gameTitle.c_str());
         _result = Initialize();
         if (_result != 0) {
@@ -76,49 +129,12 @@ namespace Harpia {
                 }
             }
 
-            FrameUpdate();
+            _renderer->UpdateFrame();
         }
 
         DebugLog("Quit");
         Quit();
         return _result;
-    }
-
-    int Application::Initialize() {
-        auto result = SDL_Init(SDL_INIT_VIDEO);
-        if (result < 0) {
-            DebugLogError("SDL was not initialized. SDL_Error: %s\n", SDL_GetError());
-            return result;
-        }
-
-        _window = SDL_CreateWindow(configuration->gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, configuration->windowSize.x, configuration->windowSize.y,
-                                   SDL_WINDOW_SHOWN);
-
-        if (result < 0) {
-            DebugLogError("Failed to start Renderer. SDL_Error: %s\n", SDL_GetError());
-            return result;
-        }
-
-        _surface = SDL_GetWindowSurface(_window);
-
-        return 0;
-    }
-
-    void Application::FrameUpdate() {
-        auto color = configuration->clearColor;
-        SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, color.r, color.g, color.b));
-        SDL_UpdateWindowSurface(_window);
-    }
-
-    void Application::Quit() {
-        SDL_FreeSurface(_surface);
-        _surface = nullptr;
-
-        SDL_DestroyWindow(_window);
-        _window = nullptr;
-
-        SDL_Quit();
     }
 
     void Application::CleanKeyState() {

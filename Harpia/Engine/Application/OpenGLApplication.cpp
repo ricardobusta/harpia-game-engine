@@ -26,7 +26,7 @@ namespace Harpia {
 //                                   SDL_WINDOWPOS_UNDEFINED, configuration->windowSize.x, configuration->windowSize.y,
 //                                   SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 //        if (_window == nullptr) {
-//            printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+//            DebugLog("Window could not be created! SDL Error: %s\n", SDL_GetError());
 //            return -1;
 //        }
 //
