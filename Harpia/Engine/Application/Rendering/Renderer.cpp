@@ -14,21 +14,17 @@ namespace Harpia {
         return 0;
     }
 
-    int Renderer::Initialize(Configuration *configuration, SDL_Window *window) {
-        if (configuration == nullptr) {
-            DebugLogError("Configuration is null.");
-            return -1;
-        }
-        _configuration = configuration;
+    int Renderer::Initialize(GameConfiguration &configuration, SDL_Window *window) {
+        _clearColor = &configuration.clearColor;
 
-        if(window == nullptr){
+        if (window == nullptr) {
             DebugLogError("Window is null.");
             return -1;
         }
         _window = window;
 
         auto result = RenderingInitialize();
-        if(result < 0){
+        if (result < 0) {
             DebugLogError("Failed to initialize specifics.");
             return result;
         }
@@ -37,8 +33,8 @@ namespace Harpia {
     }
 
     void Renderer::UpdateFrame() {
-        auto color = _configuration->clearColor;
-        SDL_FillRect(_surface, nullptr, SDL_MapRGB(_surface->format, color.r, color.g, color.b));
+        auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(), _clearColor->IntA());
+        SDL_FillRect(_surface, nullptr,clearColor);
         SDL_UpdateWindowSurface(_window);
     }
 

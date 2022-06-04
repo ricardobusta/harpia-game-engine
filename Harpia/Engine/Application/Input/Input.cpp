@@ -9,9 +9,9 @@
 #include "Debug.h"
 
 namespace Harpia {
-    int Input::Initialize(Configuration *configuration) {
+    int Input::Initialize(InputConfiguration &configuration) {
         _keyMap.clear();
-        for (int key: *configuration->mappedKeys) {
+        for (int key: configuration.mappedKeys) {
             DebugLog("[Input] Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }

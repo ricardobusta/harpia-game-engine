@@ -12,11 +12,11 @@
 union SDL_Event;
 
 namespace Harpia {
-    class Configuration;
+    class InputConfiguration;
 
     class Input {
     public:
-        int Initialize(Configuration *configuration);
+        int Initialize(InputConfiguration &configuration);
 
         void CleanKeyState();
 

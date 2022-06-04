@@ -4,11 +4,4 @@
 #include "Configuration.h"
 
 namespace Harpia {
-    Configuration::Configuration() {
-        mappedKeys = new std::list<int>();
-    }
-
-    Configuration::~Configuration() {
-        delete mappedKeys;
-    }
 }

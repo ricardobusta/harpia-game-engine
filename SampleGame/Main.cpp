@@ -11,7 +11,7 @@
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
     auto app = Harpia::Application(new Harpia::RendererOpenGL);
 
-    GameConfig::Configure(&app.configuration);
+    GameConfig::Configure(app.configuration);
 
     return app.Execute();
 }

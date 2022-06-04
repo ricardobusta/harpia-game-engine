@@ -12,16 +12,24 @@
 #include "Color.h"
 
 namespace Harpia {
+    struct GameConfiguration{
+        std::string gameTitle;
+        Color clearColor; // TODO move to specific camera configuration
+    };
+
+    struct WindowConfiguration{
+        Vector2Int windowSize;
+    };
+
+    struct InputConfiguration{
+        std::list<int> mappedKeys;
+    };
+
     struct Configuration {
     public:
-        Configuration();
-
-        ~Configuration();
-
-        std::string gameTitle;
-        Vector2Int windowSize;
-        Color clearColor;
-        std::list<int> *mappedKeys;
+        GameConfiguration game;
+        WindowConfiguration window;
+        InputConfiguration input;
     };
 }
 

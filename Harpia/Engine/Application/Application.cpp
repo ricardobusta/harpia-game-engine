@@ -36,8 +36,8 @@ namespace Harpia {
             return result;
         }
 
-        _window = SDL_CreateWindow(configuration.gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, configuration.windowSize.x, configuration.windowSize.y,
+        _window = SDL_CreateWindow(configuration.game.gameTitle.c_str(), SDL_WINDOWPOS_UNDEFINED,
+                                   SDL_WINDOWPOS_UNDEFINED, configuration.window.windowSize.x, configuration.window.windowSize.y,
                                    SDL_WINDOW_SHOWN | _renderer->GetWindowFlags());
 
         if (_window == nullptr) {
@@ -45,14 +45,14 @@ namespace Harpia {
             return -1;
         }
 
-        result = _renderer->Initialize(&configuration, _window);
+        result = _renderer->Initialize(configuration.game, _window);
 
         if (result < 0) {
             DebugLogError("[Application] Renderer was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
-        result = _input->Initialize(&configuration);
+        result = _input->Initialize(configuration.input);
         if (result < 0) {
             DebugLogError("[Application] Input was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
@@ -81,7 +81,7 @@ namespace Harpia {
             return -1;
         }
 
-        DebugLog("[Application] Application %s is starting", configuration.gameTitle.c_str());
+        DebugLog("[Application] Application %s is starting", configuration.game.gameTitle.c_str());
         _result = Initialize();
         if (_result != 0) {
             return _result;

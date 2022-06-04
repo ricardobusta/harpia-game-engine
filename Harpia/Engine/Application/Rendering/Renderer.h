@@ -10,13 +10,14 @@ class SDL_Window;
 class SDL_Surface;
 
 namespace Harpia {
-    class Configuration;
+    class GameConfiguration;
+    class Color;
 
     class Renderer {
     public:
         virtual int GetWindowFlags();
 
-        int Initialize(Configuration *configuration, SDL_Window *window);
+        int Initialize(GameConfiguration &configuration, SDL_Window *window);
 
         virtual void UpdateFrame();
 
@@ -25,7 +26,7 @@ namespace Harpia {
         virtual int RenderingInitialize();
 
     protected:
-        Configuration *_configuration = nullptr;
+        Color *_clearColor;
         SDL_Window *_window = nullptr;
     private:
         SDL_Surface *_surface = nullptr;

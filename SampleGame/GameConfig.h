@@ -9,7 +9,7 @@
 
 class GameConfig {
 public:
-    static void Configure(Harpia::Configuration *configuration);
+    static void Configure(Harpia::Configuration &configuration);
 };
 
 
