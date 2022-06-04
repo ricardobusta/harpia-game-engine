@@ -11,6 +11,7 @@ target_include_directories(
         ${PROJECT_SOURCE_DIR}/
         ${PROJECT_SOURCE_DIR}/Rendering
         ${PROJECT_SOURCE_DIR}/Input
+        ${PROJECT_SOURCE_DIR}/Audio
 )
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 
@@ -18,6 +19,7 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         glew
         SDL2
+        SDL2_mixer
         Harpia.Core
         Harpia.Structures
 )

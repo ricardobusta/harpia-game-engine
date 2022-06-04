@@ -8,7 +8,8 @@
 
 #include "Debug.h"
 #include "Renderer.h"
-#include "Input.h"
+#include "InputSystem.h"
+#include "AudioSystem.h"
 
 namespace Harpia {
     Application::Application(Renderer *renderer, void(*configure)(Configuration &config)) {
@@ -18,7 +19,9 @@ namespace Harpia {
         }
         _renderer = renderer;
 
-        _input = new Input();
+        _input = new InputSystem();
+
+        _audioSystem = new AudioSystem();
 
         _createdWithSuccess = true;
         DebugLog("[Application] Application created");
@@ -32,11 +35,21 @@ namespace Harpia {
 
     Application::~Application() {
         delete _input;
+        _input = nullptr;
+
+        delete _audioSystem;
+        _audioSystem = nullptr;
+
         DebugLog("[Application] Application destroyed");
     }
 
     int Application::Initialize() {
-        auto result = SDL_Init(SDL_INIT_VIDEO);
+        if(_input== nullptr || _audioSystem == nullptr || _renderer == nullptr){
+            DebugLogError("Mandatory system was null.");
+            return -1;
+        }
+
+        auto result = SDL_Init(SDL_INIT_VIDEO | _audioSystem->GetInitFlags());
         if (result < 0) {
             DebugLogError("[Application] SDL was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
@@ -60,7 +73,13 @@ namespace Harpia {
 
         result = _input->Initialize(configuration.input);
         if (result < 0) {
-            DebugLogError("[Application] Input was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("[Application] InputSystem was not initialized. SDL_Error: %s", SDL_GetError());
+            return result;
+        }
+
+        result = _audioSystem->Initialize(configuration.audio);
+        if(result < 0){
+            DebugLogError("AudioSystem was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
@@ -71,9 +90,6 @@ namespace Harpia {
         _renderer->Destroy();
         delete _renderer;
         _renderer = nullptr;
-
-        delete _input;
-        _input = nullptr;
 
         SDL_DestroyWindow(_window);
         _window = nullptr;

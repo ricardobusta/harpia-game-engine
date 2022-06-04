@@ -2,8 +2,8 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 02/06/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_INPUT_H
-#define HARPIAGAMEENGINE_INPUT_H
+#ifndef HARPIAGAMEENGINE_INPUTSYSTEM_H
+#define HARPIAGAMEENGINE_INPUTSYSTEM_H
 
 #include <map>
 #include <list>
@@ -14,7 +14,7 @@ union SDL_Event;
 namespace Harpia {
     class InputConfiguration;
 
-    class Input {
+    class InputSystem {
     public:
         int Initialize(InputConfiguration &configuration);
 
@@ -31,4 +31,4 @@ namespace Harpia {
 
 } // Harpia
 
-#endif //HARPIAGAMEENGINE_INPUT_H
+#endif //HARPIAGAMEENGINE_INPUTSYSTEM_H

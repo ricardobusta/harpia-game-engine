@@ -28,11 +28,16 @@ namespace Harpia {
         std::vector<int> mappedKeys;
     };
 
+    struct AudioConfiguration{
+        bool enabled;
+    };
+
     struct Configuration {
     public:
         GameConfiguration game;
         WindowConfiguration window;
         InputConfiguration input;
+        AudioConfiguration audio;
     };
 }
 
