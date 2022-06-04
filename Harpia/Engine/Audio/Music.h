@@ -7,10 +7,13 @@
 
 #include "Asset.h"
 
+#include "MixTypes.h"
+
 namespace Harpia {
 
     class Music : public Asset {
-
+    public:
+        Mix_Music *ref;
     };
 
 } // Harpia

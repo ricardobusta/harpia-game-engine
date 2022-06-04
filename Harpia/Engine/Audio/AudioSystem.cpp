@@ -33,6 +33,9 @@ namespace Harpia {
         for (const auto &a: _loadedAudios) {
             ReleaseAllUsages(a.second);
         }
+        for (const auto &m: _loadedMusics) {
+            ReleaseAllUsages(m.second);
+        }
         Mix_Quit();
         DebugLog("Quit");
     }
@@ -46,7 +49,9 @@ namespace Harpia {
         auto audio = new Audio();
         audio->path = path;
         audio->useCount = 1;
+        audio->ref = Mix_LoadWAV(path.c_str());
         _loadedAudios[path] = audio;
+        return audio;
     }
 
     void AudioSystem::ReleaseAudio(Audio *audio) {
@@ -64,6 +69,7 @@ namespace Harpia {
         it->second->useCount--;
         if (it->second->useCount <= 0) {
             _loadedAudios.erase(audio->path);
+            Mix_FreeChunk(audio->ref);
             delete audio;
         }
     }
@@ -72,6 +78,46 @@ namespace Harpia {
         DebugLogWarning("Audio with remaining %d uses on System Quit: %s", audio->useCount, audio->path.c_str());
         audio->useCount = 0;
         ReleaseAudio(audio);
+    }
+
+    Music *AudioSystem::LoadMusic(const std::string &path) {
+        auto it = _loadedMusics.find(path);
+        if (it != _loadedMusics.end()) {
+            it->second->useCount++;
+            return it->second;
+        }
+        auto music = new Music();
+        music->path = path;
+        music->useCount = 1;
+        music->ref = Mix_LoadMUS(path.c_str());
+        _loadedMusics[path] = music;
+        return music;
+    }
+
+    void AudioSystem::ReleaseMusic(Music *music) {
+        if (music == nullptr) {
+            DebugLogError("Music reference was null.");
+            return;
+        }
+
+        auto it = _loadedMusics.find(music->path);
+        if (it == _loadedMusics.end()) {
+            DebugLogError("Trying to release music %s, but music was not loaded.", music->path.c_str());
+            return;
+        }
+
+        it->second->useCount--;
+        if (it->second->useCount <= 0) {
+            _loadedMusics.erase(music->path);
+            Mix_FreeMusic(music->ref);
+            delete music;
+        }
+    }
+
+    void AudioSystem::ReleaseAllUsages(Music *music) {
+        DebugLogWarning("Music with remaining %d uses on System Quit: %s", music->useCount, music->path.c_str());
+        music->useCount = 0;
+        ReleaseMusic(music);
     }
 }
 // Harpia

@@ -6,11 +6,13 @@
 #define HARPIAGAMEENGINE_AUDIO_H
 
 #include "Asset.h"
+#include "MixTypes.h"
 
 namespace Harpia {
 
-    class Audio : public Asset{
-
+    class Audio : public Asset {
+    public:
+        Mix_Chunk *ref;
     };
 
 } // Harpia

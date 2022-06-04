@@ -10,6 +10,7 @@
 
 #include "CoreSystem.h"
 #include "Audio.h"
+#include "Music.h"
 
 namespace Harpia {
     class AudioConfiguration;
@@ -18,10 +19,15 @@ namespace Harpia {
     public:
     private:
         std::map<std::string, Audio *> _loadedAudios;
+        std::map<std::string, Music *> _loadedMusics;
     public:
         Audio *LoadAudio(const std::string &path);
 
         void ReleaseAudio(Audio *audio);
+
+        Music *LoadMusic(const std::string &path);
+
+        void ReleaseMusic(Music *music);
 
         int Initialize(AudioConfiguration &config);
 
@@ -32,6 +38,7 @@ namespace Harpia {
         void Quit() override;
     private:
         void ReleaseAllUsages(Audio *audio);
+        void ReleaseAllUsages(Music *music);
     };
 
 } // Harpia
