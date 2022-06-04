@@ -9,9 +9,10 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(
         ${PROJECT_NAME} PUBLIC
         ${PROJECT_SOURCE_DIR}/
-        ${PROJECT_SOURCE_DIR}/Rendering
-        ${PROJECT_SOURCE_DIR}/Input
         ${PROJECT_SOURCE_DIR}/Audio
+        ${PROJECT_SOURCE_DIR}/Core
+        ${PROJECT_SOURCE_DIR}/Input
+        ${PROJECT_SOURCE_DIR}/Rendering
 )
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 
@@ -20,6 +21,5 @@ target_link_libraries(
         glew
         SDL2
         SDL2_mixer
-        Harpia.Core
         Harpia.Structures
 )
