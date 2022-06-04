@@ -47,17 +47,17 @@ namespace Harpia {
             DebugLog("Loading existing audio %s use count: %d", path.c_str(), it->second->useCount);
             return it->second;
         }
-        auto audio = new AudioAsset();
-        DebugLog("Loading new audio %s use count: %d", path.c_str(), audio->useCount);
-        audio->ref = Mix_LoadWAV(path.c_str());
-        if(audio->ref==nullptr){
+        auto ref = Mix_LoadWAV(path.c_str());
+        if (ref == nullptr) {
             DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
-            delete audio;
             return nullptr;
         }
+        auto audio = new AudioAsset();
+        audio->ref = ref;
         audio->path = path;
         audio->useCount = 1;
         _loadedAudios[path] = audio;
+        DebugLog("Loading new audio %s use count: %d", path.c_str(), audio->useCount);
         return audio;
     }
 
@@ -93,12 +93,33 @@ namespace Harpia {
             it->second->useCount++;
             return it->second;
         }
+        auto ref = Mix_LoadMUS(path.c_str());
+        if (ref == nullptr) {
+            DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
+            return nullptr;
+        }
         auto music = new MusicAsset();
+        music->ref = ref;
         music->path = path;
         music->useCount = 1;
-        music->ref = Mix_LoadMUS(path.c_str());
         _loadedMusics[path] = music;
         return music;
+    }
+
+    int AudioSystem::PlayMusic(MusicAsset *music) {
+        return Mix_PlayMusic(music->ref, 0);
+    }
+
+    void AudioSystem::PauseMusic() {
+        Mix_PauseMusic();
+    }
+
+    void AudioSystem::ResumeMusic() {
+        Mix_ResumeMusic();
+    }
+
+    bool AudioSystem::IsMusicPaused(){
+        return Mix_PausedMusic();
     }
 
     void AudioSystem::ReleaseMusic(MusicAsset *music) {

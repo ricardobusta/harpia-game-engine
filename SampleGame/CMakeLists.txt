@@ -20,3 +20,5 @@ target_link_libraries(
         Harpia.Application
         Harpia.Game
 )
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Assets/ DESTINATION ${CMAKE_BINARY_DIR}/bin/Assets/)

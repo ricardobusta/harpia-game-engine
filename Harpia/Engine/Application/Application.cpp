@@ -102,8 +102,9 @@ namespace Harpia {
         }
 
         // TODO ===== Remove test code
-        auto testAudio = _audioSystem->LoadAudio("test.wav");
-
+        auto testAudio = _audioSystem->LoadAudio("Assets/Audio/jump.wav");
+        //auto testMusic = _audioSystem->LoadMusic("Assets/Music/test.ogg");
+        //_audioSystem->PlayMusic(testMusic);
         // TODO ===== Remove test code END
 
         bool quit = false;
@@ -124,8 +125,19 @@ namespace Harpia {
                     }
                     case SDL_KEYUP: {
                         _inputSystem->OnKeyUp(&e);
-                        if (e.key.keysym.sym == SDLK_UP) {
-                            _audioSystem->PlayAudio(testAudio);
+                        switch (e.key.keysym.sym) {
+                            case SDLK_1:
+                                _audioSystem->PlayAudio(testAudio);
+                                break;
+                            case SDLK_2:
+                                if(_audioSystem->IsMusicPaused()){
+                                    _audioSystem->ResumeMusic();
+                                }else{
+                                    _audioSystem->PauseMusic();
+                                }
+                                break;
+                            case SDLK_3:
+                                break;
                         }
                         break;
                     }

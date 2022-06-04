@@ -31,6 +31,14 @@ namespace Harpia {
 
         void ReleaseMusic(MusicAsset *music);
 
+        int PlayMusic(MusicAsset *music);
+
+        void PauseMusic();
+
+        void ResumeMusic();
+
+        bool IsMusicPaused();
+
         int Initialize(AudioConfiguration &config);
 
         int GetInitFlags() override;
@@ -38,8 +46,10 @@ namespace Harpia {
         int GetWindowFlags() override;
 
         void Quit() override;
+
     private:
         void ReleaseAllUsages(AudioAsset *audio);
+
         void ReleaseAllUsages(MusicAsset *music);
     };
 
