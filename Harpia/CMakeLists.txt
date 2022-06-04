@@ -6,8 +6,12 @@ cmake_minimum_required(VERSION 3.22)
 project(Harpia CXX)
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build)
+
+set(CMAKE_DEBUG_POSTFIX "d")
+set(CMAKE_RELEASE_POSTFIX "")
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 list(
         APPEND
@@ -54,6 +58,6 @@ if (WIN32)
     add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/glew32d.dll ${CMAKE_BINARY_DIR}/
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/glew32d.dll ${CMAKE_BINARY_DIR}/build/
     )
 endif ()
