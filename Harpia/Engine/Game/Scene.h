@@ -5,8 +5,10 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
+#include "IScene.h"
+
 namespace Harpia {
-    class Scene {
+    class Scene : public IScene {
 
     };
 }

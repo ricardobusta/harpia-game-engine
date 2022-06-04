@@ -6,23 +6,26 @@
 #define HARPIAGAMEENGINE_CONFIGURATION_H
 
 #include <string>
-#include <list>
+#include <vector>
 
 #include "Vector2Int.h"
 #include "Color.h"
 
 namespace Harpia {
+    class IScene;
+
     struct GameConfiguration{
-        std::string gameTitle;
+        std::string title;
         Color clearColor; // TODO move to specific camera configuration
+        std::vector<IScene*> scenes;
     };
 
     struct WindowConfiguration{
-        Vector2Int windowSize;
+        Vector2Int size;
     };
 
     struct InputConfiguration{
-        std::list<int> mappedKeys;
+        std::vector<int> mappedKeys;
     };
 
     struct Configuration {
