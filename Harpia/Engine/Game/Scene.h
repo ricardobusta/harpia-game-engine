@@ -1,16 +1,16 @@
 //
-// Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
+// Created by Ricardo Bustamante <ricardo@busta.dev> on 04/06/2022.
 //
 
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
-#include "IScene.h"
-
 namespace Harpia {
-    class Scene : public IScene {
+
+    class Scene {
 
     };
-}
+
+} // Harpia
 
 #endif //HARPIAGAMEENGINE_SCENE_H

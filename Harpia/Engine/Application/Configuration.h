@@ -12,12 +12,12 @@
 #include "Color.h"
 
 namespace Harpia {
-    class IScene;
+    class ISceneDescription;
 
     struct GameConfiguration{
         std::string title;
         Color clearColor; // TODO move to specific camera configuration
-        std::vector<IScene*> scenes;
+        std::vector<ISceneDescription*> scenes;
     };
 
     struct WindowConfiguration{

@@ -7,6 +7,10 @@
 
 #include "Configuration.h"
 
+namespace Harpia {
+    class ISceneDescription;
+}
+
 namespace SampleGame {
     class GameConfig {
     public:

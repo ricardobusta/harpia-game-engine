@@ -18,4 +18,5 @@ target_link_libraries(
         SDL2
         Harpia
         Harpia.Application
+        Harpia.Game
 )

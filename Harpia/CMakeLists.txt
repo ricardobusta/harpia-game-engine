@@ -29,6 +29,7 @@ target_link_libraries(
         SDL2_image
         #SDL2_ttf
         Harpia.Application
+        Harpia.Game
         Harpia.Structures
 )
 
@@ -41,6 +42,7 @@ add_subdirectory(ThirdParty/SDL_mixer)
 add_subdirectory(ThirdParty/glew-2.2.0/build/cmake)
 add_subdirectory(Engine/Application)
 add_subdirectory(Engine/Core)
+add_subdirectory(Engine/Game)
 add_subdirectory(Engine/Structures)
 
 if (WIN32)

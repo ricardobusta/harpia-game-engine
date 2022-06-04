@@ -5,7 +5,23 @@
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/dav1d" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/jpeg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/libavif" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/libjxl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/libpng" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/libtiff" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/libwebp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_image/external/zlib" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/flac" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/libmodplug" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/mpg123" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/ogg" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/opus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/opusfile" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/tremor" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_mixer/external/vorbis" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/SDL_ttf" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/EGL-Registry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/OpenGL-Registry" vcs="Git" />
