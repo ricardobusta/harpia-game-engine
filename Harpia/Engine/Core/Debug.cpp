@@ -12,10 +12,10 @@ namespace Harpia {
     }
 
     void Debug::PrintWarning(const char *tag, const char *message) {
-        SDL_LogWarn(SDL_LOG_CATEGORY_ERROR, "[%s] %s", tag, message);
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s", tag, message);
     }
 
     void Debug::PrintError(const char *tag, const char *message) {
-        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "[%s] %s", tag, message);
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s", tag, message);
     }
 }

@@ -9,8 +9,8 @@
 #include <string>
 
 #include "CoreSystem.h"
-#include "Audio.h"
-#include "Music.h"
+#include "AudioAsset.h"
+#include "MusicAsset.h"
 
 namespace Harpia {
     class AudioConfiguration;
@@ -18,16 +18,18 @@ namespace Harpia {
     class AudioSystem : public CoreSystem {
     public:
     private:
-        std::map<std::string, Audio *> _loadedAudios;
-        std::map<std::string, Music *> _loadedMusics;
+        std::map<std::string, AudioAsset *> _loadedAudios;
+        std::map<std::string, MusicAsset *> _loadedMusics;
     public:
-        Audio *LoadAudio(const std::string &path);
+        AudioAsset *LoadAudio(const std::string &path);
 
-        void ReleaseAudio(Audio *audio);
+        void ReleaseAudio(AudioAsset *audio);
 
-        Music *LoadMusic(const std::string &path);
+        void PlayAudio(AudioAsset *audio);
 
-        void ReleaseMusic(Music *music);
+        MusicAsset *LoadMusic(const std::string &path);
+
+        void ReleaseMusic(MusicAsset *music);
 
         int Initialize(AudioConfiguration &config);
 
@@ -37,8 +39,8 @@ namespace Harpia {
 
         void Quit() override;
     private:
-        void ReleaseAllUsages(Audio *audio);
-        void ReleaseAllUsages(Music *music);
+        void ReleaseAllUsages(AudioAsset *audio);
+        void ReleaseAllUsages(MusicAsset *music);
     };
 
 } // Harpia

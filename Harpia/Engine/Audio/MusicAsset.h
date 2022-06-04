@@ -2,8 +2,8 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 04/06/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_MUSIC_H
-#define HARPIAGAMEENGINE_MUSIC_H
+#ifndef HARPIAGAMEENGINE_MUSICASSET_H
+#define HARPIAGAMEENGINE_MUSICASSET_H
 
 #include "Asset.h"
 
@@ -11,11 +11,11 @@
 
 namespace Harpia {
 
-    class Music : public Asset {
+    class MusicAsset : public Asset {
     public:
         Mix_Music *ref;
     };
 
 } // Harpia
 
-#endif //HARPIAGAMEENGINE_MUSIC_H
+#endif //HARPIAGAMEENGINE_MUSICASSET_H

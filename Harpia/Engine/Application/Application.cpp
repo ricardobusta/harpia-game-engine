@@ -69,7 +69,7 @@ namespace Harpia {
         }
 
         result = _audioSystem->Initialize(configuration.audio);
-        if(result < 0){
+        if (result < 0) {
             DebugLogError("AudioSystem was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
@@ -101,6 +101,11 @@ namespace Harpia {
             return _result;
         }
 
+        // TODO ===== Remove test code
+        auto testAudio = _audioSystem->LoadAudio("test.wav");
+
+        // TODO ===== Remove test code END
+
         bool quit = false;
         SDL_Event e;
 
@@ -119,6 +124,9 @@ namespace Harpia {
                     }
                     case SDL_KEYUP: {
                         _inputSystem->OnKeyUp(&e);
+                        if (e.key.keysym.sym == SDLK_UP) {
+                            _audioSystem->PlayAudio(testAudio);
+                        }
                         break;
                     }
                 }
