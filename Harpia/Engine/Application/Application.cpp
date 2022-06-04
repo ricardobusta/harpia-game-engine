@@ -11,7 +11,7 @@
 #include "Input.h"
 
 namespace Harpia {
-    Application::Application(Renderer *renderer) {
+    Application::Application(Renderer *renderer, void(*configure)(Configuration &config)) {
         if (renderer == nullptr) {
             DebugLogError("[Application] No renderer set.");
             return;
@@ -22,6 +22,12 @@ namespace Harpia {
 
         _createdWithSuccess = true;
         DebugLog("[Application] Application created");
+
+        if (configure == nullptr) {
+            DebugLogError("[Application] Configure method missing");
+            return;
+        }
+        configure(configuration);
     }
 
     Application::~Application() {

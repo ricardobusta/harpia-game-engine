@@ -25,7 +25,7 @@ namespace Harpia {
         Renderer *_renderer = nullptr;
         Input *_input = nullptr;
     public:
-        explicit Application(Renderer *renderer);
+        explicit Application(Renderer *renderer, void(*configure)(Configuration &config));
 
         ~Application();
 

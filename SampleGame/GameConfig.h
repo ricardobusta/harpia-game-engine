@@ -7,10 +7,11 @@
 
 #include "Configuration.h"
 
-class GameConfig {
-public:
-    static void Configure(Harpia::Configuration &configuration);
-};
-
+namespace SampleGame {
+    class GameConfig {
+    public:
+        static void Configure(Harpia::Configuration &configuration);
+    };
+}
 
 #endif //HARPIAGAMEENGINE_GAMECONFIG_H

@@ -8,10 +8,9 @@
 #include "GameConfig.h"
 #include "RendererOpenGl.h"
 
+using namespace SampleGame;
+
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-    auto app = Harpia::Application(new Harpia::RendererOpenGL);
-
-    GameConfig::Configure(app.configuration);
-
+    auto app = Harpia::Application(new Harpia::RendererOpenGL, GameConfig::Configure);
     return app.Execute();
 }
