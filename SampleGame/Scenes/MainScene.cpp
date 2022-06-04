@@ -6,7 +6,7 @@
 #include "Scenes.h"
 
 namespace SampleGame {
-    Harpia::ISceneDescription* Scenes::MainScene(){
+    Harpia::SceneDescription* Scenes::MainScene(){
         auto scene = new Harpia::SceneDescription();
 
         return scene;

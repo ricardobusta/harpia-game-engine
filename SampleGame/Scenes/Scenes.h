@@ -6,12 +6,12 @@
 #define HARPIAGAMEENGINE_SCENES_H
 
 namespace Harpia{
-    class ISceneDescription;
+    class SceneDescription;
 }
 
 namespace SampleGame {
     class Scenes{
-        Harpia::ISceneDescription * MainScene();
+        Harpia::SceneDescription * MainScene();
     };
 }
 

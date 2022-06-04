@@ -11,7 +11,7 @@
 
 #ifdef HARPIA_DEBUG
 #define DebugLog(args...) do {Harpia::Debug::Log(args);} while(0)
-#define DebugLogWarning(args...) do {Harpia::Debug::Log(args);} while(0)
+#define DebugLogWarning(args...) do {Harpia::Debug::LogWarning(args);} while(0)
 #define DebugLogError(args...) do {Harpia::Debug::LogError(args);} while(0)
 #else
 #define DebugLog(args...)

@@ -8,7 +8,6 @@
 #include "Renderer.h"
 
 #include "GLTypes.h"
-#include "SDLTypes.h"
 
 namespace Harpia {
     class Configuration;

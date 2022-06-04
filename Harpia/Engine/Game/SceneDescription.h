@@ -5,10 +5,8 @@
 #ifndef HARPIAGAMEENGINE_SCENEDESCRIPTION_H
 #define HARPIAGAMEENGINE_SCENEDESCRIPTION_H
 
-#include "ISceneDescription.h"
-
 namespace Harpia {
-    class SceneDescription : public ISceneDescription {
+    class SceneDescription{
 
     };
 }

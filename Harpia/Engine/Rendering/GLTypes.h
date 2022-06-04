@@ -6,6 +6,7 @@
 #ifndef HARPIAGAMEENGINE_GLTYPES_H
 #define HARPIAGAMEENGINE_GLTYPES_H
 
+// OpenGL
 typedef unsigned int GLenum;
 typedef unsigned int GLbitfield;
 typedef unsigned int GLuint;
@@ -22,6 +23,9 @@ typedef float GLclampf;
 typedef double GLdouble;
 typedef double GLclampd;
 typedef void GLvoid;
+
+// SDL
+typedef void *SDL_GLContext;
 
 #endif //HARPIAGAMEENGINE_GLTYPES_H
 #endif //__glew_h__
