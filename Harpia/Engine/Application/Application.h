@@ -29,7 +29,7 @@ namespace Harpia {
         InputSystem *_inputSystem = nullptr;
         AudioSystem *_audioSystem = nullptr;
     public:
-        explicit Application(RenderingSystem *renderer, void(*configure)(Configuration &config));
+        explicit Application(void(*configure)(Configuration &config));
 
         ~Application();
 

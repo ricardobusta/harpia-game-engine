@@ -30,8 +30,48 @@ namespace Harpia {
     }
 
     void AudioSystem::Quit() {
+        for (const auto &a: _loadedAudios) {
+            ReleaseAllUsages(a.second);
+        }
         Mix_Quit();
         DebugLog("Quit");
     }
 
-} // Harpia
+    Audio *AudioSystem::LoadAudio(const std::string &path) {
+        auto it = _loadedAudios.find(path);
+        if (it != _loadedAudios.end()) {
+            it->second->useCount++;
+            return it->second;
+        }
+        auto audio = new Audio();
+        audio->path = path;
+        audio->useCount = 1;
+        _loadedAudios[path] = audio;
+    }
+
+    void AudioSystem::ReleaseAudio(Audio *audio) {
+        if (audio == nullptr) {
+            DebugLogError("Audio reference was null.");
+            return;
+        }
+
+        auto it = _loadedAudios.find(audio->path);
+        if (it == _loadedAudios.end()) {
+            DebugLogError("Trying to release audio %s, but audio was not loaded.", audio->path.c_str());
+            return;
+        }
+
+        it->second->useCount--;
+        if (it->second->useCount <= 0) {
+            _loadedAudios.erase(audio->path);
+            delete audio;
+        }
+    }
+
+    void AudioSystem::ReleaseAllUsages(Audio *audio) {
+        DebugLogWarning("Audio with remaining %d uses on System Quit: %s", audio->useCount, audio->path.c_str());
+        audio->useCount = 0;
+        ReleaseAudio(audio);
+    }
+}
+// Harpia

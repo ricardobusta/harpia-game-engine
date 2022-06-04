@@ -5,9 +5,13 @@
 #ifndef HARPIAGAMEENGINE_ASSET_H
 #define HARPIAGAMEENGINE_ASSET_H
 
+#include <string>
+
 namespace Harpia {
     class Asset {
-
+    public:
+        int useCount = 0;
+        std::string path;
     };
 }
 

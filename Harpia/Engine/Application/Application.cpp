@@ -7,23 +7,18 @@
 #include <SDL.h>
 
 #include "Debug.h"
-#include "RenderingSystem.h"
+#include "RenderingSystemGL.h"
 #include "InputSystem.h"
 #include "AudioSystem.h"
 
 namespace Harpia {
-    Application::Application(RenderingSystem *renderer, void(*configure)(Configuration &config)) {
-        if (renderer == nullptr) {
-            DebugLogError("No renderer set.");
-            return;
-        }
-
+    Application::Application(void(*configure)(Configuration &config)) {
         if (configure == nullptr) {
             DebugLogError("Configure method missing");
             return;
         }
 
-        _renderSystem = renderer;
+        _renderSystem = new RenderingSystemGL();
         _inputSystem = new InputSystem();
         _audioSystem = new AudioSystem();
 
