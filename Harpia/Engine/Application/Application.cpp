@@ -14,7 +14,7 @@
 namespace Harpia {
     Application::Application(Renderer *renderer, void(*configure)(Configuration &config)) {
         if (renderer == nullptr) {
-            DebugLogError("[Application] No renderer set.");
+            DebugLogError("No renderer set.");
             return;
         }
         _renderer = renderer;
@@ -24,10 +24,10 @@ namespace Harpia {
         _audioSystem = new AudioSystem();
 
         _createdWithSuccess = true;
-        DebugLog("[Application] Application created");
+        DebugLog("Application created");
 
         if (configure == nullptr) {
-            DebugLogError("[Application] Configure method missing");
+            DebugLogError("Configure method missing");
             return;
         }
         configure(configuration);
@@ -40,7 +40,7 @@ namespace Harpia {
         delete _audioSystem;
         _audioSystem = nullptr;
 
-        DebugLog("[Application] Application destroyed");
+        DebugLog("Application destroyed");
     }
 
     int Application::Initialize() {
@@ -51,7 +51,7 @@ namespace Harpia {
 
         auto result = SDL_Init(SDL_INIT_VIDEO | _audioSystem->GetInitFlags());
         if (result < 0) {
-            DebugLogError("[Application] SDL was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
@@ -60,20 +60,20 @@ namespace Harpia {
                                    SDL_WINDOW_SHOWN | _renderer->GetWindowFlags());
 
         if (_window == nullptr) {
-            DebugLogError("[Application] Window could not be created! SDL Error: %s", SDL_GetError());
+            DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
         result = _renderer->Initialize(configuration.game, _window);
 
         if (result < 0) {
-            DebugLogError("[Application] Renderer was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("Renderer was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
         result = _input->Initialize(configuration.input);
         if (result < 0) {
-            DebugLogError("[Application] InputSystem was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("InputSystem was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
@@ -99,11 +99,11 @@ namespace Harpia {
 
     int Application::Execute() {
         if (!_createdWithSuccess) {
-            DebugLogError("[Application] Application not created with success.");
+            DebugLogError("Application not created with success.");
             return -1;
         }
 
-        DebugLog("[Application] Application %s is starting", configuration.game.title.c_str());
+        DebugLog("Application %s is starting", configuration.game.title.c_str());
         _result = Initialize();
         if (_result != 0) {
             return _result;
@@ -119,7 +119,7 @@ namespace Harpia {
                 switch (e.type) {
                     case SDL_QUIT:
                         quit = true;
-                        DebugLog("[Application] Requested to quit");
+                        DebugLog("Requested to quit");
                         break;
                     case SDL_KEYDOWN: {
                         _input->OnKeyDown(&e);

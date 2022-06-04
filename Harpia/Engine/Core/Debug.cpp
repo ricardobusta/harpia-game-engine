@@ -7,15 +7,15 @@
 #include <SDL_log.h>
 
 namespace Harpia {
-    void Debug::Print(const char *message) {
-        SDL_Log("%s", message);
+    void Debug::Print(const char *tag, const char *message) {
+        SDL_Log("[%s] %s", tag, message);
     }
 
-    void Debug::PrintWarning(const char *message) {
-        SDL_LogWarn(SDL_LOG_CATEGORY_ERROR, "%s", message);
+    void Debug::PrintWarning(const char *tag, const char *message) {
+        SDL_LogWarn(SDL_LOG_CATEGORY_ERROR, "[%s] %s", tag, message);
     }
 
-    void Debug::PrintError(const char *message) {
-        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "%s", message);
+    void Debug::PrintError(const char *tag, const char *message) {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "[%s] %s", tag, message);
     }
 }

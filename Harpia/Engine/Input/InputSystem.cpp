@@ -12,7 +12,7 @@ namespace Harpia {
     int InputSystem::Initialize(InputConfiguration &configuration) {
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
-            DebugLog("[InputSystem] Adding key %d to map", key);
+            DebugLog("Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }
         return 0;
