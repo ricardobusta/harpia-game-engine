@@ -7,14 +7,16 @@
 
 #include <map>
 #include <list>
+
 #include "KeyState.h"
+#include "CoreSystem.h"
 
 union SDL_Event;
 
 namespace Harpia {
     class InputConfiguration;
 
-    class InputSystem {
+    class InputSystem : public CoreSystem {
     public:
         int Initialize(InputConfiguration &configuration);
 
@@ -23,6 +25,12 @@ namespace Harpia {
         void OnKeyDown(SDL_Event *e);
 
         void OnKeyUp(SDL_Event *e);
+
+        int GetInitFlags() override;
+
+        int GetWindowFlags() override;
+
+        void Quit() override;
 
     private:
         std::map<int, KeyState> _keyMap;

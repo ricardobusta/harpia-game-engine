@@ -5,14 +5,20 @@
 #ifndef HARPIAGAMEENGINE_AUDIOSYSTEM_H
 #define HARPIAGAMEENGINE_AUDIOSYSTEM_H
 
+#include "CoreSystem.h"
+
 namespace Harpia {
     class AudioConfiguration;
 
-    class AudioSystem {
+    class AudioSystem : public CoreSystem {
     public:
         int Initialize(AudioConfiguration &config);
 
-        int GetInitFlags();
+        int GetInitFlags() override;
+
+        int GetWindowFlags() override;
+
+        void Quit() override;
     };
 
 } // Harpia

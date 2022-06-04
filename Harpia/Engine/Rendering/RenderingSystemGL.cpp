@@ -2,7 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 03/06/2022.
 //
 
-#include "RendererOpenGl.h"
+#include "RenderingSystemGL.h"
 
 #include <SDL.h>
 #include <GL/glew.h>
@@ -11,7 +11,7 @@
 #include "Configuration.h"
 
 namespace Harpia {
-    void RendererOpenGL::PrintProgramLog(GLuint program) {
+    void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;
             int maxLength = infoLogLength;
@@ -31,7 +31,7 @@ namespace Harpia {
         }
     }
 
-    void RendererOpenGL::PrintShaderLog(GLuint shader) {
+    void RenderingSystemGL::PrintShaderLog(GLuint shader) {
         if (glIsShader(shader)) {
             int infoLogLength = 0;
             int maxLength = infoLogLength;
@@ -51,7 +51,7 @@ namespace Harpia {
         }
     }
 
-    bool RendererOpenGL::InitGL() {
+    bool RenderingSystemGL::InitGL() {
         bool success = true;
 
         _programID = glCreateProgram();
@@ -124,11 +124,7 @@ namespace Harpia {
         return success;
     }
 
-    int RendererOpenGL::GetWindowFlags() {
-        return SDL_WINDOW_OPENGL;
-    }
-
-    void RendererOpenGL::UpdateFrame() {
+    void RenderingSystemGL::UpdateFrame() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(_programID);
@@ -148,11 +144,15 @@ namespace Harpia {
         SDL_GL_SwapWindow(_window);
     }
 
-    void RendererOpenGL::Destroy() {
-        Renderer::Destroy();
+    int RenderingSystemGL::GetWindowFlags() {
+        return SDL_WINDOW_OPENGL;
     }
 
-    int RendererOpenGL::RenderingInitialize() {
+    void RenderingSystemGL::Quit() {
+        RenderingSystem::Quit();
+    }
+
+    int RenderingSystemGL::RenderingInitialize() {
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);

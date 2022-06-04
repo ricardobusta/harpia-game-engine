@@ -2,7 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 02/06/2022.
 //
 
-#include "Renderer.h"
+#include "RenderingSystem.h"
 
 #include <SDL.h>
 
@@ -10,11 +10,8 @@
 #include "Configuration.h"
 
 namespace Harpia {
-    int Renderer::GetWindowFlags() {
-        return 0;
-    }
-
-    int Renderer::Initialize(GameConfiguration &configuration, SDL_Window *window) {
+    int RenderingSystem::Initialize(GameConfiguration &configuration, SDL_Window *window) {
+        DebugLog("Init");
         _clearColor = &configuration.clearColor;
 
         if (window == nullptr) {
@@ -32,18 +29,27 @@ namespace Harpia {
         return 0;
     }
 
-    void Renderer::UpdateFrame() {
+    void RenderingSystem::UpdateFrame() {
         auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(), _clearColor->IntA());
         SDL_FillRect(_surface, nullptr,clearColor);
         SDL_UpdateWindowSurface(_window);
     }
 
-    void Renderer::Destroy() {
-        SDL_FreeSurface(_surface);
-        _surface = nullptr;
+    int RenderingSystem::GetInitFlags() {
+        return 0;
     }
 
-    int Renderer::RenderingInitialize() {
+    int RenderingSystem::GetWindowFlags() {
+        return 0;
+    }
+
+    void RenderingSystem::Quit() {
+        SDL_FreeSurface(_surface);
+        _surface = nullptr;
+        DebugLog("Quit");
+    }
+
+    int RenderingSystem::RenderingInitialize() {
         _surface = SDL_GetWindowSurface(_window);
         if (_surface == nullptr) {
             DebugLogError("SDL Surface not created. SDL_Error: %s", SDL_GetError());

@@ -10,6 +10,7 @@
 
 namespace Harpia {
     int InputSystem::Initialize(InputConfiguration &configuration) {
+        DebugLog("Init");
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
             DebugLog("Adding key %d to map", key);
@@ -48,5 +49,17 @@ namespace Harpia {
         it->second.down = true;
         it->second.isDown = true;
         _dirtyKeys.push_back(e->key.keysym.sym);
+    }
+
+    void InputSystem::Quit() {
+        DebugLog("Quit");
+    }
+
+    int InputSystem::GetInitFlags() {
+        return 0;
+    }
+
+    int InputSystem::GetWindowFlags() {
+        return 0;
     }
 } // Harpia

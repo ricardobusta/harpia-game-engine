@@ -2,17 +2,17 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 03/06/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_RENDEREROPENGL_H
-#define HARPIAGAMEENGINE_RENDEREROPENGL_H
+#ifndef HARPIAGAMEENGINE_RENDERINGSYSTEMGL_H
+#define HARPIAGAMEENGINE_RENDERINGSYSTEMGL_H
 
-#include "Renderer.h"
+#include "RenderingSystem.h"
 
 #include "GLTypes.h"
 
 namespace Harpia {
     class Configuration;
 
-    class RendererOpenGL : public Renderer {
+    class RenderingSystemGL : public RenderingSystem {
     private:
         GLuint _programID = 0;
         GLint _vertexPos2DLocation = -1;
@@ -25,7 +25,7 @@ namespace Harpia {
 
         void UpdateFrame() override;
 
-        void Destroy() override;
+        void Quit() override;
     private:
         int RenderingInitialize() override;
 
@@ -38,4 +38,4 @@ namespace Harpia {
 }
 
 
-#endif //HARPIAGAMEENGINE_RENDEREROPENGL_H
+#endif //HARPIAGAMEENGINE_RENDERINGSYSTEMGL_H

@@ -11,6 +11,7 @@
 
 namespace Harpia {
     int AudioSystem::Initialize(AudioConfiguration &config) {
+        DebugLog("Init");
         auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
         if (result < 0) {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
@@ -23,4 +24,14 @@ namespace Harpia {
     int AudioSystem::GetInitFlags() {
         return SDL_INIT_AUDIO;
     }
+
+    int AudioSystem::GetWindowFlags() {
+        return 0;
+    }
+
+    void AudioSystem::Quit() {
+        Mix_Quit();
+        DebugLog("Quit");
+    }
+
 } // Harpia

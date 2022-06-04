@@ -2,8 +2,10 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 02/06/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_RENDERER_H
-#define HARPIAGAMEENGINE_RENDERER_H
+#ifndef HARPIAGAMEENGINE_RENDERINGSYSTEM_H
+#define HARPIAGAMEENGINE_RENDERINGSYSTEM_H
+
+#include "CoreSystem.h"
 
 class SDL_Window;
 
@@ -13,15 +15,17 @@ namespace Harpia {
     class GameConfiguration;
     class Color;
 
-    class Renderer {
+    class RenderingSystem : CoreSystem {
     public:
-        virtual int GetWindowFlags();
-
         int Initialize(GameConfiguration &configuration, SDL_Window *window);
 
         virtual void UpdateFrame();
 
-        virtual void Destroy();
+        int GetInitFlags() override;
+
+        int GetWindowFlags() override;
+
+        void Quit() override;
     private:
         virtual int RenderingInitialize();
 
@@ -34,4 +38,4 @@ namespace Harpia {
 
 } // Harpia
 
-#endif //HARPIAGAMEENGINE_RENDERER_H
+#endif //HARPIAGAMEENGINE_RENDERINGSYSTEM_H

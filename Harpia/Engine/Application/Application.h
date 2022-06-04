@@ -10,7 +10,8 @@
 class SDL_Window;
 
 namespace Harpia {
-    class Renderer;
+    class CoreSystem;
+    class RenderingSystem;
 
     class InputSystem;
 
@@ -24,17 +25,15 @@ namespace Harpia {
         int _result = -1;
 
         SDL_Window *_window = nullptr;
-        Renderer *_renderer = nullptr;
-        InputSystem *_input = nullptr;
+        RenderingSystem *_renderSystem = nullptr;
+        InputSystem *_inputSystem = nullptr;
         AudioSystem *_audioSystem = nullptr;
     public:
-        explicit Application(Renderer *renderer, void(*configure)(Configuration &config));
+        explicit Application(RenderingSystem *renderer, void(*configure)(Configuration &config));
 
         ~Application();
 
         int Execute();
-
-
 
     private:
         int Initialize();

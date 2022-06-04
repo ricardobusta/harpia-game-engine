@@ -7,48 +7,45 @@
 #include <SDL.h>
 
 #include "Debug.h"
-#include "Renderer.h"
+#include "RenderingSystem.h"
 #include "InputSystem.h"
 #include "AudioSystem.h"
 
 namespace Harpia {
-    Application::Application(Renderer *renderer, void(*configure)(Configuration &config)) {
+    Application::Application(RenderingSystem *renderer, void(*configure)(Configuration &config)) {
         if (renderer == nullptr) {
             DebugLogError("No renderer set.");
             return;
         }
-        _renderer = renderer;
-
-        _input = new InputSystem();
-
-        _audioSystem = new AudioSystem();
-
-        _createdWithSuccess = true;
-        DebugLog("Application created");
 
         if (configure == nullptr) {
             DebugLogError("Configure method missing");
             return;
         }
+
+        _renderSystem = renderer;
+        _inputSystem = new InputSystem();
+        _audioSystem = new AudioSystem();
+
+        _createdWithSuccess = true;
+
         configure(configuration);
     }
 
     Application::~Application() {
-        delete _input;
-        _input = nullptr;
+        delete _renderSystem;
+        _renderSystem = nullptr;
 
         delete _audioSystem;
         _audioSystem = nullptr;
+
+        delete _inputSystem;
+        _inputSystem = nullptr;
 
         DebugLog("Application destroyed");
     }
 
     int Application::Initialize() {
-        if(_input== nullptr || _audioSystem == nullptr || _renderer == nullptr){
-            DebugLogError("Mandatory system was null.");
-            return -1;
-        }
-
         auto result = SDL_Init(SDL_INIT_VIDEO | _audioSystem->GetInitFlags());
         if (result < 0) {
             DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
@@ -57,21 +54,20 @@ namespace Harpia {
 
         _window = SDL_CreateWindow(configuration.game.title.c_str(), SDL_WINDOWPOS_UNDEFINED,
                                    SDL_WINDOWPOS_UNDEFINED, configuration.window.size.x, configuration.window.size.y,
-                                   SDL_WINDOW_SHOWN | _renderer->GetWindowFlags());
+                                   SDL_WINDOW_SHOWN | _renderSystem->GetWindowFlags());
 
         if (_window == nullptr) {
             DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
-        result = _renderer->Initialize(configuration.game, _window);
-
+        result = _renderSystem->Initialize(configuration.game, _window);
         if (result < 0) {
-            DebugLogError("Renderer was not initialized. SDL_Error: %s", SDL_GetError());
+            DebugLogError("RenderSystem was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
 
-        result = _input->Initialize(configuration.input);
+        result = _inputSystem->Initialize(configuration.input);
         if (result < 0) {
             DebugLogError("InputSystem was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
@@ -87,14 +83,15 @@ namespace Harpia {
     }
 
     void Application::Quit() {
-        _renderer->Destroy();
-        delete _renderer;
-        _renderer = nullptr;
+        _renderSystem->Quit();
+        _audioSystem->Quit();
+        _inputSystem->Quit();
 
         SDL_DestroyWindow(_window);
         _window = nullptr;
 
         SDL_Quit();
+        DebugLog("Quit");
     }
 
     int Application::Execute() {
@@ -113,7 +110,7 @@ namespace Harpia {
         SDL_Event e;
 
         while (!quit) {
-            _input->CleanKeyState();
+            _inputSystem->CleanKeyState();
 
             while (SDL_PollEvent(&e) != 0) {
                 switch (e.type) {
@@ -122,20 +119,19 @@ namespace Harpia {
                         DebugLog("Requested to quit");
                         break;
                     case SDL_KEYDOWN: {
-                        _input->OnKeyDown(&e);
+                        _inputSystem->OnKeyDown(&e);
                         break;
                     }
                     case SDL_KEYUP: {
-                        _input->OnKeyUp(&e);
+                        _inputSystem->OnKeyUp(&e);
                         break;
                     }
                 }
             }
 
-            _renderer->UpdateFrame();
+            _renderSystem->UpdateFrame();
         }
 
-        DebugLog("Quit");
         Quit();
         return _result;
     }
