@@ -5,7 +5,6 @@
 #ifndef HARPIAGAMEENGINE_DEBUG_H
 #define HARPIAGAMEENGINE_DEBUG_H
 
-#define HARPIA_DEBUG // Disable flag to disable debugging
 #ifndef HARPIA_DEBUG
 #define DebugLog(args...)
 #define DebugLogWarning(args...)
@@ -31,39 +30,26 @@ inline std::string DebugCallerName(const std::string &s) {
 namespace Harpia {
     class Debug {
     public:
-        static void Log(const char *tag, const char *message) {
-            Print(tag, message);
-        }
+        static void Log(const char *tag, const char *message);
 
-        static void LogWarning(const char *tag, const char *message) {
-            PrintWarning(tag, message);
-        }
+        static void LogWarning(const char *tag, const char *message);
 
-        static void LogError(const char *tag, const char *message) {
-            PrintError(tag, message);
-        }
+        static void LogError(const char *tag, const char *message);
 
         template<typename... Args>
         static void Log(const char *tag, const char *format, Args ... args) {
-            Print(tag, String::Format(format, args...).c_str());
+            Log(tag, String::Format(format, args...).c_str());
         }
 
         template<typename... Args>
         static void LogWarning(const char *tag, const char *format, Args ... args) {
-            PrintWarning(tag, String::Format(format, args...).c_str());
+            LogWarning(tag, String::Format(format, args...).c_str());
         }
 
         template<typename... Args>
         static void LogError(const char *tag, const char *format, Args ... args) {
-            PrintError(tag, String::Format(format, args...).c_str());
+            LogError(tag, String::Format(format, args...).c_str());
         }
-
-    public:
-        static void Print(const char *tag, const char *message);
-
-        static void PrintWarning(const char *tag, const char *message);
-
-        static void PrintError(const char *tag, const char *message);
     };
 }
 
