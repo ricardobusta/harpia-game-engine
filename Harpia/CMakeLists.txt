@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.22)
 project(Harpia CXX)
 set(CMAKE_CXX_STANDARD 17)
 
+message("++ Configure ${PROJECT_NAME}")
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -26,18 +28,7 @@ add_library(${PROJECT_NAME} SHARED ${Harpia_SRC})
 
 target_link_libraries(
         ${PROJECT_NAME} PRIVATE
-        mingw32
-        SDL2main
-        SDL2
-        glew
-        SDL2_image
-        #SDL2_ttf
         Harpia.Application
-        Harpia.Audio
-        Harpia.Core
-        Harpia.Game
-        Harpia.Input
-        Harpia.Rendering
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
@@ -45,7 +36,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 add_subdirectory(ThirdParty/SDL)
 add_subdirectory(ThirdParty/SDL_image)
 add_subdirectory(ThirdParty/SDL_mixer)
-#add_subdirectory(ThirdParty/SDL_ttf)
+add_subdirectory(ThirdParty/SDL_ttf)
 add_subdirectory(ThirdParty/glew-2.2.0/build/cmake)
 add_subdirectory(Engine/Application)
 add_subdirectory(Engine/Audio)
