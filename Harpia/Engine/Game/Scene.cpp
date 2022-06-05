@@ -8,7 +8,12 @@
 #include <algorithm>
 
 namespace Harpia {
-    void Scene::AddRootObject(Object *object) {
+    void Scene::Destroy() {
+
+    }
+
+    Object *Scene::AddRootObject(Object *object) {
         objects.push_back(object);
+        return object;
     }
 } // Harpia

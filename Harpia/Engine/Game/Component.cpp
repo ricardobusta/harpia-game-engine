@@ -2,11 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 05/06/2022.
 //
 
-#include "Object.h"
+#include "Component.h"
 
 namespace Harpia {
-
-    void Object::AddComponent(Component *component) {
-
-    }
 } // Harpia

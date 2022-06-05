@@ -14,13 +14,15 @@ class SDL_Window;
 namespace Harpia {
     class AudioSystem;
 
+    class AudioAsset;
+
     class CoreSystem;
 
     class InputSystem;
 
     class RenderingSystem;
 
-    class SceneManagementSystem;
+    class SceneSystem;
 
     class Application;
 
@@ -30,12 +32,15 @@ namespace Harpia {
 
     class Configuration;
 
-    class GameConfiguration;
-    class InputConfiguration;
-    class RenderingConfiguration;
-    class Color;
+    class Component;
 
-    static Application *app;
+    class GameConfiguration;
+
+    class InputConfiguration;
+
+    class RenderingConfiguration;
+
+    class Color;
 }
 
 #endif //HARPIAGAMEENGINE_GLOBALDEFINES_H

@@ -9,7 +9,7 @@
 #include "CoreSystem.h"
 #include "InputSystem.h"
 #include "RenderingSystemGL.h"
-#include "SceneManagementSystem.h"
+#include "SceneSystem.h"
 
 #define SystemInit(system, args...) do{auto result = system->Initialize(args); \
 if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
@@ -18,8 +18,6 @@ if (result < 0) {DebugLogError("%s was not initialized.", #system);return result
 
 namespace Harpia {
     Application::Application(const std::function<void(Configuration &)> &configure) {
-        Harpia::app = this;
-
         if (configure == nullptr) {
             DebugLogError("Configure method missing");
             return;
@@ -31,7 +29,7 @@ namespace Harpia {
         _renderSystem = new RenderingSystemGL();
         _inputSystem = new InputSystem();
         _audioSystem = new AudioSystem();
-        _sceneManagementSystem = new SceneManagementSystem();
+        _sceneManagementSystem = new SceneSystem();
 
         _createdWithSuccess = true;
     }
@@ -52,6 +50,8 @@ namespace Harpia {
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
         SystemInit(_sceneManagementSystem, configuration.game, _coreSystem);
 
+        DebugLog("All systems initialized");
+
         auto result = _coreSystem->Execute();
         if (result < 0) {
             DebugLogError("Application executed with an error");
@@ -61,6 +61,8 @@ namespace Harpia {
         _inputSystem->Quit();
         _renderSystem->Quit();
         _coreSystem->Quit();
+
+        DebugLog("All systems quit");
 
         SystemCleanup(_audioSystem);
         SystemCleanup(_inputSystem);

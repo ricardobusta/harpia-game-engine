@@ -1,5 +1,5 @@
 //
-// Created by ricar on 01/06/2022.
+// Created by Ricardo Bustamante <ricardo@busta.dev> on 01/06/2022.
 //
 
 #ifndef HARPIAGAMEENGINE_GAMECONFIG_H

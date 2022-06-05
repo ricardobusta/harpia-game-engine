@@ -9,7 +9,7 @@
 
 namespace Harpia {
     void Debug::Log(const char *tag, const char *message) {
-        std::cout << tag << message << std::endl;
+        std::cout << "INFO: [" << tag << "] " << message << std::endl;
         //SDL_Log("[%s] %s", tag, message);
     }
 

@@ -13,6 +13,7 @@
 namespace Harpia {
     class CoreSystem : public IApplicationSystem {
     public:
+        Event<> onInitialize;
         Event<> onUpdate;
         Event<> onQuit;
         Event<> onPreEvents;

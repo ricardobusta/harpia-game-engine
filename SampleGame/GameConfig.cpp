@@ -1,8 +1,9 @@
 //
-// Created by ricar on 01/06/2022.
+// Created by Ricardo Bustamante <ricardo@busta.dev> on 01/06/2022.
 //
 
 #include "GameConfig.h"
+#include "Scenes/MainScene.h"
 
 #include <SDL.h>
 namespace SampleGame {
@@ -20,7 +21,7 @@ namespace SampleGame {
         });
 
         configuration.game.scenes.insert(configuration.game.scenes.end(), {
-
+            new MainScene()
         });
     }
 }

@@ -2,14 +2,18 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 05/06/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_SCENEMANAGEMENTSYSTEM_H
-#define HARPIAGAMEENGINE_SCENEMANAGEMENTSYSTEM_H
+#ifndef HARPIAGAMEENGINE_SCENESYSTEM_H
+#define HARPIAGAMEENGINE_SCENESYSTEM_H
 
+#include <vector>
+#include <map>
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
 
 namespace Harpia {
-    class SceneManagementSystem : public IApplicationSystem {
+    class SceneSystem : public IApplicationSystem {
+    private:
+        std::vector<Scene *> _scenes;
     public:
         int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
 
@@ -21,4 +25,4 @@ namespace Harpia {
     };
 } // Harpia
 
-#endif //HARPIAGAMEENGINE_SCENEMANAGEMENTSYSTEM_H
+#endif //HARPIAGAMEENGINE_SCENESYSTEM_H

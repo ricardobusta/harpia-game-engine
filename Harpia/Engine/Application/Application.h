@@ -6,22 +6,14 @@
 #define HARPIAGAMEENGINE_APPLICATION_H
 
 #include <functional>
-#include "Configuration.h"
-#include "GlobalDefines.h"
+#include "Internal/Application_Internal.h"
 
 namespace Harpia {
-    class Application {
-    public:
-        Configuration configuration;
+    class Application : private Application_Internal {
     private:
         bool _createdWithSuccess = false;
         int _result = -1;
 
-        RenderingSystem *_renderSystem = nullptr;
-        InputSystem *_inputSystem = nullptr;
-        AudioSystem *_audioSystem = nullptr;
-        CoreSystem *_coreSystem = nullptr;
-        SceneManagementSystem *_sceneManagementSystem = nullptr;
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
 
