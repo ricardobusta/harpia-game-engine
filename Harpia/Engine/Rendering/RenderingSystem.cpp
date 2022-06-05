@@ -7,12 +7,14 @@
 #include <SDL.h>
 
 #include "Debug.h"
-#include "Configuration.h"
+#include "CoreSystem.h"
 
 namespace Harpia {
-    int RenderingSystem::Initialize(GameConfiguration &configuration, SDL_Window *window) {
+    int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
         DebugLog("Init");
         _clearColor = &configuration.clearColor;
+
+        auto window = coreSystem->GetWindow();
 
         if (window == nullptr) {
             DebugLogError("Window is null.");
@@ -30,8 +32,9 @@ namespace Harpia {
     }
 
     void RenderingSystem::UpdateFrame() {
-        auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(), _clearColor->IntA());
-        SDL_FillRect(_surface, nullptr,clearColor);
+        auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(),
+                                      _clearColor->IntA());
+        SDL_FillRect(_surface, nullptr, clearColor);
         SDL_UpdateWindowSurface(_window);
     }
 

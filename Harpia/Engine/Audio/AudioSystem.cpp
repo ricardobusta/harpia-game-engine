@@ -10,7 +10,7 @@
 #include "Debug.h"
 
 namespace Harpia {
-    int AudioSystem::Initialize(AudioConfiguration &config) {
+    int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
         DebugLog("Init");
         auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
         if (result < 0) {
@@ -38,6 +38,10 @@ namespace Harpia {
         }
         Mix_Quit();
         DebugLog("Quit");
+    }
+
+    void AudioSystem::PlayAudio(AudioAsset *audio) {
+        Mix_PlayChannel(-1, audio->ref, 0);
     }
 
     AudioAsset *AudioSystem::LoadAudio(const std::string &path) {
@@ -118,7 +122,7 @@ namespace Harpia {
         Mix_ResumeMusic();
     }
 
-    bool AudioSystem::IsMusicPaused(){
+    bool AudioSystem::IsMusicPaused() {
         return Mix_PausedMusic();
     }
 
@@ -146,10 +150,6 @@ namespace Harpia {
         DebugLogWarning("MusicAsset with remaining %d uses on System Quit: %s", music->useCount, music->path.c_str());
         music->useCount = 0;
         ReleaseMusic(music);
-    }
-
-    void AudioSystem::PlayAudio(AudioAsset *audio) {
-        Mix_PlayChannel(-1, audio->ref, 0);
     }
 }
 // Harpia

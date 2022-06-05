@@ -9,7 +9,8 @@
 #include "Debug.h"
 
 namespace Harpia {
-    int InputSystem::Initialize(InputConfiguration &configuration) {
+    //region public
+    int InputSystem::Initialize(InputConfiguration &configuration, CoreSystem *coreSystem) {
         DebugLog("Init");
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
@@ -19,6 +20,20 @@ namespace Harpia {
         return 0;
     }
 
+    void InputSystem::Quit() {
+        DebugLog("Quit");
+    }
+
+    int InputSystem::GetInitFlags() {
+        return 0;
+    }
+
+    int InputSystem::GetWindowFlags() {
+        return 0;
+    }
+    //endregion public
+
+    //region private
     void InputSystem::CleanKeyState() {
         for (int key: _dirtyKeys) {
             _keyMap[key].down = false;
@@ -50,16 +65,5 @@ namespace Harpia {
         it->second.isDown = true;
         _dirtyKeys.push_back(e->key.keysym.sym);
     }
-
-    void InputSystem::Quit() {
-        DebugLog("Quit");
-    }
-
-    int InputSystem::GetInitFlags() {
-        return 0;
-    }
-
-    int InputSystem::GetWindowFlags() {
-        return 0;
-    }
+    //endregion private
 } // Harpia

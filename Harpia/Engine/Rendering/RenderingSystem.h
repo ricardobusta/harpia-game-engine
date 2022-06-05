@@ -5,19 +5,13 @@
 #ifndef HARPIAGAMEENGINE_RENDERINGSYSTEM_H
 #define HARPIAGAMEENGINE_RENDERINGSYSTEM_H
 
-#include "CoreSystem.h"
-
-class SDL_Window;
-
-class SDL_Surface;
+#include "IApplicationSystem.h"
+#include "CoreDefines.h"
 
 namespace Harpia {
-    class GameConfiguration;
-    class Color;
-
-    class RenderingSystem : CoreSystem {
+    class RenderingSystem : IApplicationSystem {
     public:
-        int Initialize(GameConfiguration &configuration, SDL_Window *window);
+        int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
 
         virtual void UpdateFrame();
 
@@ -26,6 +20,7 @@ namespace Harpia {
         int GetWindowFlags() override;
 
         void Quit() override;
+
     private:
         virtual int RenderingInitialize();
 

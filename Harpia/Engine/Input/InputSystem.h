@@ -9,22 +9,19 @@
 #include <list>
 
 #include "KeyState.h"
-#include "CoreSystem.h"
+#include "IApplicationSystem.h"
+#include "CoreDefines.h"
 
 union SDL_Event;
 
 namespace Harpia {
-    class InputConfiguration;
+    class InputSystem : public IApplicationSystem {
+    private:
+        std::map<int, KeyState> _keyMap;
+        std::list<int> _dirtyKeys;
 
-    class InputSystem : public CoreSystem {
     public:
-        int Initialize(InputConfiguration &configuration);
-
-        void CleanKeyState();
-
-        void OnKeyDown(SDL_Event *e);
-
-        void OnKeyUp(SDL_Event *e);
+        int Initialize(InputConfiguration &configuration, CoreSystem *coreSystem);
 
         int GetInitFlags() override;
 
@@ -33,8 +30,11 @@ namespace Harpia {
         void Quit() override;
 
     private:
-        std::map<int, KeyState> _keyMap;
-        std::list<int> _dirtyKeys;
+        void CleanKeyState();
+
+        void OnKeyDown(SDL_Event *e);
+
+        void OnKeyUp(SDL_Event *e);
     };
 
 } // Harpia

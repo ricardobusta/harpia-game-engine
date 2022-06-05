@@ -4,12 +4,16 @@
 
 #include "Application.h"
 
-#include <SDL.h>
-
 #include "Debug.h"
 #include "RenderingSystemGL.h"
 #include "InputSystem.h"
 #include "AudioSystem.h"
+#include "CoreSystem.h"
+
+#define SystemInit(system,args...) do{auto result = system->Initialize(args); \
+if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
+
+#define SystemCleanup(system) do{delete system;system=nullptr;}while(0);
 
 namespace Harpia {
     Application::Application(void(*configure)(Configuration &config)) {
@@ -18,75 +22,22 @@ namespace Harpia {
             return;
         }
 
+        configure(configuration);
+
+        _coreSystem = new CoreSystem();
         _renderSystem = new RenderingSystemGL();
         _inputSystem = new InputSystem();
         _audioSystem = new AudioSystem();
 
         _createdWithSuccess = true;
-
-        configure(configuration);
     }
 
     Application::~Application() {
-        delete _renderSystem;
-        _renderSystem = nullptr;
-
-        delete _audioSystem;
-        _audioSystem = nullptr;
-
-        delete _inputSystem;
-        _inputSystem = nullptr;
-
+        SystemCleanup(_renderSystem);
+        SystemCleanup(_audioSystem);
+        SystemCleanup(_inputSystem);
+        SystemCleanup(_coreSystem);
         DebugLog("Application destroyed");
-    }
-
-    int Application::Initialize() {
-        auto result = SDL_Init(SDL_INIT_VIDEO | _audioSystem->GetInitFlags());
-        if (result < 0) {
-            DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
-            return result;
-        }
-
-        _window = SDL_CreateWindow(configuration.game.title.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, configuration.window.size.x, configuration.window.size.y,
-                                   SDL_WINDOW_SHOWN | _renderSystem->GetWindowFlags());
-
-        if (_window == nullptr) {
-            DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
-            return -1;
-        }
-
-        result = _renderSystem->Initialize(configuration.game, _window);
-        if (result < 0) {
-            DebugLogError("RenderSystem was not initialized. SDL_Error: %s", SDL_GetError());
-            return result;
-        }
-
-        result = _inputSystem->Initialize(configuration.input);
-        if (result < 0) {
-            DebugLogError("InputSystem was not initialized. SDL_Error: %s", SDL_GetError());
-            return result;
-        }
-
-        result = _audioSystem->Initialize(configuration.audio);
-        if (result < 0) {
-            DebugLogError("AudioSystem was not initialized. SDL_Error: %s", SDL_GetError());
-            return result;
-        }
-
-        return 0;
-    }
-
-    void Application::Quit() {
-        _renderSystem->Quit();
-        _audioSystem->Quit();
-        _inputSystem->Quit();
-
-        SDL_DestroyWindow(_window);
-        _window = nullptr;
-
-        SDL_Quit();
-        DebugLog("Quit");
     }
 
     int Application::Execute() {
@@ -96,58 +47,29 @@ namespace Harpia {
         }
 
         DebugLog("Application %s is starting", configuration.game.title.c_str());
-        _result = Initialize();
-        if (_result != 0) {
-            return _result;
+
+        auto initFlags = _coreSystem->GetInitFlags() | _audioSystem->GetInitFlags();
+        auto windowFlags = _coreSystem->GetWindowFlags() | _renderSystem->GetWindowFlags();
+
+        SystemInit(_coreSystem, configuration, initFlags, windowFlags);
+        SystemInit(_renderSystem, configuration.game, _coreSystem);
+        SystemInit(_inputSystem, configuration.input, _coreSystem);
+        SystemInit(_audioSystem, configuration.audio, _coreSystem);
+
+        auto result = _coreSystem->Execute();
+        if(result < 0){
+            DebugLogError("Application executed with an error");
         }
 
-        // TODO ===== Remove test code
-        auto testAudio = _audioSystem->LoadAudio("Assets/Audio/jump.wav");
-        //auto testMusic = _audioSystem->LoadMusic("Assets/Music/test.ogg");
-        //_audioSystem->PlayMusic(testMusic);
-        // TODO ===== Remove test code END
+        _renderSystem->Quit();
+        _audioSystem->Quit();
+        _inputSystem->Quit();
+        _coreSystem->Quit();
 
-        bool quit = false;
-        SDL_Event e;
-
-        while (!quit) {
-            _inputSystem->CleanKeyState();
-
-            while (SDL_PollEvent(&e) != 0) {
-                switch (e.type) {
-                    case SDL_QUIT:
-                        quit = true;
-                        DebugLog("Requested to quit");
-                        break;
-                    case SDL_KEYDOWN: {
-                        _inputSystem->OnKeyDown(&e);
-                        break;
-                    }
-                    case SDL_KEYUP: {
-                        _inputSystem->OnKeyUp(&e);
-                        switch (e.key.keysym.sym) {
-                            case SDLK_1:
-                                _audioSystem->PlayAudio(testAudio);
-                                break;
-                            case SDLK_2:
-                                if(_audioSystem->IsMusicPaused()){
-                                    _audioSystem->ResumeMusic();
-                                }else{
-                                    _audioSystem->PauseMusic();
-                                }
-                                break;
-                            case SDLK_3:
-                                break;
-                        }
-                        break;
-                    }
-                }
-            }
-
-            _renderSystem->UpdateFrame();
-        }
-
-        Quit();
+        DebugLog("Quit");
         return _result;
     }
 }
+
+#undef SystemInit
+#undef SystemCleanup

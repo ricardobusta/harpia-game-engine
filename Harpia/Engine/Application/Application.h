@@ -6,17 +6,12 @@
 #define HARPIAGAMEENGINE_APPLICATION_H
 
 #include "Configuration.h"
-
-class SDL_Window;
+#include "AudioDefines.h"
+#include "CoreDefines.h"
+#include "InputDefines.h"
+#include "RenderingDefines.h"
 
 namespace Harpia {
-    class CoreSystem;
-    class RenderingSystem;
-
-    class InputSystem;
-
-    class AudioSystem;
-
     class Application {
     public:
         Configuration configuration;
@@ -24,21 +19,16 @@ namespace Harpia {
         bool _createdWithSuccess = false;
         int _result = -1;
 
-        SDL_Window *_window = nullptr;
         RenderingSystem *_renderSystem = nullptr;
         InputSystem *_inputSystem = nullptr;
         AudioSystem *_audioSystem = nullptr;
+        CoreSystem *_coreSystem = nullptr;
     public:
         explicit Application(void(*configure)(Configuration &config));
 
         ~Application();
 
         int Execute();
-
-    private:
-        int Initialize();
-
-        void Quit();
     };
 }
 

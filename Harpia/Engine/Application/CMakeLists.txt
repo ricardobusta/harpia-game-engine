@@ -14,7 +14,6 @@ target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_H
 
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
-        glew
         SDL2
         Harpia.Audio
         Harpia.Core

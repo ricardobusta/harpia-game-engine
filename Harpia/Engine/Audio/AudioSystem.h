@@ -8,14 +8,15 @@
 #include <map>
 #include <string>
 
-#include "CoreSystem.h"
+#include "IApplicationSystem.h"
+#include "CoreDefines.h"
 #include "AudioAsset.h"
 #include "MusicAsset.h"
 
 namespace Harpia {
     class AudioConfiguration;
 
-    class AudioSystem : public CoreSystem {
+    class AudioSystem : public IApplicationSystem {
     public:
     private:
         std::map<std::string, AudioAsset *> _loadedAudios;
@@ -39,7 +40,7 @@ namespace Harpia {
 
         bool IsMusicPaused();
 
-        int Initialize(AudioConfiguration &config);
+        int Initialize(AudioConfiguration &config, CoreSystem *coreSystem);
 
         int GetInitFlags() override;
 
