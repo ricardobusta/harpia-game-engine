@@ -19,9 +19,9 @@ namespace Harpia {
             _keyMap[key] = KeyState();
         }
 
-        coreSystem->onPreEvents.AddListener([this]() { CleanKeyState(); });
-        coreSystem->onKeyUp.AddListener([this](auto key) { OnKeyUp(key); });
-        coreSystem->onKeyDown.AddListener([this](auto key) { OnKeyDown(key); });
+        coreSystem->onPreEvents += [this]() { CleanKeyState(); };
+        coreSystem->onKeyUp += [this](auto key) { OnKeyUp(key); };
+        coreSystem->onKeyDown += [this](auto key) { OnKeyDown(key); };
 
         return 0;
     }

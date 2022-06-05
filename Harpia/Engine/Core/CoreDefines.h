@@ -8,13 +8,18 @@
 #include "Configuration.h"
 
 class SDL_Window;
+
 union SDL_Event;
 struct SDL_Surface;
 union SDL_Event;
 struct SDL_KeyboardEvent;
 
 namespace Harpia {
+    class Application;
+
     class CoreSystem;
+
+    static Application *app;
 }
 
 #endif //HARPIAGAMEENGINE_COREDEFINES_H

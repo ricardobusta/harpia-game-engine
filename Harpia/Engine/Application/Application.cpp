@@ -10,13 +10,15 @@
 #include "AudioSystem.h"
 #include "CoreSystem.h"
 
-#define SystemInit(system,args...) do{auto result = system->Initialize(args); \
+#define SystemInit(system, args...) do{auto result = system->Initialize(args); \
 if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
 
 #define SystemCleanup(system) do{delete system;system=nullptr;}while(0);
 
 namespace Harpia {
-    Application::Application(void(*configure)(Configuration &config)) {
+    Application::Application(const std::function<void(Configuration &)> &configure) {
+        Harpia::app = this;
+
         if (configure == nullptr) {
             DebugLogError("Configure method missing");
             return;
@@ -32,13 +34,7 @@ namespace Harpia {
         _createdWithSuccess = true;
     }
 
-    Application::~Application() {
-        SystemCleanup(_renderSystem);
-        SystemCleanup(_audioSystem);
-        SystemCleanup(_inputSystem);
-        SystemCleanup(_coreSystem);
-        DebugLog("Application destroyed");
-    }
+    Application::~Application() = default;
 
     int Application::Execute() {
         if (!_createdWithSuccess) {
@@ -48,26 +44,38 @@ namespace Harpia {
 
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
-        auto initFlags = _coreSystem->GetInitFlags() | _audioSystem->GetInitFlags();
-        auto windowFlags = _coreSystem->GetWindowFlags() | _renderSystem->GetWindowFlags();
-
-        SystemInit(_coreSystem, configuration, initFlags, windowFlags);
+        SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
 
         auto result = _coreSystem->Execute();
-        if(result < 0){
+        if (result < 0) {
             DebugLogError("Application executed with an error");
         }
 
-        _renderSystem->Quit();
         _audioSystem->Quit();
         _inputSystem->Quit();
+        _renderSystem->Quit();
         _coreSystem->Quit();
+
+        SystemCleanup(_audioSystem);
+        SystemCleanup(_inputSystem);
+        SystemCleanup(_renderSystem);
+        SystemCleanup(_coreSystem);
 
         DebugLog("Quit");
         return _result;
+    }
+
+    int Application::GetWindowFlags() {
+        return _coreSystem->GetWindowFlags() |
+               _renderSystem->GetWindowFlags();
+    }
+
+    int Application::GetInitFlags() {
+        return _coreSystem->GetInitFlags() |
+               _audioSystem->GetInitFlags();
     }
 }
 

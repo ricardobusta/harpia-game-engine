@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_RENDERINGDEFINES_H
 #define HARPIAGAMEENGINE_RENDERINGDEFINES_H
 
-namespace Harpia{
+namespace Harpia {
     class RenderingSystem;
 }
 

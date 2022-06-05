@@ -14,21 +14,21 @@
 namespace Harpia {
     class ISceneDescription;
 
-    struct GameConfiguration{
+    struct GameConfiguration {
         std::string title;
         Color clearColor; // TODO move to specific camera configuration
-        std::vector<ISceneDescription*> scenes;
+        std::vector<ISceneDescription *> scenes;
     };
 
-    struct WindowConfiguration{
+    struct WindowConfiguration {
         Vector2Int size;
     };
 
-    struct InputConfiguration{
+    struct InputConfiguration {
         std::vector<int> mappedKeys;
     };
 
-    struct AudioConfiguration{
+    struct AudioConfiguration {
         bool enabled;
     };
 

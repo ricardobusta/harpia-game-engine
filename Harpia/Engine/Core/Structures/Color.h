@@ -13,10 +13,13 @@ namespace Harpia {
 
         float r, g, b, a;
 
-        int IntR(){return (int)(r*255.f);}
-        int IntG(){return (int)(g*255.f);}
-        int IntB(){return (int)(b*255.f);}
-        int IntA(){return (int)(a*255.f);}
+        int IntR() { return (int) (r * 255.f); }
+
+        int IntG() { return (int) (g * 255.f); }
+
+        int IntB() { return (int) (b * 255.f); }
+
+        int IntA() { return (int) (a * 255.f); }
     };
 }
 

@@ -26,6 +26,7 @@ namespace Harpia {
         void UpdateFrame() override;
 
         void Quit() override;
+
     private:
         int RenderingInitialize() override;
 

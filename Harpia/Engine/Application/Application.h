@@ -5,6 +5,7 @@
 #ifndef HARPIAGAMEENGINE_APPLICATION_H
 #define HARPIAGAMEENGINE_APPLICATION_H
 
+#include <functional>
 #include "Configuration.h"
 #include "AudioDefines.h"
 #include "CoreDefines.h"
@@ -24,11 +25,15 @@ namespace Harpia {
         AudioSystem *_audioSystem = nullptr;
         CoreSystem *_coreSystem = nullptr;
     public:
-        explicit Application(void(*configure)(Configuration &config));
+        explicit Application(const std::function<void(Configuration &)> &configure);
 
         ~Application();
 
         int Execute();
+
+        int GetInitFlags();
+
+        int GetWindowFlags();
     };
 }
 

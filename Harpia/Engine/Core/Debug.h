@@ -15,12 +15,14 @@
 #include "String.h"
 
 #ifdef __MINGW32__
+
 inline std::string DebugCallerName(const std::string &s) {
     size_t end = s.find("(");
     size_t begin = s.find("::") + 2;
     size_t size = end - begin;
     return s.substr(begin, size);
 }
+
 #define HARPIA_CALLER DebugCallerName(__PRETTY_FUNCTION__).c_str()
 #else //__MINGW32__
 #define HARPIA_CALLER __func__

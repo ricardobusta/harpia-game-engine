@@ -28,7 +28,7 @@ namespace Harpia {
             return result;
         }
 
-        coreSystem->onUpdate.AddListener([this]() { UpdateFrame(); });
+        coreSystem->onUpdate += [this]() { UpdateFrame(); };
 
         return 0;
     }

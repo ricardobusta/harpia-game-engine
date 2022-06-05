@@ -20,11 +20,11 @@ namespace Harpia {
         }
 
         auto testAudio = LoadAudio("Assets/Audio/jump.wav");
-        coreSystem->onKeyDown.AddListener([this, testAudio](auto key) {
+        coreSystem->onKeyDown += [this, testAudio](auto key) {
             if (key.keysym.sym == SDLK_1) {
                 PlayAudio(testAudio);
             }
-        });
+        };
 
         return 0;
     }

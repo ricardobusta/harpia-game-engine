@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_SCENEDESCRIPTION_H
 
 namespace Harpia {
-    class SceneDescription{
+    class SceneDescription {
 
     };
 }

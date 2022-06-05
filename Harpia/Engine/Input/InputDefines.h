@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_INPUTDEFINES_H
 #define HARPIAGAMEENGINE_INPUTDEFINES_H
 
-namespace Harpia{
+namespace Harpia {
     class InputSystem;
 }
 
