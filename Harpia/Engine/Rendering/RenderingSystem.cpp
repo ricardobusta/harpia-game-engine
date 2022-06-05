@@ -28,6 +28,8 @@ namespace Harpia {
             return result;
         }
 
+        coreSystem->onUpdate.AddListener([this]() { UpdateFrame(); });
+
         return 0;
     }
 

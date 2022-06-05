@@ -10,6 +10,8 @@
 class SDL_Window;
 union SDL_Event;
 struct SDL_Surface;
+union SDL_Event;
+struct SDL_KeyboardEvent;
 
 namespace Harpia {
     class CoreSystem;

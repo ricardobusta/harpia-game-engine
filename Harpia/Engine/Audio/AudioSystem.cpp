@@ -8,6 +8,7 @@
 #include <SDL_mixer.h>
 
 #include "Debug.h"
+#include "CoreSystem.h"
 
 namespace Harpia {
     int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
@@ -17,6 +18,13 @@ namespace Harpia {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
             return result;
         }
+
+        auto testAudio = LoadAudio("Assets/Audio/jump.wav");
+        coreSystem->onKeyDown.AddListener([this, testAudio](auto key) {
+            if (key.keysym.sym == SDLK_1) {
+                PlayAudio(testAudio);
+            }
+        });
 
         return 0;
     }

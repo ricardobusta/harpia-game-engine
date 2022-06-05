@@ -16,8 +16,8 @@ namespace Harpia {
         Event<> onUpdate;
         Event<> onQuit;
         Event<> onPreEvents;
-        Event<SDL_Event &> onKeyDown;
-        Event<SDL_Event &> onKeyUp;
+        Event<SDL_KeyboardEvent &> onKeyDown;
+        Event<SDL_KeyboardEvent &> onKeyUp;
     public:
         int Initialize(Configuration &config, int InitFlags, int WindowFlags);
 

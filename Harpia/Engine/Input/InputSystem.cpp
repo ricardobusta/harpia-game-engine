@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include "Configuration.h"
 #include "Debug.h"
+#include "CoreSystem.h"
 
 namespace Harpia {
     //region public
@@ -17,6 +18,11 @@ namespace Harpia {
             DebugLog("Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }
+
+        coreSystem->onPreEvents.AddListener([this]() { CleanKeyState(); });
+        coreSystem->onKeyUp.AddListener([this](auto key) { OnKeyUp(key); });
+        coreSystem->onKeyDown.AddListener([this](auto key) { OnKeyDown(key); });
+
         return 0;
     }
 
@@ -44,17 +50,19 @@ namespace Harpia {
         _dirtyKeys.clear();
     }
 
-    void InputSystem::OnKeyUp(SDL_Event *e) {
-        auto it = _keyMap.find(e->key.keysym.sym);
-        if (it != _keyMap.end()) {
-            it->second.isDown = false;
-            it->second.up = true;
-            _dirtyKeys.push_back(e->key.keysym.sym);
+    void InputSystem::OnKeyUp(SDL_KeyboardEvent &key) {
+        auto it = _keyMap.find(key.keysym.sym);
+        if (it == _keyMap.end()) {
+            return; // key not mapped
         }
+
+        it->second.isDown = false;
+        it->second.up = true;
+        _dirtyKeys.push_back(key.keysym.sym);
     }
 
-    void InputSystem::OnKeyDown(SDL_Event *e) {
-        auto it = _keyMap.find(e->key.keysym.sym);
+    void InputSystem::OnKeyDown(SDL_KeyboardEvent &key) {
+        auto it = _keyMap.find(key.keysym.sym);
         if (it == _keyMap.end()) {
             return; // key not mapped
         }
@@ -63,7 +71,7 @@ namespace Harpia {
         }
         it->second.down = true;
         it->second.isDown = true;
-        _dirtyKeys.push_back(e->key.keysym.sym);
+        _dirtyKeys.push_back(key.keysym.sym);
     }
     //endregion private
 } // Harpia

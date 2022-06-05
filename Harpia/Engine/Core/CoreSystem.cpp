@@ -50,11 +50,11 @@ namespace Harpia {
                         DebugLog("Requested to quit");
                         break;
                     case SDL_KEYDOWN: {
-                        onKeyDown.Invoke(e);
+                        onKeyDown.Invoke(e.key);
                         break;
                     }
                     case SDL_KEYUP: {
-                        onKeyUp.Invoke(e);
+                        onKeyUp.Invoke(e.key);
                         break;
                     }
                 }

@@ -12,7 +12,6 @@
 #include "IApplicationSystem.h"
 #include "CoreDefines.h"
 
-union SDL_Event;
 
 namespace Harpia {
     class InputSystem : public IApplicationSystem {
@@ -32,9 +31,9 @@ namespace Harpia {
     private:
         void CleanKeyState();
 
-        void OnKeyDown(SDL_Event *e);
+        void OnKeyDown(SDL_KeyboardEvent &key);
 
-        void OnKeyUp(SDL_Event *e);
+        void OnKeyUp(SDL_KeyboardEvent &key);
     };
 
 } // Harpia
