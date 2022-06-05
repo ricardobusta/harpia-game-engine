@@ -5,12 +5,13 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
+#include "ScenePrivate.h"
+
 namespace Harpia {
-
-    class Scene {
-
+    class Scene : private Scene_Private {
+    public:
+        virtual void Instantiate() = 0;
     };
-
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_SCENE_H
