@@ -15,7 +15,7 @@ namespace Harpia {
 
         void Destroy();
 
-        Object *AddRootObject(Object *);
+        Object *CreateObject();
     };
 } // Harpia
 

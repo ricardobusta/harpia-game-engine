@@ -18,14 +18,7 @@ namespace Harpia {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
             return result;
         }
-
-        auto testAudio = LoadAudio("Assets/Audio/jump.wav");
-        coreSystem->onKeyDown += [this, testAudio](auto key) {
-            if (key.keysym.sym == SDLK_1) {
-                PlayAudio(testAudio);
-            }
-        };
-
+        
         return 0;
     }
 

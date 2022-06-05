@@ -3,9 +3,10 @@
 //
 
 #include "GameConfig.h"
-#include "Scenes/MainScene.h"
+#include "MainScene.h"
 
 #include <SDL.h>
+
 namespace SampleGame {
     void GameConfig::Configure(Harpia::Configuration &configuration) {
         configuration.game.title = "Harpia Sample";

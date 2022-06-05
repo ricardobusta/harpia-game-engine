@@ -5,4 +5,5 @@
 #include "Component.h"
 
 namespace Harpia {
+
 } // Harpia

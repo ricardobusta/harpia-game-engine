@@ -12,7 +12,8 @@ namespace Harpia {
 
     }
 
-    Object *Scene::AddRootObject(Object *object) {
+    Object *Scene::CreateObject() {
+        auto object = new Object();
         objects.push_back(object);
         return object;
     }

@@ -5,8 +5,7 @@
 #include "Object.h"
 
 namespace Harpia {
-
     void Object::AddComponent(Component *component) {
-
+        _components.push_back(component);
     }
 } // Harpia

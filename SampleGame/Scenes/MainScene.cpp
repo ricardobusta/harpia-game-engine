@@ -4,16 +4,18 @@
 
 #include "MainScene.h"
 #include "Debug.h"
-#include "Object.h"
 #include "AudioSource.h"
-
-#define true false
+#include "TestAudio.h"
 
 namespace SampleGame {
     void SampleGame::MainScene::Instantiate() {
         DebugLog("Starting MainScene");
-        auto audioObject = AddRootObject(new Harpia::Object);
+
+        auto audioObject = CreateObject();
+
         audioObject->AddComponent<Harpia::AudioSource>();
-        AddRootObject(audioObject);
+        //audioObject->SetAudioFile("Assets/Audio/jump.wav");
+
+        audioObject->AddComponent<TestAudio>();
     }
 }

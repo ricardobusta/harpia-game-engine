@@ -5,9 +5,15 @@
 #ifndef HARPIAGAMEENGINE_COMPONENT_H
 #define HARPIAGAMEENGINE_COMPONENT_H
 
+#include <string>
+#include <list>
+
 namespace Harpia {
     class Component {
+    protected:
+        virtual void Start() {};
 
+        virtual void Update() {};
     };
 } // Harpia
 
