@@ -8,6 +8,7 @@
 
 #include "Debug.h"
 #include "CoreSystem.h"
+#include "Configuration.h"
 
 namespace Harpia {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {

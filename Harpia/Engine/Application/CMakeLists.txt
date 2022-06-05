@@ -16,6 +16,7 @@ target_link_libraries(
         SDL2
         Harpia.Audio
         Harpia.Core
+        Harpia.Game
         Harpia.Input
         Harpia.Rendering
 )

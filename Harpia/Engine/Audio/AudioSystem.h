@@ -9,7 +9,7 @@
 #include <string>
 
 #include "IApplicationSystem.h"
-#include "CoreDefines.h"
+#include "GlobalDefines.h"
 #include "AudioAsset.h"
 #include "MusicAsset.h"
 

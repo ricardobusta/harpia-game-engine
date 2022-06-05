@@ -8,16 +8,17 @@
 #include <string>
 #include <vector>
 
+#include "GlobalDefines.h"
 #include "Vector2Int.h"
 #include "Color.h"
 
 namespace Harpia {
-    class ISceneDescription;
+    class Scene;
 
     struct GameConfiguration {
         std::string title;
         Color clearColor; // TODO move to specific camera configuration
-        std::vector<ISceneDescription *> scenes;
+        std::vector<Scene *> scenes;
     };
 
     struct WindowConfiguration {

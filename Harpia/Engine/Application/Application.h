@@ -7,10 +7,7 @@
 
 #include <functional>
 #include "Configuration.h"
-#include "AudioDefines.h"
-#include "CoreDefines.h"
-#include "InputDefines.h"
-#include "RenderingDefines.h"
+#include "GlobalDefines.h"
 
 namespace Harpia {
     class Application {
@@ -24,6 +21,7 @@ namespace Harpia {
         InputSystem *_inputSystem = nullptr;
         AudioSystem *_audioSystem = nullptr;
         CoreSystem *_coreSystem = nullptr;
+        SceneManagementSystem *_sceneManagementSystem = nullptr;
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
 

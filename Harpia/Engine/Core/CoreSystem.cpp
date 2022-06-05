@@ -9,14 +9,6 @@
 #include "Configuration.h"
 #include "Debug.h"
 
-#define InvokeEvent(event, args...) do{ \
-for(auto i : event){          \
-    if(i!= nullptr){             \
-        i(args);                     \
-    }                            \
-}                                \
-}while(0);
-
 namespace Harpia {
     int CoreSystem::Initialize(Configuration &config, int InitFlags, int WindowFlags) {
         auto result = SDL_Init(InitFlags);
@@ -32,12 +24,17 @@ namespace Harpia {
             return -1;
         }
 
+        _configuration = &config;
+
         return 0;
     }
 
     int CoreSystem::Execute() {
         bool quit = false;
         SDL_Event e;
+
+        //auto scene = _configuration->game.scenes[0];
+        //scene->Instantiate();
 
         while (!quit) {
             onPreEvents.Invoke();

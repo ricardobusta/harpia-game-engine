@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_CORESYSTEM_H
 
 #include <list>
-#include "CoreDefines.h"
+#include "GlobalDefines.h"
 #include "IApplicationSystem.h"
 #include "Event.h"
 
@@ -18,6 +18,9 @@ namespace Harpia {
         Event<> onPreEvents;
         Event<SDL_KeyboardEvent &> onKeyDown;
         Event<SDL_KeyboardEvent &> onKeyUp;
+    private:
+        SDL_Window *_window = nullptr;
+        Configuration *_configuration;
     public:
         int Initialize(Configuration &config, int InitFlags, int WindowFlags);
 
@@ -30,9 +33,6 @@ namespace Harpia {
         void Quit() override;
 
         SDL_Window *GetWindow();
-
-    private:
-        SDL_Window *_window = nullptr;
     };
 } // Harpia
 

@@ -10,7 +10,7 @@
 
 #include "KeyState.h"
 #include "IApplicationSystem.h"
-#include "CoreDefines.h"
+#include "GlobalDefines.h"
 
 
 namespace Harpia {

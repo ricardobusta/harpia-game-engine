@@ -5,10 +5,11 @@
 #include "Application.h"
 
 #include "Debug.h"
-#include "RenderingSystemGL.h"
-#include "InputSystem.h"
 #include "AudioSystem.h"
 #include "CoreSystem.h"
+#include "InputSystem.h"
+#include "RenderingSystemGL.h"
+#include "SceneManagementSystem.h"
 
 #define SystemInit(system, args...) do{auto result = system->Initialize(args); \
 if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
@@ -30,6 +31,7 @@ namespace Harpia {
         _renderSystem = new RenderingSystemGL();
         _inputSystem = new InputSystem();
         _audioSystem = new AudioSystem();
+        _sceneManagementSystem = new SceneManagementSystem();
 
         _createdWithSuccess = true;
     }
@@ -48,6 +50,7 @@ namespace Harpia {
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
+        SystemInit(_sceneManagementSystem, configuration.game, _coreSystem);
 
         auto result = _coreSystem->Execute();
         if (result < 0) {

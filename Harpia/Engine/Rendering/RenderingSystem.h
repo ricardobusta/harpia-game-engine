@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_RENDERINGSYSTEM_H
 
 #include "IApplicationSystem.h"
-#include "CoreDefines.h"
+#include "GlobalDefines.h"
 
 namespace Harpia {
     class RenderingSystem : IApplicationSystem {
