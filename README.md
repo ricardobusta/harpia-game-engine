@@ -7,6 +7,14 @@ The original engine was started around 2008, with the name of `RGine`, being upl
 
 # Configuration
 
+## Checking out
+
+Important to run:
+```
+git submodule update --init --recursive
+```
+to make sure all SDL submodules were checked out.
+
 ## Upgrading Dependencies
 
 ### GLEW
