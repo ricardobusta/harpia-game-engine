@@ -30,13 +30,12 @@ namespace Harpia {
     }
 
     int CoreSystem::Execute() {
+        onInitialize.Invoke();
+
         bool quit = false;
         SDL_Event e;
 
-        //auto scene = _configuration->game.scenes[0];
-        //scene->Instantiate();
-
-        while (!quit) {
+        while (true) {
             onPreEvents.Invoke();
 
             while (SDL_PollEvent(&e) != 0) {
@@ -55,6 +54,10 @@ namespace Harpia {
                         break;
                     }
                 }
+            }
+
+            if(quit){
+                break;
             }
 
             onUpdate.Invoke();
