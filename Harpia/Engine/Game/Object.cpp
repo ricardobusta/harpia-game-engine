@@ -10,7 +10,7 @@ namespace Harpia {
         _applicationInternal = application;
     }
 
-    void Object::Update() {
+    void Object::InternalUpdate() {
         for (auto c: _components) {
             auto ci = (Component_Internal *) c;
             ci->InternalUpdate();

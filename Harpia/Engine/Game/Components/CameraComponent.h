@@ -6,10 +6,14 @@
 #define HARPIAGAMEENGINE_CAMERACOMPONENT_H
 
 #include "Component.h"
+#include "RectInt.h"
 
 namespace Harpia {
     class CameraComponent: public Component  {
-
+    public:
+        RectInt viewport;
+    public:
+        void InternalUpdate();
     };
 } // Harpia
 

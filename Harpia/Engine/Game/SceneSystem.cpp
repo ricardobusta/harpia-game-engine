@@ -23,6 +23,7 @@ namespace Harpia {
 
         coreSystem->onInitialize += [this]() { LoadScene(_scenes[0]); };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
+        //coreSystem->onRendering += [this]() { OnRendering(); };
         return 0;
     }
 
@@ -47,7 +48,7 @@ namespace Harpia {
         for(auto s : _loadedScenes){
             auto si = (Scene_Internal*)s;
             for(auto o: si->_objects){
-                o->Update();
+                o->InternalUpdate();
             }
         }
     }

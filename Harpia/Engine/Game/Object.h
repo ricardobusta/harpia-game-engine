@@ -31,7 +31,7 @@ namespace Harpia {
             return HierarchyStatic::GetComponent<T>(_components);
         }
 
-        void Update();
+        void InternalUpdate();
     private:
     };
 } // Harpia
