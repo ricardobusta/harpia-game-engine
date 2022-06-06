@@ -10,7 +10,7 @@
 namespace Harpia {
     int SceneSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
-        
+
         DebugLog("Init");
         _scenes = std::vector<Scene*>(configuration.scenes);
 

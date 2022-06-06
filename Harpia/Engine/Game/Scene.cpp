@@ -5,7 +5,7 @@
 #include "Scene.h"
 
 #include <list>
-#include <algorithm>
+#include "Object.h"
 
 namespace Harpia {
     void Scene::Destroy() {

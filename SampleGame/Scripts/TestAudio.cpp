@@ -5,12 +5,12 @@
 
 namespace SampleGame {
     void TestAudio::Start() {
-        //audioSource = GetComponent<Harpia::AudioSource>();
+        audio = GetComponent<Harpia::AudioComponent>();
     }
 
     void TestAudio::Update() {
         //if(Input.GetKey(SDLK_UP).down){
-            //audioSource.Play();
+        audio->Play();
         //}
     }
 } // SampleGame

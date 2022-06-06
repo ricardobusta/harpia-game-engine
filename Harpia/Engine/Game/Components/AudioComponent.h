@@ -15,11 +15,7 @@ namespace Harpia {
         AudioAsset *audio = nullptr;
         AudioSystem *_audioSystem = nullptr;
     public:
-        explicit AudioComponent(Object * object);
-//
-//        ~AudioComponent();
-//
-//        void Play();
+        void Play();
     };
 } // Harpia
 

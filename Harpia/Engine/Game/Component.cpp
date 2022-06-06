@@ -6,8 +6,7 @@
 #include "Debug.h"
 
 namespace Harpia {
-    Component::Component(Object *object) {
-        AssertNotNull(object, "Component must be attached to an object");
-        _object = object;
+    Object *Component::GetObject() {
+        return _object;
     }
 } // Harpia

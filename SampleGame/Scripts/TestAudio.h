@@ -6,18 +6,16 @@
 #define HARPIAGAMEENGINE_TESTAUDIO_H
 
 #include "Component.h"
-#include "AudioSource.h"
+#include "AudioComponent.h"
 
 namespace SampleGame {
-
     class TestAudio : public Harpia::Component {
     private:
-        Harpia::AudioSource* audioSource;
-
+        Harpia::AudioComponent* audio = nullptr;
+    private:
         void Start() override;
         void Update() override;
     };
-
 } // SampleGame
 
 #endif //HARPIAGAMEENGINE_TESTAUDIO_H

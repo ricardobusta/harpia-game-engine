@@ -4,7 +4,7 @@
 
 #include "MainScene.h"
 #include "Debug.h"
-#include "AudioSource.h"
+#include "AudioComponent.h"
 #include "TestAudio.h"
 
 namespace SampleGame {
@@ -13,7 +13,7 @@ namespace SampleGame {
 
         auto audioObject = CreateObject();
 
-        audioObject->AddComponent<Harpia::AudioSource>();
+        audioObject->AddComponent<Harpia::AudioComponent>();
         //audioObject->SetAudioFile("Assets/Audio/jump.wav");
 
         audioObject->AddComponent<TestAudio>();

@@ -7,17 +7,22 @@
 
 #include <string>
 #include <list>
-#include "GlobalDefines.h"
+#include "Internal/Component_Internal.h"
+#include "Object.h"
 
 namespace Harpia {
-    class Component {
+    class Component : private Component_Internal {
     private:
-        Object * _object = nullptr;
-    public:
-        explicit Component() = delete;
-    protected:
-        explicit Component(Object * object);
 
+    public:
+        Object *GetObject();
+
+        template<class T>
+        T *GetComponent() {
+            return _object->template GetComponent<T>();
+        }
+
+    protected:
         virtual void Start() {};
 
         virtual void Update() {};

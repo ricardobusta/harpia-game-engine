@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_SCENE_H
 
 #include "ScenePrivate.h"
-#include "Object.h"
+#include "GlobalDefines.h"
 
 namespace Harpia {
     class Scene : private Scene_Private {
