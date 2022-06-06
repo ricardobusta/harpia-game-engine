@@ -7,6 +7,7 @@
 
 #include "Internal/InternalDefines.h"
 #include <algorithm>
+#include <list>
 
 namespace Harpia {
 
