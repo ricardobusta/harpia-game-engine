@@ -16,8 +16,8 @@ namespace Harpia {
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s", tag, message);
     }
 
-    void Debug::LogError(const char *tag, const char *message) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s", tag, message);
+    void Debug::LogError(const char *tag, const char *file, int line, const char *message) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s at %s:%d", tag, message, file, line);
     }
 }
 
