@@ -7,13 +7,19 @@
 
 #include "ScenePrivate.h"
 #include "GlobalDefines.h"
+#include "Internal/InternalDefines.h"
 
 namespace Harpia {
     class Scene : private Scene_Private {
+    private:
+        Application_Internal *_applicationInternal = nullptr;
     public:
-        virtual void Instantiate() = 0;
+        void Load(Application *application);
 
-        void Destroy();
+        void Unload();
+
+    protected:
+        virtual void Load() = 0;
 
         Object *CreateObject();
     };

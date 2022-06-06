@@ -5,5 +5,7 @@
 #include "Object.h"
 
 namespace Harpia {
-
+    Object::Object(Application_Internal *application) {
+        _applicationInternal = application;
+    }
 } // Harpia

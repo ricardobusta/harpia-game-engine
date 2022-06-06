@@ -5,8 +5,6 @@
 #ifndef HARPIAGAMEENGINE_COMPONENT_H
 #define HARPIAGAMEENGINE_COMPONENT_H
 
-#include <string>
-#include <list>
 #include "Internal/Component_Internal.h"
 #include "Object.h"
 
@@ -19,10 +17,12 @@ namespace Harpia {
 
         template<class T>
         T *GetComponent() {
-            return _object->template GetComponent<T>();
+            return _object->GetComponent<T>();
         }
 
     protected:
+        void Initialize_Internal(Application_Internal * applicationInternal) override;
+
         virtual void Start() {};
 
         virtual void Update() {};

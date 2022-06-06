@@ -10,6 +10,17 @@
 
 namespace Harpia {
     void AudioComponent::Play() {
+        _audioSystem->PlayAudio(_audio);
+    }
 
+    void AudioComponent::SetAudioFile(const std::string &path) {
+        if (_audio != nullptr) {
+            _audioSystem->ReleaseAudio(_audio);
+        }
+        _audio = _audioSystem->LoadAudio(path);
+    }
+
+    void AudioComponent::Initialize_Internal(Application_Internal *applicationInternal) {
+        _audioSystem = applicationInternal->_audioSystem;
     }
 } // Harpia

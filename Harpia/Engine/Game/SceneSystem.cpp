@@ -8,18 +8,18 @@
 #include "Scene.h"
 
 namespace Harpia {
-    int SceneSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
+    int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
         DebugLog("Init");
-        _scenes = std::vector<Scene*>(configuration.scenes);
+        _scenes = std::vector<Scene *>(configuration.scenes);
 
-        if(_scenes.empty()){
+        if (_scenes.empty()) {
             DebugLogError("No scenes were added in the configuration.");
             return -1;
         }
 
-        coreSystem->onInitialize += [this](){_scenes[0]->Instantiate();};
+        coreSystem->onInitialize += [this, application]() { _scenes[0]->Load(application); };
         return 0;
     }
 

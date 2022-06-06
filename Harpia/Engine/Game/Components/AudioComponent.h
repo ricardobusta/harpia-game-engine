@@ -12,10 +12,13 @@
 namespace Harpia {
     class AudioComponent : public Component {
     private:
-        AudioAsset *audio = nullptr;
+        AudioAsset *_audio = nullptr;
         AudioSystem *_audioSystem = nullptr;
     public:
+        void SetAudioFile(const std::string &path);
         void Play();
+    protected:
+        void Initialize_Internal(Application_Internal * applicationInternal) override;
     };
 } // Harpia
 

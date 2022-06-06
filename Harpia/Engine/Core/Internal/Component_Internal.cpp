@@ -11,5 +11,6 @@ namespace Harpia {
     void Component_Internal::Initialize(Object *object, Application_Internal * applicationInternal) {
         AssertNotNull(object, "Component must be attached to an object");
         _object = object;
+        Initialize_Internal(applicationInternal);
     }
 } // Harpia

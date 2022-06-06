@@ -33,11 +33,11 @@ namespace Harpia {
     }
 
     void AudioSystem::Quit() {
-        for (const auto &a: _loadedAudios) {
-            ReleaseAllUsages(a.second);
+        for (const auto &kvp: _loadedAudios) {
+            ReleaseAllUsages(kvp.second);
         }
-        for (const auto &m: _loadedMusics) {
-            ReleaseAllUsages(m.second);
+        for (const auto &kvp: _loadedMusics) {
+            ReleaseAllUsages(kvp.second);
         }
         Mix_Quit();
         DebugLog("Quit");
@@ -83,15 +83,19 @@ namespace Harpia {
         it->second->useCount--;
         if (it->second->useCount <= 0) {
             _loadedAudios.erase(audio->path);
-            Mix_FreeChunk(audio->ref);
-            delete audio;
+            DeleteAudio(audio);
+            DebugLog("Audio %s released", audio->path.c_str());
         }
     }
 
     void AudioSystem::ReleaseAllUsages(AudioAsset *audio) {
         DebugLogWarning("AudioAsset with remaining %d uses on System Quit: %s", audio->useCount, audio->path.c_str());
-        audio->useCount = 0;
-        ReleaseAudio(audio);
+        DeleteAudio(audio);
+    }
+
+    void AudioSystem::DeleteAudio(AudioAsset *audio) {
+        Mix_FreeChunk(audio->ref);
+        delete audio;
     }
 
     MusicAsset *AudioSystem::LoadMusic(const std::string &path) {
@@ -144,15 +148,18 @@ namespace Harpia {
         it->second->useCount--;
         if (it->second->useCount <= 0) {
             _loadedMusics.erase(music->path);
-            Mix_FreeMusic(music->ref);
-            delete music;
+            DeleteMusic(music);
         }
     }
 
     void AudioSystem::ReleaseAllUsages(MusicAsset *music) {
         DebugLogWarning("MusicAsset with remaining %d uses on System Quit: %s", music->useCount, music->path.c_str());
-        music->useCount = 0;
-        ReleaseMusic(music);
+        DeleteMusic(music);
+    }
+
+    void AudioSystem::DeleteMusic(MusicAsset *music) {
+        Mix_FreeMusic(music->ref);
+        delete music;
     }
 }
 // Harpia

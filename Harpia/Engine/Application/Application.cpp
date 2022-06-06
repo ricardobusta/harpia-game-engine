@@ -48,7 +48,7 @@ namespace Harpia {
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
-        SystemInit(_sceneManagementSystem, configuration.game, _coreSystem);
+        SystemInit(_sceneManagementSystem, configuration.game, this, _coreSystem);
 
         DebugLog("All systems initialized");
 

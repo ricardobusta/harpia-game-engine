@@ -26,7 +26,7 @@ namespace Harpia {
 
         void ReleaseAudio(AudioAsset *audio);
 
-        static void PlayAudio(AudioAsset *audio);
+        void PlayAudio(AudioAsset *audio);
 
         MusicAsset *LoadMusic(const std::string &path);
 
@@ -49,8 +49,9 @@ namespace Harpia {
         void Quit() override;
 
     private:
+        void DeleteAudio(AudioAsset * audio);
         void ReleaseAllUsages(AudioAsset *audio);
-
+        void DeleteMusic(MusicAsset *music);
         void ReleaseAllUsages(MusicAsset *music);
     };
 

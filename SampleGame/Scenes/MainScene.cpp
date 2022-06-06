@@ -8,13 +8,13 @@
 #include "TestAudio.h"
 
 namespace SampleGame {
-    void SampleGame::MainScene::Instantiate() {
+    void SampleGame::MainScene::Load() {
         DebugLog("Starting MainScene");
 
         auto audioObject = CreateObject();
 
-        audioObject->AddComponent<Harpia::AudioComponent>();
-        //audioObject->SetAudioFile("Assets/Audio/jump.wav");
+        auto audio = audioObject->AddComponent<Harpia::AudioComponent>();
+        audio->SetAudioFile("Assets/Audio/jump.wav");
 
         audioObject->AddComponent<TestAudio>();
     }

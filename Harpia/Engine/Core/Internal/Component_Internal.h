@@ -14,6 +14,9 @@ namespace Harpia {
         Object * _object = nullptr;
 
         void Initialize(Object * object, Application_Internal * applicationInternal);
+
+    protected:
+        virtual void Initialize_Internal(Application_Internal * applicationInternal) = 0;
     };
 } // Harpia
 

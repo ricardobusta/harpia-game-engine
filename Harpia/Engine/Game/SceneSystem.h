@@ -15,7 +15,7 @@ namespace Harpia {
     private:
         std::vector<Scene *> _scenes;
     public:
-        int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
+        int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
 
         int GetInitFlags() override;
 

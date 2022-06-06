@@ -9,4 +9,6 @@ namespace Harpia {
     Object *Component::GetObject() {
         return _object;
     }
+
+    void Component::Initialize_Internal(Application_Internal *applicationInternal) {}
 } // Harpia
