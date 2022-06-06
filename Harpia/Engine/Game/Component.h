@@ -7,10 +7,15 @@
 
 #include <string>
 #include <list>
+#include "GlobalDefines.h"
 
 namespace Harpia {
     class Component {
+    private:
+        Object * _object = nullptr;
     protected:
+        explicit Component(Object * object);
+
         virtual void Start() {};
 
         virtual void Update() {};

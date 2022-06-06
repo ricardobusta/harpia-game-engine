@@ -9,5 +9,7 @@
 #include "Debug.h"
 
 namespace Harpia {
+    AudioComponent::AudioComponent(Object *object) : Component(object) {
 
+    }
 } // Harpia
