@@ -19,5 +19,9 @@ target_link_libraries(
 )
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC -DHARPIA_DEBUG)
+    target_compile_definitions(
+            ${PROJECT_NAME} PUBLIC
+            -DHARPIA_DEBUG
+            -DNDEBUG
+    )
 endif()
