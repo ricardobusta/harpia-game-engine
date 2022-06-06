@@ -25,7 +25,7 @@ namespace Harpia {
         virtual int RenderingInitialize();
 
     protected:
-        Color *_clearColor;
+        Color *_clearColor = nullptr;
         SDL_Window *_window = nullptr;
     private:
         SDL_Surface *_surface = nullptr;
