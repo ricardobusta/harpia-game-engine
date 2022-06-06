@@ -21,6 +21,8 @@ namespace Harpia {
 
         void Pause(bool pause);
 
+        bool IsPaused();
+
     protected:
         void Initialize_Internal(Application_Internal *applicationInternal) override;
     };

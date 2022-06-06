@@ -20,6 +20,10 @@ namespace Harpia {
         _audioSystem->PlayMusic(_music);
     }
 
+    bool MusicComponent::IsPaused() {
+        return _audioSystem->IsMusicPaused();
+    }
+
     void MusicComponent::Pause(bool pause) {
         if (pause) {
             _audioSystem->PauseMusic();

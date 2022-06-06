@@ -15,10 +15,8 @@ namespace SampleGame {
         configuration.window.size = Harpia::Vector2Int(640, 480);
 
         configuration.input.mappedKeys.insert(configuration.input.mappedKeys.end(), {
-                SDLK_UP,
-                SDLK_DOWN,
-                SDLK_LEFT,
-                SDLK_RIGHT
+                SDLK_1,
+                SDLK_2,
         });
 
         configuration.game.scenes.insert(configuration.game.scenes.end(), {

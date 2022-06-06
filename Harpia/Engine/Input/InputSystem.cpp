@@ -22,7 +22,10 @@ namespace Harpia {
             _keyMap[key] = KeyState();
         }
 
-        _inputReader = new InputReader(&_keyMap);
+        _inputReader = new InputReader(&_keyMap, [this](auto key){
+            DebugLogWarning("Key %d not mapped, consider adding it in the game configs", key);
+            _keyMap[key] = KeyState();
+        });
 
         coreSystem->onPreEvents += [this]() { CleanKeyState(); };
         coreSystem->onKeyUp += [this](auto key) { OnKeyUp(key); };

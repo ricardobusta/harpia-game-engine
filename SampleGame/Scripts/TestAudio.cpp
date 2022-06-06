@@ -12,9 +12,15 @@ namespace SampleGame {
     }
 
     void TestAudio::Update() {
-        if (Input()->GetKeyDown(SDLK_UP)) {
-            DebugLog("Up pressed");
+        if (Input()->GetKeyDown(SDLK_1)) {
+            DebugLog("1 pressed");
             audio->Play();
+        }
+
+        if (Input()->GetKeyDown(SDLK_2)) {
+            DebugLog("2 pressed");
+            DebugLog(music->IsPaused()?"Playing music":"Pausing music");
+            music->Pause(!music->IsPaused());
         }
     }
 } // SampleGame

@@ -139,7 +139,7 @@ namespace Harpia {
     }
 
     bool AudioSystem::IsMusicPaused() {
-        return Mix_PausedMusic();
+        return Mix_PausedMusic()==SDL_TRUE;
     }
 
     void AudioSystem::ReleaseMusic(MusicAsset *music) {

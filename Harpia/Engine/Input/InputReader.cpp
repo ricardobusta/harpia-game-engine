@@ -6,15 +6,16 @@
 #include "Debug.h"
 
 namespace Harpia {
-    InputReader::InputReader(std::map<SDL_Keycode, KeyState> *keyState) {
+    InputReader::InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey) {
         _keyState = keyState;
+        _onNewKey = onNewKey;
     }
 
     bool InputReader::GetKeyDown(SDL_Keycode key) {
         if (auto it{_keyState->find(key)};it != _keyState->end()) {
             return it->second.down;
         }
-        DebugLogWarning("Key %d not mapped", key);
+        _onNewKey(key);
         return false;
     }
 
@@ -22,7 +23,7 @@ namespace Harpia {
         if (auto it{_keyState->find(key)};it != _keyState->end()) {
             return it->second.up;
         }
-        DebugLogWarning("Key %d not mapped", key);
+        _onNewKey(key);
         return false;
     }
 
@@ -30,7 +31,7 @@ namespace Harpia {
         if (auto it{_keyState->find(key)};it != _keyState->end()) {
             return it->second.isDown;
         }
-        DebugLogWarning("Key %d not mapped", key);
+        _onNewKey(key);
         return false;
     }
 

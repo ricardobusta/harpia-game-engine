@@ -6,6 +6,7 @@
 #define HARPIAGAMEENGINE_INPUTREADER_H
 
 #include <map>
+#include <functional>
 #include "SDL_keycode.h"
 #include "KeyState.h"
 
@@ -13,10 +14,11 @@ namespace Harpia {
     class InputReader {
     private:
         std::map<SDL_Keycode, KeyState> *_keyState;
+        std::function<void(SDL_Keycode)> _onNewKey;
     public:
         InputReader() = delete;
 
-        explicit InputReader(std::map<SDL_Keycode, KeyState> *keyState);
+        explicit InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
 
         bool GetKeyDown(SDL_Keycode key);
         bool GetKeyUp(SDL_Keycode key);
