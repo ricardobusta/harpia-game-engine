@@ -15,6 +15,8 @@ namespace Harpia {
     public:
         Event<> onInitialize;
         Event<> onUpdate;
+        Event<> onRendering;
+        Event<> onLateUpdate;
         Event<> onQuit;
         Event<> onPreEvents;
         Event<SDL_KeyboardEvent &> onKeyDown;

@@ -8,11 +8,11 @@
 #include "RenderingSystem.h"
 
 namespace Harpia {
-
-    class RenderingSystemVulkan : public {
+    class RenderingSystemVulkan : public RenderingSystem {
     private:
-        virtual int RenderingInitialize();
+        void RenderFrame() override;
 
+        int RenderingInitialize() override;
     };
 
 } // Harpia

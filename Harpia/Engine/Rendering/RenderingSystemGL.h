@@ -23,7 +23,7 @@ namespace Harpia {
     public:
         int GetWindowFlags() override;
 
-        void UpdateFrame() override;
+        void RenderFrame() override;
 
         void Quit() override;
 

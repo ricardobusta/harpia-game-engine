@@ -9,26 +9,17 @@
 #include "GlobalDefines.h"
 
 namespace Harpia {
-    class RenderingSystem : IApplicationSystem {
+    class RenderingSystem : public IApplicationSystem {
     public:
         int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
 
-        virtual void UpdateFrame();
+        virtual void RenderFrame() = 0;
+    private:
+        virtual int RenderingInitialize() = 0;
 
         int GetInitFlags() override;
-
-        int GetWindowFlags() override;
-
-        void Quit() override;
-
-    private:
-        virtual int RenderingInitialize();
-
     protected:
-        Color *_clearColor = nullptr;
         SDL_Window *_window = nullptr;
-    private:
-        SDL_Surface *_surface = nullptr;
     };
 
 } // Harpia

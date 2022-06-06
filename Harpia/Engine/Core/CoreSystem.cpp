@@ -61,6 +61,8 @@ namespace Harpia {
             }
 
             onUpdate.Invoke();
+            onRendering.Invoke();
+            onLateUpdate.Invoke();
         }
         return 0;
     }

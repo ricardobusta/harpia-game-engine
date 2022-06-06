@@ -101,7 +101,7 @@ namespace Harpia {
                         DebugLogError("LVertexPos2D is not a valid glsl program variable!");
                         success = false;
                     } else {
-                        glClearColor(_clearColor->r, _clearColor->g, _clearColor->b, _clearColor->a);
+                        glClearColor(0, 0, 0, 1);
                         GLfloat vertexData[] =
                                 {
                                         -0.5f, -0.5f,
@@ -124,7 +124,7 @@ namespace Harpia {
         return success;
     }
 
-    void RenderingSystemGL::UpdateFrame() {
+    void RenderingSystemGL::RenderFrame() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(_programID);
@@ -149,7 +149,6 @@ namespace Harpia {
     }
 
     void RenderingSystemGL::Quit() {
-        RenderingSystem::Quit();
     }
 
     int RenderingSystemGL::RenderingInitialize() {
