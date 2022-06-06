@@ -5,6 +5,8 @@
 #ifndef HARPIAGAMEENGINE_INTERNALDEFINES_H
 #define HARPIAGAMEENGINE_INTERNALDEFINES_H
 
+#include "GlobalDefines.h"
+
 namespace Harpia{
     class Application_Internal;
     class Component_Internal;
