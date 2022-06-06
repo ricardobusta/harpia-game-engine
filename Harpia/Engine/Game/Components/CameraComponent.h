@@ -8,11 +8,9 @@
 #include "Component.h"
 
 namespace Harpia {
-
     class CameraComponent: public Component  {
 
     };
-
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_CAMERACOMPONENT_H
