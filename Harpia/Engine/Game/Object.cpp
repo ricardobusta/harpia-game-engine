@@ -3,9 +3,17 @@
 //
 
 #include "Object.h"
+#include "Component.h"
 
 namespace Harpia {
     Object::Object(Application_Internal *application) {
         _applicationInternal = application;
+    }
+
+    void Object::Update() {
+        for (auto c: _components) {
+            auto ci = (Component_Internal *) c;
+            ci->InternalUpdate();
+        }
     }
 } // Harpia

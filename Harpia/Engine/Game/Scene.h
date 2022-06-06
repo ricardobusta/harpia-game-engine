@@ -22,6 +22,7 @@ namespace Harpia {
 
         Object *CreateObject();
     };
+
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_SCENE_H

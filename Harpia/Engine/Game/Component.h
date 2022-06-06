@@ -20,12 +20,12 @@ namespace Harpia {
             return _object->GetComponent<T>();
         }
 
-    protected:
-        void Initialize_Internal(Application_Internal * applicationInternal) override;
-
         virtual void Start() {};
 
         virtual void Update() {};
+
+    protected:
+        void Initialize_Internal(Application_Internal * applicationInternal) override;
     };
 } // Harpia
 

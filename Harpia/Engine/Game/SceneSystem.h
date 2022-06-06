@@ -14,6 +14,9 @@ namespace Harpia {
     class SceneSystem : public IApplicationSystem {
     private:
         std::vector<Scene *> _scenes;
+        std::vector<Scene *> _loadedScenes;
+
+        Application * _application;
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
 
@@ -22,6 +25,11 @@ namespace Harpia {
         int GetWindowFlags() override;
 
         void Quit() override;
+
+    private:
+        void LoadScene(Scene *scene);
+
+        void OnUpdate();
     };
 } // Harpia
 

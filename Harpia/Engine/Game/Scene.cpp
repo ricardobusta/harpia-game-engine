@@ -19,7 +19,7 @@ namespace Harpia {
 
     Object *Scene::CreateObject() {
         auto object = new Object(_applicationInternal);
-        objects.push_back(object);
+        _objects.push_back(object);
         return object;
     }
 } // Harpia

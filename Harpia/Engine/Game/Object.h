@@ -27,6 +27,8 @@ namespace Harpia {
         T *GetComponent() {
             return HierarchyStatic::GetComponent<T>(_components);
         }
+
+        void Update();
     private:
     };
 } // Harpia
