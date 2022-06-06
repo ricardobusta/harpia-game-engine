@@ -12,7 +12,7 @@ namespace Harpia {
     class Component_Internal {
     public:
         Object *_object = nullptr;
-
+        Application_Internal *_application = nullptr;
     private:
         bool started = false;
     public:

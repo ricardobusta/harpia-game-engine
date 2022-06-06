@@ -15,4 +15,5 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         Harpia.Core
         Harpia.Audio
+        Harpia.Input
 )

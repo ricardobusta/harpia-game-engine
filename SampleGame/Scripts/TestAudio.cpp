@@ -2,6 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 06/06/2022.
 //
 #include "TestAudio.h"
+#include "Debug.h"
 
 namespace SampleGame {
     void TestAudio::Start() {
@@ -9,8 +10,9 @@ namespace SampleGame {
     }
 
     void TestAudio::Update() {
-        //if(Input.GetKey(SDLK_UP).down){
-        audio->Play();
-        //}
+        if (Input()->GetKeyDown(SDLK_UP)) {
+            DebugLog("Up pressed");
+            audio->Play();
+        }
     }
 } // SampleGame

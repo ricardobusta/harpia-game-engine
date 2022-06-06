@@ -11,14 +11,15 @@
 #include "KeyState.h"
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
-
+#include "InputReader.h"
 
 namespace Harpia {
     class InputSystem : public IApplicationSystem {
     private:
-        std::map<int, KeyState> _keyMap;
-        std::list<int> _dirtyKeys;
+        std::map<SDL_Keycode, KeyState> _keyMap;
+        std::list<SDL_Keycode> _dirtyKeys;
 
+        InputReader *_inputReader;
     public:
         int Initialize(InputConfiguration &configuration, CoreSystem *coreSystem);
 
@@ -28,6 +29,7 @@ namespace Harpia {
 
         void Quit() override;
 
+        InputReader *GetInputReader();
     private:
         void CleanKeyState();
 

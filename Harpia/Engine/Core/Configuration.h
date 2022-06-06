@@ -11,6 +11,7 @@
 #include "GlobalDefines.h"
 #include "Vector2Int.h"
 #include "Color.h"
+#include "SDL_keycode.h"
 
 namespace Harpia {
     class Scene;
@@ -26,7 +27,7 @@ namespace Harpia {
     };
 
     struct InputConfiguration {
-        std::vector<int> mappedKeys;
+        std::vector<SDL_Keycode> mappedKeys;
     };
 
     struct AudioConfiguration {

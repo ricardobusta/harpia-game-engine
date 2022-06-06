@@ -38,6 +38,8 @@ namespace Harpia {
 
     class InputConfiguration;
 
+    class InputReader;
+
     class RenderingConfiguration;
 
     class Color;

@@ -15,11 +15,14 @@ namespace Harpia {
         AssertNotNull(coreSystem);
 
         DebugLog("Init");
+
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
             DebugLog("Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }
+
+        _inputReader = new InputReader(&_keyMap);
 
         coreSystem->onPreEvents += [this]() { CleanKeyState(); };
         coreSystem->onKeyUp += [this](auto key) { OnKeyUp(key); };
@@ -29,6 +32,8 @@ namespace Harpia {
     }
 
     void InputSystem::Quit() {
+        delete _inputReader;
+        _inputReader = nullptr;
         DebugLog("Quit");
     }
 
@@ -46,8 +51,6 @@ namespace Harpia {
         for (int key: _dirtyKeys) {
             _keyMap[key].down = false;
             _keyMap[key].up = false;
-
-            auto it = _keyMap.find(key);
         }
         _dirtyKeys.clear();
     }
@@ -74,6 +77,10 @@ namespace Harpia {
         it->second.down = true;
         it->second.isDown = true;
         _dirtyKeys.push_back(key.keysym.sym);
+    }
+
+    InputReader *InputSystem::GetInputReader() {
+        return _inputReader;
     }
     //endregion private
 } // Harpia

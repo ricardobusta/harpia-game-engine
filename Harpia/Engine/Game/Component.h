@@ -7,11 +7,11 @@
 
 #include "Internal/Component_Internal.h"
 #include "Object.h"
+#include "InputReader.h"
 
 namespace Harpia {
     class Component : private Component_Internal {
     private:
-
     public:
         Object *GetObject();
 
@@ -24,8 +24,10 @@ namespace Harpia {
 
         virtual void Update() {};
 
+        InputReader *Input();
+
     protected:
-        void Initialize_Internal(Application_Internal * applicationInternal) override;
+        void Initialize_Internal(Application_Internal *applicationInternal) override;
     };
 } // Harpia
 

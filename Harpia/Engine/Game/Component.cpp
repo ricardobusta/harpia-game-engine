@@ -3,7 +3,8 @@
 //
 
 #include "Component.h"
-#include "Debug.h"
+#include "Internal/Application_Internal.h"
+#include "InputSystem.h"
 
 namespace Harpia {
     Object *Component::GetObject() {
@@ -11,4 +12,8 @@ namespace Harpia {
     }
 
     void Component::Initialize_Internal(Application_Internal *applicationInternal) {}
+
+    InputReader *Component::Input() {
+        _application->_inputSystem->GetInputReader();
+    }
 } // Harpia
