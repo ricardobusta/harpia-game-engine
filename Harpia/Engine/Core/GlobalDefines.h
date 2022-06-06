@@ -16,6 +16,8 @@ namespace Harpia {
 
     class AudioAsset;
 
+    class MusicAsset;
+
     class CoreSystem;
 
     class InputSystem;

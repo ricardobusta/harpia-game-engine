@@ -32,7 +32,7 @@ namespace Harpia {
 
         void ReleaseMusic(MusicAsset *music);
 
-        int PlayMusic(MusicAsset *music);
+        void PlayMusic(MusicAsset *music);
 
         void PauseMusic();
 

@@ -15,9 +15,14 @@ namespace Harpia {
         AssertNotNull(coreSystem);
 
         DebugLog("Init");
-        auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-        if (result < 0) {
+        auto result = Mix_Init(MIX_INIT_OGG);
+        if(result < 0){
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
+            return result;
+        }
+        result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
+        if (result < 0) {
+            DebugLogError("SDL_mixer could not open audio! SDL_mixer Error: %s", Mix_GetError());
             return result;
         }
 
@@ -44,7 +49,9 @@ namespace Harpia {
     }
 
     void AudioSystem::PlayAudio(AudioAsset *audio) {
-        Mix_PlayChannel(-1, audio->ref, 0);
+        if(Mix_PlayChannel(-1, audio->ref, 0)<0){
+            DebugLogError("Audio could not be played. Mix_Error: %s", Mix_GetError());
+        }
     }
 
     AudioAsset *AudioSystem::LoadAudio(const std::string &path) {
@@ -117,8 +124,10 @@ namespace Harpia {
         return music;
     }
 
-    int AudioSystem::PlayMusic(MusicAsset *music) {
-        return Mix_PlayMusic(music->ref, 0);
+    void AudioSystem::PlayMusic(MusicAsset *music) {
+        if(Mix_PlayMusic(music->ref, 0)<0){
+            DebugLogError("Music could not be played. Mix_Error: %s", Mix_GetError());
+        }
     }
 
     void AudioSystem::PauseMusic() {

@@ -7,11 +7,13 @@
 
 #include "Component.h"
 #include "AudioComponent.h"
+#include "MusicComponent.h"
 
 namespace SampleGame {
     class TestAudio : public Harpia::Component {
     private:
         Harpia::AudioComponent* audio = nullptr;
+        Harpia::MusicComponent* music = nullptr;
     private:
         void Start() override;
         void Update() override;

@@ -7,6 +7,8 @@
 namespace SampleGame {
     void TestAudio::Start() {
         audio = GetComponent<Harpia::AudioComponent>();
+        music = GetComponent<Harpia::MusicComponent>();
+        music->Play();
     }
 
     void TestAudio::Update() {
