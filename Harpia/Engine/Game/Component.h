@@ -13,6 +13,8 @@ namespace Harpia {
     class Component {
     private:
         Object * _object = nullptr;
+    public:
+        explicit Component() = delete;
     protected:
         explicit Component(Object * object);
 
