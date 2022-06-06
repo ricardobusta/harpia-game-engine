@@ -12,8 +12,6 @@ namespace Harpia {
     class Application : private Application_Internal {
     private:
         bool _createdWithSuccess = false;
-        int _result = -1;
-
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
 

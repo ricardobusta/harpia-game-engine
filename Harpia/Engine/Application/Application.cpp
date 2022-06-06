@@ -70,7 +70,7 @@ namespace Harpia {
         SystemCleanup(_coreSystem);
 
         DebugLog("Quit");
-        return _result;
+        return result;
     }
 
     int Application::GetWindowFlags() {
