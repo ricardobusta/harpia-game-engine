@@ -8,9 +8,20 @@
 namespace Harpia {
     struct Vector3 {
     public:
-        Vector3(int x, int y, int z);
+        Vector3();
 
-        int x, y, z;
+        explicit Vector3(float x, float y, float z);
+
+        float x, y, z;
+
+        [[maybe_unused]] const static Vector3 zero;
+        [[maybe_unused]] const static Vector3 one;
+        [[maybe_unused]] const static Vector3 left;
+        [[maybe_unused]] const static Vector3 right;
+        [[maybe_unused]] const static Vector3 up;
+        [[maybe_unused]] const static Vector3 down;
+        [[maybe_unused]] const static Vector3 forward;
+        [[maybe_unused]] const static Vector3 back;
     };
 }// namespace Harpia::Engine
 

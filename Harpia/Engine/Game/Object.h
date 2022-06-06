@@ -8,9 +8,12 @@
 #include "GlobalDefines.h"
 #include <list>
 #include "HierarchyStatic.h"
+#include "Transform.h"
 
 namespace Harpia {
     class Object {
+    public:
+        Transform transform;
     private:
         std::list<Component *> _components;
         Application_Internal *_applicationInternal;
