@@ -17,12 +17,6 @@ include_directories(
 )
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
-target_link_libraries(
-        ${PROJECT_NAME} PUBLIC
-        SDL2
-        Harpia
-        Harpia.Application
-        Harpia.Game
-)
+target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Assets/ DESTINATION ${CMAKE_BINARY_DIR}/bin/Assets/)
