@@ -5,6 +5,8 @@
 #ifndef HARPIAGAMEENGINE_CAMERACOMPONENT_H
 #define HARPIAGAMEENGINE_CAMERACOMPONENT_H
 
+#include "Component.h"
+
 namespace Harpia {
 
     class CameraComponent: public Component  {
