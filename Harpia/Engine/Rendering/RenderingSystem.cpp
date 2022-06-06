@@ -12,6 +12,8 @@
 
 namespace Harpia {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
+        AssertNotNull(coreSystem);
+
         DebugLog("Init");
         _clearColor = &configuration.clearColor;
 

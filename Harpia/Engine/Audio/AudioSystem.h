@@ -26,7 +26,7 @@ namespace Harpia {
 
         void ReleaseAudio(AudioAsset *audio);
 
-        void PlayAudio(AudioAsset *audio);
+        static void PlayAudio(AudioAsset *audio);
 
         MusicAsset *LoadMusic(const std::string &path);
 

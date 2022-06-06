@@ -9,12 +9,10 @@
 #include "MixTypes.h"
 
 namespace Harpia {
-
     class AudioAsset : public Asset {
     public:
         Mix_Chunk *ref;
     };
-
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_AUDIOASSET_H

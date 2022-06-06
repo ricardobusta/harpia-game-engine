@@ -12,6 +12,8 @@
 namespace Harpia {
     //region public
     int InputSystem::Initialize(InputConfiguration &configuration, CoreSystem *coreSystem) {
+        AssertNotNull(coreSystem);
+
         DebugLog("Init");
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {

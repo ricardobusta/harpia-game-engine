@@ -9,6 +9,9 @@
 
 namespace Harpia {
     int SceneSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
+        AssertNotNull(coreSystem);
+        
+        DebugLog("Init");
         _scenes = std::vector<Scene*>(configuration.scenes);
 
         if(_scenes.empty()){
@@ -29,6 +32,6 @@ namespace Harpia {
     }
 
     void SceneSystem::Quit() {
-
+        DebugLog("Quit");
     }
 } // Harpia

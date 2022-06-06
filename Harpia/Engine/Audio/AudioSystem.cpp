@@ -12,13 +12,15 @@
 
 namespace Harpia {
     int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
+        AssertNotNull(coreSystem);
+
         DebugLog("Init");
         auto result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
         if (result < 0) {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
             return result;
         }
-        
+
         return 0;
     }
 
