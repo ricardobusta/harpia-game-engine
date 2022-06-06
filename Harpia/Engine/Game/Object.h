@@ -20,7 +20,7 @@ namespace Harpia {
         template<class T>
         void AddComponent() {
             static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
-            Component *c = new T;
+            Component *c = new T(this);
             AddComponent(c);
         }
 
