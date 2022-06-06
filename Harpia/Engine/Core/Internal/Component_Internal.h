@@ -11,12 +11,21 @@
 namespace Harpia {
     class Component_Internal {
     public:
-        Object * _object = nullptr;
+        Object *_object = nullptr;
 
-        void Initialize(Object * object, Application_Internal * applicationInternal);
+    private:
+        bool started = false;
+    public:
+        void Initialize(Object *object, Application_Internal *applicationInternal);
+
+        void InternalUpdate();
 
     protected:
-        virtual void Initialize_Internal(Application_Internal * applicationInternal) = 0;
+        virtual void Initialize_Internal(Application_Internal *applicationInternal) = 0;
+
+        virtual void Start() = 0;
+
+        virtual void Update() = 0;
     };
 } // Harpia
 

@@ -13,4 +13,12 @@ namespace Harpia {
         _object = object;
         Initialize_Internal(applicationInternal);
     }
+
+    void Component_Internal::InternalUpdate() {
+        if(!started){
+            Start();
+            started = true;
+        }
+        Update();
+    }
 } // Harpia

@@ -12,7 +12,7 @@ namespace Harpia {
 
     class Scene_Internal {
     public:
-        std::list<Object *> objects;
+        std::list<Object *> _objects;
     };
 
 } // Harpia
