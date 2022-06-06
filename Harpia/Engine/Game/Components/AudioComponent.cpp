@@ -10,6 +10,7 @@
 
 namespace Harpia {
     void AudioComponent::Play() {
+        AssertNotNull(_audio);
         _audioSystem->PlayAudio(_audio);
     }
 
