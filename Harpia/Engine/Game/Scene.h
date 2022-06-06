@@ -5,12 +5,11 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
-#include "ScenePrivate.h"
-#include "GlobalDefines.h"
+#include "Internal/Scene_Internal.h"
 #include "Internal/InternalDefines.h"
 
 namespace Harpia {
-    class Scene : private Scene_Private {
+    class Scene : private Scene_Internal {
     private:
         Application_Internal *_applicationInternal = nullptr;
     public:
