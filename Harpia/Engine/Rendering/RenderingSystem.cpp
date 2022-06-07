@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "CoreSystem.h"
 #include "Configuration.h"
+#include "Internal/Scene_Internal.h"
 
 namespace Harpia {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
@@ -37,5 +38,19 @@ namespace Harpia {
 
     int RenderingSystem::GetInitFlags() {
         return 0;
+    }
+
+    void RenderingSystem::FetchCameras(Scene *scene) {
+        auto si = (Scene_Internal *) scene;
+        FetchCameras(si->_objects);
+    }
+
+    void RenderingSystem::FetchCameras(const std::list<Object *> &objects) {
+        for (auto o: objects) {
+//            auto camera = o->GetComponent<CameraComponent>();
+//            if (camera != nullptr) {
+//                _cameras.push_back(camera);
+//            }
+        }
     }
 } // Harpia

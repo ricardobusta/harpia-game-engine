@@ -42,7 +42,11 @@ namespace Harpia {
 
     class InputReader;
 
-    class RenderingConfiguration;
+    class CameraComponent;
+
+    class AudioComponent;
+
+    class MusicComponent;
 
     class Color;
 }

@@ -14,16 +14,13 @@
 #include "SDL_keycode.h"
 
 namespace Harpia {
-    class Scene;
-
     struct GameConfiguration {
-        std::string title;
-        Color clearColor; // TODO move to specific camera configuration
-        std::vector<Scene *> scenes;
+        std::string title = "Harpia Application";
+        std::vector<Scene *> scenes = std::vector<Scene *>();
     };
 
     struct WindowConfiguration {
-        Vector2Int size;
+        Vector2Int size = Vector2Int(640, 480);
     };
 
     struct InputConfiguration {
@@ -31,15 +28,15 @@ namespace Harpia {
     };
 
     struct AudioConfiguration {
-        bool enabled;
+        bool enabled = true;
     };
 
     struct Configuration {
     public:
-        GameConfiguration game;
-        WindowConfiguration window;
-        InputConfiguration input;
-        AudioConfiguration audio;
+        GameConfiguration game = GameConfiguration();
+        WindowConfiguration window = WindowConfiguration();
+        InputConfiguration input = InputConfiguration();
+        AudioConfiguration audio = AudioConfiguration();
     };
 }
 

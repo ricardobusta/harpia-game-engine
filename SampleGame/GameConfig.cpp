@@ -10,7 +10,6 @@
 namespace SampleGame {
     void GameConfig::Configure(Harpia::Configuration &configuration) {
         configuration.game.title = "Harpia Sample";
-        configuration.game.clearColor = Harpia::Color(0.5f, 0.f, 0.f);
 
         configuration.window.size = Harpia::Vector2Int(640, 480);
 

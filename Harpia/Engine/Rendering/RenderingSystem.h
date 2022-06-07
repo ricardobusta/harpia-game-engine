@@ -7,6 +7,7 @@
 
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
+#include <list>
 
 namespace Harpia {
     class RenderingSystem : public IApplicationSystem {
@@ -14,10 +15,16 @@ namespace Harpia {
         int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
 
         virtual void RenderFrame() = 0;
+
+        void FetchCameras(Scene * scene);
     private:
         virtual int RenderingInitialize() = 0;
 
         int GetInitFlags() override;
+
+        void FetchCameras(const std::list<Object*> &objects);
+
+        std::list<CameraComponent*> _cameras;
     protected:
         SDL_Window *_window = nullptr;
     };

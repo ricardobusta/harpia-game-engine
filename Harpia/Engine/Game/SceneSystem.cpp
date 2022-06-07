@@ -7,6 +7,8 @@
 #include "Configuration.h"
 #include "Scene.h"
 #include "Object.h"
+#include "Internal/Application_Internal.h"
+#include "RenderingSystem.h"
 
 namespace Harpia {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
@@ -21,9 +23,14 @@ namespace Harpia {
             return -1;
         }
 
-        coreSystem->onInitialize += [this]() { LoadScene(_scenes[0]); };
+        auto ai = (Application_Internal *) application;
+
+        coreSystem->onInitialize += [this, ai]() {
+            auto scene = _scenes[0];
+            LoadScene(scene);
+            //ai->_renderSystem->FetchCameras(scene);
+        };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
-        //coreSystem->onRendering += [this]() { OnRendering(); };
         return 0;
     }
 
@@ -45,9 +52,9 @@ namespace Harpia {
     }
 
     void SceneSystem::OnUpdate() {
-        for(auto s : _loadedScenes){
-            auto si = (Scene_Internal*)s;
-            for(auto o: si->_objects){
+        for (auto s: _loadedScenes) {
+            auto si = (Scene_Internal *) s;
+            for (auto o: si->_objects) {
                 o->InternalUpdate();
             }
         }
