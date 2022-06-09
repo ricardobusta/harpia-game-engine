@@ -11,7 +11,7 @@
 #include "RenderingSystem.h"
 #include "HarpiaAssert.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 

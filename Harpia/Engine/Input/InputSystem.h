@@ -11,9 +11,10 @@
 #include "KeyState.h"
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
+#include "Internal/InternalDefines.h"
 #include "InputReader.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class InputSystem : public IApplicationSystem {
     private:
         std::map<SDL_Keycode, KeyState> _keyMap;

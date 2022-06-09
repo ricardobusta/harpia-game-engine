@@ -7,7 +7,7 @@
 
 #include "RenderingSystem.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
 
     class RenderingSystemSDL : public RenderingSystem {
     private:

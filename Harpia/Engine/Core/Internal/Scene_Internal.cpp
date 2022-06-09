@@ -4,5 +4,5 @@
 
 #include "Scene_Internal.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
 } // Harpia

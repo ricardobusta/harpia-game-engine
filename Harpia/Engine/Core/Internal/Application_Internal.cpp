@@ -4,5 +4,5 @@
 
 #include "Application_Internal.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
 } // Harpia

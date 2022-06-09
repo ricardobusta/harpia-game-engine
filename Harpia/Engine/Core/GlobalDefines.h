@@ -12,21 +12,7 @@ struct SDL_KeyboardEvent;
 class SDL_Window;
 
 namespace Harpia {
-    class AudioSystem;
-
-    class AudioAsset;
-
-    class MusicAsset;
-
-    class CoreSystem;
-
-    class InputSystem;
-
-    class RenderingSystem;
-
-    class SceneSystem;
-
-    class Application;
+       class Application;
 
     class Scene;
 
@@ -40,6 +26,8 @@ namespace Harpia {
 
     class InputConfiguration;
 
+    class AudioConfiguration;
+
     class InputReader;
 
     class CameraComponent;
@@ -49,6 +37,10 @@ namespace Harpia {
     class MusicComponent;
 
     class Color;
+
+    class AudioAsset;
+
+    class MusicAsset;
 }
 
 #endif //HARPIAGAMEENGINE_GLOBALDEFINES_H

@@ -11,7 +11,7 @@ namespace Harpia {
         return _object;
     }
 
-    void Component::Initialize_Internal(Application_Internal *applicationInternal) {}
+    void Component::Initialize_Internal(Internal::Application_Internal *applicationInternal) {}
 
     InputReader *Component::Input() {
         return _application->_inputSystem->GetInputReader();

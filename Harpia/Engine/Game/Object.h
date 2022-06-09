@@ -16,10 +16,10 @@ namespace Harpia {
         Transform transform;
     private:
         std::list<Component *> _components;
-        Application_Internal *_applicationInternal;
+        Internal::Application_Internal *_applicationInternal;
     public:
         Object() = delete;
-        explicit Object(Application_Internal * application);
+        explicit Object(Internal::Application_Internal * application);
 
         template<class T>
         T* AddComponent() {

@@ -6,7 +6,7 @@
 
 #include "HarpiaAssert.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int RenderingSystemVulkan::RenderingInitialize() {
         AssertThat(false, "NOT IMPLEMENTED YET");
         return -1;

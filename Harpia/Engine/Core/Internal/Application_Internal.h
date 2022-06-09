@@ -7,8 +7,9 @@
 
 #include "GlobalDefines.h"
 #include "Configuration.h"
+#include "InternalDefines.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class Application_Internal {
     public:
         Configuration configuration;

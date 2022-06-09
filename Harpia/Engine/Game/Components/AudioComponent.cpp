@@ -22,7 +22,7 @@ namespace Harpia {
         _audio = _audioSystem->LoadAudio(path);
     }
 
-    void AudioComponent::Initialize_Internal(Application_Internal *applicationInternal) {
+    void AudioComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _audioSystem = applicationInternal->_audioSystem;
     }
 } // Harpia

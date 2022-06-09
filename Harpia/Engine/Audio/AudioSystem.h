@@ -10,12 +10,11 @@
 
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
+#include "Internal/InternalDefines.h"
 #include "AudioAsset.h"
 #include "MusicAsset.h"
 
-namespace Harpia {
-    class AudioConfiguration;
-
+namespace Harpia::Internal {
     class AudioSystem : public IApplicationSystem {
     public:
     private:

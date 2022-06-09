@@ -14,10 +14,10 @@ namespace Harpia {
     class HierarchyStatic {
     public:
         template<class T>
-        static T *AddComponent(Object *object, Application_Internal *application, std::list<Component *> &components) {
+        static T *AddComponent(Object *object, Internal::Application_Internal *application, std::list<Component *> &components) {
             static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
             auto *c = new T();
-            auto *ci = (Component_Internal *) c; // c style cast to override private inheritance
+            auto *ci = (Internal::Component_Internal *) c; // c style cast to override private inheritance
             InitializeInternalComponent(ci, object, application);
             components.push_back(c);
             return c;
@@ -35,8 +35,8 @@ namespace Harpia {
         }
 
     private:
-        static void InitializeInternalComponent(Component_Internal *component, Object *object,
-                                                Application_Internal *application);
+        static void InitializeInternalComponent(Internal::Component_Internal *component, Object *object,
+                                                Internal::Application_Internal *application);
     };
 
 } // Harpia

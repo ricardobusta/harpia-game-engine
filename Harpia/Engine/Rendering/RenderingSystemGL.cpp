@@ -10,7 +10,7 @@
 #include "Debug.h"
 #include "Configuration.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;

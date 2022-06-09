@@ -9,7 +9,7 @@
 
 namespace Harpia {
     void Scene::Load(Application *application) {
-        _applicationInternal = (Application_Internal *) application;
+        _applicationInternal = (Internal::Application_Internal *) application;
         Load();
     }
 

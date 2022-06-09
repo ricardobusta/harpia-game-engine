@@ -6,13 +6,13 @@
 #include "Component.h"
 
 namespace Harpia {
-    Object::Object(Application_Internal *application) {
+    Object::Object(Internal::Application_Internal *application) {
         _applicationInternal = application;
     }
 
     void Object::InternalUpdate() {
         for (auto c: _components) {
-            auto ci = (Component_Internal *) c;
+            auto ci = (Internal::Component_Internal *) c;
             ci->InternalUpdate();
         }
     }

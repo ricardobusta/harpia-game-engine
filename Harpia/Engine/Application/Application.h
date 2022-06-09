@@ -9,7 +9,7 @@
 #include "Internal/Application_Internal.h"
 
 namespace Harpia {
-    class Application : private Application_Internal {
+    class Application : private Internal::Application_Internal {
     private:
         bool _createdWithSuccess = false;
     public:

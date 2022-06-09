@@ -9,7 +9,7 @@
 
 #include "GLTypes.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class Configuration;
 
     class RenderingSystemGL : public RenderingSystem {

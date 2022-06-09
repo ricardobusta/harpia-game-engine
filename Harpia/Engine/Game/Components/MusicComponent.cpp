@@ -33,7 +33,7 @@ namespace Harpia {
         }
     }
 
-    void MusicComponent::Initialize_Internal(Application_Internal *applicationInternal) {
+    void MusicComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _audioSystem = applicationInternal->_audioSystem;
     }
 } // Harpia

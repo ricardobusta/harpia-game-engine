@@ -25,11 +25,11 @@ namespace Harpia {
 
         configure(configuration);
 
-        _coreSystem = new CoreSystem();
-        _renderSystem = new RenderingSystemGL();
-        _inputSystem = new InputSystem();
-        _audioSystem = new AudioSystem();
-        _sceneManagementSystem = new SceneSystem();
+        _coreSystem = new Internal::CoreSystem();
+        _renderSystem = new Internal::RenderingSystemGL();
+        _inputSystem = new Internal::InputSystem();
+        _audioSystem = new Internal::AudioSystem();
+        _sceneManagementSystem = new Internal::SceneSystem();
 
         _createdWithSuccess = true;
     }

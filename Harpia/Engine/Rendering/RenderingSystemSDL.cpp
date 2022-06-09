@@ -8,7 +8,7 @@
 #include "Color.h"
 #include "Debug.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     void RenderingSystemSDL::RenderFrame() {
         auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(),
                                       _clearColor->IntA());

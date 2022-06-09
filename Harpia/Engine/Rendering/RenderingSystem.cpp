@@ -12,7 +12,7 @@
 #include "Internal/Scene_Internal.h"
 #include "HarpiaAssert.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 

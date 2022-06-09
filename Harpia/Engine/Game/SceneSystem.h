@@ -9,8 +9,9 @@
 #include <map>
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
+#include "Internal/InternalDefines.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
     private:
         std::vector<Scene *> _scenes;

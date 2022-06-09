@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_IAPPLICATIONSYSTEM_H
 #define HARPIAGAMEENGINE_IAPPLICATIONSYSTEM_H
 
-namespace Harpia {
+namespace Harpia::Internal {
 
     class IApplicationSystem {
     public:

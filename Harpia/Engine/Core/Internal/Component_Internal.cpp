@@ -7,7 +7,7 @@
 #include "HarpiaAssert.h"
 #include "Application_Internal.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     void Component_Internal::Initialize(Object *object, Application_Internal * applicationInternal) {
         AssertNotNull(object, "Component must be attached to an object");
         _object = object;

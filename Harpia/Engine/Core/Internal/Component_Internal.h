@@ -8,7 +8,7 @@
 #include "GlobalDefines.h"
 #include "InternalDefines.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class Component_Internal {
     public:
         Object *_object = nullptr;
