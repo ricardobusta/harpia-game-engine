@@ -17,4 +17,5 @@ target_link_libraries(
         SDL2main
         SDL2
         Harpia.Debug
+        Harpia.Structures
 )
