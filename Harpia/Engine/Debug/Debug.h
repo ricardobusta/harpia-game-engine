@@ -14,18 +14,17 @@
 
 #include <string>
 #include <cassert>
-#include "String.h"
+#include <memory>
+#include <stdexcept>
+
+#include <string>
+#include <stdexcept>
+#include <memory>
+#include <iostream>
 
 #ifdef __MINGW32__
 
-inline std::string DebugCallerName(const std::string &s) {
-    size_t end = s.find("(");
-    size_t begin = s.find("::") + 2;
-    size_t size = end - begin;
-    return s.substr(begin, size);
-}
-
-#define HARPIA_CALLER DebugCallerName(__PRETTY_FUNCTION__).c_str()
+#define HARPIA_CALLER Harpia::Debug::CallerName(__PRETTY_FUNCTION__).c_str()
 #else //__MINGW32__
 #define HARPIA_CALLER __func__
 #endif //__MINGW32__
@@ -48,17 +47,30 @@ namespace Harpia {
 
         template<typename... Args>
         static void Log(const char *tag, const char *format, Args ... args) {
-            Log(tag, String::Format(format, args...).c_str());
+            Log(tag, Format(format, args...).c_str());
         }
 
         template<typename... Args>
         static void LogWarning(const char *tag, const char *format, Args ... args) {
-            LogWarning(tag, String::Format(format, args...).c_str());
+            LogWarning(tag, Format(format, args...).c_str());
         }
 
         template<typename... Args>
         static void LogError(const char *tag, const char *file, int line, const char *format, Args ... args) {
-            LogError(tag, file, line, String::Format(format, args...).c_str());
+            LogError(tag, file, line, Format(format, args...).c_str());
+        }
+
+        static std::string CallerName(const std::string &s);
+    private:
+        template<typename... Args>
+        static std::string Format(const char *format, Args ... args) {
+            // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
+            int stringSize = std::snprintf(nullptr, 0, format, args...) + 1; // Extra space for '\0'
+            if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
+            auto size = static_cast<size_t>( stringSize );
+            std::unique_ptr<char[]> buf(new char[size]);
+            std::snprintf(buf.get(), size, format, args...);
+            return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
         }
     };
 }
