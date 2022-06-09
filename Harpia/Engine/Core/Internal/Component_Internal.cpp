@@ -4,7 +4,7 @@
 
 #include "Component_Internal.h"
 
-#include "Debug.h"
+#include "HarpiaAssert.h"
 #include "Application_Internal.h"
 
 namespace Harpia {

@@ -7,6 +7,7 @@
 #include "Internal/Application_Internal.h"
 #include "AudioSystem.h"
 #include "Debug.h"
+#include "HarpiaAssert.h"
 
 namespace Harpia {
     void AudioComponent::Play() {

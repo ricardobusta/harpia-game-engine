@@ -8,6 +8,7 @@
 #include <SDL_mixer.h>
 
 #include "Debug.h"
+#include "HarpiaAssert.h"
 #include "CoreSystem.h"
 
 namespace Harpia {

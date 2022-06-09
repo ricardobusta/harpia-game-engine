@@ -5,6 +5,7 @@
 #include "MusicComponent.h"
 #include "Debug.h"
 #include "AudioSystem.h"
+#include "HarpiaAssert.h"
 #include "Internal/Application_Internal.h"
 
 namespace Harpia {

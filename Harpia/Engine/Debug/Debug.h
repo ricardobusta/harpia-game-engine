@@ -9,21 +9,13 @@
 #define DebugLog(args...) (void(0))
 #define DebugLogWarning(args...) (void(0))
 #define DebugLogError(args...) (void(0))
-#define Assert(condition) (void(0))
 #else //HARPIA_DEBUG
 
 #include <string>
-#include <cassert>
 #include <memory>
 #include <stdexcept>
-
-#include <string>
-#include <stdexcept>
-#include <memory>
-#include <iostream>
 
 #ifdef __MINGW32__
-
 #define HARPIA_CALLER Harpia::Debug::CallerName(__PRETTY_FUNCTION__).c_str()
 #else //__MINGW32__
 #define HARPIA_CALLER __func__
@@ -32,9 +24,6 @@
 #define DebugLog(args...) do{Harpia::Debug::Log(HARPIA_CALLER,args);}while(0)
 #define DebugLogWarning(args...) do{Harpia::Debug::LogWarning(HARPIA_CALLER,args);}while(0)
 #define DebugLogError(args...) do{Harpia::Debug::LogError(HARPIA_CALLER,__FILE__,__LINE__,args);}while(0)
-#define Assert(condition, args...) do{if(!(condition)){Harpia::Debug::LogError(HARPIA_CALLER,__FILE__,__LINE__,args);}\
-assert(condition);}while(0)
-#define AssertNotNull(condition, args...) Assert((condition)!=nullptr,"%s is nullptr",(#condition))
 
 namespace Harpia {
     class Debug {
@@ -61,7 +50,13 @@ namespace Harpia {
         }
 
         static std::string CallerName(const std::string &s);
-    private:
+
+    public:
+        template<typename... Args>
+        static std::string Format(const char *format) {
+            return std::string(format); // We don't want the '\0' inside
+        }
+
         template<typename... Args>
         static std::string Format(const char *format, Args ... args) {
             // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf

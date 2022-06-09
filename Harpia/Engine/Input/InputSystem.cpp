@@ -8,6 +8,7 @@
 #include "Configuration.h"
 #include "Debug.h"
 #include "CoreSystem.h"
+#include "HarpiaAssert.h"
 
 namespace Harpia {
     //region public

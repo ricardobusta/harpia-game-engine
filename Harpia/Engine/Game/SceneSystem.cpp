@@ -9,6 +9,7 @@
 #include "Object.h"
 #include "Internal/Application_Internal.h"
 #include "RenderingSystem.h"
+#include "HarpiaAssert.h"
 
 namespace Harpia {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
