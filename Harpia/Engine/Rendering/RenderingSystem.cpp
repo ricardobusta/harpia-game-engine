@@ -9,7 +9,7 @@
 #include "Debug.h"
 #include "CoreSystem.h"
 #include "Configuration.h"
-#include "Internal/Scene_Internal.h"
+#include "Scene_Internal.h"
 #include "HarpiaAssert.h"
 
 namespace Harpia::Internal {

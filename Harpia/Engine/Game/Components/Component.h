@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_COMPONENT_H
 #define HARPIAGAMEENGINE_COMPONENT_H
 
-#include "Internal/Component_Internal.h"
+#include "Component_Internal.h"
 #include "Object.h"
 #include "InputReader.h"
 
@@ -26,8 +26,8 @@ class Component : private Internal::Component_Internal {
 
         InputReader *Input();
 
-    protected:
-        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
+//    protected:
+//        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
 } // Harpia
 

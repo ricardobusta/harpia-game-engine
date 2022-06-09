@@ -4,7 +4,7 @@
 
 #include "AudioComponent.h"
 #include "GlobalDefines.h"
-#include "Internal/Application_Internal.h"
+#include "Application_Internal.h"
 #include "AudioSystem.h"
 #include "Debug.h"
 #include "HarpiaAssert.h"

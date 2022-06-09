@@ -8,7 +8,7 @@
 #include <string>
 #include "Component.h"
 #include "GlobalDefines.h"
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia {
     class AudioComponent : public Component {

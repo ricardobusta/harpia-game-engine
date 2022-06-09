@@ -9,7 +9,7 @@
 #include <map>
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {

@@ -8,7 +8,7 @@
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
 #include <list>
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia::Internal {
 class RenderingSystem : public Internal::IApplicationSystem {

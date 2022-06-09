@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_SCENE_H
 
 #include "Internal/Scene_Internal.h"
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia {
 class Scene : private Internal::Scene_Internal {

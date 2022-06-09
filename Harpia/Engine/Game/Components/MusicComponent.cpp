@@ -6,7 +6,7 @@
 #include "Debug.h"
 #include "AudioSystem.h"
 #include "HarpiaAssert.h"
-#include "Internal/Application_Internal.h"
+#include "Application_Internal.h"
 
 namespace Harpia {
     void MusicComponent::SetMusicFile(const std::string &path) {

@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_HIERARCHYSTATIC_H
 #define HARPIAGAMEENGINE_HIERARCHYSTATIC_H
 
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 #include <algorithm>
 #include <list>
 

@@ -10,7 +10,7 @@
 
 #include "IApplicationSystem.h"
 #include "GlobalDefines.h"
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 #include "AudioAsset.h"
 #include "MusicAsset.h"
 

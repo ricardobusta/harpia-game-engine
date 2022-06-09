@@ -7,7 +7,7 @@
 #include "Configuration.h"
 #include "Scene.h"
 #include "Object.h"
-#include "Internal/Application_Internal.h"
+#include "Application_Internal.h"
 #include "RenderingSystem.h"
 #include "HarpiaAssert.h"
 
