@@ -8,7 +8,6 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
-#include <iostream>
 
 namespace Harpia {
     class String {
