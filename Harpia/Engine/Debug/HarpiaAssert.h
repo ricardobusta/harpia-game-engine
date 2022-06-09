@@ -22,8 +22,6 @@ namespace Harpia {
         static void That(bool condition, const char *caller, const char *file, const int line, const char *message);
         static void NotNull(void *target, const char * targetName, const char *caller, const char *file, const int line, const char *message);
     };
-
-
 }
 
 #endif //HARPIA_DEBUG
