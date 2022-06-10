@@ -5,11 +5,12 @@
 #include "RenderingSystem.h"
 
 #include <SDL.h>
-
 #include "Debug.h"
 #include "CoreSystem.h"
 #include "Configuration.h"
 #include "HarpiaAssert.h"
+#include "Camera_Internal.h"
+#include "Renderer_Internal.h"
 
 namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
@@ -40,18 +41,11 @@ namespace Harpia::Internal {
         return 0;
     }
 
-    void RenderingSystem::FetchCameras(Scene *scene) {
-//        auto si = (Scene_Internal *) scene;
-//        FetchCameras(si->_objects);
+    void RenderingSystem::AddCamera(Camera_Internal *camera) {
+        _cameras.push_back(camera);
     }
 
-    void RenderingSystem::FetchCameras(const std::list<Object *> &objects) {
-        for (auto o: objects) {
-            // TODO don't do this. Instead, expose some Rendering interface that cameras implement.
-//            auto camera = o->GetComponent<CameraComponent>();
-//            if (camera != nullptr) {
-//                _cameras.push_back(camera);
-//            }
-        }
+    void RenderingSystem::AddRenderer(Renderer_Internal *renderer) {
+        _renderers.push_back(renderer);
     }
-} // Harpia
+} // Harpia::Internal

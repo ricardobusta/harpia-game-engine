@@ -29,7 +29,7 @@ namespace Harpia::Internal {
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
     };
-}
+} // Harpia::Internal
 
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEMGL_H

@@ -183,4 +183,4 @@ namespace Harpia::Internal {
 
         return 0;
     }
-}
+} // Harpia::Internal

@@ -20,6 +20,6 @@ namespace Harpia::Internal {
         int RenderingInitialize() override;
     };
 
-} // Harpia
+} // Harpia::Internal
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEMSDL_H

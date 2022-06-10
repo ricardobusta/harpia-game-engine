@@ -16,7 +16,7 @@ target_link_libraries(
         Harpia.Audio
         Harpia.Input
         Harpia.Rendering
-        Harpia.Game.Internal
         Harpia.Application.Internal
+        Harpia.Game.Internal
 )
 add_subdirectory(Internal)

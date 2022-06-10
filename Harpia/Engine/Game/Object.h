@@ -19,11 +19,14 @@ namespace Harpia {
         Internal::Application_Internal *_applicationInternal;
     public:
         Object() = delete;
-        explicit Object(Internal::Application_Internal * application);
+        explicit Object(Internal::Application_Internal *application);
 
         template<class T>
-        T* AddComponent() {
-            return HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
+        T *AddComponent() {
+            auto newComponent = HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
+            AddCamera(newComponent);
+            AddRenderer(newComponent);
+            return newComponent;
         }
 
         template<class T>
@@ -33,6 +36,8 @@ namespace Harpia {
 
         void InternalUpdate();
     private:
+        void AddCamera(Component *camera);
+        void AddRenderer(Component *renderer);
     };
 } // Harpia
 

@@ -15,6 +15,8 @@ namespace Harpia::Internal {
     class InputSystem;
     class RenderingSystem;
     class SceneSystem;
+    class Camera_Internal;
+    class Renderer_Internal;
 }
 
 #endif //HARPIAGAMEENGINE_INTERNALDEFINES_H

@@ -10,22 +10,26 @@ struct SDL_Surface;
 struct SDL_KeyboardEvent;
 class SDL_Window;
 
-namespace Harpia {
+namespace Harpia { // Game/Application
     class Application;
     class Scene;
     class Object;
     class Configuration;
-    class Component;
     class GameConfiguration;
     class InputConfiguration;
     class AudioConfiguration;
     class InputReader;
-    class CameraComponent;
-    class AudioComponent;
-    class MusicComponent;
     class Color;
     class AudioAsset;
     class MusicAsset;
+}
+
+namespace Harpia { // Components
+    class Component;
+    class CameraComponent;
+    class AudioComponent;
+    class MusicComponent;
+    class RendererComponent;
 }
 
 #endif //HARPIAGAMEENGINE_GLOBALDEFINES_H
