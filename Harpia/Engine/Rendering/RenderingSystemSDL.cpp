@@ -29,7 +29,7 @@ namespace Harpia::Internal {
     }
 
     int RenderingSystemSDL::RenderingInitialize() {
-        _clearColor = new Color(0,0,0,1);
+        _clearColor = new Color(0, 0, 0, 1);
         _surface = SDL_GetWindowSurface(_window);
         if (_surface == nullptr) {
             DebugLogError("SDL Surface not created. SDL_Error: %s", SDL_GetError());

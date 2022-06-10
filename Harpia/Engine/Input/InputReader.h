@@ -17,9 +17,7 @@ namespace Harpia {
         std::function<void(SDL_Keycode)> _onNewKey;
     public:
         InputReader() = delete;
-
         explicit InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
-
         bool GetKeyDown(SDL_Keycode key);
         bool GetKeyUp(SDL_Keycode key);
         bool GetKeyIsDown(SDL_Keycode key);

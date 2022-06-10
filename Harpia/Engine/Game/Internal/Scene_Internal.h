@@ -9,12 +9,10 @@
 #include "GlobalDefines.h"
 
 namespace Harpia::Internal {
-
     class Scene_Internal {
     public:
         std::list<Object *> _objects;
     };
-
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_SCENE_INTERNAL_H

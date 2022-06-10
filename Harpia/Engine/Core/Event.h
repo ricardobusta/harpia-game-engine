@@ -7,7 +7,6 @@
 
 #include <list>
 #include <functional>
-
 #include "Debug.h"
 
 namespace Harpia {

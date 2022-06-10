@@ -134,7 +134,7 @@ namespace Harpia::Internal {
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
         glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
 
-        glViewport(0,0,100,100);
+        glViewport(0, 0, 100, 100);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
         glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);

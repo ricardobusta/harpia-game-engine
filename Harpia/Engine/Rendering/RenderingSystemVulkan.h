@@ -11,7 +11,6 @@ namespace Harpia::Internal {
     class RenderingSystemVulkan : public RenderingSystem {
     private:
         void RenderFrame() override;
-
         int RenderingInitialize() override;
     };
 

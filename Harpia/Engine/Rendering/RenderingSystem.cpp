@@ -9,7 +9,6 @@
 #include "Debug.h"
 #include "CoreSystem.h"
 #include "Configuration.h"
-#include "Scene_Internal.h"
 #include "HarpiaAssert.h"
 
 namespace Harpia::Internal {
@@ -42,12 +41,13 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystem::FetchCameras(Scene *scene) {
-        auto si = (Scene_Internal *) scene;
-        FetchCameras(si->_objects);
+//        auto si = (Scene_Internal *) scene;
+//        FetchCameras(si->_objects);
     }
 
     void RenderingSystem::FetchCameras(const std::list<Object *> &objects) {
         for (auto o: objects) {
+            // TODO don't do this. Instead, expose some Rendering interface that cameras implement.
 //            auto camera = o->GetComponent<CameraComponent>();
 //            if (camera != nullptr) {
 //                _cameras.push_back(camera);

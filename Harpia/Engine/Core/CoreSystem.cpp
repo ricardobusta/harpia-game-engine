@@ -5,7 +5,6 @@
 #include "CoreSystem.h"
 
 #include <SDL.h>
-
 #include "Configuration.h"
 #include "Debug.h"
 

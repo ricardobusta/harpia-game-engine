@@ -9,7 +9,6 @@
 #include <string>
 
 #include "IApplicationSystem.h"
-#include "GlobalDefines.h"
 #include "InternalDefines.h"
 #include "AudioAsset.h"
 #include "MusicAsset.h"

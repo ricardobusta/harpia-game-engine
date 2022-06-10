@@ -5,7 +5,6 @@
 #ifndef HARPIAGAMEENGINE_APPLICATION_INTERNAL_H
 #define HARPIAGAMEENGINE_APPLICATION_INTERNAL_H
 
-#include "GlobalDefines.h"
 #include "Configuration.h"
 #include "InternalDefines.h"
 

@@ -14,17 +14,12 @@ namespace Harpia::Internal {
 class RenderingSystem : public Internal::IApplicationSystem {
     public:
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
-
         virtual void RenderFrame() = 0;
-
         void FetchCameras(Scene * scene);
     private:
         virtual int RenderingInitialize() = 0;
-
         int GetInitFlags() override;
-
         void FetchCameras(const std::list<Object*> &objects);
-
         std::list<CameraComponent*> _cameras;
     protected:
         SDL_Window *_window = nullptr;

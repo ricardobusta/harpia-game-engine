@@ -9,17 +9,11 @@
 
 namespace Harpia::Internal {
     class Application_Internal;
-
     class Component_Internal;
-
     class CoreSystem;
-
     class AudioSystem;
-
     class InputSystem;
-
     class RenderingSystem;
-
     class SceneSystem;
 }
 
