@@ -17,7 +17,7 @@ namespace Harpia::Internal {
 
         DebugLog("Init");
         auto result = Mix_Init(MIX_INIT_OGG);
-        if(result < 0){
+        if (result < 0) {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
             return result;
         }
@@ -50,7 +50,7 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::PlayAudio(AudioAsset *audio) {
-        if(Mix_PlayChannel(-1, audio->ref, 0)<0){
+        if (Mix_PlayChannel(-1, audio->ref, 0) < 0) {
             DebugLogError("Audio could not be played. Mix_Error: %s", Mix_GetError());
         }
     }
@@ -67,7 +67,7 @@ namespace Harpia::Internal {
             DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
             return nullptr;
         }
-        auto audio = new AudioAsset();
+        auto audio = new AudioAsset(this);
         audio->ref = ref;
         audio->path = path;
         audio->useCount = 1;
@@ -118,7 +118,7 @@ namespace Harpia::Internal {
             DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
             return nullptr;
         }
-        auto music = new MusicAsset();
+        auto music = new MusicAsset(this);
         music->ref = ref;
         music->path = path;
         music->useCount = 1;
@@ -127,7 +127,7 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::PlayMusic(MusicAsset *music) {
-        if(Mix_PlayMusic(music->ref, -1)<0){
+        if (Mix_PlayMusic(music->ref, -1) < 0) {
             DebugLogError("Music could not be played. Mix_Error: %s", Mix_GetError());
         }
     }
@@ -141,7 +141,7 @@ namespace Harpia::Internal {
     }
 
     bool AudioSystem::IsMusicPaused() {
-        return Mix_PausedMusic()==SDL_TRUE;
+        return Mix_PausedMusic() == SDL_TRUE;
     }
 
     void AudioSystem::ReleaseMusic(MusicAsset *music) {

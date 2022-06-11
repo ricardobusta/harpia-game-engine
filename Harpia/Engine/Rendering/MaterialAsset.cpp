@@ -7,7 +7,11 @@
 #include "RenderingSystem.h"
 
 namespace Harpia {
-    void MaterialAsset::Release(Internal::Application_Internal *application) {
-        application->_renderSystem->ReleaseMaterial(this);
+    void MaterialAsset::Release() {
+        _renderingSystem->ReleaseMaterial(this);
+    }
+
+    MaterialAsset::MaterialAsset(Internal::RenderingSystem *renderingSystem) {
+        _renderingSystem = renderingSystem;
     }
 } // Harpia

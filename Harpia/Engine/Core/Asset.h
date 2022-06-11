@@ -14,7 +14,7 @@ namespace Harpia {
         int useCount = 0;
         std::string path;
 
-        virtual void Release(Internal::Application_Internal * application) = 0;
+        virtual void Release() = 0;
     };
 }
 

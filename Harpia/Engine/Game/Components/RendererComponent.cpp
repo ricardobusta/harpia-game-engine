@@ -5,4 +5,7 @@
 #include "RendererComponent.h"
 
 namespace Harpia {
+    void RendererComponent::SetMesh(MeshAsset *mesh) {
+        _mesh = mesh;
+    }
 } // Harpia

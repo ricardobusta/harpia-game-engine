@@ -7,7 +7,11 @@
 #include "AudioSystem.h"
 
 namespace Harpia {
-    void MusicAsset::Release(Internal::Application_Internal *application) {
-        application->_audioSystem->ReleaseMusic(this);
+    void MusicAsset::Release() {
+        _audioSystem->ReleaseMusic(this);
+    }
+
+    MusicAsset::MusicAsset(Internal::AudioSystem *audioSystem) {
+        _audioSystem = audioSystem;
     }
 } // Harpia

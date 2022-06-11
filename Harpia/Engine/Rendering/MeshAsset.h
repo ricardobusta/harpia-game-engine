@@ -6,11 +6,25 @@
 #define HARPIAGAMEENGINE_MESHASSET_H
 
 #include "Asset.h"
+#include <vector>
+#include <Vector3.h>
+#include "GLTypes.h"
 
 namespace Harpia {
     class MeshAsset : public Asset {
     public:
-        void Release(Internal::Application_Internal *application) override;
+        std::vector<GLfloat> vertex;
+        std::vector<GLint> index;
+
+        GLuint vertexBufferId;
+        GLuint indexBufferId;
+    private:
+        Internal::RenderingSystem *_renderingSystem;
+    public:
+        explicit MeshAsset(Internal::RenderingSystem *renderingSystem);
+        MeshAsset() = delete;
+        void UpdateMesh();
+        void Release() override;
     };
 } // Harpia
 

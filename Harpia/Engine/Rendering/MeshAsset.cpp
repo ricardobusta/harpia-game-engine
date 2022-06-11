@@ -7,7 +7,16 @@
 #include "RenderingSystem.h"
 
 namespace Harpia {
-    void MeshAsset::Release(Internal::Application_Internal *application) {
-        application->_renderSystem->ReleaseMesh(this);
+    void MeshAsset::Release() {
+        _renderingSystem->ReleaseMesh(this);
+    }
+
+    void MeshAsset::UpdateMesh() {
+        _renderingSystem->UpdateMesh(&vertexBufferId, vertex.size(), &vertex[0],
+                                     &indexBufferId, index.size(), &index[0]);
+    }
+
+    MeshAsset::MeshAsset(Internal::RenderingSystem *renderingSystem) {
+        _renderingSystem = renderingSystem;
     }
 } // Harpia

@@ -14,7 +14,7 @@ namespace Harpia::Internal {
 
     void Scene_Internal::Release() {
         for (auto a: _assets) {
-            a->Release(_applicationInternal);
+            a->Release();
         }
         _assets.clear();
         DebugLog("Scene released");

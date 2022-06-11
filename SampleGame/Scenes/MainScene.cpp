@@ -36,8 +36,10 @@ namespace SampleGame {
         camera2->SetClearColor(Harpia::Color(0, 0, 1, 1));
 
         auto cube1 = CreateObject();
-        cube1->AddComponent<Harpia::RendererComponent>();
+        auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
+        rend1->SetMesh(LoadMeshAsset(0));
         auto cube2 = CreateObject();
-        cube2->AddComponent<Harpia::RendererComponent>();
+        auto rend2 = cube2->AddComponent<Harpia::RendererComponent>();
+        rend2->SetMesh(LoadMeshAsset(1));
     }
 }

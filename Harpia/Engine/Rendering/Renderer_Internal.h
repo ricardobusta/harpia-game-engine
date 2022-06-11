@@ -5,8 +5,12 @@
 #ifndef HARPIAGAMEENGINE_RENDERER_INTERNAL_H
 #define HARPIAGAMEENGINE_RENDERER_INTERNAL_H
 
+#include "InternalDefines.h"
+
 namespace Harpia::Internal {
     class Renderer_Internal {
+    public:
+        MeshAsset *_mesh;
     };
 } // Harpia::Internal
 

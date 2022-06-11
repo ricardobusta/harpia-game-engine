@@ -11,6 +11,8 @@
 namespace Harpia {
     class RendererComponent : public Component, public Internal::Renderer_Internal {
 
+    public:
+        void SetMesh(MeshAsset *mesh);
     };
 } // Harpia
 

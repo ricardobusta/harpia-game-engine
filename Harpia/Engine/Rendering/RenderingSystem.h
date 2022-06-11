@@ -22,11 +22,15 @@ namespace Harpia::Internal {
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void AddRenderer(Renderer_Internal *renderer);
-        MeshAsset *LoadMesh(int shape);
-        void ReleaseMesh(MeshAsset *mesh);
-        MaterialAsset *LoadMaterial(const Color &color);
-        void ReleaseMaterial(MaterialAsset *material);
         virtual ~RenderingSystem() = default;
+
+        virtual MeshAsset *LoadMesh(int shape) = 0;
+        virtual void DrawMesh(MeshAsset *mesh) = 0;
+        virtual void ReleaseMesh(MeshAsset *mesh) = 0;
+        virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat *vertexData,
+                                GLuint *indexBufferId, GLuint indexCount, GLint *indexData) = 0;
+        virtual MaterialAsset *LoadMaterial(const Color &color) = 0;
+        virtual void ReleaseMaterial(MaterialAsset *material) = 0;
     private:
         virtual int RenderingInitialize() = 0;
         int GetInitFlags() override;

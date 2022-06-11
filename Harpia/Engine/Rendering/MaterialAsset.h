@@ -9,8 +9,12 @@
 
 namespace Harpia {
     class MaterialAsset : public Asset {
+    private:
+        Internal::RenderingSystem * _renderingSystem;
     public:
-        void Release(Internal::Application_Internal *application) override;
+        explicit MaterialAsset(Internal::RenderingSystem *renderingSystem);
+        MaterialAsset() = delete;
+        void Release() override;
     };
 } // Harpia
 
