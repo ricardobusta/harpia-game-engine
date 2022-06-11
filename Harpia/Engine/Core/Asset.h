@@ -6,12 +6,15 @@
 #define HARPIAGAMEENGINE_ASSET_H
 
 #include <string>
+#include "InternalDefines.h"
 
 namespace Harpia {
     class Asset {
     public:
         int useCount = 0;
         std::string path;
+
+        virtual void Release(Internal::Application_Internal * application) = 0;
     };
 }
 

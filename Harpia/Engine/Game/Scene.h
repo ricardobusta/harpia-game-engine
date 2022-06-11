@@ -8,11 +8,15 @@
 #include "Internal/Scene_Internal.h"
 #include "InternalDefines.h"
 
+#include <string>
+
 namespace Harpia {
 class Scene : private Internal::Scene_Internal {
     private:
     public:
         virtual void Load(Application *application) = 0;
+        AudioAsset * LoadAudio(const std::string &path);
+        MusicAsset * LoadMusic(const std::string &path);
     protected:
         Object *CreateObject();
     private:

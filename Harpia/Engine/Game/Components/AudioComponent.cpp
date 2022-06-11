@@ -3,7 +3,6 @@
 //
 
 #include "AudioComponent.h"
-#include "GlobalDefines.h"
 #include "Application_Internal.h"
 #include "AudioSystem.h"
 #include "Debug.h"
@@ -15,11 +14,8 @@ namespace Harpia {
         _audioSystem->PlayAudio(_audio);
     }
 
-    void AudioComponent::SetAudioFile(const std::string &path) {
-        if (_audio != nullptr) {
-            _audioSystem->ReleaseAudio(_audio);
-        }
-        _audio = _audioSystem->LoadAudio(path);
+    void AudioComponent::SetAudio(AudioAsset * audio) {
+        _audio = audio;
     }
 
     void AudioComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {

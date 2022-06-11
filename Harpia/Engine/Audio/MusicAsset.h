@@ -10,12 +10,12 @@
 #include "MixTypes.h"
 
 namespace Harpia {
-
     class MusicAsset : public Asset {
     public:
         Mix_Music *ref;
-    };
 
+        void Release(Internal::Application_Internal *application) override;
+    };
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_MUSICASSET_H

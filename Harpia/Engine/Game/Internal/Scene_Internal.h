@@ -13,8 +13,10 @@ namespace Harpia::Internal {
     public:
         std::list<Object *> _objects;
         Internal::Application_Internal *_applicationInternal = nullptr;
+        std::list<Asset *> _assets;
     public:
         void LoadInternal(Application *application);
+        void Release();
     protected:
         virtual void LoadScene(Application *application) = 0;
     };

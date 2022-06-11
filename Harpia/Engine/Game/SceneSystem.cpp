@@ -10,6 +10,7 @@
 #include "Application_Internal.h"
 #include "RenderingSystem.h"
 #include "HarpiaAssert.h"
+#include "Scene_Internal.h"
 
 namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
@@ -44,6 +45,11 @@ namespace Harpia::Internal {
     }
 
     void SceneSystem::Quit() {
+        for(auto s : _loadedScenes){
+            s->Release();
+            delete s;
+        }
+        _loadedScenes.clear();
         DebugLog("Quit");
     }
 

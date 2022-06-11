@@ -58,6 +58,7 @@ namespace Harpia {
             DebugLogError("Application executed with an error");
         }
 
+        _sceneManagementSystem->Quit();
         _audioSystem->Quit();
         _inputSystem->Quit();
         _renderSystem->Quit();
@@ -65,6 +66,7 @@ namespace Harpia {
 
         DebugLog("All systems quit");
 
+        SystemCleanup(_sceneManagementSystem);
         SystemCleanup(_audioSystem);
         SystemCleanup(_inputSystem);
         SystemCleanup(_renderSystem);

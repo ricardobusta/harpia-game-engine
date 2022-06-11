@@ -12,6 +12,8 @@ namespace Harpia {
     class AudioAsset : public Asset {
     public:
         Mix_Chunk *ref;
+
+        void Release(Internal::Application_Internal *application) override;
     };
 } // Harpia
 

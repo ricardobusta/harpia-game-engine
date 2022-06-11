@@ -7,7 +7,6 @@
 
 namespace Harpia::Internal {
     class Renderer_Internal {
-
     };
 } // Harpia::Internal
 

@@ -90,10 +90,11 @@ namespace Harpia::Internal {
 
         it->second->useCount--;
         if (it->second->useCount <= 0) {
+            DebugLog("Audio %s released", audio->path.c_str());
             _loadedAudios.erase(audio->path);
             DeleteAudio(audio);
-            DebugLog("Audio %s released", audio->path.c_str());
         }
+        DebugLog("Audio released. Usages: %d", it->second->useCount);
     }
 
     void AudioSystem::ReleaseAllUsages(AudioAsset *audio) {
@@ -126,7 +127,7 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::PlayMusic(MusicAsset *music) {
-        if(Mix_PlayMusic(music->ref, 0)<0){
+        if(Mix_PlayMusic(music->ref, -1)<0){
             DebugLogError("Music could not be played. Mix_Error: %s", Mix_GetError());
         }
     }
@@ -160,6 +161,7 @@ namespace Harpia::Internal {
             _loadedMusics.erase(music->path);
             DeleteMusic(music);
         }
+        DebugLog("Music released. Usages: %d", it->second->useCount);
     }
 
     void AudioSystem::ReleaseAllUsages(MusicAsset *music) {

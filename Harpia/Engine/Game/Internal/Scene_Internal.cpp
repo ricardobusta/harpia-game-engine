@@ -3,10 +3,20 @@
 //
 
 #include "Scene_Internal.h"
+#include "Asset.h"
+#include "Debug.h"
 
 namespace Harpia::Internal {
     void Scene_Internal::LoadInternal(Application *application) {
         _applicationInternal = (Internal::Application_Internal *) application;
         LoadScene(application);
+    }
+
+    void Scene_Internal::Release() {
+        for (auto a: _assets) {
+            a->Release(_applicationInternal);
+        }
+        _assets.clear();
+        DebugLog("Scene released");
     }
 } // Harpia
