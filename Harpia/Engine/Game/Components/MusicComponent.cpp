@@ -5,7 +5,8 @@
 #include "MusicComponent.h"
 #include "Debug.h"
 #include "AudioSystem.h"
-#include "Internal/Application_Internal.h"
+#include "HarpiaAssert.h"
+#include "Application_Internal.h"
 
 namespace Harpia {
     void MusicComponent::SetMusicFile(const std::string &path) {
@@ -32,7 +33,7 @@ namespace Harpia {
         }
     }
 
-    void MusicComponent::Initialize_Internal(Application_Internal *applicationInternal) {
+    void MusicComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _audioSystem = applicationInternal->_audioSystem;
     }
 } // Harpia

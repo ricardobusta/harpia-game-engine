@@ -4,15 +4,15 @@
 
 #include "RenderingSystemVulkan.h"
 
-#include "Debug.h"
+#include "HarpiaAssert.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int RenderingSystemVulkan::RenderingInitialize() {
-        Assert(false, "NOT IMPLEMENTED YET");
+        AssertThat(false, "NOT IMPLEMENTED YET");
         return -1;
     }
 
     void RenderingSystemVulkan::RenderFrame() {
-        Assert(false, "NOT IMPLEMENTED YET");
+        AssertThat(false, "NOT IMPLEMENTED YET");
     }
-} // Harpia
+} // Harpia::Internal

@@ -5,11 +5,10 @@
 #include "CoreSystem.h"
 
 #include <SDL.h>
-
 #include "Configuration.h"
 #include "Debug.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int CoreSystem::Initialize(Configuration &config, int InitFlags, int WindowFlags) {
         auto result = SDL_Init(InitFlags);
         if (result < 0) {
@@ -56,7 +55,7 @@ namespace Harpia {
                 }
             }
 
-            if(quit){
+            if (quit) {
                 break;
             }
 

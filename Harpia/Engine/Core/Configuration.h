@@ -10,7 +10,6 @@
 
 #include "GlobalDefines.h"
 #include "Vector2Int.h"
-#include "Color.h"
 #include "SDL_keycode.h"
 
 namespace Harpia {

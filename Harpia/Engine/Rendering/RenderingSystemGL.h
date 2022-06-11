@@ -9,7 +9,7 @@
 
 #include "GLTypes.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class Configuration;
 
     class RenderingSystemGL : public RenderingSystem {
@@ -19,24 +19,17 @@ namespace Harpia {
         GLuint _vertexBufferObject = 0;
         GLuint _indexBufferObject = 0;
         SDL_GLContext _context = nullptr;
-
     public:
         int GetWindowFlags() override;
-
         void RenderFrame() override;
-
         void Quit() override;
-
     private:
         int RenderingInitialize() override;
-
         bool InitGL();
-
         static void PrintProgramLog(GLuint program);
-
         static void PrintShaderLog(GLuint shader);
     };
-}
+} // Harpia::Internal
 
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEMGL_H

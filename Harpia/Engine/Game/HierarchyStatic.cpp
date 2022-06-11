@@ -6,8 +6,8 @@
 #include "Internal/Component_Internal.h"
 
 namespace Harpia {
-    void HierarchyStatic::InitializeInternalComponent(Component_Internal *component, Object *object,
-                                                      Application_Internal *application) {
+    void HierarchyStatic::InitializeInternalComponent(Internal::Component_Internal *component, Object *object,
+                                                      Internal::Application_Internal *application) {
         component->Initialize(object, application);
     }
 } // Harpia

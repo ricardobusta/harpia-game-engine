@@ -13,7 +13,7 @@ namespace Harpia {
     class MusicComponent : public Component {
     private:
         MusicAsset *_music = nullptr;
-        AudioSystem *_audioSystem = nullptr;
+        Internal::AudioSystem *_audioSystem = nullptr;
     public:
         void SetMusicFile(const std::string &path);
 
@@ -24,7 +24,7 @@ namespace Harpia {
         bool IsPaused();
 
     protected:
-        void Initialize_Internal(Application_Internal *applicationInternal) override;
+        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
 } // Harpia
 

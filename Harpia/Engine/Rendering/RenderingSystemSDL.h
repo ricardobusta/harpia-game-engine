@@ -7,22 +7,19 @@
 
 #include "RenderingSystem.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
 
     class RenderingSystemSDL : public RenderingSystem {
     private:
         SDL_Surface *_surface = nullptr;
-        Color * _clearColor;
+        Color *_clearColor;
     private:
         int GetWindowFlags() override;
-
         void RenderFrame() override;
-
         void Quit() override;
-
         int RenderingInitialize() override;
     };
 
-} // Harpia
+} // Harpia::Internal
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEMSDL_H

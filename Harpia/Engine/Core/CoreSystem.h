@@ -10,7 +10,7 @@
 #include "IApplicationSystem.h"
 #include "Event.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class CoreSystem : public IApplicationSystem {
     public:
         Event<> onInitialize;

@@ -7,9 +7,10 @@
 
 #include "Component.h"
 #include "RectInt.h"
+#include "Camera_Internal.h"
 
 namespace Harpia {
-    class CameraComponent: public Component  {
+    class CameraComponent: public Component, public Internal::Camera_Internal  {
     public:
         RectInt viewport;
     public:

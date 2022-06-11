@@ -8,7 +8,7 @@
 #include "Color.h"
 #include "Debug.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     void RenderingSystemSDL::RenderFrame() {
         auto clearColor = SDL_MapRGBA(_surface->format, _clearColor->IntR(), _clearColor->IntG(), _clearColor->IntB(),
                                       _clearColor->IntA());
@@ -29,7 +29,7 @@ namespace Harpia {
     }
 
     int RenderingSystemSDL::RenderingInitialize() {
-        _clearColor = new Color(0,0,0,1);
+        _clearColor = new Color(0, 0, 0, 1);
         _surface = SDL_GetWindowSurface(_window);
         if (_surface == nullptr) {
             DebugLogError("SDL Surface not created. SDL_Error: %s", SDL_GetError());
@@ -38,4 +38,4 @@ namespace Harpia {
 
         return 0;
     }
-} // Harpia
+} // Harpia::Internal

@@ -7,14 +7,13 @@
 
 #include "RenderingSystem.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class RenderingSystemVulkan : public RenderingSystem {
     private:
         void RenderFrame() override;
-
         int RenderingInitialize() override;
     };
 
-} // Harpia
+} // Harpia::Internal
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEMVULKAN_H

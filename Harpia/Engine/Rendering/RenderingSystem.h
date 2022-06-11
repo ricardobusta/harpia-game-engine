@@ -6,29 +6,26 @@
 #define HARPIAGAMEENGINE_RENDERINGSYSTEM_H
 
 #include "IApplicationSystem.h"
-#include "GlobalDefines.h"
 #include <list>
+#include "InternalDefines.h"
 
-namespace Harpia {
-    class RenderingSystem : public IApplicationSystem {
+namespace Harpia::Internal {
+    class RenderingSystem : public Internal::IApplicationSystem {
     public:
-        int Initialize(GameConfiguration &configuration, CoreSystem *coreSystem);
-
+        int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
 
-        void FetchCameras(Scene * scene);
+        void AddCamera(Camera_Internal* camera);
+        void AddRenderer(Renderer_Internal* renderer);
     private:
         virtual int RenderingInitialize() = 0;
-
         int GetInitFlags() override;
-
-        void FetchCameras(const std::list<Object*> &objects);
-
-        std::list<CameraComponent*> _cameras;
+        std::list<Camera_Internal *> _cameras;
+        std::list<Renderer_Internal *> _renderers;
     protected:
         SDL_Window *_window = nullptr;
     };
 
-} // Harpia
+} // Harpia::Internal
 
 #endif //HARPIAGAMEENGINE_RENDERINGSYSTEM_H

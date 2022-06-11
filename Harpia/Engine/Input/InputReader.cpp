@@ -3,7 +3,6 @@
 //
 
 #include "InputReader.h"
-#include "Debug.h"
 
 namespace Harpia {
     InputReader::InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey) {

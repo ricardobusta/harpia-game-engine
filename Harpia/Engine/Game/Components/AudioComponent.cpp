@@ -4,9 +4,10 @@
 
 #include "AudioComponent.h"
 #include "GlobalDefines.h"
-#include "Internal/Application_Internal.h"
+#include "Application_Internal.h"
 #include "AudioSystem.h"
 #include "Debug.h"
+#include "HarpiaAssert.h"
 
 namespace Harpia {
     void AudioComponent::Play() {
@@ -21,7 +22,7 @@ namespace Harpia {
         _audio = _audioSystem->LoadAudio(path);
     }
 
-    void AudioComponent::Initialize_Internal(Application_Internal *applicationInternal) {
+    void AudioComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _audioSystem = applicationInternal->_audioSystem;
     }
 } // Harpia

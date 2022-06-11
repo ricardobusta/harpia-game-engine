@@ -19,6 +19,13 @@ namespace Harpia {
     void Debug::LogError(const char *tag, const char *file, int line, const char *message) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s at %s:%d", tag, message, file, line);
     }
+
+    std::string Debug::CallerName(const std::string &s) {
+        size_t end = s.find('(');
+        size_t begin = s.substr(0, end).rfind(' ') + 1;
+        size_t size = end - begin;
+        return s.substr(begin, size);
+    }
 }
 
 #endif

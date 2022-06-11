@@ -5,10 +5,9 @@
 #ifndef HARPIAGAMEENGINE_COMPONENT_INTERNAL_H
 #define HARPIAGAMEENGINE_COMPONENT_INTERNAL_H
 
-#include "GlobalDefines.h"
 #include "InternalDefines.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     class Component_Internal {
     public:
         Object *_object = nullptr;
@@ -17,14 +16,10 @@ namespace Harpia {
         bool started = false;
     public:
         void Initialize(Object *object, Application_Internal *applicationInternal);
-
         void InternalUpdate();
-
     protected:
         virtual void Initialize_Internal(Application_Internal *applicationInternal) = 0;
-
         virtual void Start() = 0;
-
         virtual void Update() = 0;
     };
 } // Harpia

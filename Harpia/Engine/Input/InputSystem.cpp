@@ -8,8 +8,9 @@
 #include "Configuration.h"
 #include "Debug.h"
 #include "CoreSystem.h"
+#include "HarpiaAssert.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     //region public
     int InputSystem::Initialize(InputConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);

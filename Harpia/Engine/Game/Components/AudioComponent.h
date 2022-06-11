@@ -8,17 +8,18 @@
 #include <string>
 #include "Component.h"
 #include "GlobalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia {
     class AudioComponent : public Component {
     private:
         AudioAsset *_audio = nullptr;
-        AudioSystem *_audioSystem = nullptr;
+        Internal::AudioSystem *_audioSystem = nullptr;
     public:
         void SetAudioFile(const std::string &path);
         void Play();
     protected:
-        void Initialize_Internal(Application_Internal * applicationInternal) override;
+        void Initialize_Internal(Internal::Application_Internal * applicationInternal) override;
     };
 } // Harpia
 

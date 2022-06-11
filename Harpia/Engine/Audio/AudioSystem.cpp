@@ -8,9 +8,10 @@
 #include <SDL_mixer.h>
 
 #include "Debug.h"
+#include "HarpiaAssert.h"
 #include "CoreSystem.h"
 
-namespace Harpia {
+namespace Harpia::Internal {
     int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 

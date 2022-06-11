@@ -6,12 +6,12 @@
 #define HARPIAGAMEENGINE_SCENE_H
 
 #include "Internal/Scene_Internal.h"
-#include "Internal/InternalDefines.h"
+#include "InternalDefines.h"
 
 namespace Harpia {
-    class Scene : private Scene_Internal {
+class Scene : private Internal::Scene_Internal {
     private:
-        Application_Internal *_applicationInternal = nullptr;
+        Internal::Application_Internal *_applicationInternal = nullptr;
     public:
         void Load(Application *application);
 
