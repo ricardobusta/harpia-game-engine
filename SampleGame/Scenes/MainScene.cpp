@@ -8,6 +8,7 @@
 #include "MusicComponent.h"
 #include "CameraComponent.h"
 #include "TestAudio.h"
+#include "Application.h"
 
 namespace SampleGame {
     void SampleGame::MainScene::Load(Harpia::Application *application) {
@@ -23,13 +24,14 @@ namespace SampleGame {
 
         audioObject->AddComponent<TestAudio>();
 
+        auto screenSize = application->screenSize;
+
         auto cameraObject = CreateObject();
         auto camera = cameraObject->AddComponent<Harpia::CameraComponent>();
-        camera->SetViewport(Harpia::RectInt(0,0,200,200));
+        camera->SetViewport(Harpia::RectInt(0,0,screenSize.x/2,screenSize.y));
         camera->SetClearColor(Harpia::Color(1,0,0,1));
         auto camera2 = cameraObject->AddComponent<Harpia::CameraComponent>();
-        camera2->SetViewport(Harpia::RectInt(200,0,200,200));
+        camera2->SetViewport(Harpia::RectInt(screenSize.x/2,0,screenSize.x/2,screenSize.y));
         camera2->SetClearColor(Harpia::Color(0,0,1,1));
-
     }
 }

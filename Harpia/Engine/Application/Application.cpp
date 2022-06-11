@@ -24,6 +24,7 @@ namespace Harpia {
         }
 
         configure(configuration);
+        screenSize = configuration.window.size;
 
         _coreSystem = new Internal::CoreSystem();
         _renderSystem = new Internal::RenderingSystemGL();
