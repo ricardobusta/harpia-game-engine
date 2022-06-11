@@ -60,7 +60,7 @@ namespace Harpia::Internal {
             }
 
             onUpdate.Invoke();
-            onPreRenderStep.Invoke();
+            onRenderStep.Invoke();
             onLateUpdate.Invoke();
         }
         return 0;

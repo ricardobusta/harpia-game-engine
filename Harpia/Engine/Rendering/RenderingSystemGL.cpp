@@ -55,69 +55,139 @@ namespace Harpia::Internal {
     bool RenderingSystemGL::InitGL() {
         bool success = true;
 
-        _programID = glCreateProgram();
-
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const GLchar *vertexShaderSource[] =
-                {
-                        "#version 140\nin vec2 LVertexPos2D; void main() { gl_Position = vec4( LVertexPos2D.x, LVertexPos2D.y, 0, 1 ); }"
-                };
-
-        glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
-        glCompileShader(vertexShader);
-
-        glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
-
-        GLint vShaderCompiled = GL_FALSE;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
-        if (vShaderCompiled != GL_TRUE) {
-            DebugLogError("Unable to compile vertex shader %d!", vertexShader);
-            PrintShaderLog(vertexShader);
-            success = false;
-        } else {
-            glAttachShader(_programID, vertexShader);
-            GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            const GLchar *fragmentShaderSource[] =
+        _programID1 = glCreateProgram();
+        {
+            GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+            const GLchar *vertexShaderSource[] =
                     {
-                            "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 1.0, 1.0, 1.0 ); }"
+                            "#version 140\nin vec2 LVertexPos2D; void main() { gl_Position = vec4( LVertexPos2D.x, LVertexPos2D.y, 0, 1 ); }"
                     };
-            glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
-            glCompileShader(fragmentShader);
-            GLint fShaderCompiled = GL_FALSE;
-            glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
-            if (fShaderCompiled != GL_TRUE) {
-                DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
-                PrintShaderLog(fragmentShader);
+
+            glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
+            glCompileShader(vertexShader);
+
+            glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+
+            GLint vShaderCompiled = GL_FALSE;
+            glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
+            if (vShaderCompiled != GL_TRUE) {
+                DebugLogError("Unable to compile vertex shader %d!", vertexShader);
+                PrintShaderLog(vertexShader);
                 success = false;
             } else {
-                glAttachShader(_programID, fragmentShader);
-                glLinkProgram(_programID);
-                GLint programSuccess = GL_TRUE;
-                glGetProgramiv(_programID, GL_LINK_STATUS, &programSuccess);
-                if (programSuccess != GL_TRUE) {
-                    DebugLogError("Error linking program %d!", _programID);
-                    PrintProgramLog(_programID);
+                glAttachShader(_programID1, vertexShader);
+                GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+                const GLchar *fragmentShaderSource[] =
+                        {
+                                "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 0.0, 1.0, 1.0 ); }"
+                        };
+                glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
+                glCompileShader(fragmentShader);
+                GLint fShaderCompiled = GL_FALSE;
+                glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
+                if (fShaderCompiled != GL_TRUE) {
+                    DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
+                    PrintShaderLog(fragmentShader);
                     success = false;
                 } else {
-                    _vertexPos2DLocation = glGetAttribLocation(_programID, "LVertexPos2D");
-                    if (_vertexPos2DLocation == -1) {
-                        DebugLogError("LVertexPos2D is not a valid glsl program variable!");
+                    glAttachShader(_programID1, fragmentShader);
+                    glLinkProgram(_programID1);
+                    GLint programSuccess = GL_TRUE;
+                    glGetProgramiv(_programID1, GL_LINK_STATUS, &programSuccess);
+                    if (programSuccess != GL_TRUE) {
+                        DebugLogError("Error linking program %d!", _programID1);
+                        PrintProgramLog(_programID1);
                         success = false;
                     } else {
-                        GLfloat vertexData[] =
-                                {
-                                        -0.5f, -0.5f,
-                                        0.5f, -0.5f,
-                                        0.5f, 0.5f,
-                                        -0.5f, 0.5f
-                                };
-                        GLuint indexData[] = {0, 1, 2, 3};
-                        glGenBuffers(1, &_vertexBufferObject);
-                        glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
-                        glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
-                        glGenBuffers(1, &_indexBufferObject);
-                        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
-                        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+                        _vertexPos2DLocation1 = glGetAttribLocation(_programID1, "LVertexPos2D");
+                        if (_vertexPos2DLocation1 == -1) {
+                            DebugLogError("LVertexPos2D is not a valid glsl program variable!");
+                            success = false;
+                        } else {
+                            GLfloat vertexData[] =
+                                    {
+                                            -0.0f, -0.5f,
+                                            0.5f, -0.5f,
+                                            0.5f, 0.5f,
+                                            -0.0f, 0.5f
+                                    };
+                            GLuint indexData[] = {0, 1, 2, 3};
+                            glGenBuffers(1, &_vertexBufferObject1);
+                            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject1);
+                            glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+                            glGenBuffers(1, &_indexBufferObject1);
+                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject1);
+                            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+                        }
+                    }
+                }
+            }
+        }
+
+        _programID2 = glCreateProgram();
+        {
+            GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+            const GLchar *vertexShaderSource[] =
+                    {
+                            "#version 140\nin vec2 LVertexPos2D; void main() { gl_Position = vec4( LVertexPos2D.x, LVertexPos2D.y, 0, 1 ); }"
+                    };
+
+            glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
+            glCompileShader(vertexShader);
+
+            glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+
+            GLint vShaderCompiled = GL_FALSE;
+            glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
+            if (vShaderCompiled != GL_TRUE) {
+                DebugLogError("Unable to compile vertex shader %d!", vertexShader);
+                PrintShaderLog(vertexShader);
+                success = false;
+            } else {
+                glAttachShader(_programID2, vertexShader);
+                GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+                const GLchar *fragmentShaderSource[] =
+                        {
+                                "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 1.0, 0.0, 1.0 ); }"
+                        };
+                glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
+                glCompileShader(fragmentShader);
+                GLint fShaderCompiled = GL_FALSE;
+                glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
+                if (fShaderCompiled != GL_TRUE) {
+                    DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
+                    PrintShaderLog(fragmentShader);
+                    success = false;
+                } else {
+                    glAttachShader(_programID2, fragmentShader);
+                    glLinkProgram(_programID2);
+                    GLint programSuccess = GL_TRUE;
+                    glGetProgramiv(_programID2, GL_LINK_STATUS, &programSuccess);
+                    if (programSuccess != GL_TRUE) {
+                        DebugLogError("Error linking program %d!", _programID2);
+                        PrintProgramLog(_programID2);
+                        success = false;
+                    } else {
+                        _vertexPos2DLocation2 = glGetAttribLocation(_programID2, "LVertexPos2D");
+                        if (_vertexPos2DLocation2 == -1) {
+                            DebugLogError("LVertexPos2D is not a valid glsl program variable!");
+                            success = false;
+                        } else {
+                            GLfloat vertexData[] =
+                                    {
+                                            -0.5f, -0.5f,
+                                            0.0f, -0.5f,
+                                            0.0f, 0.5f,
+                                            -0.5f, 0.5f
+                                    };
+                            GLuint indexData[] = {0, 1, 2, 3};
+                            glGenBuffers(1, &_vertexBufferObject2);
+                            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject2);
+                            glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+                            glGenBuffers(1, &_indexBufferObject2);
+                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject2);
+                            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+                        }
                     }
                 }
             }
@@ -149,17 +219,31 @@ namespace Harpia::Internal {
 
             glClear(camera->_clearMask);
 
-            glUseProgram(_programID);
+            for (auto r: _renderers) {
+                glUseProgram(_programID1);
 
-            glEnableVertexAttribArray(_vertexPos2DLocation);
+                glEnableVertexAttribArray(_vertexPos2DLocation1);
 
-            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
-            glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+                glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject1);
+                glVertexAttribPointer(_vertexPos2DLocation1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
 
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
-            glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject1);
+                glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
 
-            glDisableVertexAttribArray(_vertexPos2DLocation);
+                glDisableVertexAttribArray(_vertexPos2DLocation2);
+
+                glUseProgram(_programID2);
+
+                glEnableVertexAttribArray(_vertexPos2DLocation2);
+
+                glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject2);
+                glVertexAttribPointer(_vertexPos2DLocation2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject2);
+                glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+
+                glDisableVertexAttribArray(_vertexPos2DLocation2);
+            }
 
             glUseProgram(0);
         }

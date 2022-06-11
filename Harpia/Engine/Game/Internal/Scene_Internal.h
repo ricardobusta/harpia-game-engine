@@ -13,7 +13,6 @@ namespace Harpia::Internal {
     public:
         std::list<Object *> _objects;
         Internal::Application_Internal *_applicationInternal = nullptr;
-
     public:
         void LoadInternal(Application *application);
     protected:

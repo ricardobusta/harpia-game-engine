@@ -28,4 +28,10 @@ namespace Harpia {
             _applicationInternal->_renderSystem->AddCamera((Internal::Camera_Internal *) camera);
         }
     }
+
+    void Object::AddToRenderSystemIfRenderer(RendererComponent *renderer) {
+        if (renderer != nullptr) {
+            _applicationInternal->_renderSystem->AddRenderer((Internal::Renderer_Internal *) renderer);
+        }
+    }
 } // Harpia

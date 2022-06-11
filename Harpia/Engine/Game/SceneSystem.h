@@ -17,7 +17,7 @@ namespace Harpia::Internal {
         std::vector<Internal::Scene_Internal *> _scenes;
         std::vector<Internal::Scene_Internal *> _loadedScenes;
 
-        Application * _application;
+        Application *_application;
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
 
@@ -29,8 +29,6 @@ namespace Harpia::Internal {
 
     private:
         void LoadScene(Internal::Scene_Internal *scene);
-
-        void OnRender();
 
         void OnUpdate();
     };

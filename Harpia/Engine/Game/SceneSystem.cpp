@@ -31,7 +31,6 @@ namespace Harpia::Internal {
             auto scene = _scenes[0];
             LoadScene(scene);
         };
-        coreSystem->onRenderStep += [this]() { OnRender(); };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
         return 0;
     }
@@ -58,12 +57,6 @@ namespace Harpia::Internal {
             for (auto o: s->_objects) {
                 o->InternalUpdate();
             }
-        }
-    }
-
-    void SceneSystem::OnRender() {
-        for (auto s: _loadedScenes) {
-
         }
     }
 } // Harpia

@@ -30,7 +30,7 @@ namespace Harpia::Internal {
             return result;
         }
 
-        coreSystem->onPreRenderStep += [this]() { RenderFrame(); };
+        coreSystem->onRenderStep += [this]() { RenderFrame(); };
 
         return 0;
     }
@@ -41,5 +41,9 @@ namespace Harpia::Internal {
 
     void RenderingSystem::AddCamera(Camera_Internal *camera) {
         _cameras.push_back(camera);
+    }
+
+    void RenderingSystem::AddRenderer(Renderer_Internal *renderer) {
+        _renderers.push_back(renderer);
     }
 } // Harpia::Internal

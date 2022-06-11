@@ -15,7 +15,6 @@ namespace Harpia::Internal {
     public:
         Event<> onInitialize;
         Event<> onUpdate;
-        Event<> onPreRenderStep;
         Event<> onRenderStep;
         Event<> onLateUpdate;
         Event<> onQuit;
