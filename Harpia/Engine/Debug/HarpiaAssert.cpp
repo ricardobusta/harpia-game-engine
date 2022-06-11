@@ -5,6 +5,7 @@
 #include "HarpiaAssert.h"
 #include <cassert>
 
+#ifdef HARPIA_DEBUG
 namespace Harpia{
     void Assert::That(bool condition, const char *caller, const char *file, const int line, const char *message) {
         if (!condition) {
@@ -18,3 +19,4 @@ namespace Harpia{
         That(target!= nullptr, caller, file, line, Harpia::Debug::Format("%s is nullptr. %s", targetName, message).c_str());
     }
 }
+#endif //HARPIA_DEBUG
