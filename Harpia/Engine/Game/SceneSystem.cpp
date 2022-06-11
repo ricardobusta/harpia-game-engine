@@ -17,7 +17,8 @@ namespace Harpia::Internal {
 
         DebugLog("Init");
         _application = application;
-        _scenes = std::vector<Scene *>(configuration.scenes);
+        std::for_each(configuration.scenes.begin(), configuration.scenes.end(),
+                      [&](auto s) { _scenes.push_back((Scene_Internal *) s); });
 
         if (_scenes.empty()) {
             DebugLogError("No scenes were added in the configuration.");
@@ -29,8 +30,8 @@ namespace Harpia::Internal {
         coreSystem->onInitialize += [this, ai]() {
             auto scene = _scenes[0];
             LoadScene(scene);
-            //ai->_renderSystem->FetchCameras(scene);
         };
+        coreSystem->onRenderStep += [this]() { OnRender(); };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
         return 0;
     }
@@ -47,17 +48,22 @@ namespace Harpia::Internal {
         DebugLog("Quit");
     }
 
-    void SceneSystem::LoadScene(Scene *scene) {
-        ((Scene_Internal*)scene)->LoadInternal(_application);
+    void SceneSystem::LoadScene(Internal::Scene_Internal *scene) {
+        scene->LoadInternal(_application);
         _loadedScenes.push_back(scene);
     }
 
     void SceneSystem::OnUpdate() {
         for (auto s: _loadedScenes) {
-            auto si = (Scene_Internal *) s;
-            for (auto o: si->_objects) {
+            for (auto o: s->_objects) {
                 o->InternalUpdate();
             }
+        }
+    }
+
+    void SceneSystem::OnRender() {
+        for (auto s: _loadedScenes) {
+
         }
     }
 } // Harpia

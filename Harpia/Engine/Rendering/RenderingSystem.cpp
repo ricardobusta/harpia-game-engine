@@ -30,7 +30,7 @@ namespace Harpia::Internal {
             return result;
         }
 
-        coreSystem->onRendering += [this]() { RenderFrame(); };
+        coreSystem->onPreRenderStep += [this]() { RenderFrame(); };
 
         return 0;
     }

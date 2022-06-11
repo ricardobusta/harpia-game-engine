@@ -16,6 +16,7 @@ namespace Harpia::Internal {
     class RenderingSystem;
     class SceneSystem;
     class Camera_Internal;
+    class Scene_Internal;
     class Renderer_Internal;
 }
 
