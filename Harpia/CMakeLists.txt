@@ -15,6 +15,14 @@ set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_RELEASE_POSTFIX "")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Werror) # Handle warnings as errors
+if(HARPIA_PLATFORM MATCHES WEBGL)
+    message("===WebGL Build===")
+    set(CMAKE_EXECUTABLE_SUFFIX .js)
+    option(BUILD_SHARED_LIBS "" OFF)
+else()
+    message("===Desktop Build===")
+    option(BUILD_SHARED_LIBS "" ON)
+endif()
 
 option(SUPPORT_OGG "" ON)
 #option(SUPPORT_MP3_MPG123 "" ON) # TODO Temporarily disabled until figure out MP3 dependencies
@@ -28,7 +36,11 @@ list(
 
 include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 
-add_library(${PROJECT_NAME} SHARED ${Harpia_SRC})
+if(BUILD_SHARED_LIBS)
+    add_library(${PROJECT_NAME} SHARED ${Harpia_SRC})
+else()
+    add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
+endif()
 
 # TODO In order to generate webgl builds, need to also create a static lib with static dependencies
 target_link_libraries(${PROJECT_NAME} PUBLIC Harpia.Application)
