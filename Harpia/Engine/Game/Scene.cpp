@@ -8,18 +8,13 @@
 #include "Object.h"
 
 namespace Harpia {
-    void Scene::Load(Application *application) {
-        _applicationInternal = (Internal::Application_Internal *) application;
-        Load();
-    }
-
-    void Scene::Unload() {
-
-    }
-
     Object *Scene::CreateObject() {
         auto object = new Object(_applicationInternal);
         _objects.push_back(object);
         return object;
+    }
+
+    void Scene::LoadScene(Application *application) {
+        Load(application);
     }
 } // Harpia

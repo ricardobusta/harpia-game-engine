@@ -9,6 +9,7 @@
 
 #include "Debug.h"
 #include "Configuration.h"
+#include "Camera_Internal.h"
 
 namespace Harpia::Internal {
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
@@ -65,6 +66,8 @@ namespace Harpia::Internal {
         glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
         glCompileShader(vertexShader);
 
+        glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+
         GLint vShaderCompiled = GL_FALSE;
         glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
         if (vShaderCompiled != GL_TRUE) {
@@ -101,7 +104,6 @@ namespace Harpia::Internal {
                         DebugLogError("LVertexPos2D is not a valid glsl program variable!");
                         success = false;
                     } else {
-                        glClearColor(0, 0, 0, 1);
                         GLfloat vertexData[] =
                                 {
                                         -0.5f, -0.5f,
@@ -125,24 +127,42 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::RenderFrame() {
-        glClear(GL_COLOR_BUFFER_BIT);
+        for (auto camera: _cameras) {
+            glClearColor(
+                    camera->_clearColor.r,
+                    camera->_clearColor.g,
+                    camera->_clearColor.b,
+                    camera->_clearColor.a
+            );
 
-        glUseProgram(_programID);
+            glScissor(camera->_viewport.x,
+                      camera->_viewport.y,
+                      camera->_viewport.w,
+                      camera->_viewport.h);
 
-        glEnableVertexAttribArray(_vertexPos2DLocation);
+            glViewport(
+                    camera->_viewport.x,
+                    camera->_viewport.y,
+                    camera->_viewport.w,
+                    camera->_viewport.h
+            );
 
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
-        glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+            glClear(GL_COLOR_BUFFER_BIT);
 
-        glViewport(0, 0, 100, 100);
+            glUseProgram(_programID);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
-        glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
+            glEnableVertexAttribArray(_vertexPos2DLocation);
 
-        glDisableVertexAttribArray(_vertexPos2DLocation);
+            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
+            glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
 
-        glUseProgram(0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
+            glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
 
+            glDisableVertexAttribArray(_vertexPos2DLocation);
+
+            glUseProgram(0);
+        }
         SDL_GL_SwapWindow(_window);
     }
 

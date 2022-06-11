@@ -8,6 +8,9 @@
 namespace Harpia {
     struct RectInt {
     public:
+        RectInt(int x, int y, int w, int h);
+        RectInt();
+
         int x, y, w, h;
     };
 } // Harpia

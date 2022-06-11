@@ -5,10 +5,22 @@
 #ifndef HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 #define HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 
-namespace Harpia::Internal {
-        class Camera_Internal {
+#include "RectInt.h"
+#include "Color.h"
 
-        };
+namespace Harpia::Internal {
+    enum CameraClearType {
+        ClearAll,
+        ClearColor,
+        ClearDepth,
+    };
+
+    class Camera_Internal {
+    public:
+        CameraClearType _clearType;
+        Color _clearColor;
+        RectInt _viewport;
+    };
 } // Harpia::Internal
 
 #endif //HARPIAGAMEENGINE_CAMERA_INTERNAL_H

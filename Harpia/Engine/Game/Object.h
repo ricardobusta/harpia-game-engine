@@ -9,6 +9,7 @@
 #include <list>
 #include "HierarchyStatic.h"
 #include "Transform.h"
+#include "Debug.h"
 
 namespace Harpia {
     class Object {
@@ -24,8 +25,7 @@ namespace Harpia {
         template<class T>
         T *AddComponent() {
             auto newComponent = HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
-            AddCamera(newComponent);
-            AddRenderer(newComponent);
+            AddToRenderSystemIfCamera(dynamic_cast<CameraComponent *>(newComponent));
             return newComponent;
         }
 
@@ -36,8 +36,7 @@ namespace Harpia {
 
         void InternalUpdate();
     private:
-        void AddCamera(Component *camera);
-        void AddRenderer(Component *renderer);
+        void AddToRenderSystemIfCamera(CameraComponent *camera);
     };
 } // Harpia
 

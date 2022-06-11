@@ -48,7 +48,7 @@ namespace Harpia::Internal {
     }
 
     void SceneSystem::LoadScene(Scene *scene) {
-        scene->Load(_application);
+        ((Scene_Internal*)scene)->LoadInternal(_application);
         _loadedScenes.push_back(scene);
     }
 

@@ -11,16 +11,12 @@
 namespace Harpia {
 class Scene : private Internal::Scene_Internal {
     private:
-        Internal::Application_Internal *_applicationInternal = nullptr;
     public:
-        void Load(Application *application);
-
-        void Unload();
-
+        virtual void Load(Application *application) = 0;
     protected:
-        virtual void Load() = 0;
-
         Object *CreateObject();
+    private:
+        void LoadScene(Application *application) override;
     };
 
 } // Harpia

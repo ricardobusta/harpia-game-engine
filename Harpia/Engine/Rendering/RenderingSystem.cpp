@@ -9,8 +9,6 @@
 #include "CoreSystem.h"
 #include "Configuration.h"
 #include "HarpiaAssert.h"
-#include "Camera_Internal.h"
-#include "Renderer_Internal.h"
 
 namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
@@ -43,9 +41,5 @@ namespace Harpia::Internal {
 
     void RenderingSystem::AddCamera(Camera_Internal *camera) {
         _cameras.push_back(camera);
-    }
-
-    void RenderingSystem::AddRenderer(Renderer_Internal *renderer) {
-        _renderers.push_back(renderer);
     }
 } // Harpia::Internal

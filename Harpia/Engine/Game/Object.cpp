@@ -8,6 +8,8 @@
 #include "RenderingSystem.h"
 #include "Renderer_Internal.h"
 #include "Camera_Internal.h"
+#include "Debug.h"
+#include "CameraComponent.h"
 
 namespace Harpia {
     Object::Object(Internal::Application_Internal *application) {
@@ -21,17 +23,9 @@ namespace Harpia {
         }
     }
 
-    void Object::AddRenderer(Component *renderer) {
-        auto r = dynamic_cast<Internal::Renderer_Internal *>(renderer);
-        if (r != nullptr) {
-            _applicationInternal->_renderSystem->AddRenderer(r);
-        }
-    }
-
-    void Object::AddCamera(Component *camera) {
-        auto c = dynamic_cast<Internal::Camera_Internal *>(camera);
-        if (c != nullptr) {
-            _applicationInternal->_renderSystem->AddCamera(c);
+    void Object::AddToRenderSystemIfCamera(CameraComponent *camera) {
+        if (camera != nullptr) {
+            _applicationInternal->_renderSystem->AddCamera((Internal::Camera_Internal *) camera);
         }
     }
 } // Harpia

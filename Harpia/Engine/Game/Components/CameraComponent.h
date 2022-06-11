@@ -6,15 +6,15 @@
 #define HARPIAGAMEENGINE_CAMERACOMPONENT_H
 
 #include "Component.h"
-#include "RectInt.h"
 #include "Camera_Internal.h"
 
 namespace Harpia {
-    class CameraComponent: public Component, public Internal::Camera_Internal  {
+    class CameraComponent : public Component, private Internal::Camera_Internal {
     public:
-        RectInt viewport;
-    public:
-        void InternalUpdate();
+        CameraComponent() : Component(), Internal::Camera_Internal() {}
+
+        void SetViewport(const RectInt &viewport);
+        void SetClearColor(const Color &color);
     };
 } // Harpia
 
