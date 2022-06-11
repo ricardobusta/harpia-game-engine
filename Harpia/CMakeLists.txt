@@ -16,11 +16,11 @@ set(CMAKE_RELEASE_POSTFIX "")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Werror) # Handle warnings as errors
 if(HARPIA_PLATFORM MATCHES WEBGL)
-    message("===WebGL Build===")
+    message("== WebGL Build")
     set(CMAKE_EXECUTABLE_SUFFIX .js)
     option(BUILD_SHARED_LIBS "" OFF)
 else()
-    message("===Desktop Build===")
+    message("== Desktop Build")
     option(BUILD_SHARED_LIBS "" ON)
 endif()
 
@@ -37,8 +37,10 @@ list(
 include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 
 if(BUILD_SHARED_LIBS)
+    message("== Building Harpia Shared")
     add_library(${PROJECT_NAME} SHARED ${Harpia_SRC})
 else()
+    message("== Building Harpia Static")
     add_library(${PROJECT_NAME} STATIC ${Harpia_SRC})
 endif()
 
