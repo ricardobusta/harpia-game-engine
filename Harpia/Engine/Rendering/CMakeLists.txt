@@ -17,4 +17,5 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         ${GLEW_LINK}
         Harpia.Core
+        Harpia.Application.Internal
 )

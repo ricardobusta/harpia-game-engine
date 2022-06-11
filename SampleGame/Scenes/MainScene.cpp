@@ -18,10 +18,10 @@ namespace SampleGame {
         auto audioObject = CreateObject();
 
         auto audioComponent = audioObject->AddComponent<Harpia::AudioComponent>();
-        audioComponent->SetAudio(LoadAudio("Assets/Audio/jump.wav"));
+        audioComponent->SetAudio(LoadAudioAsset("Assets/Audio/jump.wav"));
 
         auto music = audioObject->AddComponent<Harpia::MusicComponent>();
-        music->SetMusic(LoadMusic("Assets/Music/idle.ogg"));
+        music->SetMusic(LoadMusicAsset("Assets/Music/idle.ogg"));
 
         audioObject->AddComponent<TestAudio>();
 

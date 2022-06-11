@@ -46,4 +46,20 @@ namespace Harpia::Internal {
     void RenderingSystem::AddRenderer(Renderer_Internal *renderer) {
         _renderers.push_back(renderer);
     }
+
+    MeshAsset *RenderingSystem::LoadMesh(int shape) {
+        return nullptr;
+    }
+
+    void RenderingSystem::ReleaseMesh(MeshAsset *mesh) {
+
+    }
+
+    MaterialAsset *RenderingSystem::LoadMaterial(const Color &color) {
+        return nullptr;
+    }
+
+    void RenderingSystem::ReleaseMaterial(MaterialAsset *material) {
+
+    }
 } // Harpia::Internal

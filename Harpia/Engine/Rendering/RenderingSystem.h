@@ -8,6 +8,8 @@
 #include "IApplicationSystem.h"
 #include <list>
 #include "InternalDefines.h"
+#include "MeshAsset.h"
+#include "MaterialAsset.h"
 
 namespace Harpia::Internal {
     class RenderingSystem : public Internal::IApplicationSystem {
@@ -20,6 +22,10 @@ namespace Harpia::Internal {
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void AddRenderer(Renderer_Internal *renderer);
+        MeshAsset *LoadMesh(int shape);
+        void ReleaseMesh(MeshAsset *mesh);
+        MaterialAsset *LoadMaterial(const Color &color);
+        void ReleaseMaterial(MaterialAsset *material);
         virtual ~RenderingSystem() = default;
     private:
         virtual int RenderingInitialize() = 0;

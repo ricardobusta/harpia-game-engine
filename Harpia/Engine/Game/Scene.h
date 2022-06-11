@@ -15,8 +15,10 @@ class Scene : private Internal::Scene_Internal {
     private:
     public:
         virtual void Load(Application *application) = 0;
-        AudioAsset * LoadAudio(const std::string &path);
-        MusicAsset * LoadMusic(const std::string &path);
+        AudioAsset * LoadAudioAsset(const std::string &path);
+        MusicAsset * LoadMusicAsset(const std::string &path);
+        MaterialAsset * LoadMaterialAsset(const Color &color);
+        MeshAsset * LoadMeshAsset(int shape);
     protected:
         Object *CreateObject();
     private:
