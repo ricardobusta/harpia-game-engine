@@ -60,3 +60,9 @@ add_subdirectory(Engine/Game)
 add_subdirectory(Engine/Input)
 add_subdirectory(Engine/Rendering)
 add_subdirectory(Engine/Structures)
+
+# With Mingw64 compiler, these DLL are required to run the app on Windows
+get_filename_component(COMPILER_PATH ${CMAKE_CXX_COMPILER} DIRECTORY)
+file(COPY ${COMPILER_PATH}/libwinpthread-1.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+file(COPY ${COMPILER_PATH}/libstdc++-6.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+file(COPY ${COMPILER_PATH}/libgcc_s_seh-1.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
