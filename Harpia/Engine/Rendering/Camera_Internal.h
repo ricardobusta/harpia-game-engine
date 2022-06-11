@@ -7,17 +7,12 @@
 
 #include "RectInt.h"
 #include "Color.h"
+#include "GLTypes.h"
 
 namespace Harpia::Internal {
-    enum CameraClearType {
-        ClearAll,
-        ClearColor,
-        ClearDepth,
-    };
-
     class Camera_Internal {
     public:
-        CameraClearType _clearType;
+        GLbitfield _clearMask;
         Color _clearColor;
         RectInt _viewport;
     };

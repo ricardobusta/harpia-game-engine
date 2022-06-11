@@ -18,4 +18,8 @@ namespace Harpia {
         _clearColor.b = color.b;
         _clearColor.a = color.a;
     }
+
+    CameraComponent::CameraComponent() : Component(), Internal::Camera_Internal() {
+        _clearMask = 0x00004000;
+    }
 } // Harpia

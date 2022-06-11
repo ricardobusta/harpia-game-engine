@@ -11,7 +11,7 @@
 namespace Harpia {
     class CameraComponent : public Component, private Internal::Camera_Internal {
     public:
-        CameraComponent() : Component(), Internal::Camera_Internal() {}
+        CameraComponent();
 
         void SetViewport(const RectInt &viewport);
         void SetClearColor(const Color &color);

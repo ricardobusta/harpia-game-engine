@@ -147,7 +147,7 @@ namespace Harpia::Internal {
                     camera->_viewport.h
             );
 
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(camera->_clearMask);
 
             glUseProgram(_programID);
 
