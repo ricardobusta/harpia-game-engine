@@ -9,6 +9,7 @@
 #include "Application_Internal.h"
 #include "AudioSystem.h"
 #include "RenderingSystem.h"
+#include "MeshGenerator.h"
 
 namespace Harpia {
     Object *Scene::CreateObject() {
@@ -45,20 +46,11 @@ namespace Harpia {
     }
 
     MeshAsset *Scene::LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size) {
-        auto sx = size.x / 2.0f;
-        auto sy = size.y / 2.0f;
-        auto sz = size.z / 2.0f;
-        auto cx = pos.x;
-        auto cy = pos.y;
-        auto cz = pos.z;
+        std::vector<float> v;
+        std::vector<int> i;
 
-        std::vector<GLfloat> v = {
-                -sx + cx, -sy + cy, sz + cz,
-                sx + cx, -sy + cy, sz + cz,
-                sx + cx, sy + cy, sz + cz,
-                -sx + cx, sy + cy, sz + cz,
-        };
-        std::vector<GLint> i = {0, 1, 2, 0, 2, 3};
+        Internal::MeshGenerator::BoxMesh(v, i, pos, size);
+
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
     }
 } // Harpia

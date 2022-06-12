@@ -12,6 +12,7 @@
 #include "Camera_Internal.h"
 #include "Renderer_Internal.h"
 #include "String.h"
+#include "Matrix4X4.h"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -174,17 +175,30 @@ namespace Harpia::Internal {
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
         GLint vertexPos3DLocation = -1;
+        GLint viewMatLocation = -1;
+        GLint projMatLocation = -1;
+        GLint modelMatLocation = -1;
         GLint success = GL_FALSE;
         MaterialAsset *asset;
 
         const std::string vertexShaderSource =
-                "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }";
+                "#version 400\n"
+                "layout (location = 0) in vec3 inPos;"
+                ""
+                "uniform mat4 u_projectionMatrix;"
+                "uniform mat4 u_viewMatrix;"
+                "uniform mat4 u_modelMatrix;"
+                "void main() {"
+                "   vec4 modelPos = u_modelMatrix * vec4( inPos, 1.0 );\n"
+                "   vec4 viewPos  = u_viewMatrix * modelPos;"
+                "   gl_Position = mat4(vec4(1,0,0,0),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)) * vec4(inPos,1.0);"
+                "}";
         const auto vsh = vertexShaderSource.data();
-        const std::string fragmentShaderSource ="#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
-                std::to_string(color.r) + ","+
-                std::to_string(color.g) + ","+
-                std::to_string(color.b) + ","+
-                std::to_string(color.a) + "); }";
+        const std::string fragmentShaderSource = "#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
+                                                 std::to_string(color.r) + "," +
+                                                 std::to_string(color.g) + "," +
+                                                 std::to_string(color.b) + "," +
+                                                 std::to_string(color.a) + "); }";
         const auto fsh = fragmentShaderSource.data();
 
         programId = glCreateProgram();
@@ -222,17 +236,23 @@ namespace Harpia::Internal {
             PrintProgramLog(programId);
             goto clean_link_program;
         }
-        vertexPos3DLocation = glGetAttribLocation(programId, "LVertexPos3D");
+        vertexPos3DLocation = glGetAttribLocation(programId, "inPos");
         if (vertexPos3DLocation == -1) {
-            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
+            DebugLogError("inPos is not a valid glsl program variable!");
             goto clean_get_attrib;
         }
+        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
+        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
+        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
+        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
+        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
 
         asset = new MaterialAsset(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
-        asset->vertexPos3DLocation = vertexPos3DLocation;
+        asset->vertexLocation = vertexPos3DLocation;
         return asset;
 
         clean_get_attrib:
@@ -247,8 +267,8 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
         glUseProgram(material->programId);
-        glEnableVertexAttribArray(material->vertexPos3DLocation);
-        glVertexAttribPointer(material->vertexPos3DLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
+        glEnableVertexAttribArray(material->vertexLocation);
+        glVertexAttribPointer(material->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
     }
 
@@ -259,6 +279,6 @@ namespace Harpia::Internal {
         material->fragmentShader = 0;
         material->vertexShader = 0;
         material->programId = 0;
-        material->vertexPos3DLocation = -1;
+        material->vertexLocation = -1;
     }
 } // Harpia::Internal

@@ -14,7 +14,7 @@ namespace Harpia {
         GLuint programId;
         GLuint vertexShader;
         GLuint fragmentShader;
-        GLint vertexPos3DLocation;
+        GLint vertexLocation;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
