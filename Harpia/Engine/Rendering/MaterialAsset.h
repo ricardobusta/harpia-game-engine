@@ -7,20 +7,20 @@
 
 #include "Asset.h"
 #include "GLTypes.h"
+#include "GlobalDefines.h"
 
 namespace Harpia {
     class MaterialAsset : public Asset {
     public:
-        GLuint programId;
-        GLuint vertexShader;
-        GLuint fragmentShader;
-        GLint vertexLocation;
+        ShaderAsset *_shader = nullptr;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
         explicit MaterialAsset(Internal::RenderingSystem *renderingSystem);
         MaterialAsset() = delete;
         void Release() override;
+
+        void SetShader(ShaderAsset *shader);
     };
 } // Harpia
 

@@ -28,8 +28,8 @@ namespace Harpia::Internal {
         virtual void ReleaseMesh(MeshAsset *mesh) = 0;
         virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
                                 GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;
-        virtual MaterialAsset *LoadMaterial(const Color &color) = 0;
-        virtual void ReleaseMaterial(MaterialAsset *material) = 0;
+        virtual ShaderAsset *LoadShader(const Color &color) = 0;
+        virtual void ReleaseShader(ShaderAsset *shader) = 0;
     private:
         virtual int RenderingInitialize() = 0;
         int GetInitFlags() override;

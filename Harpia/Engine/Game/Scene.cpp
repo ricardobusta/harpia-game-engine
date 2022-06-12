@@ -10,6 +10,7 @@
 #include "AudioSystem.h"
 #include "RenderingSystem.h"
 #include "MeshGenerator.h"
+#include "ShaderAsset.h"
 
 namespace Harpia {
     Object *Scene::CreateObject() {
@@ -34,8 +35,15 @@ namespace Harpia {
         return asset;
     }
 
-    MaterialAsset *Scene::LoadMaterialAsset(const Color &color) {
-        auto asset = _applicationInternal->_renderSystem->LoadMaterial(color);
+    MaterialAsset *Scene::LoadMaterialAsset(ShaderAsset *shader) {
+        auto asset = new MaterialAsset(_applicationInternal->_renderSystem);
+        asset->SetShader(shader);
+        _assets.push_back(asset);
+        return asset;
+    }
+
+    ShaderAsset *Scene::LoadShaderAsset(const Color &color) {
+        auto asset = _applicationInternal->_renderSystem->LoadShader(color);
         _assets.push_back(asset);
         return asset;
     }

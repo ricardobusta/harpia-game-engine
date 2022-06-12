@@ -6,7 +6,6 @@
 
 #include <SDL.h>
 #include <GL/glew.h>
-
 #include "Debug.h"
 #include "Configuration.h"
 #include "Camera_Internal.h"
@@ -14,6 +13,7 @@
 #include "String.h"
 #include "Matrix4X4.h"
 #include "glm/mat4x4.hpp"
+#include "ShaderAsset.h"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -171,7 +171,7 @@ namespace Harpia::Internal {
         mesh->indexBufferId = 0;
     }
 
-    MaterialAsset *RenderingSystemGL::LoadMaterial(const Color &color) {
+    ShaderAsset *RenderingSystemGL::LoadShader(const Color &color) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -180,7 +180,7 @@ namespace Harpia::Internal {
         GLint projMatLocation = -1;
         GLint modelMatLocation = -1;
         GLint success = GL_FALSE;
-        MaterialAsset *asset;
+        ShaderAsset *asset;
 
         GLfloat identity[] = {
                 1,0,0,0,
@@ -198,7 +198,7 @@ namespace Harpia::Internal {
                 "void main() {"
                 "   vec4 modelPos = u_modelMatrix * vec4( inPos, 1.0 );\n"
                 "   vec4 viewPos  = u_viewMatrix * modelPos;"
-                "   gl_Position = modelPos;"
+                "   gl_Position = vec4( inPos, 1.0 );"
                 "}";
         const auto vsh = vertexShaderSource.data();
         const std::string fragmentShaderSource = "#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
@@ -271,7 +271,7 @@ namespace Harpia::Internal {
 //        }
 //        glUniformMatrix4fv(modelMatLocation, 1, GL_TRUE, identity);
 
-        asset = new MaterialAsset(this);
+        asset = new ShaderAsset(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
@@ -288,20 +288,24 @@ namespace Harpia::Internal {
         return nullptr;
     }
 
-    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
-        glUseProgram(material->programId);
-        glEnableVertexAttribArray(material->vertexLocation);
-        glVertexAttribPointer(material->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
+    void RenderingSystemGL::ReleaseShader(ShaderAsset *shader) {
+        glDeleteShader(shader->fragmentShader);
+        glDeleteShader(shader->vertexShader);
+        glDeleteProgram(shader->programId);
+        shader->fragmentShader = 0;
+        shader->vertexShader = 0;
+        shader->programId = 0;
+        shader->vertexLocation = -1;
+    }
+
+    void RenderingSystemGL::RenderShader(ShaderAsset *shader) {
+        glUseProgram(shader->programId);
+        glEnableVertexAttribArray(shader->vertexLocation);
+        glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
     }
 
-    void RenderingSystemGL::ReleaseMaterial(MaterialAsset *material) {
-        glDeleteShader(material->fragmentShader);
-        glDeleteShader(material->vertexShader);
-        glDeleteProgram(material->programId);
-        material->fragmentShader = 0;
-        material->vertexShader = 0;
-        material->programId = 0;
-        material->vertexLocation = -1;
+    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
+        RenderShader(material->_shader);
     }
 } // Harpia::Internal

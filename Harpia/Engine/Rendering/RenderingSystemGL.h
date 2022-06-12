@@ -30,9 +30,10 @@ namespace Harpia::Internal {
         void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
                         GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) override;
         void ReleaseMesh(MeshAsset *mesh) override;
-        MaterialAsset *LoadMaterial(const Color &color) override;
+        ShaderAsset *LoadShader(const Color &color) override;
+        void ReleaseShader(ShaderAsset *shader) override;
+        void RenderShader(ShaderAsset * shader);
         void RenderMaterial(MaterialAsset * material);
-        void ReleaseMaterial(MaterialAsset *material) override;
     };
 } // Harpia::Internal
 
