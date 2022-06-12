@@ -10,3 +10,6 @@
 [submodule "Harpia/ThirdParty/SDL_ttf"]
 	path = Harpia/ThirdParty/SDL_ttf
 	url = https://github.com/libsdl-org/SDL_ttf
+[submodule "Harpia/ThirdParty/glm"]
+	path = Harpia/ThirdParty/glm
+	url = git@github.com:g-truc/glm.git
