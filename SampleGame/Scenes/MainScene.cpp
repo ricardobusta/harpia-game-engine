@@ -10,6 +10,7 @@
 #include "TestAudio.h"
 #include "Application.h"
 #include "RendererComponent.h"
+#include "Color.h"
 
 namespace SampleGame {
     void SampleGame::MainScene::Load(Harpia::Application *application) {
@@ -37,9 +38,11 @@ namespace SampleGame {
 
         auto cube1 = CreateObject();
         auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
+        rend1->SetMaterial(LoadMaterialAsset(Harpia::Color(0.5f, 0, 0, 1)));
         rend1->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(-0.5f,0,0), Harpia::Vector3(0.5f,0.5f,0.5f)));
         auto cube2 = CreateObject();
         auto rend2 = cube2->AddComponent<Harpia::RendererComponent>();
+        rend2->SetMaterial(LoadMaterialAsset(Harpia::Color(0.0f, 0.5f, 0, 1)));
         rend2->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(0.5f,0.3f,0), Harpia::Vector3(0.5f,0.5f,0.5f)));
     }
 }

@@ -11,6 +11,7 @@ namespace Harpia::Internal {
     class Renderer_Internal {
     public:
         MeshAsset *_mesh = nullptr;
+        MaterialAsset *_material = nullptr;
     };
 } // Harpia::Internal
 

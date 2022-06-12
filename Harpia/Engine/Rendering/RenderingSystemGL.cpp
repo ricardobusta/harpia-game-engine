@@ -59,57 +59,54 @@ namespace Harpia::Internal {
         bool success = true;
 
         _programID = glCreateProgram();
-        {
-            GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-            const GLchar *vertexShaderSource[] =
-                    {
-                            "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }"
-                    };
+        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        const GLchar *vertexShaderSource[] = {
+                "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }"
+        };
 
-            glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
-            glCompileShader(vertexShader);
+        glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
+        glCompileShader(vertexShader);
 
-            glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+        glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
 
-            GLint vShaderCompiled = GL_FALSE;
-            glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
-            if (vShaderCompiled != GL_TRUE) {
-                DebugLogError("Unable to compile vertex shader %d!", vertexShader);
-                PrintShaderLog(vertexShader);
-                success = false;
-            } else {
-                glAttachShader(_programID, vertexShader);
-                GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-                const GLchar *fragmentShaderSource[] =
-                        {
-                                "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 0.0, 1.0, 1.0 ); }"
-                        };
-                glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
-                glCompileShader(fragmentShader);
-                GLint fShaderCompiled = GL_FALSE;
-                glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
-                if (fShaderCompiled != GL_TRUE) {
-                    DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
-                    PrintShaderLog(fragmentShader);
-                    success = false;
-                } else {
-                    glAttachShader(_programID, fragmentShader);
-                    glLinkProgram(_programID);
-                    GLint programSuccess = GL_TRUE;
-                    glGetProgramiv(_programID, GL_LINK_STATUS, &programSuccess);
-                    if (programSuccess != GL_TRUE) {
-                        DebugLogError("Error linking program %d!", _programID);
-                        PrintProgramLog(_programID);
-                        success = false;
-                    } else {
-                        _vertexPos3DLocation = glGetAttribLocation(_programID, "LVertexPos3D");
-                        if (_vertexPos3DLocation == -1) {
-                            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
-                            success = false;
-                        }
-                    }
-                }
-            }
+        GLint vShaderCompiled = GL_FALSE;
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
+        if (vShaderCompiled != GL_TRUE) {
+            DebugLogError("Unable to compile vertex shader %d!", vertexShader);
+            PrintShaderLog(vertexShader);
+            success = false;
+            return success;
+        }
+
+        glAttachShader(_programID, vertexShader);
+        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        const GLchar *fragmentShaderSource[] = {
+                "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 0.0, 1.0, 1.0 ); }"
+        };
+        glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
+        glCompileShader(fragmentShader);
+        GLint fShaderCompiled = GL_FALSE;
+        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
+        if (fShaderCompiled != GL_TRUE) {
+            DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
+            PrintShaderLog(fragmentShader);
+            success = false;
+            return success;
+        }
+        glAttachShader(_programID, fragmentShader);
+        glLinkProgram(_programID);
+        GLint programSuccess = GL_TRUE;
+        glGetProgramiv(_programID, GL_LINK_STATUS, &programSuccess);
+        if (programSuccess != GL_TRUE) {
+            DebugLogError("Error linking program %d!", _programID);
+            PrintProgramLog(_programID);
+            success = false;
+            return success;
+        }
+        _vertexPos3DLocation = glGetAttribLocation(_programID, "LVertexPos3D");
+        if (_vertexPos3DLocation == -1) {
+            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
+            success = false;
         }
 
         DebugLog("GL Initialized");

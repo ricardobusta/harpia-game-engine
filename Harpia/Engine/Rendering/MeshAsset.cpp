@@ -5,10 +5,12 @@
 #include "MeshAsset.h"
 #include "Application_Internal.h"
 #include "RenderingSystem.h"
+#include "Debug.h"
 
 namespace Harpia {
     void MeshAsset::Release() {
         _renderingSystem->ReleaseMesh(this);
+        DebugLog("Mesh released. Usages: %d", useCount);
     }
 
     void MeshAsset::UpdateMesh() {

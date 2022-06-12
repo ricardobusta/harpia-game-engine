@@ -6,9 +6,12 @@
 #define HARPIAGAMEENGINE_MATERIALASSET_H
 
 #include "Asset.h"
+#include "GLTypes.h"
 
 namespace Harpia {
     class MaterialAsset : public Asset {
+    public:
+        GLuint programId;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
