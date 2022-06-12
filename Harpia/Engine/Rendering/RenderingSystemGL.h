@@ -27,7 +27,7 @@ namespace Harpia::Internal {
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
 
-        MeshAsset *LoadMesh(int shape) override;
+        MeshAsset *LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) override;
         void DrawMesh(MeshAsset *mesh) override;
         void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
                         GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) override;

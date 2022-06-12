@@ -39,9 +39,26 @@ namespace Harpia {
         return asset;
     }
 
-    MeshAsset *Scene::LoadMeshAsset(int shape) {
-        auto asset = _applicationInternal->_renderSystem->LoadMesh(shape);
+    MeshAsset *Scene::LoadMeshAsset(MeshAsset *asset) {
         _assets.push_back(asset);
         return asset;
+    }
+
+    MeshAsset *Scene::LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size) {
+        auto sx = size.x / 2.0f;
+        auto sy = size.y / 2.0f;
+        auto sz = size.z / 2.0f;
+        auto cx = pos.x;
+        auto cy = pos.y;
+        auto cz = pos.z;
+
+        std::vector<GLfloat> v = {
+                -sx + cx, -sy + cy, sz + cz,
+                sx + cx, -sy + cy, sz + cz,
+                sx + cx, sy + cy, sz + cz,
+                -sx + cx, sy + cy, sz + cz,
+        };
+        std::vector<GLint> i = {0, 1, 2, 0, 2, 3};
+        return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
     }
 } // Harpia

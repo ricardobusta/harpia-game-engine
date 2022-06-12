@@ -191,16 +191,10 @@ namespace Harpia::Internal {
         return 0;
     }
 
-    MeshAsset *RenderingSystemGL::LoadMesh(int shape) {
+    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) {
         auto mesh = new MeshAsset(this);
-        mesh->vertex =
-                {
-                        -0.5f + shape * 0.5f, -0.5f, 0.0f,
-                        0.5f + shape * 0.5f, -0.5f, 0.0f,
-                        0.5f + shape * 0.5f, 0.5f, 0.0f,
-                        -0.5f + shape * 0.5f, 0.5f, 0.0f,
-                };
-        mesh->index = {0, 1, 2, 0, 2, 3};
+        mesh->vertex = vertex;
+        mesh->index = index;
         mesh->UpdateMesh();
         return mesh;
     }

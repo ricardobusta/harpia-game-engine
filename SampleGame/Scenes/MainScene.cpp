@@ -37,9 +37,9 @@ namespace SampleGame {
 
         auto cube1 = CreateObject();
         auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
-        rend1->SetMesh(LoadMeshAsset(0));
+        rend1->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(-0.5f,0,0), Harpia::Vector3(0.5f,0.5f,0.5f)));
         auto cube2 = CreateObject();
         auto rend2 = cube2->AddComponent<Harpia::RendererComponent>();
-        rend2->SetMesh(LoadMeshAsset(1));
+        rend2->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(0.5f,0.3f,0), Harpia::Vector3(0.5f,0.5f,0.5f)));
     }
 }

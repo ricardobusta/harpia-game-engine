@@ -7,8 +7,8 @@
 
 #include "Internal/Scene_Internal.h"
 #include "InternalDefines.h"
-
 #include <string>
+#include "Vector3.h"
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
@@ -18,11 +18,12 @@ namespace Harpia {
         AudioAsset *LoadAudioAsset(const std::string &path);
         MusicAsset *LoadMusicAsset(const std::string &path);
         MaterialAsset *LoadMaterialAsset(const Color &color);
-        MeshAsset *LoadMeshAsset(int shape);
+        MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
     protected:
         Object *CreateObject();
     private:
         void LoadScene(Application *application) override;
+        MeshAsset *LoadMeshAsset(MeshAsset *asset);
     };
 
 } // Harpia
