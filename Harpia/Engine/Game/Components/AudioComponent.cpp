@@ -14,7 +14,7 @@ namespace Harpia {
         _audioSystem->PlayAudio(_audio);
     }
 
-    void AudioComponent::SetAudio(AudioAsset * audio) {
+    void AudioComponent::SetAudio(AudioAsset *audio) {
         _audio = audio;
     }
 

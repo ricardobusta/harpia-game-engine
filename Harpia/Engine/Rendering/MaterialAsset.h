@@ -10,7 +10,7 @@
 namespace Harpia {
     class MaterialAsset : public Asset {
     private:
-        Internal::RenderingSystem * _renderingSystem;
+        Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
         explicit MaterialAsset(Internal::RenderingSystem *renderingSystem);
         MaterialAsset() = delete;

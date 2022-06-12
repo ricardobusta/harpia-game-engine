@@ -15,9 +15,7 @@ namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
     private:
         GLuint _programID = 0;
-        GLint _vertexPos2DLocation = -1;
-        GLuint _vertexBufferObject = 0;
-        GLuint _indexBufferObject = 0;
+        GLint _vertexPos3DLocation = -1;
         SDL_GLContext _context = nullptr;
     public:
         int GetWindowFlags() override;
@@ -31,8 +29,8 @@ namespace Harpia::Internal {
 
         MeshAsset *LoadMesh(int shape) override;
         void DrawMesh(MeshAsset *mesh) override;
-        void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat *vertexData,
-                        GLuint *indexBufferId, GLuint indexCount, GLint *indexData) override;
+        void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
+                        GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) override;
         void ReleaseMesh(MeshAsset *mesh) override;
         MaterialAsset *LoadMaterial(const Color &color) override;
         void ReleaseMaterial(MaterialAsset *material) override;

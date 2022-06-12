@@ -15,7 +15,7 @@ namespace Harpia {
         MusicAsset *_music = nullptr;
         Internal::AudioSystem *_audioSystem = nullptr;
     public:
-        void SetMusic(MusicAsset * music);
+        void SetMusic(MusicAsset *music);
 
         void Play();
 

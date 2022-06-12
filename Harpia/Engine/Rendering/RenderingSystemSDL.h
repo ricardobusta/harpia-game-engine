@@ -12,7 +12,7 @@ namespace Harpia::Internal {
     class RenderingSystemSDL : public RenderingSystem {
     private:
         SDL_Surface *_surface = nullptr;
-        Color *_clearColor;
+        Color *_clearColor = nullptr;
     private:
         int GetWindowFlags() override;
         void RenderFrame() override;

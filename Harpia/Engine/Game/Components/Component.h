@@ -10,7 +10,7 @@
 #include "InputReader.h"
 
 namespace Harpia {
-class Component : private Internal::Component_Internal {
+    class Component : private Internal::Component_Internal {
     private:
     public:
         Object *GetObject();
@@ -26,7 +26,7 @@ class Component : private Internal::Component_Internal {
 
         InputReader *Input();
 
-     protected:
+    protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
 } // Harpia

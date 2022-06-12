@@ -45,7 +45,7 @@ namespace Harpia::Internal {
     }
 
     void SceneSystem::Quit() {
-        for(auto s : _loadedScenes){
+        for (auto s: _loadedScenes) {
             s->Release();
             delete s;
         }

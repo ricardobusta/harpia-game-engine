@@ -12,8 +12,8 @@ namespace Harpia::Internal {
     class Scene_Internal {
     public:
         std::list<Object *> _objects;
-        Internal::Application_Internal *_applicationInternal = nullptr;
         std::list<Asset *> _assets;
+        Internal::Application_Internal *_applicationInternal = nullptr;
     public:
         void LoadInternal(Application *application);
         void Release();

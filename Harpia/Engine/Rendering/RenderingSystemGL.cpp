@@ -13,6 +13,8 @@
 #include "Renderer_Internal.h"
 
 namespace Harpia::Internal {
+    const int VECTOR_DIMENSION_GL = 3;
+
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;
@@ -61,7 +63,7 @@ namespace Harpia::Internal {
             GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
             const GLchar *vertexShaderSource[] =
                     {
-                            "#version 140\nin vec2 LVertexPos2D; void main() { gl_Position = vec4( LVertexPos2D.x, LVertexPos2D.y, 0, 1 ); }"
+                            "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }"
                     };
 
             glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
@@ -100,30 +102,17 @@ namespace Harpia::Internal {
                         PrintProgramLog(_programID);
                         success = false;
                     } else {
-                        _vertexPos2DLocation = glGetAttribLocation(_programID, "LVertexPos2D");
-                        if (_vertexPos2DLocation == -1) {
-                            DebugLogError("LVertexPos2D is not a valid glsl program variable!");
+                        _vertexPos3DLocation = glGetAttribLocation(_programID, "LVertexPos3D");
+                        if (_vertexPos3DLocation == -1) {
+                            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
                             success = false;
-                        } else {
-                            GLfloat vertexData[] =
-                                    {
-                                            -0.0f, -0.5f,
-                                            0.5f, -0.5f,
-                                            0.5f, 0.5f,
-                                            -0.0f, 0.5f
-                                    };
-                            GLuint indexData[] = {0, 1, 2, 3};
-                            glGenBuffers(1, &_vertexBufferObject);
-                            glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
-                            glBufferData(GL_ARRAY_BUFFER, 2 * 4 * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
-                            glGenBuffers(1, &_indexBufferObject);
-                            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
-                            glBufferData(GL_ELEMENT_ARRAY_BUFFER, 4 * sizeof(GLuint), indexData, GL_STATIC_DRAW);
                         }
                     }
                 }
             }
         }
+
+        DebugLog("GL Initialized");
 
         return success;
     }
@@ -153,7 +142,9 @@ namespace Harpia::Internal {
 
             for (auto r: _renderers) {
                 glUseProgram(_programID);
-
+                glEnableVertexAttribArray(_vertexPos3DLocation);
+                glVertexAttribPointer(_vertexPos3DLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
+                                      VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
                 DrawMesh(r->_mesh);
             }
 
@@ -204,36 +195,28 @@ namespace Harpia::Internal {
         auto mesh = new MeshAsset(this);
         mesh->vertex =
                 {
-                        -0.5f, -0.5f, 0.0f,
-                        0.0f, -0.5f, 0.0f,
-                        0.0f, 0.5f, 0.0f,
-                        -0.5f, 0.5f, 0.0f
+                        -0.5f + shape * 0.5f, -0.5f, 0.0f,
+                        0.5f + shape * 0.5f, -0.5f, 0.0f,
+                        0.5f + shape * 0.5f, 0.5f, 0.0f,
+                        -0.5f + shape * 0.5f, 0.5f, 0.0f,
                 };
-        mesh->index = {0, 1, 2, 3};
+        mesh->index = {0, 1, 2, 0, 2, 3};
         mesh->UpdateMesh();
         return mesh;
     }
 
     void RenderingSystemGL::DrawMesh(MeshAsset *mesh) {
-        glEnableVertexAttribArray(_vertexPos2DLocation);
-
-        glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
-        glVertexAttribPointer(_vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBufferObject);
-        glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, nullptr);
-
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBufferId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBufferId);
+        glDrawElements(GL_TRIANGLES, mesh->index.size(), GL_UNSIGNED_INT, nullptr);
     }
 
-    void RenderingSystemGL::UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat *vertexData,
-                                       GLuint *indexBufferId, GLuint indexCount, GLint *indexData) {
-        if (_vertexPos2DLocation == -1) {
-            DebugLogError("LVertexPos2D is not a valid glsl program variable!");
-            return;
-        }
+    void RenderingSystemGL::UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
+                                       GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) {
+        DebugLog("Update Mesh");
         glGenBuffers(1, vertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, *vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, 3 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, VECTOR_DIMENSION_GL * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
         glGenBuffers(1, indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(GLuint), indexData, GL_STATIC_DRAW);

@@ -12,7 +12,7 @@
 namespace Harpia::Internal {
     class Camera_Internal {
     public:
-        GLbitfield _clearMask;
+        GLbitfield _clearMask = 0;
         Color _clearColor;
         RectInt _viewport;
     };

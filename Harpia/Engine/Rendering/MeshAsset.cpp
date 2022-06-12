@@ -12,8 +12,8 @@ namespace Harpia {
     }
 
     void MeshAsset::UpdateMesh() {
-        _renderingSystem->UpdateMesh(&vertexBufferId, vertex.size(), &vertex[0],
-                                     &indexBufferId, index.size(), &index[0]);
+        _renderingSystem->UpdateMesh(&vertexBufferId, 4, vertex.data(),
+                                     &indexBufferId, index.size(), index.data());
     }
 
     MeshAsset::MeshAsset(Internal::RenderingSystem *renderingSystem) {

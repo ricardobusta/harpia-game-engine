@@ -27,8 +27,8 @@ namespace Harpia::Internal {
         virtual MeshAsset *LoadMesh(int shape) = 0;
         virtual void DrawMesh(MeshAsset *mesh) = 0;
         virtual void ReleaseMesh(MeshAsset *mesh) = 0;
-        virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat *vertexData,
-                                GLuint *indexBufferId, GLuint indexCount, GLint *indexData) = 0;
+        virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
+                                GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;
         virtual MaterialAsset *LoadMaterial(const Color &color) = 0;
         virtual void ReleaseMaterial(MaterialAsset *material) = 0;
     private:

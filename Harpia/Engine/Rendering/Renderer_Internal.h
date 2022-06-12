@@ -10,7 +10,7 @@
 namespace Harpia::Internal {
     class Renderer_Internal {
     public:
-        MeshAsset *_mesh;
+        MeshAsset *_mesh = nullptr;
     };
 } // Harpia::Internal
 

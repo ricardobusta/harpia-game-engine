@@ -16,10 +16,10 @@ namespace Harpia {
         std::vector<GLfloat> vertex;
         std::vector<GLint> index;
 
-        GLuint vertexBufferId;
-        GLuint indexBufferId;
+        GLuint vertexBufferId = 0;
+        GLuint indexBufferId = 0;
     private:
-        Internal::RenderingSystem *_renderingSystem;
+        Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
         explicit MeshAsset(Internal::RenderingSystem *renderingSystem);
         MeshAsset() = delete;

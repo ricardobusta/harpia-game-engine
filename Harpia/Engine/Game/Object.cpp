@@ -23,15 +23,15 @@ namespace Harpia {
         }
     }
 
-    void Object::AddToRenderSystemIfCamera(CameraComponent *camera) {
+    void Object::AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) {
         if (camera != nullptr) {
-            _applicationInternal->_renderSystem->AddCamera((Internal::Camera_Internal *) camera);
+            _applicationInternal->_renderSystem->AddCamera(camera);
         }
     }
 
-    void Object::AddToRenderSystemIfRenderer(RendererComponent *renderer) {
+    void Object::AddToRenderSystemIfRenderer(Internal::Renderer_Internal *renderer) {
         if (renderer != nullptr) {
-            _applicationInternal->_renderSystem->AddRenderer((Internal::Renderer_Internal *) renderer);
+            _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
     }
 } // Harpia
