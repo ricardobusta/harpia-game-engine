@@ -12,6 +12,9 @@ namespace Harpia {
     class MaterialAsset : public Asset {
     public:
         GLuint programId;
+        GLuint vertexShader;
+        GLuint fragmentShader;
+        GLint vertexPos3DLocation;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:

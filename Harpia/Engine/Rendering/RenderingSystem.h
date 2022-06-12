@@ -25,7 +25,6 @@ namespace Harpia::Internal {
         virtual ~RenderingSystem() = default;
 
         virtual MeshAsset *LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) = 0;
-        virtual void DrawMesh(MeshAsset *mesh) = 0;
         virtual void ReleaseMesh(MeshAsset *mesh) = 0;
         virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
                                 GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;

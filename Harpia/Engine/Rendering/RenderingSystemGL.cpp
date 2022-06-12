@@ -11,6 +11,7 @@
 #include "Configuration.h"
 #include "Camera_Internal.h"
 #include "Renderer_Internal.h"
+#include "String.h"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -58,56 +59,7 @@ namespace Harpia::Internal {
     bool RenderingSystemGL::InitGL() {
         bool success = true;
 
-        _programID = glCreateProgram();
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        const GLchar *vertexShaderSource[] = {
-                "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }"
-        };
-
-        glShaderSource(vertexShader, 1, vertexShaderSource, nullptr);
-        glCompileShader(vertexShader);
-
         glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
-
-        GLint vShaderCompiled = GL_FALSE;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vShaderCompiled);
-        if (vShaderCompiled != GL_TRUE) {
-            DebugLogError("Unable to compile vertex shader %d!", vertexShader);
-            PrintShaderLog(vertexShader);
-            success = false;
-            return success;
-        }
-
-        glAttachShader(_programID, vertexShader);
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        const GLchar *fragmentShaderSource[] = {
-                "#version 140\nout vec4 LFragment; void main() { LFragment = vec4( 1.0, 0.0, 1.0, 1.0 ); }"
-        };
-        glShaderSource(fragmentShader, 1, fragmentShaderSource, nullptr);
-        glCompileShader(fragmentShader);
-        GLint fShaderCompiled = GL_FALSE;
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fShaderCompiled);
-        if (fShaderCompiled != GL_TRUE) {
-            DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
-            PrintShaderLog(fragmentShader);
-            success = false;
-            return success;
-        }
-        glAttachShader(_programID, fragmentShader);
-        glLinkProgram(_programID);
-        GLint programSuccess = GL_TRUE;
-        glGetProgramiv(_programID, GL_LINK_STATUS, &programSuccess);
-        if (programSuccess != GL_TRUE) {
-            DebugLogError("Error linking program %d!", _programID);
-            PrintProgramLog(_programID);
-            success = false;
-            return success;
-        }
-        _vertexPos3DLocation = glGetAttribLocation(_programID, "LVertexPos3D");
-        if (_vertexPos3DLocation == -1) {
-            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
-            success = false;
-        }
 
         DebugLog("GL Initialized");
 
@@ -138,10 +90,7 @@ namespace Harpia::Internal {
             glClear(camera->_clearMask);
 
             for (auto r: _renderers) {
-                glUseProgram(_programID);
-                glEnableVertexAttribArray(_vertexPos3DLocation);
-                glVertexAttribPointer(_vertexPos3DLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
-                                      VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
+                RenderMaterial(r->_material);
                 DrawMesh(r->_mesh);
             }
 
@@ -221,9 +170,95 @@ namespace Harpia::Internal {
     }
 
     MaterialAsset *RenderingSystemGL::LoadMaterial(const Color &color) {
+        GLuint programId = 0;
+        GLuint vertexShader = 0;
+        GLuint fragmentShader = 0;
+        GLint vertexPos3DLocation = -1;
+        GLint success = GL_FALSE;
+        MaterialAsset *asset;
+
+        const std::string vertexShaderSource =
+                "#version 140\nin vec3 LVertexPos3D; void main() { gl_Position = vec4( LVertexPos3D.x, LVertexPos3D.y, LVertexPos3D.z, 1 ); }";
+        const auto vsh = vertexShaderSource.data();
+        const std::string fragmentShaderSource ="#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
+                std::to_string(color.r) + ","+
+                std::to_string(color.g) + ","+
+                std::to_string(color.b) + ","+
+                std::to_string(color.a) + "); }";
+        const auto fsh = fragmentShaderSource.data();
+
+        programId = glCreateProgram();
+
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+        glShaderSource(vertexShader, 1, &vsh, nullptr);
+        glCompileShader(vertexShader);
+        success = GL_FALSE;
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        if (success != GL_TRUE) {
+            DebugLogError("Unable to compile vertex shader %d!", vertexShader);
+            PrintShaderLog(vertexShader);
+            goto clean_v_shader;
+        }
+
+        glAttachShader(programId, vertexShader);
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+        glShaderSource(fragmentShader, 1, &fsh, nullptr);
+        glCompileShader(fragmentShader);
+        success = GL_FALSE;
+        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+        if (success != GL_TRUE) {
+            DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
+            PrintShaderLog(fragmentShader);
+            goto clean_f_shader;
+        }
+        glAttachShader(programId, fragmentShader);
+        glLinkProgram(programId);
+        success = GL_TRUE;
+        glGetProgramiv(programId, GL_LINK_STATUS, &success);
+        if (success != GL_TRUE) {
+            DebugLogError("Error linking program %d!", programId);
+            PrintProgramLog(programId);
+            goto clean_link_program;
+        }
+        vertexPos3DLocation = glGetAttribLocation(programId, "LVertexPos3D");
+        if (vertexPos3DLocation == -1) {
+            DebugLogError("LVertexPos3D is not a valid glsl program variable!");
+            goto clean_get_attrib;
+        }
+
+        asset = new MaterialAsset(this);
+        asset->programId = programId;
+        asset->fragmentShader = fragmentShader;
+        asset->vertexShader = vertexShader;
+        asset->vertexPos3DLocation = vertexPos3DLocation;
+        return asset;
+
+        clean_get_attrib:
+        clean_link_program:
+        clean_f_shader:
+        glDeleteShader(fragmentShader);
+        clean_v_shader:
+        glDeleteShader(vertexShader);
+        glDeleteProgram(programId);
         return nullptr;
     }
 
+    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
+        glUseProgram(material->programId);
+        glEnableVertexAttribArray(material->vertexPos3DLocation);
+        glVertexAttribPointer(material->vertexPos3DLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
+                              VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
+    }
+
     void RenderingSystemGL::ReleaseMaterial(MaterialAsset *material) {
+        glDeleteShader(material->fragmentShader);
+        glDeleteShader(material->vertexShader);
+        glDeleteProgram(material->programId);
+        material->fragmentShader = 0;
+        material->vertexShader = 0;
+        material->programId = 0;
+        material->vertexPos3DLocation = -1;
     }
 } // Harpia::Internal
