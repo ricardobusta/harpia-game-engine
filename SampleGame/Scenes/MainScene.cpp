@@ -31,10 +31,10 @@ namespace SampleGame {
         auto cameraObject = CreateObject();
         auto camera = cameraObject->AddComponent<Harpia::CameraComponent>();
         camera->SetViewport(Harpia::RectInt(0, 0, screenSize.x / 2, screenSize.y));
-        camera->SetClearColor(Harpia::Color(1, 0, 0, 1));
+        camera->SetClearColor(Harpia::Color(0, 0, 0, 1));
         auto camera2 = cameraObject->AddComponent<Harpia::CameraComponent>();
         camera2->SetViewport(Harpia::RectInt(screenSize.x / 2, 0, screenSize.x / 2, screenSize.y));
-        camera2->SetClearColor(Harpia::Color(0, 0, 1, 1));
+        camera2->SetClearColor(Harpia::Color(0, 0, 0.5f, 1));
 
         auto cube1 = CreateObject();
         auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
