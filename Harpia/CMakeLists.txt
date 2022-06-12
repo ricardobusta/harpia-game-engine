@@ -32,6 +32,7 @@ list(
         ${PROJECT_NAME}_INCLUDES
         ThirdParty/SDL/include
         ThirdParty/glew-2.2.0/include
+        ThirdParty/glm/
 )
 
 include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})

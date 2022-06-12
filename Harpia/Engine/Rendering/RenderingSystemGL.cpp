@@ -13,6 +13,7 @@
 #include "Renderer_Internal.h"
 #include "String.h"
 #include "Matrix4X4.h"
+#include "glm/mat4x4.hpp"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -181,6 +182,12 @@ namespace Harpia::Internal {
         GLint success = GL_FALSE;
         MaterialAsset *asset;
 
+        GLfloat identity[] = {
+                1,0,0,0,
+                0,1,0,0,
+                0,0,1,0
+        };
+
         const std::string vertexShaderSource =
                 "#version 400\n"
                 "layout (location = 0) in vec3 inPos;"
@@ -191,7 +198,7 @@ namespace Harpia::Internal {
                 "void main() {"
                 "   vec4 modelPos = u_modelMatrix * vec4( inPos, 1.0 );\n"
                 "   vec4 viewPos  = u_viewMatrix * modelPos;"
-                "   gl_Position = mat4(vec4(1,0,0,0),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)) * vec4(inPos,1.0);"
+                "   gl_Position = modelPos;"
                 "}";
         const auto vsh = vertexShaderSource.data();
         const std::string fragmentShaderSource = "#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
@@ -236,17 +243,33 @@ namespace Harpia::Internal {
             PrintProgramLog(programId);
             goto clean_link_program;
         }
+
         vertexPos3DLocation = glGetAttribLocation(programId, "inPos");
         if (vertexPos3DLocation == -1) {
             DebugLogError("inPos is not a valid glsl program variable!");
             goto clean_get_attrib;
         }
-        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
-        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
-        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
-        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
-        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
-        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, Matrix4x4::identity.data.data());
+
+//        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
+//        if (projMatLocation == -1) {
+//            DebugLogError("Issue when getting u_projectionMatrix");
+//            goto clean_get_attrib;
+//        }
+//        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, identity);
+//
+//        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
+//        if (viewMatLocation == -1) {
+//            DebugLogError("Issue when getting u_viewMatrix");
+//            goto clean_get_attrib;
+//        }
+//        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, identity);
+
+//        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
+//        if (modelMatLocation == -1) {
+//            DebugLogError("Issue when getting u_modelMatrix");
+//            goto clean_get_attrib;
+//        }
+//        glUniformMatrix4fv(modelMatLocation, 1, GL_TRUE, identity);
 
         asset = new MaterialAsset(this);
         asset->programId = programId;
