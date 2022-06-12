@@ -1,0 +1,8 @@
+add_subdirectory(Application)
+add_subdirectory(Audio)
+add_subdirectory(Core)
+add_subdirectory(Debug)
+add_subdirectory(Game)
+add_subdirectory(Input)
+add_subdirectory(Rendering)
+add_subdirectory(Structures)

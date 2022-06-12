@@ -49,19 +49,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Harpia.Application)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 
-add_subdirectory(ThirdParty/SDL)
-add_subdirectory(ThirdParty/SDL_image)
-add_subdirectory(ThirdParty/SDL_mixer)
-add_subdirectory(ThirdParty/SDL_ttf)
-add_subdirectory(ThirdParty/glew-2.2.0/build/cmake)
-add_subdirectory(Engine/Application)
-add_subdirectory(Engine/Audio)
-add_subdirectory(Engine/Core)
-add_subdirectory(Engine/Debug)
-add_subdirectory(Engine/Game)
-add_subdirectory(Engine/Input)
-add_subdirectory(Engine/Rendering)
-add_subdirectory(Engine/Structures)
+add_subdirectory(ThirdParty)
+add_subdirectory(Engine)
 
 # With Mingw64 compiler, these DLL are required to run the app on Windows
 get_filename_component(COMPILER_PATH ${CMAKE_CXX_COMPILER} DIRECTORY)
