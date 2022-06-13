@@ -18,4 +18,5 @@ target_link_libraries(
         ${GLEW_LINK}
         Harpia.Core
         Harpia.Application.Internal
+        Harpia.Game.Internal
 )

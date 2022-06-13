@@ -5,14 +5,19 @@
 #ifndef HARPIAGAMEENGINE_QUATERNION_H
 #define HARPIAGAMEENGINE_QUATERNION_H
 
+#include "glm/gtc/quaternion.hpp"
+#include "Vector3.h"
+
 namespace Harpia {
     class Quaternion {
+    private:
+        glm::quat _quaternion;
+
     public:
         Quaternion();
-
         explicit Quaternion(float x, float y, float z, float w);
 
-        float x, y, z, w;
+        void Rotate(float angle, const Vector3 &axis);
     };
 } // Harpia
 
