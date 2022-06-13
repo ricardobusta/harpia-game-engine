@@ -16,7 +16,6 @@ endif ()
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         mingw32
-        SDL2main
         ${SDL_LINK}
         Harpia.Debug
         Harpia.Structures
