@@ -180,9 +180,8 @@ namespace Harpia::Internal {
         GLuint fragmentShader = 0;
         GLint inPosLocation = -1;
         GLint uniformColorLocation = -1;
-        GLint viewMatLocation = -1;
-        GLint projMatLocation = -1;
-        GLint modelMatLocation = -1;
+        GLint worldToObjectLoc = -1;
+        GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
         ShaderAsset *asset;
 
@@ -190,17 +189,19 @@ namespace Harpia::Internal {
         modelMat = glm::rotate(modelMat, glm::radians(45.f), {0, 1, 0});
         modelMat = glm::rotate(modelMat, glm::radians(45.f), {1, 0, 0});
 
-        auto projMat = glm::perspective(glm::radians(60.0f), 640.0f/480.0f, 0.01f, 10.0f);
-
-        auto viewMat = glm::translate(glm::vec3{0, 0, -5.0f});
+        auto projMat = //glm::mat4(1.0f);//;
+                glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
+                glm::translate(glm::vec3{0, 0, -5.0f});
 
         GLfloat c[] = {1, 0, 1, 1};
 
         const std::string vertexShaderSource =
+
 #include "Shaders/defaultVertexShader.h"
 
         const auto vsh = vertexShaderSource.data();
         const std::string fragmentShaderSource =
+
 #include "Shaders/defaultFragmentShader.h"
 
         const auto fsh = fragmentShaderSource.data();
@@ -253,29 +254,22 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
-        if (projMatLocation == -1) {
-            DebugLogError("Issue when getting u_projectionMatrix");
+        worldToObjectLoc = glGetUniformLocation(programId, "harpia_WorldToObject");
+        if (worldToObjectLoc == -1) {
+            DebugLogError("Issue when getting harpia_WorldToObject");
             goto clean_get_attrib;
         }
 
-        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
-        if (viewMatLocation == -1) {
-            DebugLogError("Issue when getting u_viewMatrix");
-            goto clean_get_attrib;
-        }
-
-        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
-        if (modelMatLocation == -1) {
-            DebugLogError("Issue when getting u_modelMatrix");
+        objectToCameraLoc = glGetUniformLocation(programId, "harpia_ObjectToCamera");
+        if (objectToCameraLoc == -1) {
+            DebugLogError("Issue when getting harpia_ObjectToCamera");
             goto clean_get_attrib;
         }
 
         glUseProgram(programId);
         glUniform4fv(uniformColorLocation, 1, c);
-        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projMat));
-        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(viewMat));
-        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(modelMat));
+        glUniformMatrix4fv(worldToObjectLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
+        glUniformMatrix4fv(objectToCameraLoc, 1, GL_FALSE, glm::value_ptr(projMat));
 
         asset = new ShaderAsset(this);
         asset->programId = programId;
