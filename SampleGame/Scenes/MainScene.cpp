@@ -11,6 +11,7 @@
 #include "Application.h"
 #include "RendererComponent.h"
 #include "Color.h"
+#include "MaterialAsset.h"
 
 namespace SampleGame {
     void SampleGame::MainScene::Load(Harpia::Application *application) {
@@ -30,21 +31,22 @@ namespace SampleGame {
 
         auto cameraObject = CreateObject();
         auto camera = cameraObject->AddComponent<Harpia::CameraComponent>();
-        camera->SetViewport(Harpia::RectInt(0, 0, screenSize.x / 2, screenSize.y));
+        camera->SetViewport(Harpia::RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Harpia::Color(0, 0, 0, 1));
-        auto camera2 = cameraObject->AddComponent<Harpia::CameraComponent>();
-        camera2->SetViewport(Harpia::RectInt(screenSize.x / 2, 0, screenSize.x / 2, screenSize.y));
-        camera2->SetClearColor(Harpia::Color(0, 0, 0.5f, 1));
 
         auto shader = LoadShaderAsset();
 
         auto cube1 = CreateObject();
         auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
-        rend1->SetMaterial(LoadMaterialAsset(shader));
+        auto mat1 = LoadMaterialAsset(shader);
+        mat1->SetColor(Harpia::Color(1, 0.5f, 0, 1));
+        rend1->SetMaterial(mat1);
         rend1->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(-0.5f, 0, 0), Harpia::Vector3(0.5f, 0.5f, 0.5f)));
         auto cube2 = CreateObject();
         auto rend2 = cube2->AddComponent<Harpia::RendererComponent>();
-        rend2->SetMaterial(LoadMaterialAsset(shader));
+        auto mat2 = LoadMaterialAsset(shader);
+        mat2->SetColor(Harpia::Color(0, 0.5f, 1, 1));
+        rend2->SetMaterial(mat2);
         rend2->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(0.5f, 0.3f, 0), Harpia::Vector3(0.5f, 0.5f, 0.5f)));
     }
 }

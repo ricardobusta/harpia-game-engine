@@ -65,6 +65,8 @@ namespace Harpia::Internal {
         bool success = true;
 
         glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
 
         DebugLog("GL Initialized");
 
@@ -161,7 +163,7 @@ namespace Harpia::Internal {
         DebugLog("Update Mesh");
         glGenBuffers(1, vertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, *vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, VECTOR_DIMENSION_GL * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
         glGenBuffers(1, indexBufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *indexBufferId);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(GLuint), indexData, GL_STATIC_DRAW);
@@ -174,26 +176,21 @@ namespace Harpia::Internal {
         mesh->indexBufferId = 0;
     }
 
+    GLint worldToObjectLoc = -1;
+    auto modelMat = glm::mat4(1.0f);
+    GLint colorLoc = -1;
+
     ShaderAsset *RenderingSystemGL::LoadShader() {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
         GLint inPosLocation = -1;
-        GLint uniformColorLocation = -1;
-        GLint worldToObjectLoc = -1;
         GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
         ShaderAsset *asset;
 
-        auto modelMat = glm::mat4(1.0f);
-        modelMat = glm::rotate(modelMat, glm::radians(45.f), {0, 1, 0});
-        modelMat = glm::rotate(modelMat, glm::radians(45.f), {1, 0, 0});
-
-        auto projMat = //glm::mat4(1.0f);//;
-                glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
-                glm::translate(glm::vec3{0, 0, -5.0f});
-
-        GLfloat c[] = {1, 0, 1, 1};
+        auto projMat = glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
+                       glm::translate(glm::vec3{0, 0, -5.0f});
 
         const std::string vertexShaderSource =
 
@@ -248,8 +245,8 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        uniformColorLocation = glGetUniformLocation(programId, "u_color");
-        if (uniformColorLocation == -1) {
+        colorLoc = glGetUniformLocation(programId, "u_color");
+        if (colorLoc == -1) {
             DebugLogError("u_color is not a valid glsl program variable!");
             goto clean_get_attrib;
         }
@@ -267,8 +264,6 @@ namespace Harpia::Internal {
         }
 
         glUseProgram(programId);
-        glUniform4fv(uniformColorLocation, 1, c);
-        glUniformMatrix4fv(worldToObjectLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
         glUniformMatrix4fv(objectToCameraLoc, 1, GL_FALSE, glm::value_ptr(projMat));
 
         asset = new ShaderAsset(this);
@@ -298,14 +293,20 @@ namespace Harpia::Internal {
         shader->vertexLocation = -1;
     }
 
-    void RenderingSystemGL::RenderShader(ShaderAsset *shader) {
+    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
+        auto shader = material->_shader;
         glUseProgram(shader->programId);
+        if (colorLoc != -1) {
+            GLfloat c[] = {material->color.r, material->color.g, material->color.b, material->color.a};
+            glUniform4fv(colorLoc, 1, c);
+        }
+        if (worldToObjectLoc != -1) {
+            modelMat = glm::rotate(modelMat, glm::radians(0.1f), {1, 0, 0});
+            modelMat = glm::rotate(modelMat, glm::radians(0.5f), {0, 1, 0});
+            glUniformMatrix4fv(worldToObjectLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
+        }
         glEnableVertexAttribArray(shader->vertexLocation);
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
-    }
-
-    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
-        RenderShader(material->_shader);
     }
 } // Harpia::Internal

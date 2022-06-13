@@ -20,6 +20,6 @@ namespace Harpia {
     }
 
     CameraComponent::CameraComponent() : Component(), Internal::Camera_Internal() {
-        _clearMask = 0x00004000;
+        _clearMask = 0x00004100; // TODO expose in the API
     }
 } // Harpia

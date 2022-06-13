@@ -8,11 +8,13 @@
 #include "Asset.h"
 #include "GLTypes.h"
 #include "GlobalDefines.h"
+#include "Color.h"
 
 namespace Harpia {
     class MaterialAsset : public Asset {
     public:
         ShaderAsset *_shader = nullptr;
+        Color color;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:
@@ -21,6 +23,7 @@ namespace Harpia {
         void Release() override;
 
         void SetShader(ShaderAsset *shader);
+        void SetColor(const Color &color);
     };
 } // Harpia
 
