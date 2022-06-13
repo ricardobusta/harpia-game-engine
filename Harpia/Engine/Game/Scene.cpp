@@ -42,8 +42,8 @@ namespace Harpia {
         return asset;
     }
 
-    ShaderAsset *Scene::LoadShaderAsset(const Color &color) {
-        auto asset = _applicationInternal->_renderSystem->LoadShader(color);
+    ShaderAsset *Scene::LoadShaderAsset() {
+        auto asset = _applicationInternal->_renderSystem->LoadShader();
         _assets.push_back(asset);
         return asset;
     }

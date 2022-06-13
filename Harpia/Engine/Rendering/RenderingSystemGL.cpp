@@ -34,7 +34,7 @@ namespace Harpia::Internal {
 
             delete[] infoLog;
         } else {
-            DebugLog("Name %d is not a program", program);
+            DebugLogError("Name %d is not a program", program);
         }
     }
 
@@ -54,7 +54,7 @@ namespace Harpia::Internal {
 
             delete[] infoLog;
         } else {
-            DebugLog("Name %d is not a shader", shader);
+            DebugLogError("Name %d is not a shader", shader);
         }
     }
 
@@ -171,11 +171,12 @@ namespace Harpia::Internal {
         mesh->indexBufferId = 0;
     }
 
-    ShaderAsset *RenderingSystemGL::LoadShader(const Color &color) {
+    ShaderAsset *RenderingSystemGL::LoadShader() {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
-        GLint vertexPos3DLocation = -1;
+        GLint inPosLocation = -1;
+        GLint uniformColorLocation = -1;
         GLint viewMatLocation = -1;
         GLint projMatLocation = -1;
         GLint modelMatLocation = -1;
@@ -183,10 +184,12 @@ namespace Harpia::Internal {
         ShaderAsset *asset;
 
         GLfloat identity[] = {
-                1,0,0,0,
-                0,1,0,0,
-                0,0,1,0
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
         };
+        GLfloat c[] = {1, 0, 1, 1};
 
         const std::string vertexShaderSource =
                 "#version 400\n"
@@ -195,17 +198,25 @@ namespace Harpia::Internal {
                 "uniform mat4 u_projectionMatrix;"
                 "uniform mat4 u_viewMatrix;"
                 "uniform mat4 u_modelMatrix;"
+                ""
                 "void main() {"
-                "   vec4 modelPos = u_modelMatrix * vec4( inPos, 1.0 );\n"
+                "   vec4 pos = vec4( inPos, 1.0 );"
+                "   vec4 modelPos = u_modelMatrix * pos;\n"
                 "   vec4 viewPos  = u_viewMatrix * modelPos;"
-                "   gl_Position = vec4( inPos, 1.0 );"
+                "   vec4 finalPos = u_projectionMatrix * viewPos;"
+                "   gl_Position = finalPos;"
                 "}";
         const auto vsh = vertexShaderSource.data();
-        const std::string fragmentShaderSource = "#version 140\nout vec4 LFragment; void main() { LFragment = vec4(" +
-                                                 std::to_string(color.r) + "," +
-                                                 std::to_string(color.g) + "," +
-                                                 std::to_string(color.b) + "," +
-                                                 std::to_string(color.a) + "); }";
+        const std::string fragmentShaderSource =
+                "#version 400\n"
+                ""
+                "out vec4 fragColor;"
+                ""
+                "uniform vec4 u_color;"
+                ""
+                "void main() { "
+                "   fragColor = u_color;"
+                "}";
         const auto fsh = fragmentShaderSource.data();
 
         programId = glCreateProgram();
@@ -244,38 +255,47 @@ namespace Harpia::Internal {
             goto clean_link_program;
         }
 
-        vertexPos3DLocation = glGetAttribLocation(programId, "inPos");
-        if (vertexPos3DLocation == -1) {
+        inPosLocation = glGetAttribLocation(programId, "inPos");
+        if (inPosLocation == -1) {
             DebugLogError("inPos is not a valid glsl program variable!");
             goto clean_get_attrib;
         }
 
-//        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
-//        if (projMatLocation == -1) {
-//            DebugLogError("Issue when getting u_projectionMatrix");
-//            goto clean_get_attrib;
-//        }
-//        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, identity);
-//
-//        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
-//        if (viewMatLocation == -1) {
-//            DebugLogError("Issue when getting u_viewMatrix");
-//            goto clean_get_attrib;
-//        }
-//        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, identity);
+        uniformColorLocation = glGetUniformLocation(programId, "u_color");
+        if (uniformColorLocation == -1) {
+            DebugLogError("u_color is not a valid glsl program variable!");
+            goto clean_get_attrib;
+        }
 
-//        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
-//        if (modelMatLocation == -1) {
-//            DebugLogError("Issue when getting u_modelMatrix");
-//            goto clean_get_attrib;
-//        }
-//        glUniformMatrix4fv(modelMatLocation, 1, GL_TRUE, identity);
+        projMatLocation = glGetUniformLocation(programId, "u_projectionMatrix");
+        if (projMatLocation == -1) {
+            DebugLogError("Issue when getting u_projectionMatrix");
+            goto clean_get_attrib;
+        }
+
+        viewMatLocation = glGetUniformLocation(programId, "u_viewMatrix");
+        if (viewMatLocation == -1) {
+            DebugLogError("Issue when getting u_viewMatrix");
+            goto clean_get_attrib;
+        }
+
+        modelMatLocation = glGetUniformLocation(programId, "u_modelMatrix");
+        if (modelMatLocation == -1) {
+            DebugLogError("Issue when getting u_modelMatrix");
+            goto clean_get_attrib;
+        }
+
+        glUseProgram(programId);
+        glUniform4fv(uniformColorLocation, 1, c);
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, identity);
+        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, identity);
+        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, identity);
 
         asset = new ShaderAsset(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
-        asset->vertexLocation = vertexPos3DLocation;
+        asset->vertexLocation = inPosLocation;
         return asset;
 
         clean_get_attrib:

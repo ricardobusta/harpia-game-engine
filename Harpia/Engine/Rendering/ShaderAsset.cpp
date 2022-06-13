@@ -13,6 +13,6 @@ namespace Harpia {
 
     void ShaderAsset::Release() {
         _renderingSystem->ReleaseShader(this);
-        DebugLog("Mesh released. Usages: %d", useCount);
+        DebugLog("Shader released. Usages: %d", useCount);
     }
 } // Harpia
