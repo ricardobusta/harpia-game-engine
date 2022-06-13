@@ -10,10 +10,13 @@
 #include "Configuration.h"
 #include "Camera_Internal.h"
 #include "Renderer_Internal.h"
-#include "String.h"
+#include "HarpiaString.h"
 #include "Matrix4X4.h"
+#include "glm/gtx/transform.hpp"
 #include "glm/mat4x4.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "ShaderAsset.h"
+#include <cstring>
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -183,40 +186,23 @@ namespace Harpia::Internal {
         GLint success = GL_FALSE;
         ShaderAsset *asset;
 
-        GLfloat identity[] = {
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1
-        };
+        auto modelMat = glm::mat4(1.0f);
+        modelMat = glm::rotate(modelMat, glm::radians(45.f), {0, 1, 0});
+        modelMat = glm::rotate(modelMat, glm::radians(45.f), {1, 0, 0});
+
+        auto projMat = glm::perspective(glm::radians(60.0f), 640.0f/480.0f, 0.01f, 10.0f);
+
+        auto viewMat = glm::translate(glm::vec3{0, 0, -5.0f});
+
         GLfloat c[] = {1, 0, 1, 1};
 
         const std::string vertexShaderSource =
-                "#version 400\n"
-                "layout (location = 0) in vec3 inPos;"
-                ""
-                "uniform mat4 u_projectionMatrix;"
-                "uniform mat4 u_viewMatrix;"
-                "uniform mat4 u_modelMatrix;"
-                ""
-                "void main() {"
-                "   vec4 pos = vec4( inPos, 1.0 );"
-                "   vec4 modelPos = u_modelMatrix * pos;\n"
-                "   vec4 viewPos  = u_viewMatrix * modelPos;"
-                "   vec4 finalPos = u_projectionMatrix * viewPos;"
-                "   gl_Position = finalPos;"
-                "}";
+#include "Shaders/defaultVertexShader.h"
+
         const auto vsh = vertexShaderSource.data();
         const std::string fragmentShaderSource =
-                "#version 400\n"
-                ""
-                "out vec4 fragColor;"
-                ""
-                "uniform vec4 u_color;"
-                ""
-                "void main() { "
-                "   fragColor = u_color;"
-                "}";
+#include "Shaders/defaultFragmentShader.h"
+
         const auto fsh = fragmentShaderSource.data();
 
         programId = glCreateProgram();
@@ -287,9 +273,9 @@ namespace Harpia::Internal {
 
         glUseProgram(programId);
         glUniform4fv(uniformColorLocation, 1, c);
-        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, identity);
-        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, identity);
-        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, identity);
+        glUniformMatrix4fv(projMatLocation, 1, GL_FALSE, glm::value_ptr(projMat));
+        glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, glm::value_ptr(viewMat));
+        glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, glm::value_ptr(modelMat));
 
         asset = new ShaderAsset(this);
         asset->programId = programId;
