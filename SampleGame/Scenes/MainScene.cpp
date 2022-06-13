@@ -36,13 +36,15 @@ namespace SampleGame {
         camera2->SetViewport(Harpia::RectInt(screenSize.x / 2, 0, screenSize.x / 2, screenSize.y));
         camera2->SetClearColor(Harpia::Color(0, 0, 0.5f, 1));
 
+        auto shader = LoadShaderAsset();
+
         auto cube1 = CreateObject();
         auto rend1 = cube1->AddComponent<Harpia::RendererComponent>();
-        rend1->SetMaterial(LoadMaterialAsset(LoadShaderAsset()));
+        rend1->SetMaterial(LoadMaterialAsset(shader));
         rend1->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(-0.5f, 0, 0), Harpia::Vector3(0.5f, 0.5f, 0.5f)));
         auto cube2 = CreateObject();
         auto rend2 = cube2->AddComponent<Harpia::RendererComponent>();
-        rend2->SetMaterial(LoadMaterialAsset(LoadShaderAsset()));
+        rend2->SetMaterial(LoadMaterialAsset(shader));
         rend2->SetMesh(LoadBoxMeshAsset(Harpia::Vector3(0.5f, 0.3f, 0), Harpia::Vector3(0.5f, 0.5f, 0.5f)));
     }
 }
