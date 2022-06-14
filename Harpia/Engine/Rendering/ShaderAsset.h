@@ -12,10 +12,13 @@ namespace Harpia {
 
     class ShaderAsset : public Asset {
     public:
-        GLuint programId;
-        GLuint vertexShader;
-        GLuint fragmentShader;
-        GLint vertexLocation;
+        GLuint programId = 0;
+        GLuint vertexShader = 0;
+        GLuint fragmentShader = 0;
+        GLint vertexLocation = -1;
+        GLint objectToCameraLoc = -1;
+        GLint worldToObjectLoc = -1;
+        GLint colorLoc = -1;
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
     public:

@@ -15,6 +15,9 @@ namespace Harpia {
 
         void SetViewport(const RectInt &viewport);
         void SetClearColor(const Color &color);
+
+    private:
+        Transform * GetTransformInternal() override;
     };
 } // Harpia
 

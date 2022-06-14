@@ -3,11 +3,12 @@
 //
 
 #include "RotateAround.h"
-#include "Vector3.h"
 
 namespace SampleGame {
     void RotateAround::Update() {
-        target->GetRotation().Rotate(0.1f,Harpia::Vector3(1,0,0));
-        target->GetRotation().Rotate(0.5f,Harpia::Vector3(0,1,0));
+        auto tr = target->GetTrMatrix();
+        tr = glm::rotate(tr, 0.1f, {1,0,0});
+        tr = glm::rotate(tr, 0.5f, {0,1,0});
+        target->SetTrMatrix(tr);
     }
 } // SampleGame

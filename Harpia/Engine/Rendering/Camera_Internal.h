@@ -8,6 +8,7 @@
 #include "RectInt.h"
 #include "Color.h"
 #include "GLTypes.h"
+#include "InternalDefines.h"
 
 namespace Harpia::Internal {
     class Camera_Internal {
@@ -15,6 +16,8 @@ namespace Harpia::Internal {
         GLbitfield _clearMask = 0;
         Color _clearColor;
         RectInt _viewport;
+    public:
+        virtual Transform *GetTransformInternal() = 0;
     };
 } // Harpia::Internal
 

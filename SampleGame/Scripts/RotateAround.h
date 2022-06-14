@@ -8,14 +8,12 @@
 #include "Component.h"
 
 namespace SampleGame {
-
     class RotateAround: public Harpia::Component {
     public:
         Harpia::Transform * target;
     public:
         void Update() override;
     };
-
 } // SampleGame
 
 #endif //HARPIAGAMEENGINE_ROTATEAROUND_H

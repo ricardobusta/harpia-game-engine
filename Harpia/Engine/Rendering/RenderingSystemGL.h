@@ -32,7 +32,8 @@ namespace Harpia::Internal {
         void ReleaseMesh(MeshAsset *mesh) override;
         ShaderAsset *LoadShader() override;
         void ReleaseShader(ShaderAsset *shader) override;
-        void RenderMaterial(MaterialAsset * material);
+        void RenderMaterial(MaterialAsset *material, const float *objectTransform,
+                            const float *cameraTransform);
     };
 } // Harpia::Internal
 

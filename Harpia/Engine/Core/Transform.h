@@ -14,7 +14,7 @@ namespace Harpia {
         Vector3 _position;
         Vector3 _scale;
         Quaternion _rotation;
-
+        glm::mat4 _tr = glm::mat4(1.0f); // TODO Temporary, try not using glm directly
     public:
         Transform();
 
@@ -27,6 +27,9 @@ namespace Harpia {
         Quaternion GetRotation();
         void SetRotation(const Quaternion &rotation);
         void Rotate(float angle, const Vector3 &axis);
+
+        glm::mat4 GetTrMatrix(); // TODO Temporary solution until transform wrappers are created
+        void SetTrMatrix(const glm::mat4 & tr); // TODO temporary
     };
 } // Harpia
 

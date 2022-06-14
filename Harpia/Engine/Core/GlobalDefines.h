@@ -26,6 +26,7 @@ namespace Harpia { // Game/Application
     class MeshAsset;
     class ShaderAsset;
     class Asset;
+    class Transform;
 }
 
 namespace Harpia { // Components

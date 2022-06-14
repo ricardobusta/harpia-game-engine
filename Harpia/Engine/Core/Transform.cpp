@@ -37,4 +37,12 @@ namespace Harpia {
     void Transform::Rotate(float angle, const Vector3 &axis) {
         _rotation.Rotate(angle, axis);
     }
+
+    glm::mat4 Transform::GetTrMatrix() {
+        return _tr;
+    }
+
+    void Transform::SetTrMatrix(const glm::mat4 &tr) {
+        _tr = tr;
+    }
 } // Harpia

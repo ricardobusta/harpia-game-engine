@@ -12,4 +12,8 @@ namespace Harpia {
     void RendererComponent::SetMaterial(MaterialAsset *material) {
         _material = material;
     }
+
+    Transform *RendererComponent::GetTransformInternal() {
+        return &GetObject()->transform;
+    }
 } // Harpia

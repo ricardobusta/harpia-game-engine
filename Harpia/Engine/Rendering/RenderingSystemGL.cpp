@@ -10,13 +10,11 @@
 #include "Configuration.h"
 #include "Camera_Internal.h"
 #include "Renderer_Internal.h"
-#include "HarpiaString.h"
-#include "Matrix4X4.h"
 #include "glm/gtx/transform.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "ShaderAsset.h"
-#include <cstring>
+#include "Transform.h"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -97,7 +95,13 @@ namespace Harpia::Internal {
             glClear(camera->_clearMask);
 
             for (auto r: _renderers) {
-                RenderMaterial(r->_material);
+                glUseProgram(r->_material->_shader->programId);
+                auto projMat = glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
+                               glm::translate(glm::vec3{0, 0, -5.0f}); // TODO move to camera and cache
+                auto rt = r->GetTransformInternal()->GetTrMatrix();
+                //auto rt = glm::mat4(1.0f);
+                //auto ct = glm::value_ptr(camera->GetTransformInternal()->GetTrMatrix());
+                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(projMat));
                 DrawMesh(r->_mesh);
             }
 
@@ -176,15 +180,13 @@ namespace Harpia::Internal {
         mesh->indexBufferId = 0;
     }
 
-    GLint worldToObjectLoc = -1;
-    auto modelMat = glm::mat4(1.0f);
-    GLint colorLoc = -1;
-
     ShaderAsset *RenderingSystemGL::LoadShader() {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
         GLint inPosLocation = -1;
+        GLint colorLocation = -1;
+        GLint worldToObjectLoc = -1;
         GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
         ShaderAsset *asset;
@@ -245,8 +247,8 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        colorLoc = glGetUniformLocation(programId, "u_color");
-        if (colorLoc == -1) {
+        colorLocation = glGetUniformLocation(programId, "u_color");
+        if (colorLocation == -1) {
             DebugLogError("u_color is not a valid glsl program variable!");
             goto clean_get_attrib;
         }
@@ -263,14 +265,14 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        glUseProgram(programId);
-        glUniformMatrix4fv(objectToCameraLoc, 1, GL_FALSE, glm::value_ptr(projMat));
-
         asset = new ShaderAsset(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
         asset->vertexLocation = inPosLocation;
+        asset->objectToCameraLoc = objectToCameraLoc;
+        asset->worldToObjectLoc = worldToObjectLoc;
+        asset->colorLoc = colorLocation;
         return asset;
 
         clean_get_attrib:
@@ -293,17 +295,19 @@ namespace Harpia::Internal {
         shader->vertexLocation = -1;
     }
 
-    void RenderingSystemGL::RenderMaterial(MaterialAsset *material) {
+    void RenderingSystemGL::RenderMaterial(MaterialAsset *material, const float *objectTransform,
+                                           const float *cameraTransform) {
         auto shader = material->_shader;
         glUseProgram(shader->programId);
-        if (colorLoc != -1) {
+        if (shader->colorLoc != -1) {
             GLfloat c[] = {material->color.r, material->color.g, material->color.b, material->color.a};
-            glUniform4fv(colorLoc, 1, c);
+            glUniform4fv(shader->colorLoc, 1, c);
         }
-        if (worldToObjectLoc != -1) {
-            modelMat = glm::rotate(modelMat, glm::radians(0.1f), {1, 0, 0});
-            modelMat = glm::rotate(modelMat, glm::radians(0.5f), {0, 1, 0});
-            glUniformMatrix4fv(worldToObjectLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
+        if (shader->worldToObjectLoc != -1) {
+            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, objectTransform);
+        }
+        if (shader->objectToCameraLoc != -1) {
+            glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
         }
         glEnableVertexAttribArray(shader->vertexLocation);
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,

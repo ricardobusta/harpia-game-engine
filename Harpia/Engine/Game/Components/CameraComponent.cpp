@@ -22,4 +22,8 @@ namespace Harpia {
     CameraComponent::CameraComponent() : Component(), Internal::Camera_Internal() {
         _clearMask = 0x00004100; // TODO expose in the API
     }
+
+    Transform *CameraComponent::GetTransformInternal() {
+        return &GetObject()->transform;
+    }
 } // Harpia
