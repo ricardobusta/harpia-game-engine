@@ -7,7 +7,7 @@
 
 #include "Asset.h"
 #include <vector>
-#include <Vector3.h>
+#include "HarpiaMath.h"
 #include "GLTypes.h"
 
 namespace Harpia {

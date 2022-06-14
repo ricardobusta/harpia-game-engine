@@ -3,12 +3,14 @@
 //
 
 #include "RotateAround.h"
+#include "HarpiaMath.h"
+
+using namespace Harpia;
 
 namespace SampleGame {
     void RotateAround::Update() {
-        auto tr = target->GetTrMatrix();
-        tr = glm::rotate(tr, 0.1f, {1,0,0});
-        tr = glm::rotate(tr, 0.5f, {0,1,0});
-        target->SetTrMatrix(tr);
+        target->SetTrMatrix(target->GetTrMatrix() * Matrix::Rotation(speed.x * Math::Deg2Rad, {1, 0, 0}) *
+                            Matrix::Rotation(speed.y * Math::Deg2Rad, {0, 1, 0}) *
+                            Matrix::Rotation(speed.z * Math::Deg2Rad, {0, 0, 1}));
     }
 } // SampleGame

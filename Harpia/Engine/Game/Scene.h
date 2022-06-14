@@ -8,7 +8,7 @@
 #include "Internal/Scene_Internal.h"
 #include "InternalDefines.h"
 #include <string>
-#include "Vector3.h"
+#include "HarpiaMath.h"
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {

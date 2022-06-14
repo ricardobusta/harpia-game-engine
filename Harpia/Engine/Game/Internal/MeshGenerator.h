@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_MESHGENERATOR_H
 #define HARPIAGAMEENGINE_MESHGENERATOR_H
 
-#include "Vector3.h"
+#include "HarpiaMath.h"
 #include <vector>
 
 namespace Harpia::Internal {

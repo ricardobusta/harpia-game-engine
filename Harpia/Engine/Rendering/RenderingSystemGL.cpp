@@ -10,11 +10,10 @@
 #include "Configuration.h"
 #include "Camera_Internal.h"
 #include "Renderer_Internal.h"
-#include "glm/gtx/transform.hpp"
-#include "glm/mat4x4.hpp"
-#include "glm/gtc/type_ptr.hpp"
 #include "ShaderAsset.h"
 #include "Transform.h"
+#include "HarpiaMath.h"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -96,12 +95,10 @@ namespace Harpia::Internal {
 
             for (auto r: _renderers) {
                 glUseProgram(r->_material->_shader->programId);
-                auto projMat = glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
-                               glm::translate(glm::vec3{0, 0, -5.0f}); // TODO move to camera and cache
+                auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f); // TODO move to camera and cache
                 auto rt = r->GetTransformInternal()->GetTrMatrix();
-                //auto rt = glm::mat4(1.0f);
-                //auto ct = glm::value_ptr(camera->GetTransformInternal()->GetTrMatrix());
-                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(projMat));
+                auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
+                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct));
                 DrawMesh(r->_mesh);
             }
 
@@ -190,9 +187,6 @@ namespace Harpia::Internal {
         GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
         ShaderAsset *asset;
-
-        auto projMat = glm::perspective(glm::radians(60.0f), 640.0f / 480.0f, 0.01f, 10.0f) *
-                       glm::translate(glm::vec3{0, 0, -5.0f});
 
         const std::string vertexShaderSource =
 

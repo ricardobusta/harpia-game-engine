@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 #define HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 
-#include "RectInt.h"
+#include "Rect.h"
 #include "Color.h"
 #include "GLTypes.h"
 #include "InternalDefines.h"

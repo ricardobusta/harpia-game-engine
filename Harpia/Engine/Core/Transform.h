@@ -5,16 +5,15 @@
 #ifndef HARPIAGAMEENGINE_TRANSFORM_H
 #define HARPIAGAMEENGINE_TRANSFORM_H
 
-#include "Vector3.h"
-#include "Quaternion.h"
+#include "HarpiaMath.h"
 
 namespace Harpia {
     class Transform {
     private:
-        Vector3 _position;
-        Vector3 _scale;
-        Quaternion _rotation;
-        glm::mat4 _tr = glm::mat4(1.0f); // TODO Temporary, try not using glm directly
+        Vector3 _position = Vector3();
+        Vector3 _scale = Vector3();
+       // Quaternion _rotation = Quaternion();
+        Matrix4x4 _tr = Matrix4x4(); // TODO Temporary, try not using glm directly
     public:
         Transform();
 
@@ -24,12 +23,12 @@ namespace Harpia {
         Vector3 GetScale();
         void SetScale(const Vector3 &scale);
 
-        Quaternion GetRotation();
-        void SetRotation(const Quaternion &rotation);
+        //Quaternion GetRotation();
+        //void SetRotation(const Quaternion &rotation);
         void Rotate(float angle, const Vector3 &axis);
 
-        glm::mat4 GetTrMatrix(); // TODO Temporary solution until transform wrappers are created
-        void SetTrMatrix(const glm::mat4 & tr); // TODO temporary
+        Matrix4x4 GetTrMatrix(); // TODO Temporary solution until transform wrappers are created
+        void SetTrMatrix(const Matrix4x4 & tr); // TODO temporary
     };
 } // Harpia
 

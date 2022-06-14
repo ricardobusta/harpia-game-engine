@@ -3,6 +3,7 @@
 //
 
 #include "Transform.h"
+#include "HarpiaMath.h"
 
 namespace Harpia {
     Transform::Transform() {
@@ -26,23 +27,23 @@ namespace Harpia {
         _scale = scale;
     }
 
-    Quaternion Transform::GetRotation() {
-        return _rotation;
-    }
-
-    void Transform::SetRotation(const Quaternion &rotation) {
-        _rotation = rotation;
-    }
+//    Quaternion Transform::GetRotation() {
+//        return _rotation;
+//    }
+//
+//    void Transform::SetRotation(const Quaternion &rotation) {
+//        _rotation = rotation;
+//    }
 
     void Transform::Rotate(float angle, const Vector3 &axis) {
-        _rotation.Rotate(angle, axis);
+        //_rotation.Rotate(angle, axis);
     }
 
-    glm::mat4 Transform::GetTrMatrix() {
+    Matrix4x4 Transform::GetTrMatrix() {
         return _tr;
     }
 
-    void Transform::SetTrMatrix(const glm::mat4 &tr) {
+    void Transform::SetTrMatrix(const Matrix4x4 &tr) {
         _tr = tr;
     }
 } // Harpia

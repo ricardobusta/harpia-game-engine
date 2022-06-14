@@ -7,7 +7,7 @@
 
 #include <functional>
 #include "Internal/Application_Internal.h"
-#include "Vector2Int.h"
+#include "HarpiaMath.h"
 
 namespace Harpia {
     class Application : private Internal::Application_Internal {

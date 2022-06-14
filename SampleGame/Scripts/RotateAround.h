@@ -10,6 +10,7 @@
 namespace SampleGame {
     class RotateAround: public Harpia::Component {
     public:
+        Harpia::Vector3 speed;
         Harpia::Transform * target;
     public:
         void Update() override;

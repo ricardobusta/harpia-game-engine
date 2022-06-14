@@ -43,3 +43,7 @@ https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
 ## Lazy Foo'
 Good old SDL tutorials
 https://lazyfoo.net/tutorials/SDL/index.php
+
+## Math libs
+- https://github.com/sgorsten/linalg/blob/main/linalg.h
+- https://github.com/g-truc/glm
