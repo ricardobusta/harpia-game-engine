@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_MAINSCENE_H
 #define HARPIAGAMEENGINE_MAINSCENE_H
 
-#include "Scene.h"
+#include "hge/Scene.h"
 
 namespace SampleGame {
     class MainScene : public Harpia::Scene {

@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "Application.h"
+#include "hge/Application.h"
 #include "GameConfig.h"
 
 using namespace SampleGame;

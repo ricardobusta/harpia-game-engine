@@ -3,7 +3,7 @@
 //
 
 #include "RotateAround.h"
-#include "HarpiaMath.h"
+#include "hge/HarpiaMath.h"
 
 using namespace Harpia;
 

@@ -3,17 +3,17 @@
 //
 
 #include "MainScene.h"
-#include "Debug.h"
-#include "AudioComponent.h"
-#include "MusicComponent.h"
-#include "CameraComponent.h"
+#include "hge/Debug.h"
+#include "hge/AudioComponent.h"
+#include "hge/MusicComponent.h"
+#include "hge/CameraComponent.h"
 #include "TestAudio.h"
-#include "Application.h"
-#include "RendererComponent.h"
-#include "Color.h"
-#include "MaterialAsset.h"
+#include "hge/Application.h"
+#include "hge/RendererComponent.h"
+#include "hge/Color.h"
+#include "hge/MaterialAsset.h"
 #include "RotateAround.h"
-#include "HarpiaMath.h"
+#include "hge/HarpiaMath.h"
 
 using namespace Harpia;
 

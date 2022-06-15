@@ -5,9 +5,9 @@
 #ifndef HARPIAGAMEENGINE_TESTAUDIO_H
 #define HARPIAGAMEENGINE_TESTAUDIO_H
 
-#include "Component.h"
-#include "AudioComponent.h"
-#include "MusicComponent.h"
+#include "hge/Component.h"
+#include "hge/AudioComponent.h"
+#include "hge/MusicComponent.h"
 
 namespace SampleGame {
     class TestAudio : public Harpia::Component {

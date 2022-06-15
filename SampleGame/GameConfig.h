@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_GAMECONFIG_H
 #define HARPIAGAMEENGINE_GAMECONFIG_H
 
-#include "Configuration.h"
+#include "hge/Configuration.h"
 
 namespace Harpia {
     class ISceneDescription;

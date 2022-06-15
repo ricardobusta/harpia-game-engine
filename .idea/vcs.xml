@@ -37,5 +37,6 @@
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/EGL-Registry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/OpenGL-Registry" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glew-2.2.0/auto/glfixes" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Harpia/ThirdParty/glm" vcs="Git" />
   </component>
 </project>
