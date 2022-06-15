@@ -1,6 +1,0 @@
-add_subdirectory(glew-2.2.0/build/cmake)
-add_subdirectory(glm)
-add_subdirectory(SDL)
-add_subdirectory(SDL_image)
-add_subdirectory(SDL_mixer)
-add_subdirectory(SDL_ttf)
