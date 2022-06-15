@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="SampleGame" pattern="file[harpia-game-engine]:SampleGame//*" />
+</component>
