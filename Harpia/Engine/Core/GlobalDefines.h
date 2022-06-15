@@ -22,6 +22,11 @@ namespace Harpia { // Game/Application
     class Color;
     class AudioAsset;
     class MusicAsset;
+    class MaterialAsset;
+    class MeshAsset;
+    class ShaderAsset;
+    class Asset;
+    class Transform;
 }
 
 namespace Harpia { // Components

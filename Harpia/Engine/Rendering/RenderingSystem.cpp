@@ -9,8 +9,6 @@
 #include "CoreSystem.h"
 #include "Configuration.h"
 #include "HarpiaAssert.h"
-#include "Camera_Internal.h"
-#include "Renderer_Internal.h"
 
 namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
@@ -32,7 +30,7 @@ namespace Harpia::Internal {
             return result;
         }
 
-        coreSystem->onRendering += [this]() { RenderFrame(); };
+        coreSystem->onRenderStep += [this]() { RenderFrame(); };
 
         return 0;
     }

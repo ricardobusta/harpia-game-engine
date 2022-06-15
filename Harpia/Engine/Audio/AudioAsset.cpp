@@ -3,6 +3,15 @@
 //
 
 #include "AudioAsset.h"
+#include "Application_Internal.h"
+#include "AudioSystem.h"
 
 namespace Harpia {
+    void AudioAsset::Release() {
+        _audioSystem->ReleaseAudio(this);
+    }
+
+    AudioAsset::AudioAsset(Internal::AudioSystem *audioSystem) {
+        _audioSystem = audioSystem;
+    }
 } // Harpia

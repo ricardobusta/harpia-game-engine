@@ -7,9 +7,12 @@
 
 #include <functional>
 #include "Internal/Application_Internal.h"
+#include "HarpiaMath.h"
 
 namespace Harpia {
     class Application : private Internal::Application_Internal {
+    public:
+        Vector2Int screenSize;
     private:
         bool _createdWithSuccess = false;
     public:

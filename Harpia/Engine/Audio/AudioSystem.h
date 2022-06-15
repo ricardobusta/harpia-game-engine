@@ -21,33 +21,23 @@ namespace Harpia::Internal {
         std::map<std::string, MusicAsset *> _loadedMusics;
     public:
         AudioAsset *LoadAudio(const std::string &path);
-
         void ReleaseAudio(AudioAsset *audio);
-
         void PlayAudio(AudioAsset *audio);
 
         MusicAsset *LoadMusic(const std::string &path);
-
         void ReleaseMusic(MusicAsset *music);
-
         void PlayMusic(MusicAsset *music);
-
         void PauseMusic();
-
         void ResumeMusic();
-
         bool IsMusicPaused();
 
         int Initialize(AudioConfiguration &config, CoreSystem *coreSystem);
-
         int GetInitFlags() override;
-
         int GetWindowFlags() override;
-
         void Quit() override;
 
     private:
-        void DeleteAudio(AudioAsset * audio);
+        void DeleteAudio(AudioAsset *audio);
         void ReleaseAllUsages(AudioAsset *audio);
         void DeleteMusic(MusicAsset *music);
         void ReleaseAllUsages(MusicAsset *music);

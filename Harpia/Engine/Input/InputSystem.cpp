@@ -23,7 +23,7 @@ namespace Harpia::Internal {
             _keyMap[key] = KeyState();
         }
 
-        _inputReader = new InputReader(&_keyMap, [this](auto key){
+        _inputReader = new InputReader(&_keyMap, [this](auto key) {
             DebugLogWarning("Key %d not mapped, consider adding it in the game configs", key);
             _keyMap[key] = KeyState();
         });

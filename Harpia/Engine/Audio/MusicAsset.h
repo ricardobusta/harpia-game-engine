@@ -6,16 +6,20 @@
 #define HARPIAGAMEENGINE_MUSICASSET_H
 
 #include "Asset.h"
-
+#include "InternalDefines.h"
 #include "MixTypes.h"
 
 namespace Harpia {
-
     class MusicAsset : public Asset {
     public:
-        Mix_Music *ref;
+        Mix_Music *ref = nullptr;
+    private:
+        Internal::AudioSystem *_audioSystem = nullptr;
+    public:
+        explicit MusicAsset(Internal::AudioSystem *audioSystem);
+        MusicAsset() = delete;
+        void Release() override;
     };
-
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_MUSICASSET_H

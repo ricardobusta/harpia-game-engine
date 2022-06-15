@@ -9,11 +9,8 @@
 #include "Application_Internal.h"
 
 namespace Harpia {
-    void MusicComponent::SetMusicFile(const std::string &path) {
-        if (_music != nullptr) {
-            _audioSystem->ReleaseMusic(_music);
-        }
-        _music = _audioSystem->LoadMusic(path);
+    void MusicComponent::SetMusic(MusicAsset *music) {
+        this->_music = music;
     }
 
     void MusicComponent::Play() {

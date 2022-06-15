@@ -14,7 +14,8 @@ namespace Harpia {
     class HierarchyStatic {
     public:
         template<class T>
-        static T *AddComponent(Object *object, Internal::Application_Internal *application, std::list<Component *> &components) {
+        static T *AddComponent(Object *object, Internal::Application_Internal *application,
+                               std::list<Component *> &components) {
             static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
             auto *c = new T();
             auto *ci = (Internal::Component_Internal *) c; // c style cast to override private inheritance

@@ -15,7 +15,7 @@ namespace Harpia {
         MusicAsset *_music = nullptr;
         Internal::AudioSystem *_audioSystem = nullptr;
     public:
-        void SetMusicFile(const std::string &path);
+        void SetMusic(MusicAsset *music);
 
         void Play();
 

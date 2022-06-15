@@ -5,9 +5,15 @@
 #ifndef HARPIAGAMEENGINE_RENDERER_INTERNAL_H
 #define HARPIAGAMEENGINE_RENDERER_INTERNAL_H
 
+#include "InternalDefines.h"
+
 namespace Harpia::Internal {
     class Renderer_Internal {
-
+    public:
+        MeshAsset *_mesh = nullptr;
+        MaterialAsset *_material = nullptr;
+    public:
+        virtual Transform *GetTransformInternal() = 0;
     };
 } // Harpia::Internal
 

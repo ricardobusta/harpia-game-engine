@@ -24,6 +24,7 @@ namespace Harpia {
         }
 
         configure(configuration);
+        screenSize = configuration.window.size;
 
         _coreSystem = new Internal::CoreSystem();
         _renderSystem = new Internal::RenderingSystemGL();
@@ -57,6 +58,7 @@ namespace Harpia {
             DebugLogError("Application executed with an error");
         }
 
+        _sceneManagementSystem->Quit();
         _audioSystem->Quit();
         _inputSystem->Quit();
         _renderSystem->Quit();
@@ -64,6 +66,7 @@ namespace Harpia {
 
         DebugLog("All systems quit");
 
+        SystemCleanup(_sceneManagementSystem);
         SystemCleanup(_audioSystem);
         SystemCleanup(_inputSystem);
         SystemCleanup(_renderSystem);

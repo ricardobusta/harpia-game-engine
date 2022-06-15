@@ -8,13 +8,15 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 
-if(BUILD_SHARED_LIBS)
+if (BUILD_SHARED_LIBS)
     set(GLEW_LINK glew)
-else()
+else ()
     set(GLEW_LINK glew_s)
-endif()
+endif ()
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         ${GLEW_LINK}
         Harpia.Core
+        Harpia.Application.Internal
+        Harpia.Game.Internal
 )

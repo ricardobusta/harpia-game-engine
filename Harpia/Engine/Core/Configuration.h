@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "GlobalDefines.h"
-#include "Vector2Int.h"
+#include "HarpiaMath.h"
 #include "SDL_keycode.h"
 
 namespace Harpia {

@@ -2,8 +2,8 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
 
-#ifndef HARPIAGAMEENGINE_STRING_H
-#define HARPIAGAMEENGINE_STRING_H
+#ifndef HARPIAGAMEENGINE_HARPIASTRING_H
+#define HARPIAGAMEENGINE_HARPIASTRING_H
 
 #include <string>
 #include <stdexcept>
@@ -25,4 +25,4 @@ namespace Harpia {
     };
 }
 
-#endif //HARPIAGAMEENGINE_STRING_H
+#endif //HARPIAGAMEENGINE_HARPIASTRING_H

@@ -14,22 +14,18 @@
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
     private:
-        std::vector<Scene *> _scenes;
-        std::vector<Scene *> _loadedScenes;
+        std::vector<Internal::Scene_Internal *> _scenes;
+        std::vector<Internal::Scene_Internal *> _loadedScenes;
 
-        Application * _application;
+        Application *_application = nullptr;
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
-
         int GetInitFlags() override;
-
         int GetWindowFlags() override;
-
         void Quit() override;
 
     private:
-        void LoadScene(Scene *scene);
-
+        void LoadScene(Internal::Scene_Internal *scene);
         void OnUpdate();
     };
 } // Harpia

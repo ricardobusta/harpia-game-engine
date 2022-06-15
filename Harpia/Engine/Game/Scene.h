@@ -7,20 +7,24 @@
 
 #include "Internal/Scene_Internal.h"
 #include "InternalDefines.h"
+#include <string>
+#include "HarpiaMath.h"
 
 namespace Harpia {
-class Scene : private Internal::Scene_Internal {
+    class Scene : private Internal::Scene_Internal {
     private:
-        Internal::Application_Internal *_applicationInternal = nullptr;
     public:
-        void Load(Application *application);
-
-        void Unload();
-
+        virtual void Load(Application *application) = 0;
+        AudioAsset *LoadAudioAsset(const std::string &path);
+        MusicAsset *LoadMusicAsset(const std::string &path);
+        MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
+        ShaderAsset *LoadShaderAsset();
+        MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
     protected:
-        virtual void Load() = 0;
-
         Object *CreateObject();
+    private:
+        void LoadScene(Application *application) override;
+        MeshAsset *LoadMeshAsset(MeshAsset *asset);
     };
 
 } // Harpia

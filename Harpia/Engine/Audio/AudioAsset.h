@@ -7,11 +7,18 @@
 
 #include "Asset.h"
 #include "MixTypes.h"
+#include "InternalDefines.h"
 
 namespace Harpia {
     class AudioAsset : public Asset {
     public:
-        Mix_Chunk *ref;
+        Mix_Chunk *ref = nullptr;
+    private:
+        Internal::AudioSystem *_audioSystem = nullptr;
+    public:
+        explicit AudioAsset(Internal::AudioSystem *audioSystem);
+        AudioAsset() = delete;
+        void Release() override;
     };
 } // Harpia
 

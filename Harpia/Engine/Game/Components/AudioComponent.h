@@ -16,10 +16,10 @@ namespace Harpia {
         AudioAsset *_audio = nullptr;
         Internal::AudioSystem *_audioSystem = nullptr;
     public:
-        void SetAudioFile(const std::string &path);
+        void SetAudio(AudioAsset *audio);
         void Play();
     protected:
-        void Initialize_Internal(Internal::Application_Internal * applicationInternal) override;
+        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
 } // Harpia
 

@@ -10,7 +10,7 @@
 namespace SampleGame {
     class MainScene : public Harpia::Scene {
     public:
-        void Load() override;
+        void Load(Harpia::Application *application) override;
     };
 }
 
