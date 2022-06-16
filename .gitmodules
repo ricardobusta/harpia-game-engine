@@ -26,3 +26,6 @@ url=git@github.com:ricardobusta/gl3w.git
 [submodule "harpia/third_party/emsdk"]
 	path = harpia/third_party/emsdk
 	url = https://github.com/emscripten-core/emsdk.git
+[submodule "harpia/third_party/imgui/imgui"]
+	path = harpia/third_party/imgui/imgui
+	url = https://github.com/ocornut/imgui
