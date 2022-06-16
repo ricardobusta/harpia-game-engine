@@ -8,5 +8,5 @@ add_subdirectory(openfbx)
 add_subdirectory(sdl)
 add_subdirectory(sdl_image)
 add_subdirectory(sdl_mixer)
-
-message("SDL")
+add_subdirectory(sdl_ttf)
+add_subdirectory(imgui)
