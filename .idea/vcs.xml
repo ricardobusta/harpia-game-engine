@@ -2,9 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/harpia/third_party/glew-2.2.0/auto/EGL-Registry" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/harpia/third_party/glew-2.2.0/auto/OpenGL-Registry" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/harpia/third_party/glew-2.2.0/auto/glfixes" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/harpia/third_party/glm" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/harpia/third_party/sdl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/harpia/third_party/sdl_image" vcs="Git" />
