@@ -10,7 +10,7 @@
 namespace Harpia {
     void MeshAsset::Release() {
         _renderingSystem->ReleaseMesh(this);
-        DebugLog("Mesh released. Usages: %d", useCount);
+        DebugLog("Mesh released.");
     }
 
     void MeshAsset::UpdateMesh() {
