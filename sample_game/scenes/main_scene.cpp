@@ -23,10 +23,10 @@ namespace SampleGame {
         auto audioObject = CreateObject();
 
         auto audioComponent = audioObject->AddComponent<AudioComponent>();
-        audioComponent->SetAudio(LoadAudioAsset("Assets/Audio/jump.wav"));
+        audioComponent->SetAudio(LoadAudioAsset("assets/audio/jump.wav"));
 
         auto music = audioObject->AddComponent<MusicComponent>();
-        music->SetMusic(LoadMusicAsset("Assets/Music/idle.ogg"));
+        music->SetMusic(LoadMusicAsset("assets/music/idle.ogg"));
 
         audioObject->AddComponent<TestAudio>();
 
@@ -40,6 +40,7 @@ namespace SampleGame {
         camera->SetClearColor(Color(0, 0, 0, 1));
 
         auto shader = LoadShaderAsset();
+        auto texture = LoadTextureAsset("assets/textures/busta.png");
 
         auto cube1 = CreateObject();
         auto rotateScript1 = cube1->AddComponent<RotateAround>();
