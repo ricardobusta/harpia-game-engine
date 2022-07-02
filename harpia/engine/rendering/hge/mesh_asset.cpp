@@ -3,9 +3,9 @@
 //
 
 #include "hge/mesh_asset.h"
+#include "hge/debug.h"
 #include "hge/in/application_internal.h"
 #include "hge/rendering_system.h"
-#include "hge/debug.h"
 
 namespace Harpia {
     void MeshAsset::Release() {
@@ -18,7 +18,7 @@ namespace Harpia {
                                      &indexBufferId, index.size(), index.data());
     }
 
-    MeshAsset::MeshAsset(Internal::RenderingSystem *renderingSystem) {
-        _renderingSystem = renderingSystem;
+    MeshAsset::MeshAsset(Internal::RenderingSystem *renderingSystem)
+        : _renderingSystem(renderingSystem) {
     }
-} // Harpia
+}// namespace Harpia

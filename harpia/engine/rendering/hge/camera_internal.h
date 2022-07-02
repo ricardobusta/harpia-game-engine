@@ -5,10 +5,10 @@
 #ifndef HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 #define HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 
-#include "hge/rect.h"
 #include "hge/color.h"
 #include "hge/gl_types.h"
 #include "hge/internal_defines.h"
+#include "hge/rect.h"
 
 namespace Harpia::Internal {
     class Camera_Internal {
@@ -16,9 +16,10 @@ namespace Harpia::Internal {
         GLbitfield _clearMask = 0;
         Color _clearColor;
         RectInt _viewport;
+
     public:
         virtual Transform *GetTransformInternal() = 0;
     };
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_CAMERA_INTERNAL_H
+#endif//HARPIAGAMEENGINE_CAMERA_INTERNAL_H

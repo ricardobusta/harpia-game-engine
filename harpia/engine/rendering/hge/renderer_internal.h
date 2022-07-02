@@ -12,9 +12,10 @@ namespace Harpia::Internal {
     public:
         MeshAsset *_mesh = nullptr;
         MaterialAsset *_material = nullptr;
+
     public:
         virtual Transform *GetTransformInternal() = 0;
     };
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_RENDERER_INTERNAL_H
+#endif//HARPIAGAMEENGINE_RENDERER_INTERNAL_H

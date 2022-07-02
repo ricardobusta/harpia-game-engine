@@ -8,11 +8,10 @@
 
 namespace Harpia {
     void MaterialAsset::Release() {
-
     }
 
-    MaterialAsset::MaterialAsset(Internal::RenderingSystem *renderingSystem) {
-        this->_renderingSystem = renderingSystem;
+    MaterialAsset::MaterialAsset(Internal::RenderingSystem *renderingSystem)
+        : _renderingSystem(renderingSystem) {
     }
 
     void MaterialAsset::SetShader(ShaderAsset *shader) {
@@ -22,4 +21,4 @@ namespace Harpia {
     void MaterialAsset::SetColor(const Color &color) {
         this->color = color;
     }
-} // Harpia
+}// namespace Harpia

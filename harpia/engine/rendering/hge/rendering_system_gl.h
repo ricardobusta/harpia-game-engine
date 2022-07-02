@@ -15,10 +15,12 @@ namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
     private:
         SDL_GLContext _context = nullptr;
+
     public:
         int GetWindowFlags() override;
         void RenderFrame() override;
         void Quit() override;
+
     private:
         int RenderingInitialize() override;
         bool InitGL();
@@ -35,7 +37,7 @@ namespace Harpia::Internal {
         void RenderMaterial(MaterialAsset *material, const float *objectTransform,
                             const float *cameraTransform);
     };
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
 
-#endif //HARPIAGAMEENGINE_RENDERING_SYSTEM_GL_H
+#endif//HARPIAGAMEENGINE_RENDERING_SYSTEM_GL_H

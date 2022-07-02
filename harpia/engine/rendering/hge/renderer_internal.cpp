@@ -5,4 +5,4 @@
 #include "renderer_internal.h"
 
 namespace Harpia::Internal {
-} // Harpia::Internal
+}// namespace Harpia::Internal

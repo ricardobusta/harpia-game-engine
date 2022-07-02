@@ -5,11 +5,11 @@
 #ifndef HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 #define HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 
-#include <list>
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
-#include "hge/mesh_asset.h"
 #include "hge/material_asset.h"
+#include "hge/mesh_asset.h"
+#include <list>
 
 namespace Harpia::Internal {
     class RenderingSystem : public Internal::IApplicationSystem {
@@ -17,6 +17,7 @@ namespace Harpia::Internal {
         std::list<Camera_Internal *> _cameras;
         std::list<Renderer_Internal *> _renderers;
         SDL_Window *_window = nullptr;
+
     public:
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
@@ -30,11 +31,13 @@ namespace Harpia::Internal {
                                 GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;
         virtual ShaderAsset *LoadShader() = 0;
         virtual void ReleaseShader(ShaderAsset *shader) = 0;
+        void Quit() override;
+
     private:
         virtual int RenderingInitialize() = 0;
         int GetInitFlags() override;
     };
 
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_RENDERING_SYSTEM_H
+#endif//HARPIAGAMEENGINE_RENDERING_SYSTEM_H

@@ -4,9 +4,9 @@
 
 #include "hge/rendering_system_sdl.h"
 
-#include <SDL.h>
 #include "hge/color.h"
 #include "hge/debug.h"
+#include <SDL.h>
 
 namespace Harpia::Internal {
     void RenderingSystemSDL::RenderFrame() {
@@ -21,6 +21,8 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemSDL::Quit() {
+        RenderingSystem::Quit();
+
         SDL_FreeSurface(_surface);
         _surface = nullptr;
         delete _clearColor;
@@ -38,4 +40,4 @@ namespace Harpia::Internal {
 
         return 0;
     }
-} // Harpia::Internal
+}// namespace Harpia::Internal

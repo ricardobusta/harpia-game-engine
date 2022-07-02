@@ -4,16 +4,16 @@
 
 #include "hge/rendering_system_gl.h"
 
-#include <SDL.h>
-#include <GL/glew.h>
-#include "hge/debug.h"
-#include "hge/configuration.h"
+#include "glm/gtc/type_ptr.hpp"
 #include "hge/camera_internal.h"
+#include "hge/configuration.h"
+#include "hge/debug.h"
+#include "hge/harpia_math.h"
 #include "hge/renderer_internal.h"
 #include "hge/shader_asset.h"
 #include "hge/transform.h"
-#include "hge/harpia_math.h"
-#include "glm/gtc/type_ptr.hpp"
+#include <GL/glew.h>
+#include <SDL.h>
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -61,7 +61,7 @@ namespace Harpia::Internal {
     bool RenderingSystemGL::InitGL() {
         bool success = true;
 
-        glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+        glEnable(GL_SCISSOR_TEST);// Necessary for multiple-viewport rendering. Enable/Disable if necessary?
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
 
@@ -76,8 +76,7 @@ namespace Harpia::Internal {
                     camera->_clearColor.r,
                     camera->_clearColor.g,
                     camera->_clearColor.b,
-                    camera->_clearColor.a
-            );
+                    camera->_clearColor.a);
 
             glScissor(camera->_viewport.x,
                       camera->_viewport.y,
@@ -88,14 +87,13 @@ namespace Harpia::Internal {
                     camera->_viewport.x,
                     camera->_viewport.y,
                     camera->_viewport.w,
-                    camera->_viewport.h
-            );
+                    camera->_viewport.h);
 
             glClear(camera->_clearMask);
 
             for (auto r: _renderers) {
                 glUseProgram(r->_material->_shader->programId);
-                auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f); // TODO move to camera and cache
+                auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f);// TODO move to camera and cache
                 auto rt = r->GetTransformInternal()->GetTrMatrix();
                 auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
                 RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct));
@@ -112,6 +110,7 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::Quit() {
+        RenderingSystem::Quit();
     }
 
     int RenderingSystemGL::RenderingInitialize() {
@@ -192,12 +191,12 @@ namespace Harpia::Internal {
 
 #include "defaultVertexShader.h"
 
-        const auto vsh = vertexShaderSource.data();
+                const auto vsh = vertexShaderSource.data();
         const std::string fragmentShaderSource =
 
 #include "defaultFragmentShader.h"
 
-        const auto fsh = fragmentShaderSource.data();
+                const auto fsh = fragmentShaderSource.data();
 
         programId = glCreateProgram();
 
@@ -269,11 +268,11 @@ namespace Harpia::Internal {
         asset->colorLoc = colorLocation;
         return asset;
 
-        clean_get_attrib:
-        clean_link_program:
-        clean_f_shader:
+    clean_get_attrib:
+    clean_link_program:
+    clean_f_shader:
         glDeleteShader(fragmentShader);
-        clean_v_shader:
+    clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
         return nullptr;
@@ -307,4 +306,4 @@ namespace Harpia::Internal {
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
     }
-} // Harpia::Internal
+}// namespace Harpia::Internal

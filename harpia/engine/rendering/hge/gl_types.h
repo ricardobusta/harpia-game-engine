@@ -27,5 +27,5 @@ typedef void GLvoid;
 // SDL
 typedef void *SDL_GLContext;
 
-#endif //HARPIAGAMEENGINE_GLTYPES_H
-#endif //__glew_h__
+#endif//HARPIAGAMEENGINE_GLTYPES_H
+#endif//__glew_h__

@@ -6,4 +6,4 @@
 
 namespace Harpia::Internal {
 
-} // Internal
+}// namespace Harpia::Internal

@@ -5,8 +5,8 @@
 #ifndef HARPIAGAMEENGINE_SHADER_ASSET_H
 #define HARPIAGAMEENGINE_SHADER_ASSET_H
 
-#include "hge/asset.h"
 #include "gl_types.h"
+#include "hge/asset.h"
 
 namespace Harpia {
 
@@ -19,14 +19,16 @@ namespace Harpia {
         GLint objectToCameraLoc = -1;
         GLint worldToObjectLoc = -1;
         GLint colorLoc = -1;
+
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
+
     public:
         explicit ShaderAsset(Internal::RenderingSystem *renderingSystem);
         ShaderAsset() = delete;
         void Release() override;
     };
 
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_SHADER_ASSET_H
+#endif//HARPIAGAMEENGINE_SHADER_ASSET_H

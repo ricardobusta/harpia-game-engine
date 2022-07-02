@@ -13,6 +13,7 @@ namespace Harpia::Internal {
     private:
         SDL_Surface *_surface = nullptr;
         Color *_clearColor = nullptr;
+
     private:
         int GetWindowFlags() override;
         void RenderFrame() override;
@@ -20,6 +21,6 @@ namespace Harpia::Internal {
         int RenderingInitialize() override;
     };
 
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_RENDERING_SYSTEM_SDL_H
+#endif//HARPIAGAMEENGINE_RENDERING_SYSTEM_SDL_H

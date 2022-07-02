@@ -15,4 +15,4 @@ namespace Harpia::Internal {
     void RenderingSystemVulkan::RenderFrame() {
         AssertThat(false, "NOT IMPLEMENTED YET");
     }
-} // Harpia::Internal
+}// namespace Harpia::Internal
