@@ -16,4 +16,4 @@ namespace Harpia {
     InputReader *Component::Input() {
         return _application->_inputSystem->GetInputReader();
     }
-} // Harpia
+}// namespace Harpia

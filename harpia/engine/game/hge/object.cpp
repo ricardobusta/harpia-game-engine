@@ -3,12 +3,12 @@
 //
 
 #include "hge/object.h"
+#include "hge/camera_component.h"
+#include "hge/camera_internal.h"
 #include "hge/component.h"
 #include "hge/in/application_internal.h"
-#include "hge/rendering_system.h"
 #include "hge/renderer_internal.h"
-#include "hge/camera_internal.h"
-#include "hge/camera_component.h"
+#include "hge/rendering_system.h"
 
 namespace Harpia {
     Object::Object(Internal::Application_Internal *application) {
@@ -33,4 +33,4 @@ namespace Harpia {
             _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
     }
-} // Harpia
+}// namespace Harpia

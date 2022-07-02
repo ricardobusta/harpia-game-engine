@@ -3,15 +3,15 @@
 //
 
 #include "hge/audio_asset.h"
-#include "hge/in/application_internal.h"
 #include "hge/audio_system.h"
+#include "hge/in/application_internal.h"
 
 namespace Harpia {
     void AudioAsset::Release() {
         _audioSystem->ReleaseAudio(this);
     }
 
-    AudioAsset::AudioAsset(Internal::AudioSystem *audioSystem) {
-        _audioSystem = audioSystem;
+    AudioAsset::AudioAsset(Internal::AudioSystem *audioSystem)
+    :_audioSystem(audioSystem){
     }
-} // Harpia
+}// namespace Harpia

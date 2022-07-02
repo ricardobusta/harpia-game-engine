@@ -13,11 +13,12 @@ namespace Harpia::Internal {
     public:
         Configuration configuration;
         RenderingSystem *_renderSystem = nullptr;
+        ImageSystem *_imageSystem = nullptr;
         InputSystem *_inputSystem = nullptr;
         AudioSystem *_audioSystem = nullptr;
         CoreSystem *_coreSystem = nullptr;
         SceneSystem *_sceneManagementSystem = nullptr;
     };
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_APPLICATION_INTERNAL_H
+#endif//HARPIAGAMEENGINE_APPLICATION_INTERNAL_H

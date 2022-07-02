@@ -5,11 +5,11 @@
 #ifndef HARPIAGAMEENGINE_SCENE_SYSTEM_H
 #define HARPIAGAMEENGINE_SCENE_SYSTEM_H
 
-#include <vector>
-#include <map>
-#include "hge/i_application_system.h"
 #include "hge/global_defines.h"
+#include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
+#include <map>
+#include <vector>
 
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
@@ -18,6 +18,7 @@ namespace Harpia::Internal {
         std::vector<Internal::Scene_Internal *> _loadedScenes;
 
         Application *_application = nullptr;
+
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
         int GetInitFlags() override;
@@ -28,6 +29,6 @@ namespace Harpia::Internal {
         void LoadScene(Internal::Scene_Internal *scene);
         void OnUpdate();
     };
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_SCENE_SYSTEM_H
+#endif//HARPIAGAMEENGINE_SCENE_SYSTEM_H

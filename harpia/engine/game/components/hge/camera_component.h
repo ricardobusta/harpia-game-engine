@@ -5,8 +5,8 @@
 #ifndef HARPIAGAMEENGINE_CAMERA_COMPONENT_H
 #define HARPIAGAMEENGINE_CAMERA_COMPONENT_H
 
-#include "hge/component.h"
 #include "hge/camera_internal.h"
+#include "hge/component.h"
 
 namespace Harpia {
     class CameraComponent : public Component, private Internal::Camera_Internal {
@@ -17,8 +17,8 @@ namespace Harpia {
         void SetClearColor(const Color &color);
 
     private:
-        Transform * GetTransformInternal() override;
+        Transform *GetTransformInternal() override;
     };
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_CAMERA_COMPONENT_H
+#endif//HARPIAGAMEENGINE_CAMERA_COMPONENT_H

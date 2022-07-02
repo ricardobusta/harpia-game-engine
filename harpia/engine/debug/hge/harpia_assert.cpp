@@ -20,5 +20,5 @@ namespace Harpia {
         That(target != nullptr, caller, file, line,
              Harpia::Debug::Format("%s is nullptr. %s", targetName, message).c_str());
     }
-}
-#endif //HARPIA_DEBUG
+}// namespace Harpia
+#endif//HARPIA_DEBUG

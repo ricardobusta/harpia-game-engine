@@ -10,4 +10,4 @@ namespace Harpia {
                                                       Internal::Application_Internal *application) {
         component->Initialize(object, application);
     }
-} // Harpia
+}// namespace Harpia

@@ -4,9 +4,9 @@
 
 #include "core_system.h"
 
-#include <SDL.h>
 #include "hge/configuration.h"
 #include "hge/debug.h"
+#include <SDL.h>
 
 namespace Harpia::Internal {
     int CoreSystem::Initialize(Configuration &config, int InitFlags, int WindowFlags) {
@@ -84,4 +84,4 @@ namespace Harpia::Internal {
     SDL_Window *CoreSystem::GetWindow() {
         return _window;
     }
-} // Harpia
+}// namespace Harpia::Internal

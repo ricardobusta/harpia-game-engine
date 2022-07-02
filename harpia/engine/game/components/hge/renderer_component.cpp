@@ -16,4 +16,4 @@ namespace Harpia {
     Transform *RendererComponent::GetTransformInternal() {
         return &GetObject()->transform;
     }
-} // Harpia
+}// namespace Harpia

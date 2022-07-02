@@ -7,14 +7,12 @@
 
 namespace Harpia {
     Transform::Transform() {
-
     }
 
     Vector3 Transform::GetPosition() {
         return _position;
     }
-
-
+    
     void Transform::SetPosition(const Vector3 &position) {
         _position = position;
     }
@@ -27,13 +25,13 @@ namespace Harpia {
         _scale = scale;
     }
 
-//    Quaternion Transform::GetRotation() {
-//        return _rotation;
-//    }
-//
-//    void Transform::SetRotation(const Quaternion &rotation) {
-//        _rotation = rotation;
-//    }
+    //    Quaternion Transform::GetRotation() {
+    //        return _rotation;
+    //    }
+    //
+    //    void Transform::SetRotation(const Quaternion &rotation) {
+    //        _rotation = rotation;
+    //    }
 
     void Transform::Rotate(float angle, const Vector3 &axis) {
         //_rotation.Rotate(angle, axis);
@@ -46,4 +44,4 @@ namespace Harpia {
     void Transform::SetTrMatrix(const Matrix4x4 &tr) {
         _tr = tr;
     }
-} // Harpia
+}// namespace Harpia

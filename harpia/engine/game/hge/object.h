@@ -5,19 +5,21 @@
 #ifndef HARPIAGAMEENGINE_OBJECT_H
 #define HARPIAGAMEENGINE_OBJECT_H
 
+#include "hge/debug.h"
 #include "hge/global_defines.h"
-#include <list>
 #include "hge/hierarchy_static.h"
 #include "hge/transform.h"
-#include "hge/debug.h"
+#include <list>
 
 namespace Harpia {
     class Object {
     public:
         Transform transform;
+
     private:
         std::list<Component *> _components;
         Internal::Application_Internal *_applicationInternal;
+
     public:
         Object() = delete;
         explicit Object(Internal::Application_Internal *application);
@@ -40,10 +42,11 @@ namespace Harpia {
         }
 
         void InternalUpdate();
+
     private:
         void AddToRenderSystemIfCamera(Internal::Camera_Internal *camera);
         void AddToRenderSystemIfRenderer(Internal::Renderer_Internal *renderer);
     };
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_OBJECT_H
+#endif//HARPIAGAMEENGINE_OBJECT_H

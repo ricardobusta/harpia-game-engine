@@ -14,6 +14,6 @@ namespace Harpia::Internal {
         virtual void Quit() = 0;
     };
 
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_IAPPLICATIONSYSTEM_H
+#endif//HARPIAGAMEENGINE_IAPPLICATIONSYSTEM_H

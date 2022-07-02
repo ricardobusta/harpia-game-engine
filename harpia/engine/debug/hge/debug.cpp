@@ -26,6 +26,6 @@ namespace Harpia {
         size_t size = end - begin;
         return s.substr(begin, size);
     }
-}
+}// namespace Harpia
 
 #endif
