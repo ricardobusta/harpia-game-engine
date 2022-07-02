@@ -4,17 +4,29 @@
 
 #include "application.h"
 
-#include "hge/debug.h"
 #include "hge/audio_system.h"
 #include "hge/core_system.h"
+#include "hge/debug.h"
+#include "hge/image_system.h"
 #include "hge/input_system.h"
 #include "hge/rendering_system_gl.h"
 #include "hge/scene_system.h"
 
-#define SystemInit(system, args...) do{auto result = system->Initialize(args); \
-if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
+#define SystemInit(system, args...)                            \
+    do {                                                       \
+        _systems.push_front(system);                           \
+        auto result = system->Initialize(args);                \
+        if (result < 0) {                                      \
+            DebugLogError("%s was not initialized.", #system); \
+            return result;                                     \
+        }                                                      \
+    } while (0);
 
-#define SystemCleanup(system) do{delete system;system=nullptr;}while(0);
+#define SystemCleanup(system) \
+    do {                      \
+        delete system;        \
+        system = nullptr;     \
+    } while (0);
 
 namespace Harpia {
     Application::Application(const std::function<void(Configuration &)> &configure) {
@@ -29,6 +41,7 @@ namespace Harpia {
         _coreSystem = new Internal::CoreSystem();
         _renderSystem = new Internal::RenderingSystemGL();
         _inputSystem = new Internal::InputSystem();
+        _imageSystem = new Internal::ImageSystem();
         _audioSystem = new Internal::AudioSystem();
         _sceneManagementSystem = new Internal::SceneSystem();
 
@@ -46,6 +59,7 @@ namespace Harpia {
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
+        SystemInit(_imageSystem);
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
@@ -58,11 +72,9 @@ namespace Harpia {
             DebugLogError("Application executed with an error");
         }
 
-        _sceneManagementSystem->Quit();
-        _audioSystem->Quit();
-        _inputSystem->Quit();
-        _renderSystem->Quit();
-        _coreSystem->Quit();
+        for (auto it = _systems.begin(); it != _systems.end(); it++) {
+            (*it)->Quit();
+        }
 
         DebugLog("All systems quit");
 
@@ -70,6 +82,7 @@ namespace Harpia {
         SystemCleanup(_audioSystem);
         SystemCleanup(_inputSystem);
         SystemCleanup(_renderSystem);
+        SystemCleanup(_imageSystem);
         SystemCleanup(_coreSystem);
 
         DebugLog("Quit");
@@ -85,7 +98,7 @@ namespace Harpia {
         return _coreSystem->GetInitFlags() |
                _audioSystem->GetInitFlags();
     }
-}
+}// namespace Harpia
 
 #undef SystemInit
 #undef SystemCleanup

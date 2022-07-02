@@ -5,16 +5,21 @@
 #ifndef HARPIAGAMEENGINE_APPLICATION_H
 #define HARPIAGAMEENGINE_APPLICATION_H
 
-#include <functional>
-#include "hge/in/application_internal.h"
 #include "hge/harpia_math.h"
+#include "hge/in/application_internal.h"
+#include <functional>
+#include <list>
 
 namespace Harpia {
     class Application : private Internal::Application_Internal {
     public:
         Vector2Int screenSize;
+
     private:
         bool _createdWithSuccess = false;
+
+        std::list<Internal::IApplicationSystem *> _systems;
+
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
 
@@ -26,6 +31,6 @@ namespace Harpia {
 
         int GetWindowFlags();
     };
-}
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_APPLICATION_H
+#endif//HARPIAGAMEENGINE_APPLICATION_H
