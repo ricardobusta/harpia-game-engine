@@ -31,7 +31,6 @@ list(
         APPEND
         ${PROJECT_NAME}_INCLUDES
         third_party/SDL/include
-        third_party/glew-2.2.0/include
         third_party/glm/
 )
 
