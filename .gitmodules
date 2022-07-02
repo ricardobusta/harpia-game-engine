@@ -1,13 +1,13 @@
-[submodule "Harpia/ThirdParty/SDL"]
+[submodule "harpia/third_party/sdl"]
 	path = harpia/third_party/sdl
 	url = https://github.com/libsdl-org/SDL
-[submodule "Harpia/ThirdParty/SDL2_image"]
+[submodule "harpia/third_party/sdl_image"]
 	path = harpia/third_party/sdl_image
 	url = https://github.com/libsdl-org/SDL_image
-[submodule "Harpia/ThirdParty/SDL2_mixer"]
+[submodule "harpia/third_party/sdl_mixer"]
 	path = harpia/third_party/sdl_mixer
 	url = https://github.com/libsdl-org/SDL_mixer
-[submodule "Harpia/ThirdParty/SDL_ttf"]
+[submodule "harpia/third_party/sdl_ttf"]
 	path = harpia/third_party/sdl_ttf
 	url = https://github.com/libsdl-org/SDL_ttf
 [submodule "harpia/third_party/glm"]
