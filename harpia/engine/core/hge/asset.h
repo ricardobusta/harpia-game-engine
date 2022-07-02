@@ -11,7 +11,6 @@
 namespace Harpia {
     class Asset {
     public:
-        int useCount = 0;
         std::string path;
 
         virtual void Release() = 0;
