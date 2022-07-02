@@ -10,15 +10,15 @@
 namespace Harpia {
     class TextureAsset : public Asset {
     public:
-
     private:
-        Internal::RenderingSystem *_renderingSystem = nullptr;
+        Internal::ImageSystem *_imageSystem = nullptr;
+
     public:
-        explicit TextureAsset(Internal::RenderingSystem *renderingSystem);
+        explicit TextureAsset(Internal::ImageSystem *imageSystem);
         TextureAsset() = delete;
         void Release() override;
     };
-}
+}// namespace Harpia
 
 
 #endif//HARPIAGAMEENGINE_TEXTURE_ASSET_H

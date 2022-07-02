@@ -5,10 +5,10 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
+#include "hge/harpia_math.h"
 #include "hge/in/scene_internal.h"
 #include "hge/internal_defines.h"
 #include <string>
-#include "hge/harpia_math.h"
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
@@ -20,13 +20,16 @@ namespace Harpia {
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
         ShaderAsset *LoadShaderAsset();
         MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
+        TextureAsset *LoadTextureAsset(const std::string &path);
+
     protected:
         Object *CreateObject();
+
     private:
         void LoadScene(Application *application) override;
         MeshAsset *LoadMeshAsset(MeshAsset *asset);
     };
 
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_SCENE_H
+#endif//HARPIAGAMEENGINE_SCENE_H

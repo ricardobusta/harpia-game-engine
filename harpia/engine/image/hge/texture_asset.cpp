@@ -5,12 +5,12 @@
 #include "texture_asset.h"
 
 namespace Harpia {
-    TextureAsset::TextureAsset(Harpia::Internal::RenderingSystem *renderingSystem) {
+    TextureAsset::TextureAsset(Internal::ImageSystem *imageSystem)
+        : _imageSystem(imageSystem) {
     }
 
     void Harpia::TextureAsset::Release() {
         //SDL_DestroyTexture( gTexture );
         //gTexture = NULL;
-        
     }
-}
+}// namespace Harpia

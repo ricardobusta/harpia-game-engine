@@ -4,13 +4,15 @@
 
 #include "scene.h"
 
-#include <list>
-#include "hge/object.h"
-#include "hge/in/application_internal.h"
 #include "hge/audio_system.h"
-#include "hge/rendering_system.h"
+#include "hge/image_system.h"
+#include "hge/in/application_internal.h"
 #include "hge/in/mesh_generator.h"
+#include "hge/object.h"
+#include "hge/rendering_system.h"
 #include "hge/shader_asset.h"
+#include "hge/texture_asset.h"
+#include <list>
 
 namespace Harpia {
     Object *Scene::CreateObject() {
@@ -61,4 +63,9 @@ namespace Harpia {
 
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
     }
-} // Harpia
+    TextureAsset *Scene::LoadTextureAsset(const std::string &path) {
+        auto asset = _applicationInternal->_imageSystem->LoadTexture();
+        _assets.push_back(asset);
+        return asset;
+    }
+}// namespace Harpia
