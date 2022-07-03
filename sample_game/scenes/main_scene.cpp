@@ -40,7 +40,7 @@ namespace SampleGame {
         camera->SetClearColor(Color(0, 0, 0, 1));
 
         auto shader = LoadShaderAsset();
-        auto texture = LoadTextureAsset("assets/textures/busta.png");
+        auto texture = LoadTextureAsset("assets/texture/busta.png");
 
         auto cube1 = CreateObject();
         auto rotateScript1 = cube1->AddComponent<RotateAround>();
@@ -49,7 +49,8 @@ namespace SampleGame {
         cube1->transform.SetTrMatrix(Matrix::Translation(Vector3{-0.5f, 0.2f, 0}));
         auto rend1 = cube1->AddComponent<RendererComponent>();
         auto mat1 = LoadMaterialAsset(shader);
-        mat1->SetColor(Color(1, 0.5f, 0, 1));
+        mat1->SetTexture(texture);
+        mat1->SetColor(Color::yellow);
         rend1->SetMaterial(mat1);
         rend1->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
 
@@ -60,7 +61,7 @@ namespace SampleGame {
         cube2->transform.SetTrMatrix(Matrix::Translation(Vector3{0.5f, -0.2f, 0}));
         auto rend2 = cube2->AddComponent<RendererComponent>();
         auto mat2 = LoadMaterialAsset(shader);
-        mat2->SetColor(Color(0, 0.5f, 1, 1));
+        mat2->SetColor(Color::green);
         rend2->SetMaterial(mat2);
         rend2->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
     }

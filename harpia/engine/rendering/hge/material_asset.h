@@ -15,6 +15,7 @@ namespace Harpia {
     public:
         ShaderAsset *_shader = nullptr;
         Color color;
+        TextureAsset *_texture = nullptr;
 
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
@@ -25,6 +26,7 @@ namespace Harpia {
         void Release() override;
 
         void SetShader(ShaderAsset *shader);
+        void SetTexture(TextureAsset *texture);
         void SetColor(const Color &color);
     };
 }// namespace Harpia

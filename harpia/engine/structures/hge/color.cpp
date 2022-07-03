@@ -7,10 +7,18 @@
 namespace Harpia {
 
     Color::Color() : Color(0, 0, 0, 1) {
-
     }
 
     Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {
-
     }
-}
+
+    [[maybe_unused]] const Color Color::white = Color(1.0f, 1.0f, 1.0f, 1.0f);
+    [[maybe_unused]] const Color Color::red = Color(1.0f, 0.0f, 0.0f, 1.0f);
+    [[maybe_unused]] const Color Color::green = Color(0.0f, 1.0f, 0.0f, 1.0f);
+    [[maybe_unused]] const Color Color::blue = Color(0.0f, 0.0f, 1.0f, 1.0f);
+    [[maybe_unused]] const Color Color::yellow = Color(1.0f, 1.0f, 0.0f, 1.0f);
+    [[maybe_unused]] const Color Color::magenta = Color(1.0f, 0.0f, 1.0f, 1.0f);
+    [[maybe_unused]] const Color Color::cyan = Color(0.0f, 1.0f, 1.0f, 1.0f);
+    [[maybe_unused]] const Color Color::gray = Color(0.5f, 0.5f, 0.5f, 1.0f);
+    [[maybe_unused]] const Color Color::black = Color(0.0f, 0.0f, 0.0f, 1.0f);
+}// namespace Harpia
