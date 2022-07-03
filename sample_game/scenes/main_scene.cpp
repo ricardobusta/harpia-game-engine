@@ -50,7 +50,7 @@ namespace SampleGame {
         auto rend1 = cube1->AddComponent<RendererComponent>();
         auto mat1 = LoadMaterialAsset(shader);
         mat1->SetTexture(texture);
-        mat1->SetColor(Color::yellow);
+        mat1->SetColor(Color::orange);
         rend1->SetMaterial(mat1);
         rend1->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
 
@@ -61,7 +61,7 @@ namespace SampleGame {
         cube2->transform.SetTrMatrix(Matrix::Translation(Vector3{0.5f, -0.2f, 0}));
         auto rend2 = cube2->AddComponent<RendererComponent>();
         auto mat2 = LoadMaterialAsset(shader);
-        mat2->SetColor(Color::green);
+        mat2->SetColor(Color::azure);
         rend2->SetMaterial(mat2);
         rend2->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
     }
