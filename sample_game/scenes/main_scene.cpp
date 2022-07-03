@@ -3,21 +3,38 @@
 //
 
 #include "main_scene.h"
-#include "hge/debug.h"
-#include "hge/audio_component.h"
-#include "hge/music_component.h"
-#include "hge/camera_component.h"
-#include "test_audio.h"
 #include "hge/application.h"
-#include "hge/renderer_component.h"
+#include "hge/audio_component.h"
+#include "hge/camera_component.h"
 #include "hge/color.h"
+#include "hge/debug.h"
 #include "hge/material_asset.h"
+#include "hge/music_component.h"
+#include "hge/renderer_component.h"
 #include "rotate_around.h"
+#include "test_audio.h"
 
 using namespace Harpia;
 
 namespace SampleGame {
-    void SampleGame::MainScene::Load(Harpia::Application *application) {
+
+    Harpia::Object *MainScene::CreateCube(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color,
+                                          ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
+        auto cube = CreateObject();
+        auto rotateScript = cube->AddComponent<RotateAround>();
+        rotateScript->target = &cube->transform;
+        rotateScript->speed = rotatingSpeed;
+        cube->transform.SetTrMatrix(Matrix::Translation(position));
+        auto rend = cube->AddComponent<RendererComponent>();
+        auto mat = LoadMaterialAsset(shader);
+        mat->SetTexture(texture);
+        mat->SetColor(color);
+        rend->SetMaterial(mat);
+        rend->SetMesh(mesh);
+        return cube;
+    }
+
+    void MainScene::Load(Harpia::Application *application) {
         DebugLog("Starting MainScene");
 
         auto audioObject = CreateObject();
@@ -41,28 +58,32 @@ namespace SampleGame {
 
         auto shader = LoadShaderAsset();
         auto texture = LoadTextureAsset("assets/texture/busta.png");
+        auto boxMesh = LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f));
 
-        auto cube1 = CreateObject();
-        auto rotateScript1 = cube1->AddComponent<RotateAround>();
-        rotateScript1->target = &cube1->transform;
-        rotateScript1->speed = Vector3(1.0f, 5.0f, 0);
-        cube1->transform.SetTrMatrix(Matrix::Translation(Vector3{-0.5f, 0.2f, 0}));
-        auto rend1 = cube1->AddComponent<RendererComponent>();
-        auto mat1 = LoadMaterialAsset(shader);
-        mat1->SetTexture(texture);
-        mat1->SetColor(Color::orange);
-        rend1->SetMaterial(mat1);
-        rend1->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
+        CreateCube(
+                Vector3(-1.7f, 0.0f, 0),
+                Vector3(1.0f, 5.0f, 0),
+                Color::orange,
+                shader, texture, boxMesh);
 
-        auto cube2 = CreateObject();
-        auto rotateScript2 = cube1->AddComponent<RotateAround>();
-        rotateScript2->target = &cube2->transform;
-        rotateScript2->speed = Vector3(5.0f, 1.0f, 0);
-        cube2->transform.SetTrMatrix(Matrix::Translation(Vector3{0.5f, -0.2f, 0}));
-        auto rend2 = cube2->AddComponent<RendererComponent>();
-        auto mat2 = LoadMaterialAsset(shader);
-        mat2->SetColor(Color::azure);
-        rend2->SetMaterial(mat2);
-        rend2->SetMesh(LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f)));
+        CreateCube(Vector3(1.7f, 0.0f, 0),
+                   Vector3(5.0f, 1.0f, 0),
+                   Color::azure,
+                   shader, texture, boxMesh);
+
+        CreateCube(Vector3(0.0f, -1.7f, 0),
+                   Vector3(2, 2, 2),
+                   Color::rose,
+                   shader, texture, boxMesh);
+
+        CreateCube(Vector3(0.0f, 1.7f, 0),
+                   Vector3(0, 0, 5),
+                   Color::purple,
+                   shader, texture, boxMesh);
+
+        CreateCube(Vector3(0.0f, 0.0f, 0),
+                   Vector3(0.0f, 10.0f, 0),
+                   Color::aqua,
+                   shader, texture, boxMesh);
     }
-}
+}// namespace SampleGame
