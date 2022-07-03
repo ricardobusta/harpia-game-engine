@@ -10,6 +10,7 @@
 #include "hge/i_application_system.h"
 #include <map>
 #include <string>
+#include "hge/texture_asset.h"
 
 namespace Harpia::Internal {
     class ImageSystem : public IApplicationSystem {
@@ -28,6 +29,7 @@ namespace Harpia::Internal {
         void ReleaseTexture(TextureAsset *asset);
 
     private:
+        void DeleteTexture(TextureAsset *asset);
     };
 }// namespace Harpia::Internal
 

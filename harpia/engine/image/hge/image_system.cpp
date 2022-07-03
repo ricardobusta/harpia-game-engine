@@ -6,7 +6,6 @@
 
 #include "hge/core_system.h"
 #include "hge/debug.h"
-#include "hge/texture_asset.h"
 #include <SDL_image.h>
 
 namespace Harpia::Internal {
@@ -19,7 +18,7 @@ namespace Harpia::Internal {
         }
 
         auto result = SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-        if(result<0){
+        if (result < 0) {
             DebugLogError("Failed to set renderer color. SDL Error: %s", SDL_GetError());
             return result;
         }
@@ -42,7 +41,10 @@ namespace Harpia::Internal {
     }
 
     void ImageSystem::Quit() {
-        SDL_DestroyRenderer( _renderer );
+        _loadedTextures.Clear([this](auto t) {
+            DeleteTexture(t);
+        });
+        SDL_DestroyRenderer(_renderer);
         IMG_Quit();
     }
 
@@ -60,7 +62,7 @@ namespace Harpia::Internal {
 
             SDL_FreeSurface(surface);
 
-            if(ref== nullptr){
+            if (ref == nullptr) {
                 DebugLogError("Texture %s not created. SDL Error: %s", p.c_str(), IMG_GetError());
                 return nullptr;
             }
@@ -72,7 +74,11 @@ namespace Harpia::Internal {
 
     void ImageSystem::ReleaseTexture(Harpia::TextureAsset *asset) {
         _loadedTextures.ReleaseAsset(asset, [this](auto t) {
-            SDL_DestroyTexture(t->ref);
+            DeleteTexture(t);
         });
+    }
+
+    void ImageSystem::DeleteTexture(TextureAsset *asset) {
+        SDL_DestroyTexture(asset->ref);
     }
 }// namespace Harpia::Internal

@@ -39,12 +39,8 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::Quit() {
-        for (const auto &kvp: _loadedAudios) {
-            ReleaseAllUsages(kvp.second);
-        }
-        for (const auto &kvp: _loadedMusics) {
-            ReleaseAllUsages(kvp.second);
-        }
+        _loadedAudios.Clear([this](auto a) { DeleteAudio(a); });
+        _loadedMusics.Clear([this](auto m) { DeleteMusic(m); });
         Mix_Quit();
         DebugLog("Quit");
     }
@@ -80,7 +76,7 @@ namespace Harpia::Internal {
     }
 
     MusicAsset *AudioSystem::LoadMusic(const std::string &path) {
-        _loadedMusics.LoadAsset(path, [this](auto p) -> MusicAsset * {
+        return _loadedMusics.LoadAsset(path, [this](auto p) -> MusicAsset * {
             auto ref = Mix_LoadMUS(p.c_str());
             if (ref == nullptr) {
                 DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
@@ -111,7 +107,7 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::ReleaseMusic(MusicAsset *music) {
-        _loadedMusics.ReleaseAsset(music, [this](auto m) -> MusicAsset * {
+        _loadedMusics.ReleaseAsset(music, [this](auto m) {
             DeleteMusic(m);
         });
     }
@@ -121,4 +117,3 @@ namespace Harpia::Internal {
         delete music;
     }
 }// namespace Harpia::Internal
- // Harpia
