@@ -9,6 +9,8 @@ union SDL_Event;
 struct SDL_Surface;
 struct SDL_KeyboardEvent;
 class SDL_Window;
+class SDL_Renderer;
+class SDL_Texture;
 
 namespace Harpia { // Game/Application
     class Application;

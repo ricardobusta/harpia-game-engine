@@ -59,7 +59,7 @@ namespace Harpia {
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
-        SystemInit(_imageSystem);
+        SystemInit(_imageSystem, _coreSystem);
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);

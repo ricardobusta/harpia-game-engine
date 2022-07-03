@@ -64,7 +64,7 @@ namespace Harpia {
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
     }
     TextureAsset *Scene::LoadTextureAsset(const std::string &path) {
-        auto asset = _applicationInternal->_imageSystem->LoadTexture();
+        auto asset = _applicationInternal->_imageSystem->LoadTexture(path);
         _assets.push_back(asset);
         return asset;
     }

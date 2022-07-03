@@ -63,6 +63,7 @@ namespace Harpia::Internal {
                 return nullptr;
             }
             auto audio = new AudioAsset(this);
+            audio->ref = ref;
             return audio;
         });
     }
@@ -86,6 +87,7 @@ namespace Harpia::Internal {
                 return nullptr;
             }
             auto music = new MusicAsset(this);
+            music->ref = ref;
             return music;
         });
     }

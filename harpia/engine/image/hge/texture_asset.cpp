@@ -3,14 +3,14 @@
 //
 
 #include "texture_asset.h"
+#include "hge/image_system.h"
 
 namespace Harpia {
-    TextureAsset::TextureAsset(Internal::ImageSystem *imageSystem)
-        : _imageSystem(imageSystem) {
+    TextureAsset::TextureAsset(SDL_Texture *ref, Internal::ImageSystem *imageSystem)
+        : _imageSystem(imageSystem), ref(ref) {
     }
 
     void Harpia::TextureAsset::Release() {
-        //SDL_DestroyTexture( gTexture );
-        //gTexture = NULL;
+        _imageSystem->ReleaseTexture(this);
     }
 }// namespace Harpia

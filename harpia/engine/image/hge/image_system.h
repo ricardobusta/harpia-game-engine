@@ -5,20 +5,27 @@
 #ifndef HARPIAGAMEENGINE_IMAGE_SYSTEM_H
 #define HARPIAGAMEENGINE_IMAGE_SYSTEM_H
 
+#include "hge/asset_container.h"
 #include "hge/global_defines.h"
 #include "hge/i_application_system.h"
+#include <map>
+#include <string>
 
 namespace Harpia::Internal {
     class ImageSystem : public IApplicationSystem {
     public:
     private:
+        AssetContainer<TextureAsset> _loadedTextures;
+        SDL_Renderer *_renderer;
+
     public:
-        int Initialize();
+        int Initialize(CoreSystem *coreSystem);
         int GetWindowFlags() override;
         int GetInitFlags() override;
         void Quit() override;
 
-        TextureAsset *LoadTexture();
+        TextureAsset *LoadTexture(const std::string &path);
+        void ReleaseTexture(TextureAsset *asset);
 
     private:
     };
