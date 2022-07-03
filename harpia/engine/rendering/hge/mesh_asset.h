@@ -6,27 +6,12 @@
 #define HARPIAGAMEENGINE_MESH_ASSET_H
 
 #include "hge/asset.h"
-#include "hge/gl_types.h"
 #include "hge/harpia_math.h"
-#include <vector>
 
 namespace Harpia {
     class MeshAsset : public Asset {
     public:
-        std::vector<GLfloat> vertex;
-        std::vector<GLint> index;
-
-        GLuint vertexBufferId = 0;
-        GLuint indexBufferId = 0;
-
-    private:
-        Internal::RenderingSystem *_renderingSystem = nullptr;
-
-    public:
-        explicit MeshAsset(Internal::RenderingSystem *renderingSystem);
-        MeshAsset() = delete;
-        void UpdateMesh();
-        void Release() override;
+        virtual void UpdateMesh()=0;
     };
 }// namespace Harpia
 

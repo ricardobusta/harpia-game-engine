@@ -7,12 +7,4 @@
 #include "hge/rendering_system.h"
 
 namespace Harpia {
-    ShaderAsset::ShaderAsset(Internal::RenderingSystem *renderingSystem)
-        : _renderingSystem(renderingSystem) {
-    }
-
-    void ShaderAsset::Release() {
-        _renderingSystem->ReleaseShader(this);
-        DebugLog("Shader released.");
-    }
 }// namespace Harpia

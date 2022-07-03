@@ -7,7 +7,6 @@
 
 #include "hge/asset.h"
 #include "hge/color.h"
-#include "hge/gl_types.h"
 #include "hge/global_defines.h"
 
 namespace Harpia {

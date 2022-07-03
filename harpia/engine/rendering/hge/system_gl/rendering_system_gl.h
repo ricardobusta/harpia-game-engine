@@ -5,13 +5,12 @@
 #ifndef HARPIAGAMEENGINE_RENDERING_SYSTEM_GL_H
 #define HARPIAGAMEENGINE_RENDERING_SYSTEM_GL_H
 
-#include "rendering_system.h"
+#include "hge/rendering_system.h"
 
 #include "gl_types.h"
+#include <vector>
 
 namespace Harpia::Internal {
-    class Configuration;
-
     class RenderingSystemGL : public RenderingSystem {
     private:
         SDL_GLContext _context = nullptr;
@@ -21,20 +20,22 @@ namespace Harpia::Internal {
         void RenderFrame() override;
         void Quit() override;
 
+        void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
+                        GLuint *indexBufferId, GLuint indexCount, GLint indexData[]);
+        void ReleaseMesh(MeshAsset *mesh);
+
+        void ReleaseShader(ShaderAssetGL *shader);
     private:
         int RenderingInitialize() override;
         bool InitGL();
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
 
-        MeshAsset *LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) override;
-        void DrawMesh(MeshAsset *mesh);
-        void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
-                        GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) override;
-        void ReleaseMesh(MeshAsset *mesh) override;
         ShaderAsset *LoadShader() override;
-        void ReleaseShader(ShaderAsset *shader) override;
-        void RenderMaterial(MaterialAsset *material, const float *objectTransform,
+        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) override;
+
+        void DrawMesh(MeshAssetGL *mesh);
+        void RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
                             const float *cameraTransform);
     };
 }// namespace Harpia::Internal

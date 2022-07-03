@@ -22,4 +22,11 @@ namespace Harpia::Internal {
     class Renderer_Internal;
 }// namespace Harpia::Internal
 
+namespace Harpia::Internal {// GL
+    class RenderingSystemGL;
+    class MeshAssetGL;
+    class ShaderAssetGL;
+    class MaterialAssetGL;
+}// namespace Harpia::Internal
+
 #endif//HARPIAGAMEENGINE_INTERNALDEFINES_H

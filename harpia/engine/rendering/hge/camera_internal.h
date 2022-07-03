@@ -6,14 +6,13 @@
 #define HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 
 #include "hge/color.h"
-#include "hge/gl_types.h"
 #include "hge/internal_defines.h"
 #include "hge/rect.h"
 
 namespace Harpia::Internal {
     class Camera_Internal {
     public:
-        GLbitfield _clearMask = 0;
+        int _clearMask = 0;
         Color _clearColor;
         RectInt _viewport;
 

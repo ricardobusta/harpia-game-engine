@@ -9,7 +9,7 @@
 #include "hge/debug.h"
 #include "hge/image_system.h"
 #include "hge/input_system.h"
-#include "hge/rendering_system_gl.h"
+#include "hge/system_gl/rendering_system_gl.h"
 #include "hge/scene_system.h"
 
 #define SystemInit(system, args...)                            \

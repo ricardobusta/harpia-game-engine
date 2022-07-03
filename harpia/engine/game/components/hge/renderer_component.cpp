@@ -5,15 +5,7 @@
 #include "renderer_component.h"
 
 namespace Harpia {
-    void RendererComponent::SetMesh(MeshAsset *mesh) {
-        _mesh = mesh;
-    }
-
-    void RendererComponent::SetMaterial(MaterialAsset *material) {
-        _material = material;
-    }
-
-    Transform *RendererComponent::GetTransformInternal() {
+    Transform *RendererComponent::GetTransform() {
         return &GetObject()->transform;
     }
 }// namespace Harpia

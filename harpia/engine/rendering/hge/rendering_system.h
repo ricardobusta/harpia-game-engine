@@ -10,6 +10,7 @@
 #include "hge/material_asset.h"
 #include "hge/mesh_asset.h"
 #include <list>
+#include <vector>
 
 namespace Harpia::Internal {
     class RenderingSystem : public Internal::IApplicationSystem {
@@ -19,18 +20,16 @@ namespace Harpia::Internal {
         SDL_Window *_window = nullptr;
 
     public:
+        virtual ~RenderingSystem() = default;
+
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void AddRenderer(Renderer_Internal *renderer);
-        virtual ~RenderingSystem() = default;
 
-        virtual MeshAsset *LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) = 0;
-        virtual void ReleaseMesh(MeshAsset *mesh) = 0;
-        virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
-                                GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;
         virtual ShaderAsset *LoadShader() = 0;
-        virtual void ReleaseShader(ShaderAsset *shader) = 0;
+        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) = 0;
+
         void Quit() override;
 
     private:

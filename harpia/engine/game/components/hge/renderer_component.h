@@ -9,13 +9,13 @@
 #include "hge/renderer_internal.h"
 
 namespace Harpia {
-    class RendererComponent : public Component, public Internal::Renderer_Internal {
+    class RendererComponent : public Component {
     public:
-        void SetMesh(MeshAsset *mesh);
-        void SetMaterial(MaterialAsset *material);
+        virtual void SetMesh(MeshAsset *mesh) = 0;
+        virtual void SetMaterial(MaterialAsset *material) = 0;
 
     private:
-        Transform *GetTransformInternal() override;
+        Transform *GetTransform();
     };
 }// namespace Harpia
 
