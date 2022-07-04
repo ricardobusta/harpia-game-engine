@@ -30,7 +30,7 @@ namespace Harpia {
 
     void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) {
         if (renderer != nullptr) {
-            _applicationInternal->_renderSystem->AddRenderer(renderer->_platform);
+            _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
     }
 }// namespace Harpia

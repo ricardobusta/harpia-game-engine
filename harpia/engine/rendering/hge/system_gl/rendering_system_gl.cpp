@@ -149,7 +149,10 @@ namespace Harpia::Internal {
         return 0;
     }
 
-    void RenderingSystemGL::AddRenderer(RendererComponentPlatform *platform) {
+    void RenderingSystemGL::AddRenderer(Internal::RendererComponent_Internal *renderer) {
+        auto platform = new RendererComponentGL();
+        renderer->_platform = platform;
+        platform->_renderer = renderer;
         _renderersGL.push_back(dynamic_cast<RendererComponentGL *>(platform));
     }
 

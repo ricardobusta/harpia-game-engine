@@ -29,7 +29,7 @@ namespace Harpia::Internal {
         void ReleaseShader(ShaderAssetGL *shader);
     private:
         int RenderingInitialize() override;
-        void AddRenderer(RendererComponentPlatform *platform) override;
+        void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
 
         MaterialAsset * CreateMaterial() override;
 
