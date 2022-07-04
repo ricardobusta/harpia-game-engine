@@ -6,16 +6,15 @@
 #define HARPIAGAMEENGINE_RENDERER_COMPONENT_H
 
 #include "hge/component.h"
-#include "hge/renderer_internal.h"
+#include "hge/renderer_component_internal.h"
 
 namespace Harpia {
-    class RendererComponent : public Component {
+    class RendererComponent : public Component, public Internal::RendererComponent_Internal {
     public:
-        virtual void SetMesh(MeshAsset *mesh) = 0;
-        virtual void SetMaterial(MaterialAsset *material) = 0;
-
+        virtual void SetMesh(MeshAsset *mesh);
+        virtual void SetMaterial(MaterialAsset *material);
     private:
-        Transform *GetTransform();
+        Transform *GetTransformInternal() override;
     };
 }// namespace Harpia
 

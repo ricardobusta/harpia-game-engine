@@ -7,7 +7,7 @@
 #include "hge/camera_internal.h"
 #include "hge/component.h"
 #include "hge/in/application_internal.h"
-#include "hge/renderer_internal.h"
+#include "hge/renderer_component_internal.h"
 #include "hge/rendering_system.h"
 
 namespace Harpia {
@@ -28,9 +28,9 @@ namespace Harpia {
         }
     }
 
-    void Object::AddToRenderSystemIfRenderer(Internal::Renderer_Internal *renderer) {
+    void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) {
         if (renderer != nullptr) {
-            _applicationInternal->_renderSystem->AddRenderer(renderer);
+            _applicationInternal->_renderSystem->AddRenderer(renderer->_platform);
         }
     }
 }// namespace Harpia

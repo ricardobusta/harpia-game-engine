@@ -4,7 +4,13 @@
 
 #include "material_asset_gl.h"
 
-namespace Harpia {
-    namespace Internal {
-    }// namespace Internal
-}// namespace Harpia
+#include "shader_asset_gl.h"
+
+namespace Harpia::Internal {
+    MaterialAssetGL::MaterialAssetGL(RenderingSystem *renderingSystem) : MaterialAsset(renderingSystem) {
+    }
+
+    void MaterialAssetGL::SetShader(ShaderAsset *shader) {
+        _shader = dynamic_cast<ShaderAssetGL *>(shader);
+    }
+}// namespace Harpia::Internal

@@ -38,7 +38,7 @@ namespace Harpia {
     }
 
     MaterialAsset *Scene::LoadMaterialAsset(ShaderAsset *shader) {
-        auto asset = new MaterialAsset(_applicationInternal->_renderSystem);
+        auto asset = _applicationInternal->_renderSystem->CreateMaterial();
         asset->SetShader(shader);
         _assets.push_back(asset);
         return asset;

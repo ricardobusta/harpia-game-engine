@@ -19,11 +19,13 @@ namespace Harpia::Internal {
     class SceneSystem;
     class Camera_Internal;
     class Scene_Internal;
-    class Renderer_Internal;
+    class RendererComponent_Internal;
+    class RendererComponentPlatform;
 }// namespace Harpia::Internal
 
 namespace Harpia::Internal {// GL
     class RenderingSystemGL;
+    class RendererComponentGL;
     class MeshAssetGL;
     class ShaderAssetGL;
     class MaterialAssetGL;

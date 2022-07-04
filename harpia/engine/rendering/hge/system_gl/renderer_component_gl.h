@@ -5,13 +5,17 @@
 #ifndef HARPIAGAMEENGINE_RENDERER_COMPONENT_GL_H
 #define HARPIAGAMEENGINE_RENDERER_COMPONENT_GL_H
 
-#include "hge/renderer_component.h"
+#include "hge/internal_defines.h"
+#include "hge/renderer_component_platform.h"
 
 namespace Harpia::Internal {
-    class RendererComponentGL : public RendererComponent {
+    class RendererComponentGL : public RendererComponentPlatform {
     public:
         MeshAssetGL *_mesh;
         MaterialAssetGL *_material;
+
+        RendererComponent_Internal *_renderer;
+
     public:
         void SetMesh(MeshAsset *mesh) override;
         void SetMaterial(MaterialAsset *material) override;

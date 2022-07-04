@@ -16,16 +16,17 @@ namespace Harpia::Internal {
     class RenderingSystem : public Internal::IApplicationSystem {
     protected:
         std::list<Camera_Internal *> _cameras;
-        std::list<Renderer_Internal *> _renderers;
         SDL_Window *_window = nullptr;
 
     public:
         virtual ~RenderingSystem() = default;
 
+        virtual MaterialAsset * CreateMaterial() = 0;
+
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
-        void AddRenderer(Renderer_Internal *renderer);
+        virtual void AddRenderer(RendererComponentPlatform *platform) = 0;
 
         virtual ShaderAsset *LoadShader() = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) = 0;

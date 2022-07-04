@@ -12,7 +12,6 @@
 namespace Harpia {
     class MaterialAsset : public Asset {
     public:
-        ShaderAsset *_shader = nullptr;
         Color color;
         TextureAsset *_texture = nullptr;
 
@@ -24,7 +23,7 @@ namespace Harpia {
         MaterialAsset() = delete;
         void Release() override;
 
-        void SetShader(ShaderAsset *shader);
+        virtual void SetShader(ShaderAsset *shader) = 0;
         void SetTexture(TextureAsset *texture);
         void SetColor(const Color &color);
     };

@@ -9,6 +9,14 @@
 
 namespace Harpia::Internal {
     class MaterialAssetGL : public MaterialAsset {
+    public:
+        ShaderAssetGL *_shader;
+
+    public:
+        explicit MaterialAssetGL(RenderingSystem* renderingSystem);
+        MaterialAssetGL() = delete;
+
+        void SetShader(ShaderAsset *shader) override;
     };
 }// namespace Harpia::Internal
 

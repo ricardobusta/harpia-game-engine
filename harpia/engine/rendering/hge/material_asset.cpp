@@ -14,10 +14,6 @@ namespace Harpia {
         : _renderingSystem(renderingSystem), color(Color::white) {
     }
 
-    void MaterialAsset::SetShader(ShaderAsset *shader) {
-        _shader = shader;
-    }
-
     void MaterialAsset::SetColor(const Color &color) {
         this->color = color;
     }

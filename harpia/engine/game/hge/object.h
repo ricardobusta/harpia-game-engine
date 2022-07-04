@@ -28,7 +28,7 @@ namespace Harpia {
         T *AddComponent() {
             auto newComponent = HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
             if (std::is_base_of<RendererComponent, T>::value) {
-                AddToRenderSystemIfRenderer((Internal::Renderer_Internal *) newComponent);
+                AddToRenderSystemIfRenderer((Internal::RendererComponent_Internal *) newComponent);
             }
             if (std::is_base_of<CameraComponent, T>::value) {
                 AddToRenderSystemIfCamera((Internal::Camera_Internal *) newComponent);
@@ -45,7 +45,7 @@ namespace Harpia {
 
     private:
         void AddToRenderSystemIfCamera(Internal::Camera_Internal *camera);
-        void AddToRenderSystemIfRenderer(Internal::Renderer_Internal *renderer);
+        void AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer);
     };
 }// namespace Harpia
 

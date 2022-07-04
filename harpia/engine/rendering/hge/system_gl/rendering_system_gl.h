@@ -9,11 +9,13 @@
 
 #include "gl_types.h"
 #include <vector>
+#include "hge/internal_defines.h"
 
 namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
     private:
         SDL_GLContext _context = nullptr;
+        std::list<RendererComponentGL *> _renderersGL;
 
     public:
         int GetWindowFlags() override;
@@ -27,6 +29,10 @@ namespace Harpia::Internal {
         void ReleaseShader(ShaderAssetGL *shader);
     private:
         int RenderingInitialize() override;
+        void AddRenderer(RendererComponentPlatform *platform) override;
+
+        MaterialAsset * CreateMaterial() override;
+
         bool InitGL();
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);

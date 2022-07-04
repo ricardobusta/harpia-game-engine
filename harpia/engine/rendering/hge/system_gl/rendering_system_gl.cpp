@@ -9,9 +9,11 @@
 #include "hge/configuration.h"
 #include "hge/debug.h"
 #include "hge/harpia_math.h"
-#include "hge/renderer_internal.h"
+#include "hge/renderer_component_internal.h"
 #include "hge/transform.h"
+#include "material_asset_gl.h"
 #include "mesh_asset_gl.h"
+#include "renderer_component_gl.h"
 #include "shader_asset_gl.h"
 #include <GL/glew.h>
 #include <SDL.h>
@@ -92,11 +94,12 @@ namespace Harpia::Internal {
 
             glClear(camera->_clearMask);
 
-            for (auto r: _renderers) {
-                auto glShader = dynamic_cast<ShaderAssetGL *>(r->_material->_shader); // TODO avoid cast with renderer_internal_gl?
+            for (auto r: _renderersGL) {
+                auto renderer = r->_renderer;
+                auto glShader = dynamic_cast<ShaderAssetGL *>(r->_material->_shader);// TODO avoid cast with renderer_internal_gl?
                 glUseProgram(glShader->programId);
                 auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f);// TODO move to camera and cache
-                auto rt = r->GetTransformInternal()->GetTrMatrix();
+                auto rt = renderer->GetTransformInternal()->GetTrMatrix();
                 auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
                 RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct));
                 DrawMesh(r->_mesh);
@@ -146,6 +149,14 @@ namespace Harpia::Internal {
         return 0;
     }
 
+    void RenderingSystemGL::AddRenderer(RendererComponentPlatform *platform) {
+        _renderersGL.push_back(dynamic_cast<RendererComponentGL *>(platform));
+    }
+
+    MaterialAsset *RenderingSystemGL::CreateMaterial() {
+        return new MaterialAssetGL(this);
+    }
+
     MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) {
         auto mesh = new MeshAssetGL(this);
         mesh->vertex = vertex;
@@ -172,14 +183,14 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::ReleaseMesh(MeshAsset *mesh) {
-        auto glMesh = dynamic_cast<MeshAssetGL*>(mesh); // TODO avoid casting somehow?
+        auto glMesh = dynamic_cast<MeshAssetGL *>(mesh);// TODO avoid casting somehow?
         glDeleteBuffers(1, &glMesh->vertexBufferId);
         glMesh->vertexBufferId = 0;
         glDeleteBuffers(1, &glMesh->indexBufferId);
         glMesh->indexBufferId = 0;
     }
 
-    ShaderAssetGL *RenderingSystemGL::LoadShader() {
+    ShaderAsset *RenderingSystemGL::LoadShader() {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -309,4 +320,5 @@ namespace Harpia::Internal {
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
     }
+
 }// namespace Harpia::Internal
