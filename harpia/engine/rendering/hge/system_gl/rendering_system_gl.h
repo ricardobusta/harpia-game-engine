@@ -8,8 +8,8 @@
 #include "hge/rendering_system.h"
 
 #include "gl_types.h"
-#include <vector>
 #include "hge/internal_defines.h"
+#include <vector>
 
 namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
@@ -27,20 +27,25 @@ namespace Harpia::Internal {
         void ReleaseMesh(MeshAsset *mesh);
 
         void ReleaseShader(ShaderAssetGL *shader);
+
+        void ReleaseTexture(TextureAssetGL *texture);
     private:
         int RenderingInitialize() override;
         void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
 
-        MaterialAsset * CreateMaterial() override;
 
         bool InitGL();
+
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
-
         ShaderAsset *LoadShader() override;
-        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) override;
 
+        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);
+
+        TextureAsset *LoadTexture(const std::string &path) override;
+
+        MaterialAsset *CreateMaterial() override;
         void RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
                             const float *cameraTransform);
     };

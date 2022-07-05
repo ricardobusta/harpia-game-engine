@@ -31,6 +31,8 @@ namespace Harpia::Internal {
         virtual ShaderAsset *LoadShader() = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) = 0;
 
+        virtual TextureAsset *LoadTexture(const std::string &path) = 0;
+
         void Quit() override;
 
     private:

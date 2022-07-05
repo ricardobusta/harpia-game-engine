@@ -11,13 +11,10 @@ namespace Harpia {
     }
 
     MaterialAsset::MaterialAsset(Internal::RenderingSystem *renderingSystem)
-        : _renderingSystem(renderingSystem), color(Color::white) {
+        : _renderingSystem(renderingSystem), _color(Color::white) {
     }
 
     void MaterialAsset::SetColor(const Color &color) {
-        this->color = color;
-    }
-    void MaterialAsset::SetTexture(TextureAsset *texture) {
-        _texture = texture;
+        this->_color = color;
     }
 }// namespace Harpia

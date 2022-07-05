@@ -7,7 +7,6 @@
 #include "hge/audio_system.h"
 #include "hge/core_system.h"
 #include "hge/debug.h"
-#include "hge/image_system.h"
 #include "hge/input_system.h"
 #include "hge/system_gl/rendering_system_gl.h"
 #include "hge/scene_system.h"
@@ -41,7 +40,6 @@ namespace Harpia {
         _coreSystem = new Internal::CoreSystem();
         _renderSystem = new Internal::RenderingSystemGL();
         _inputSystem = new Internal::InputSystem();
-        _imageSystem = new Internal::ImageSystem();
         _audioSystem = new Internal::AudioSystem();
         _sceneManagementSystem = new Internal::SceneSystem();
 
@@ -59,7 +57,6 @@ namespace Harpia {
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
-        SystemInit(_imageSystem, _coreSystem);
         SystemInit(_renderSystem, configuration.game, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
@@ -82,7 +79,6 @@ namespace Harpia {
         SystemCleanup(_audioSystem);
         SystemCleanup(_inputSystem);
         SystemCleanup(_renderSystem);
-        SystemCleanup(_imageSystem);
         SystemCleanup(_coreSystem);
 
         DebugLog("Quit");

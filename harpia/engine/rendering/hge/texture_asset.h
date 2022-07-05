@@ -9,15 +9,6 @@
 
 namespace Harpia {
     class TextureAsset : public Asset {
-    public:
-        SDL_Texture *ref = nullptr;
-    private:
-        Internal::ImageSystem *_imageSystem = nullptr;
-
-    public:
-        explicit TextureAsset(SDL_Texture *ref, Internal::ImageSystem *imageSystem);
-        TextureAsset() = delete;
-        void Release() override;
     };
 }// namespace Harpia
 

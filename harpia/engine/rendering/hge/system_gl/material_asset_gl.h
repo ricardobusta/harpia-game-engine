@@ -11,12 +11,14 @@ namespace Harpia::Internal {
     class MaterialAssetGL : public MaterialAsset {
     public:
         ShaderAssetGL *_shader;
+        TextureAssetGL *_texture;
 
     public:
-        explicit MaterialAssetGL(RenderingSystem* renderingSystem);
+        explicit MaterialAssetGL(RenderingSystem *renderingSystem);
         MaterialAssetGL() = delete;
 
         void SetShader(ShaderAsset *shader) override;
+        void SetTexture(TextureAsset *texture) override;
     };
 }// namespace Harpia::Internal
 

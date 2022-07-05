@@ -5,7 +5,6 @@
 #include "scene.h"
 
 #include "hge/audio_system.h"
-#include "hge/image_system.h"
 #include "hge/in/application_internal.h"
 #include "hge/in/mesh_generator.h"
 #include "hge/object.h"
@@ -64,7 +63,7 @@ namespace Harpia {
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
     }
     TextureAsset *Scene::LoadTextureAsset(const std::string &path) {
-        auto asset = _applicationInternal->_imageSystem->LoadTexture(path);
+        auto asset = _applicationInternal->_renderSystem->LoadTexture(path);
         _assets.push_back(asset);
         return asset;
     }

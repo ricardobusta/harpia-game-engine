@@ -16,7 +16,6 @@ target_link_libraries(
         Harpia.Audio
         Harpia.Input
         Harpia.Rendering
-        Harpia.Image
         Harpia.Application.Internal
         Harpia.Game.Internal
 )

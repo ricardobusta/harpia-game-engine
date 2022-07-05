@@ -5,6 +5,7 @@
 #include "material_asset_gl.h"
 
 #include "shader_asset_gl.h"
+#include "texture_asset_gl.h"
 
 namespace Harpia::Internal {
     MaterialAssetGL::MaterialAssetGL(RenderingSystem *renderingSystem) : MaterialAsset(renderingSystem) {
@@ -12,5 +13,9 @@ namespace Harpia::Internal {
 
     void MaterialAssetGL::SetShader(ShaderAsset *shader) {
         _shader = dynamic_cast<ShaderAssetGL *>(shader);
+    }
+
+    void MaterialAssetGL::SetTexture(TextureAsset *texture) {
+        _texture = dynamic_cast<TextureAssetGL *>(texture);
     }
 }// namespace Harpia::Internal

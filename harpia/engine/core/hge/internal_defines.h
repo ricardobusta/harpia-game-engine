@@ -13,7 +13,6 @@ namespace Harpia::Internal {
     class Component_Internal;
     class CoreSystem;
     class AudioSystem;
-    class ImageSystem;
     class InputSystem;
     class RenderingSystem;
     class SceneSystem;
@@ -28,6 +27,7 @@ namespace Harpia::Internal {// GL
     class RendererComponentGL;
     class MeshAssetGL;
     class ShaderAssetGL;
+    class TextureAssetGL;
     class MaterialAssetGL;
 }// namespace Harpia::Internal
 

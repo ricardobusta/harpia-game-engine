@@ -15,6 +15,7 @@
 #include "mesh_asset_gl.h"
 #include "renderer_component_gl.h"
 #include "shader_asset_gl.h"
+#include "texture_asset_gl.h"
 #include <GL/glew.h>
 #include <SDL.h>
 
@@ -305,12 +306,17 @@ namespace Harpia::Internal {
         shader->vertexLocation = -1;
     }
 
+    TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
+        auto texture = new TextureAssetGL(this);
+        return texture;
+    }
+
     void RenderingSystemGL::RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
                                            const float *cameraTransform) {
         auto shader = material->_shader;
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
-            GLfloat c[] = {material->color.r, material->color.g, material->color.b, material->color.a};
+            GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
             glUniform4fv(shader->colorLoc, 1, c);
         }
         if (shader->worldToObjectLoc != -1) {
@@ -323,5 +329,6 @@ namespace Harpia::Internal {
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
     }
-
+    void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
+    }
 }// namespace Harpia::Internal
