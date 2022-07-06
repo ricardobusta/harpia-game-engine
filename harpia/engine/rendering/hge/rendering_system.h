@@ -29,7 +29,7 @@ namespace Harpia::Internal {
         virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
         virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
-        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) = 0;
+        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,const std::vector<float> &uv,const std::vector<int> &index) = 0;
 
         virtual TextureAsset *LoadTexture(const std::string &path) = 0;
 
