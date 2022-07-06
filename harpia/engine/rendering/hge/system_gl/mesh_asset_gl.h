@@ -13,11 +13,11 @@ namespace Harpia ::Internal {
     class MeshAssetGL : public MeshAsset {
     public:
         std::vector<GLfloat> vertex;
+        std::vector<GLfloat> normal;
+        std::vector<GLfloat> uv;
         std::vector<GLint> index;
 
-        GLuint vertexBufferId = 0;
-        GLuint indexBufferId = 0;
-
+        GLuint bufferIds[4] = {0,0,0,0};
     private:
         RenderingSystemGL *_renderingSystem;
 
