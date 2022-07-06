@@ -44,12 +44,6 @@ namespace Harpia {
         return asset;
     }
 
-    ShaderAsset *Scene::LoadShaderAsset() {
-        auto asset = _applicationInternal->_renderSystem->LoadShader();
-        _assets.push_back(asset);
-        return asset;
-    }
-
     ShaderAsset *Scene::LoadShaderAsset(const std::string &vert, const std::string &frag) {
         DebugLog("Loading shader asset from %s and %s", vert.c_str(), frag.c_str());
         bool ok = false;

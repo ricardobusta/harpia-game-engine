@@ -18,7 +18,6 @@ namespace Harpia {
         AudioAsset *LoadAudioAsset(const std::string &path);
         MusicAsset *LoadMusicAsset(const std::string &path);
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
-        ShaderAsset *LoadShaderAsset();
         ShaderAsset *LoadShaderAsset(const std::string &vert, const std::string &frag);
         MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
         TextureAsset *LoadTextureAsset(const std::string &path);
