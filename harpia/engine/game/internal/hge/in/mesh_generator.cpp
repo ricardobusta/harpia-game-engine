@@ -7,8 +7,8 @@
 #include <vector>
 
 namespace Harpia::Internal {
-    void MeshGenerator::BoxMesh(std::vector<float> &vertex, std::vector<int> &index, const Vector3 &pos,
-                                const Vector3 &size) {
+    void MeshGenerator::BoxMesh(std::vector<float> &vertex, std::vector<float> &normal, std::vector<float> &uv,
+                                std::vector<int> &index, const Vector3 &pos, const Vector3 &size) {
         vertex.clear();
         vertex.reserve(8 * 3);
         auto sx = size.x / 2.0f;
@@ -18,37 +18,35 @@ namespace Harpia::Internal {
         auto cy = pos.y;
         auto cz = pos.z;
         vertex = {
-                -sx + cx,
-                -sy + cy,
-                -sz + cz,
-                sx + cx,
-                -sy + cy,
-                -sz + cz,
-                sx + cx,
-                sy + cy,
-                -sz + cz,
-                -sx + cx,
-                sy + cy,
-                -sz + cz,
-                -sx + cx,
-                -sy + cy,
-                sz + cz,
-                sx + cx,
-                -sy + cy,
-                sz + cz,
-                sx + cx,
-                sy + cy,
-                sz + cz,
-                -sx + cx,
-                sy + cy,
-                sz + cz,
+                -sx + cx,                -sy + cy,                -sz + cz,
+                sx + cx,                -sy + cy,                -sz + cz,
+                sx + cx,                sy + cy,                -sz + cz,
+                -sx + cx,                sy + cy,                -sz + cz,
+                -sx + cx,                -sy + cy,                sz + cz,
+                sx + cx,                -sy + cy,                sz + cz,
+                sx + cx,                sy + cy,                sz + cz,
+                -sx + cx,                sy + cy,                sz + cz,
         };
-        //        normal = {
-        //
-        //        };
-        //        uv = {
-        //
-        //        };
+        normal = {
+                0,                0,                0,\
+                1,                0,                0,
+                0,                1,                0,
+                0,                0,                1,
+                1,                1,                0,
+                1,                0,                1,
+                0,                1,                1,
+                1,                1,                1,
+        };
+        uv = {
+                0,                0,
+               0,                1,
+                1,                0,
+                1,                1,
+                0,                0,
+                0,                1,
+                1,                0,
+                1,                1,
+        };
         index = {
                 1, 0, 3, 1, 3, 2,// back face
                 4, 5, 6, 4, 6, 7,// front face

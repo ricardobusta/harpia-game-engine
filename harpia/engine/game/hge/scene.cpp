@@ -72,11 +72,13 @@ namespace Harpia {
 
     MeshAsset *Scene::LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size) {
         std::vector<float> v;
+        std::vector<float> n;
+        std::vector<float> t;
         std::vector<int> i;
 
-        Internal::MeshGenerator::BoxMesh(v, i, pos, size);
+        Internal::MeshGenerator::BoxMesh(v, n, t, i, pos, size);
 
-        return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, i));
+        return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, n, t, i));
     }
     TextureAsset *Scene::LoadTextureAsset(const std::string &path) {
         auto asset = _applicationInternal->_renderSystem->LoadTexture(path);
