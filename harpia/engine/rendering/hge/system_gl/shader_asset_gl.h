@@ -15,6 +15,8 @@ namespace Harpia::Internal {
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
         GLint vertexLocation = -1;
+        GLint normalLocation = -1;
+        GLint uvLocation = -1;
         GLint objectToCameraLoc = -1;
         GLint worldToObjectLoc = -1;
         GLint colorLoc = -1;
