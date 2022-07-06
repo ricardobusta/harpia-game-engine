@@ -1,5 +1,5 @@
 //
-// Created by ricar on 04/07/2022.
+// Created by Ricardo Bustamante <ricardo@busta.dev> on 04/07/2022.
 //
 
 #ifndef HARPIAGAMEENGINE_RENDERER_COMPONENT_PLATFORM_H
@@ -10,8 +10,8 @@
 namespace Harpia::Internal {
     class RendererComponentPlatform {
     public:
-        virtual void SetMesh(MeshAsset *mesh) =0;
-        virtual void SetMaterial(MaterialAsset *material) =0;
+        virtual void SetMesh(MeshAsset *mesh) = 0;
+        virtual void SetMaterial(MaterialAsset *material) = 0;
     };
 }// namespace Harpia::Internal
 

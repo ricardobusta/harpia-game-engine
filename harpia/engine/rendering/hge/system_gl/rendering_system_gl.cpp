@@ -18,6 +18,7 @@
 #include "texture_asset_gl.h"
 #include <GL/glew.h>
 #include <SDL.h>
+#include <SDL_image.h>
 
 namespace Harpia::Internal {
     const int VECTOR_DIMENSION_GL = 3;
@@ -194,7 +195,7 @@ namespace Harpia::Internal {
         glMesh->indexBufferId = 0;
     }
 
-    ShaderAsset *RenderingSystemGL::LoadShader() {
+    ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertSrc, const std::string &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -205,16 +206,8 @@ namespace Harpia::Internal {
         GLint success = GL_FALSE;
         ShaderAssetGL *asset;
 
-        const std::string vertexShaderSource =
-
-#include "hge/defaultVertexShader.h"
-
-                const auto vsh = vertexShaderSource.data();
-        const std::string fragmentShaderSource =
-
-#include "hge/defaultFragmentShader.h"
-
-                const auto fsh = fragmentShaderSource.data();
+        const auto vsh = vertSrc.data();
+        const auto fsh = fragSrc.data();
 
         programId = glCreateProgram();
 
@@ -307,8 +300,28 @@ namespace Harpia::Internal {
     }
 
     TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
-        auto texture = new TextureAssetGL(this);
-        return texture;
+        SDL_Surface *surface = IMG_Load(path.c_str());
+        if (surface == nullptr) {
+            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), IMG_GetError());
+            return nullptr;
+        }
+
+        GLuint texture = 0;
+
+        GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
+        // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
+        // testColor & 0xff == ALPHA ?
+
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        SDL_FreeSurface(surface);
+
+        auto asset = new TextureAssetGL(this, texture);
+        return asset;
     }
 
     void RenderingSystemGL::RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
@@ -328,7 +341,10 @@ namespace Harpia::Internal {
         glEnableVertexAttribArray(shader->vertexLocation);
         glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
                               VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
+        //        glEnableTe
+        //        glTexCoordPointer(shader)
     }
+
     void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
     }
 }// namespace Harpia::Internal

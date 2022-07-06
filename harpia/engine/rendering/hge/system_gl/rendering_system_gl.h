@@ -29,16 +29,16 @@ namespace Harpia::Internal {
         void ReleaseShader(ShaderAssetGL *shader);
 
         void ReleaseTexture(TextureAssetGL *texture);
+
     private:
         int RenderingInitialize() override;
         void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
-
 
         bool InitGL();
 
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
-        ShaderAsset *LoadShader() override;
+        ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) override;
 
         MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);

@@ -21,14 +21,14 @@ namespace Harpia::Internal {
     public:
         virtual ~RenderingSystem() = default;
 
-        virtual MaterialAsset * CreateMaterial() = 0;
+        virtual MaterialAsset *CreateMaterial() = 0;
 
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
-        virtual ShaderAsset *LoadShader() = 0;
+        virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<int> &index) = 0;
 
         virtual TextureAsset *LoadTexture(const std::string &path) = 0;

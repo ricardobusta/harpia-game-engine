@@ -56,7 +56,7 @@ namespace SampleGame {
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0, 0, 0, 1));
 
-        auto shader = LoadShaderAsset();
+        auto shader = LoadShaderAsset("assets/shader/test.vert", "assets/shader/test.frag");
         auto texture = LoadTextureAsset("assets/texture/busta.png");
         auto boxMesh = LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f));
 

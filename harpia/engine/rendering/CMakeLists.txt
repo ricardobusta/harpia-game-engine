@@ -18,4 +18,5 @@ target_link_libraries(
         Harpia.Core
         Harpia.Application.Internal
         Harpia.Game.Internal
+        SDL2_image
 )
