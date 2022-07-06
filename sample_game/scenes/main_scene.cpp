@@ -81,9 +81,11 @@ namespace SampleGame {
                    Color::purple,
                    shader, texture, boxMesh);
 
-        CreateCube(Vector3(0.0f, 0.0f, 0),
-                   Vector3(0.0f, 10.0f, 0),
+        auto cube = CreateCube(Vector3(0.0f, 0.0f, 0),
+                   Vector3(0.0f, 0.0f, 0),
                    Color::aqua,
                    shader, texture, boxMesh);
+
+        cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(45 * Math::Deg2Rad, {1, 1, 0}));
     }
 }// namespace SampleGame

@@ -18,33 +18,33 @@ namespace Harpia::Internal {
         auto cy = pos.y;
         auto cz = pos.z;
         vertex = {
-                -sx + cx,                -sy + cy,                -sz + cz,
-                sx + cx,                -sy + cy,                -sz + cz,
-                sx + cx,                sy + cy,                -sz + cz,
-                -sx + cx,                sy + cy,                -sz + cz,
-                -sx + cx,                -sy + cy,                sz + cz,
-                sx + cx,                -sy + cy,                sz + cz,
-                sx + cx,                sy + cy,                sz + cz,
-                -sx + cx,                sy + cy,                sz + cz,
+                -sx + cx,    -sy + cy,      -sz + cz,
+                sx + cx,    -sy + cy,      -sz + cz,
+                sx + cx,    sy + cy,      -sz + cz,
+                -sx + cx,    sy + cy,      -sz + cz,
+                -sx + cx,    -sy + cy,      sz + cz,
+                sx + cx,    -sy + cy,      sz + cz,
+                sx + cx,    sy + cy,      sz + cz,
+                -sx + cx,    sy + cy,      sz + cz,
         };
         normal = {
-                0,                0,                0,\
-                1,                0,                0,
-                0,                1,                0,
-                0,                0,                1,
-                1,                1,                0,
-                1,                0,                1,
-                0,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
+                1,                1,                1,
                 1,                1,                1,
         };
         uv = {
-                0,                0,
-               0,                1,
-                1,                0,
                 1,                1,
-                0,                0,
-                0,                1,
-                1,                0,
+               1,                1,
+                1,                1,
+                1,                1,
+                1,                1,
+                1,                1,
+                1,                1,
                 1,                1,
         };
         index = {

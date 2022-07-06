@@ -14,6 +14,6 @@ out VS_OUT
 
 void main() {
    gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( inPos, 1.0 );
-   vs_out.normal = normalize(mat3(transpose(inverse(harpia_WorldToObject))) * inNormal);
+   vs_out.normal = normalize(inNormal);
    vs_out.uv = inUv;
 }

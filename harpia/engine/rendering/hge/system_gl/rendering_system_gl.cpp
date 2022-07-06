@@ -101,7 +101,7 @@ namespace Harpia::Internal {
                 auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f);// TODO move to camera and cache
                 auto rt = renderer->GetTransformInternal()->GetTrMatrix();
                 auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
-                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct));
+                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct), r->_mesh);
                 DrawMesh(r->_mesh);
             }
 
@@ -172,6 +172,8 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::DrawMesh(MeshAssetGL *mesh) {
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
         glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Index]);
         glDrawElements(GL_TRIANGLES, mesh->index.size(), GL_UNSIGNED_INT, nullptr);
@@ -318,12 +320,19 @@ namespace Harpia::Internal {
         GLuint texture = 0;
 
         GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
+        if(surface->format->BytesPerPixel == 4) {
+            dataFormat = GL_RGBA;
+        }else{
+            dataFormat = GL_RGB;
+        }
         // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
         // testColor & 0xff == ALPHA ?
 
+        DebugLog("Texture size: (%d, %d)", surface->w, surface->h);
+
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -333,8 +342,12 @@ namespace Harpia::Internal {
         return asset;
     }
 
+    void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
+        glDeleteTextures(1, &texture->_texture);
+    }
+
     void RenderingSystemGL::RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
-                                           const float *cameraTransform) {
+                                           const float *cameraTransform, MeshAssetGL * mesh) {
         auto shader = material->_shader;
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
@@ -347,15 +360,17 @@ namespace Harpia::Internal {
         if (shader->objectToCameraLoc != -1) {
             glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
         }
+
+        glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
+
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
         glEnableVertexAttribArray(shader->vertexLocation);
-        glEnableVertexAttribArray(shader->normalLocation);
-        glEnableVertexAttribArray(shader->uvLocation);
-
         glVertexAttribPointer(shader->vertexLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
+        glEnableVertexAttribArray(shader->normalLocation);
         glVertexAttribPointer(shader->normalLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
+        glEnableVertexAttribArray(shader->uvLocation);
         glVertexAttribPointer(shader->uvLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
-    }
-
-    void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
     }
 }// namespace Harpia::Internal

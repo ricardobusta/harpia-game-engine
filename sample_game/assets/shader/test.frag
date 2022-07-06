@@ -8,10 +8,12 @@ in VS_OUT
 
 out vec4 fragColor;
 
+uniform sampler2D u_tex;
 uniform vec4 u_color;
 
 void main() {
    fragColor.a = u_color.a;
+   fragColor.rg = vs_in.uv;
    fragColor.rgb = vs_in.normal.xyz;
-   fragColor.rg = vs_in.uv.xy;
+   //fragColor.rgb = texture( u_tex, vs_in.normal.xy ).rgb;
 }
