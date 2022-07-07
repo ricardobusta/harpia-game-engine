@@ -95,13 +95,11 @@ namespace Harpia::Internal {
             glClear(camera->_clearMask);
 
             for (auto r: _renderersGL) {
-                auto renderer = r->_renderer;
-                auto glShader = dynamic_cast<ShaderAssetGL *>(r->_material->_shader);// TODO avoid cast with renderer_internal_gl?
+                auto glShader = r->_material->_shader;
                 glUseProgram(glShader->programId);
-                auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f);// TODO move to camera and cache
-                auto rt = renderer->GetTransformInternal()->GetTrMatrix();
+                auto projMat = camera->_projection;// TODO move to camera and cache
                 auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
-                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct), r->_mesh);
+                RenderObjectMaterial(r, glm::value_ptr(ct));
                 DrawMesh(r->_mesh);
             }
 
@@ -346,20 +344,23 @@ namespace Harpia::Internal {
         glDeleteTextures(1, &texture->_texture);
     }
 
-    void RenderingSystemGL::RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
-                                           const float *cameraTransform, MeshAssetGL * mesh) {
+    void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
+        auto material = renderer->_material;
         auto shader = material->_shader;
+        auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
             GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
             glUniform4fv(shader->colorLoc, 1, c);
         }
         if (shader->worldToObjectLoc != -1) {
-            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, objectTransform);
+            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
         }
         if (shader->objectToCameraLoc != -1) {
             glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
         }
+
+        auto mesh = renderer->_mesh;
 
         glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
 

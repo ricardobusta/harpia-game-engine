@@ -8,6 +8,7 @@
 #include "hge/color.h"
 #include "hge/internal_defines.h"
 #include "hge/rect.h"
+#include "hge/harpia_math.h"
 
 namespace Harpia::Internal {
     class Camera_Internal {
@@ -15,7 +16,7 @@ namespace Harpia::Internal {
         int _clearMask = 0;
         Color _clearColor;
         RectInt _viewport;
-
+        Matrix4x4 _projection;
     public:
         virtual Transform *GetTransformInternal() = 0;
     };

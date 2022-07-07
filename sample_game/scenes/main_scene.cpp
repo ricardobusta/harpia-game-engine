@@ -53,6 +53,8 @@ namespace SampleGame {
         cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -5.0f}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
+        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 10.0f);
+        //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0, 0, 0, 1));
 

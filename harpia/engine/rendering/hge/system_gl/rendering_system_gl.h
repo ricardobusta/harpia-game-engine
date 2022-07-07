@@ -54,8 +54,7 @@ namespace Harpia::Internal {
         TextureAsset *LoadTexture(const std::string &path) override;
 
         MaterialAsset *CreateMaterial() override;
-        void RenderMaterial(MaterialAssetGL *material, const float *objectTransform,
-                            const float *cameraTransform, MeshAssetGL * mesh);
+        void RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform);
     };
 }// namespace Harpia::Internal
 

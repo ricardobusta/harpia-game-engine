@@ -16,6 +16,9 @@ namespace Harpia {
         void SetViewport(const RectInt &viewport);
         void SetClearColor(const Color &color);
 
+        void SetPerspective(float fovy, float aspect, float near, float far);
+        void SetOrthographic(float height, float aspect, float near, float far);
+
     private:
         Transform *GetTransformInternal() override;
     };
