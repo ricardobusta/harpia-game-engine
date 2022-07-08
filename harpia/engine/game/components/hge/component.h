@@ -6,8 +6,8 @@
 #define HARPIAGAMEENGINE_COMPONENT_H
 
 #include "hge/in/component_internal.h"
-#include "hge/object.h"
 #include "hge/input_reader.h"
+#include "hge/object.h"
 
 namespace Harpia {
     class Component : private Internal::Component_Internal {
@@ -20,15 +20,15 @@ namespace Harpia {
             return _object->GetComponent<T>();
         }
 
-        virtual void Start() {};
+        virtual void Start(){};
 
-        virtual void Update() {};
+        virtual void Update(){};
 
         InputReader *Input();
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_COMPONENT_H
+#endif//HARPIAGAMEENGINE_COMPONENT_H

@@ -20,6 +20,24 @@ namespace Harpia {
         int IntB() { return (int) (b * 255.f); }
 
         int IntA() { return (int) (a * 255.f); }
+
+        [[maybe_unused]] static const Color white;
+        [[maybe_unused]] static const Color green;
+        [[maybe_unused]] static const Color red;
+        [[maybe_unused]] static const Color blue;
+        [[maybe_unused]] static const Color yellow;
+        [[maybe_unused]] static const Color magenta;
+        [[maybe_unused]] static const Color cyan;
+        [[maybe_unused]] static const Color orange;
+        [[maybe_unused]] static const Color lime;
+        [[maybe_unused]] static const Color azure;
+        [[maybe_unused]] static const Color aqua;
+        [[maybe_unused]] static const Color rose;
+        [[maybe_unused]] static const Color purple;
+        [[maybe_unused]] static const Color gray;
+        [[maybe_unused]] static const Color lightGray;
+        [[maybe_unused]] static const Color darkGray;
+        [[maybe_unused]] static const Color black;
     };
 }
 

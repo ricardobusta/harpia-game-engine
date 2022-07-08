@@ -5,20 +5,19 @@
 #ifndef HARPIAGAMEENGINE_AUDIO_SYSTEM_H
 #define HARPIAGAMEENGINE_AUDIO_SYSTEM_H
 
-#include <map>
-#include <string>
-
+#include "audio_asset.h"
+#include "hge/asset_container.h"
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
-#include "audio_asset.h"
 #include "music_asset.h"
 
 namespace Harpia::Internal {
     class AudioSystem : public IApplicationSystem {
     public:
     private:
-        std::map<std::string, AudioAsset *> _loadedAudios;
-        std::map<std::string, MusicAsset *> _loadedMusics;
+        AssetContainer<AudioAsset> _loadedAudios;
+        AssetContainer<MusicAsset> _loadedMusics;
+
     public:
         AudioAsset *LoadAudio(const std::string &path);
         void ReleaseAudio(AudioAsset *audio);
@@ -43,6 +42,6 @@ namespace Harpia::Internal {
         void ReleaseAllUsages(MusicAsset *music);
     };
 
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_AUDIO_SYSTEM_H
+#endif//HARPIAGAMEENGINE_AUDIO_SYSTEM_H

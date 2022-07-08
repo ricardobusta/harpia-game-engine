@@ -12,6 +12,6 @@ namespace Harpia {
         bool down = false;
         bool up = false;
     };
-}
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_KEY_STATE_H
+#endif//HARPIAGAMEENGINE_KEY_STATE_H

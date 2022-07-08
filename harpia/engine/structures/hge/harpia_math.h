@@ -32,7 +32,11 @@ namespace Harpia {
         }
 
         static Matrix4x4 Perspective(float fovy, float aspect, float near, float far) {
-            return glm::perspective(fovy, aspect, near, far);
+            return glm::perspective<float>(fovy, aspect, near, far);
+        }
+
+        static Matrix4x4 Orthographic(float left, float right, float top, float bottom, float near, float far){
+            return glm::ortho<float>(left, right, bottom, top, near, far);
         }
     };
 

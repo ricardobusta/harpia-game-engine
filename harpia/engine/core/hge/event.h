@@ -5,15 +5,16 @@
 #ifndef HARPIAGAMEENGINE_EVENT_H
 #define HARPIAGAMEENGINE_EVENT_H
 
-#include <list>
-#include <functional>
 #include "hge/debug.h"
+#include <functional>
+#include <list>
 
 namespace Harpia {
     template<typename... Args>
     class Event {
     private:
         std::list<std::function<void(Args...)>> _listeners;
+
     public:
         void AddListener(const std::function<void(Args...)> &listener) {
             _listeners.push_back(listener);
@@ -45,6 +46,6 @@ namespace Harpia {
         }
     };
 
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_EVENT_H
+#endif//HARPIAGAMEENGINE_EVENT_H

@@ -4,11 +4,11 @@
 
 #include "rendering_system.h"
 
-#include <SDL.h>
-#include "hge/debug.h"
-#include "hge/core_system.h"
 #include "hge/configuration.h"
+#include "hge/core_system.h"
 #include "hge/harpia_assert.h"
+#include "hge/renderer_component_internal.h"
+#include <SDL.h>
 
 namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
@@ -43,7 +43,6 @@ namespace Harpia::Internal {
         _cameras.push_back(camera);
     }
 
-    void RenderingSystem::AddRenderer(Renderer_Internal *renderer) {
-        _renderers.push_back(renderer);
+    void RenderingSystem::Quit() {
     }
-} // Harpia::Internal
+}// namespace Harpia::Internal

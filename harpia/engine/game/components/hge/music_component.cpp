@@ -3,8 +3,8 @@
 //
 
 #include "music_component.h"
-#include "hge/debug.h"
 #include "hge/audio_system.h"
+#include "hge/debug.h"
 #include "hge/harpia_assert.h"
 #include "hge/in/application_internal.h"
 
@@ -33,4 +33,4 @@ namespace Harpia {
     void MusicComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _audioSystem = applicationInternal->_audioSystem;
     }
-} // Harpia
+}// namespace Harpia

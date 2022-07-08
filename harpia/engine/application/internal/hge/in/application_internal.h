@@ -18,6 +18,6 @@ namespace Harpia::Internal {
         CoreSystem *_coreSystem = nullptr;
         SceneSystem *_sceneManagementSystem = nullptr;
     };
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_APPLICATION_INTERNAL_H
+#endif//HARPIAGAMEENGINE_APPLICATION_INTERNAL_H

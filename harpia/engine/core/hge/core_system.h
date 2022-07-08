@@ -5,10 +5,10 @@
 #ifndef HARPIAGAMEENGINE_CORESYSTEM_H
 #define HARPIAGAMEENGINE_CORESYSTEM_H
 
-#include <list>
+#include "event.h"
 #include "global_defines.h"
 #include "i_application_system.h"
-#include "event.h"
+#include <list>
 
 namespace Harpia::Internal {
     class CoreSystem : public IApplicationSystem {
@@ -21,9 +21,11 @@ namespace Harpia::Internal {
         Event<> onPreEvents;
         Event<SDL_KeyboardEvent &> onKeyDown;
         Event<SDL_KeyboardEvent &> onKeyUp;
+
     private:
         SDL_Window *_window = nullptr;
         Configuration *_configuration;
+
     public:
         int Initialize(Configuration &config, int InitFlags, int WindowFlags);
 
@@ -37,6 +39,6 @@ namespace Harpia::Internal {
 
         SDL_Window *GetWindow();
     };
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_CORESYSTEM_H
+#endif//HARPIAGAMEENGINE_CORESYSTEM_H

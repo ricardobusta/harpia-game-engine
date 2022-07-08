@@ -3,14 +3,14 @@
 //
 
 #include "scene_system.h"
-#include "hge/core_system.h"
 #include "hge/configuration.h"
-#include "scene.h"
-#include "object.h"
-#include "hge/in/application_internal.h"
-#include "hge/rendering_system.h"
+#include "hge/core_system.h"
 #include "hge/harpia_assert.h"
+#include "hge/in/application_internal.h"
 #include "hge/in/scene_internal.h"
+#include "hge/rendering_system.h"
+#include "object.h"
+#include "scene.h"
 
 namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
@@ -65,4 +65,4 @@ namespace Harpia::Internal {
             }
         }
     }
-} // Harpia
+}// namespace Harpia::Internal

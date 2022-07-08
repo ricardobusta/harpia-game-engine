@@ -5,15 +5,16 @@
 #ifndef HARPIAGAMEENGINE_MUSIC_COMPONENT_H
 #define HARPIAGAMEENGINE_MUSIC_COMPONENT_H
 
-#include <string>
 #include "hge/component.h"
 #include "hge/global_defines.h"
+#include <string>
 
 namespace Harpia {
     class MusicComponent : public Component {
     private:
         MusicAsset *_music = nullptr;
         Internal::AudioSystem *_audioSystem = nullptr;
+
     public:
         void SetMusic(MusicAsset *music);
 
@@ -26,6 +27,6 @@ namespace Harpia {
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
     };
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_MUSIC_COMPONENT_H
+#endif//HARPIAGAMEENGINE_MUSIC_COMPONENT_H

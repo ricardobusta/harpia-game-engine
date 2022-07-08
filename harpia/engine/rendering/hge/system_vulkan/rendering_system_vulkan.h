@@ -14,6 +14,6 @@ namespace Harpia::Internal {
         int RenderingInitialize() override;
     };
 
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_RENDERING_SYSTEM_VULKAN_H
+#endif//HARPIAGAMEENGINE_RENDERING_SYSTEM_VULKAN_H

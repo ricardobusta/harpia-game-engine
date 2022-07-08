@@ -4,11 +4,11 @@
 
 #include "input_system.h"
 
-#include <SDL.h>
 #include "hge/configuration.h"
-#include "hge/debug.h"
 #include "hge/core_system.h"
+#include "hge/debug.h"
 #include "hge/harpia_assert.h"
+#include <SDL.h>
 
 namespace Harpia::Internal {
     //region public
@@ -62,7 +62,7 @@ namespace Harpia::Internal {
     void InputSystem::OnKeyUp(SDL_KeyboardEvent &key) {
         auto it = _keyMap.find(key.keysym.sym);
         if (it == _keyMap.end()) {
-            return; // key not mapped
+            return;// key not mapped
         }
 
         it->second.isDown = false;
@@ -73,10 +73,10 @@ namespace Harpia::Internal {
     void InputSystem::OnKeyDown(SDL_KeyboardEvent &key) {
         auto it = _keyMap.find(key.keysym.sym);
         if (it == _keyMap.end()) {
-            return; // key not mapped
+            return;// key not mapped
         }
         if (it->second.isDown) {
-            return; // key already down
+            return;// key already down
         }
         it->second.down = true;
         it->second.isDown = true;
@@ -87,4 +87,4 @@ namespace Harpia::Internal {
         return _inputReader;
     }
     //endregion private
-} // Harpia
+}// namespace Harpia::Internal

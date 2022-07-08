@@ -5,36 +5,41 @@
 #ifndef HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 #define HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 
-#include <list>
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
-#include "hge/mesh_asset.h"
 #include "hge/material_asset.h"
+#include "hge/mesh_asset.h"
+#include <list>
+#include <vector>
 
 namespace Harpia::Internal {
     class RenderingSystem : public Internal::IApplicationSystem {
     protected:
         std::list<Camera_Internal *> _cameras;
-        std::list<Renderer_Internal *> _renderers;
         SDL_Window *_window = nullptr;
+
     public:
+        virtual ~RenderingSystem() = default;
+
+        virtual MaterialAsset *CreateMaterial() = 0;
+
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
-        void AddRenderer(Renderer_Internal *renderer);
-        virtual ~RenderingSystem() = default;
+        virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
-        virtual MeshAsset *LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) = 0;
-        virtual void ReleaseMesh(MeshAsset *mesh) = 0;
-        virtual void UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
-                                GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) = 0;
-        virtual ShaderAsset *LoadShader() = 0;
-        virtual void ReleaseShader(ShaderAsset *shader) = 0;
+        virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
+        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,const std::vector<float> &uv,const std::vector<unsigned int> &index) = 0;
+
+        virtual TextureAsset *LoadTexture(const std::string &path) = 0;
+
+        void Quit() override;
+
     private:
         virtual int RenderingInitialize() = 0;
         int GetInitFlags() override;
     };
 
-} // Harpia::Internal
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_RENDERING_SYSTEM_H
+#endif//HARPIAGAMEENGINE_RENDERING_SYSTEM_H

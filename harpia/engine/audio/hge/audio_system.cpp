@@ -7,9 +7,9 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
+#include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/harpia_assert.h"
-#include "hge/core_system.h"
 
 namespace Harpia::Internal {
     int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
@@ -39,12 +39,8 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::Quit() {
-        for (const auto &kvp: _loadedAudios) {
-            ReleaseAllUsages(kvp.second);
-        }
-        for (const auto &kvp: _loadedMusics) {
-            ReleaseAllUsages(kvp.second);
-        }
+        _loadedAudios.Clear([this](auto a) { DeleteAudio(a); });
+        _loadedMusics.Clear([this](auto m) { DeleteMusic(m); });
         Mix_Quit();
         DebugLog("Quit");
     }
@@ -56,50 +52,22 @@ namespace Harpia::Internal {
     }
 
     AudioAsset *AudioSystem::LoadAudio(const std::string &path) {
-        auto it = _loadedAudios.find(path);
-        if (it != _loadedAudios.end()) {
-            it->second->useCount++;
-            DebugLog("Loading existing audio %s use count: %d", path.c_str(), it->second->useCount);
-            return it->second;
-        }
-        auto ref = Mix_LoadWAV(path.c_str());
-        if (ref == nullptr) {
-            DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
-            return nullptr;
-        }
-        auto audio = new AudioAsset(this);
-        audio->ref = ref;
-        audio->path = path;
-        audio->useCount = 1;
-        _loadedAudios[path] = audio;
-        DebugLog("Loading new audio %s use count: %d", path.c_str(), audio->useCount);
-        return audio;
+        return _loadedAudios.LoadAsset(path, [this](auto p) -> AudioAsset * {
+            auto ref = Mix_LoadWAV(p.c_str());
+            if (ref == nullptr) {
+                DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
+                return nullptr;
+            }
+            auto audio = new AudioAsset(this);
+            audio->ref = ref;
+            return audio;
+        });
     }
 
     void AudioSystem::ReleaseAudio(AudioAsset *audio) {
-        if (audio == nullptr) {
-            DebugLogError("AudioAsset reference was null.");
-            return;
-        }
-
-        auto it = _loadedAudios.find(audio->path);
-        if (it == _loadedAudios.end()) {
-            DebugLogError("Trying to release audio %s, but audio was not loaded.", audio->path.c_str());
-            return;
-        }
-
-        it->second->useCount--;
-        if (it->second->useCount <= 0) {
-            DebugLog("Audio %s released", audio->path.c_str());
-            _loadedAudios.erase(audio->path);
-            DeleteAudio(audio);
-        }
-        DebugLog("Audio released. Usages: %d", it->second->useCount);
-    }
-
-    void AudioSystem::ReleaseAllUsages(AudioAsset *audio) {
-        DebugLogWarning("AudioAsset with remaining %d uses on System Quit: %s", audio->useCount, audio->path.c_str());
-        DeleteAudio(audio);
+        _loadedAudios.ReleaseAsset(audio, [this](auto a) {
+            DeleteAudio(a);
+        });
     }
 
     void AudioSystem::DeleteAudio(AudioAsset *audio) {
@@ -108,22 +76,16 @@ namespace Harpia::Internal {
     }
 
     MusicAsset *AudioSystem::LoadMusic(const std::string &path) {
-        auto it = _loadedMusics.find(path);
-        if (it != _loadedMusics.end()) {
-            it->second->useCount++;
-            return it->second;
-        }
-        auto ref = Mix_LoadMUS(path.c_str());
-        if (ref == nullptr) {
-            DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", path.c_str(), Mix_GetError());
-            return nullptr;
-        }
-        auto music = new MusicAsset(this);
-        music->ref = ref;
-        music->path = path;
-        music->useCount = 1;
-        _loadedMusics[path] = music;
-        return music;
+        return _loadedMusics.LoadAsset(path, [this](auto p) -> MusicAsset * {
+            auto ref = Mix_LoadMUS(p.c_str());
+            if (ref == nullptr) {
+                DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
+                return nullptr;
+            }
+            auto music = new MusicAsset(this);
+            music->ref = ref;
+            return music;
+        });
     }
 
     void AudioSystem::PlayMusic(MusicAsset *music) {
@@ -145,33 +107,13 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::ReleaseMusic(MusicAsset *music) {
-        if (music == nullptr) {
-            DebugLogError("MusicAsset reference was null.");
-            return;
-        }
-
-        auto it = _loadedMusics.find(music->path);
-        if (it == _loadedMusics.end()) {
-            DebugLogError("Trying to release music %s, but music was not loaded.", music->path.c_str());
-            return;
-        }
-
-        it->second->useCount--;
-        if (it->second->useCount <= 0) {
-            _loadedMusics.erase(music->path);
-            DeleteMusic(music);
-        }
-        DebugLog("Music released. Usages: %d", it->second->useCount);
-    }
-
-    void AudioSystem::ReleaseAllUsages(MusicAsset *music) {
-        DebugLogWarning("MusicAsset with remaining %d uses on System Quit: %s", music->useCount, music->path.c_str());
-        DeleteMusic(music);
+        _loadedMusics.ReleaseAsset(music, [this](auto m) {
+            DeleteMusic(m);
+        });
     }
 
     void AudioSystem::DeleteMusic(MusicAsset *music) {
         Mix_FreeMusic(music->ref);
         delete music;
     }
-}
-// Harpia
+}// namespace Harpia::Internal

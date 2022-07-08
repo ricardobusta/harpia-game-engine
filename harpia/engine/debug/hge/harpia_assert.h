@@ -8,13 +8,13 @@
 #ifndef HARPIA_DEBUG
 #define Assert(condition) (void(0))
 #define AssertNotNull(condition) (void(0))
-#else //HARPIA_DEBUG
+#else//HARPIA_DEBUG
 
-#include <cassert>
 #include "Debug.h"
+#include <cassert>
 
-#define AssertThat(condition, args...) Harpia::Assert::That(condition,HARPIA_CALLER,__FILE__,__LINE__,Harpia::Debug::Format(args).c_str())
-#define AssertNotNull(condition, args...) AssertThat((condition)!=nullptr,"%s is nullptr",#condition)
+#define AssertThat(condition, args...) Harpia::Assert::That(condition, HARPIA_CALLER, __FILE__, __LINE__, Harpia::Debug::Format(args).c_str())
+#define AssertNotNull(condition, args...) AssertThat((condition) != nullptr, "%s is nullptr", #condition)
 
 namespace Harpia {
     class Assert {
@@ -23,8 +23,8 @@ namespace Harpia {
         static void NotNull(void *target, const char *targetName, const char *caller, const char *file, const int line,
                             const char *message);
     };
-}
+}// namespace Harpia
 
-#endif //HARPIA_DEBUG
+#endif//HARPIA_DEBUG
 
-#endif //HARPIAGAMEENGINE_HARPIA_ASSERT_H
+#endif//HARPIAGAMEENGINE_HARPIA_ASSERT_H

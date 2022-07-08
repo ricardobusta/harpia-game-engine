@@ -18,7 +18,7 @@ namespace Harpia {
                                std::list<Component *> &components) {
             static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
             auto *c = new T();
-            auto *ci = (Internal::Component_Internal *) c; // c style cast to override private inheritance
+            auto *ci = (Internal::Component_Internal *) c;// c style cast to override private inheritance
             InitializeInternalComponent(ci, object, application);
             components.push_back(c);
             return c;
@@ -40,6 +40,6 @@ namespace Harpia {
                                                 Internal::Application_Internal *application);
     };
 
-} // Harpia
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_HIERARCHY_STATIC_H
+#endif//HARPIAGAMEENGINE_HIERARCHY_STATIC_H

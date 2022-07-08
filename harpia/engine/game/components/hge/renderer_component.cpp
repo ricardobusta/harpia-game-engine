@@ -4,16 +4,18 @@
 
 #include "renderer_component.h"
 
+#include "hge/renderer_component_platform.h"
+
 namespace Harpia {
     void RendererComponent::SetMesh(MeshAsset *mesh) {
-        _mesh = mesh;
+        _platform->SetMesh(mesh);
     }
 
     void RendererComponent::SetMaterial(MaterialAsset *material) {
-        _material = material;
+        _platform->SetMaterial(material);
     }
 
     Transform *RendererComponent::GetTransformInternal() {
         return &GetObject()->transform;
     }
-} // Harpia
+}// namespace Harpia

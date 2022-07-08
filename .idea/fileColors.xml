@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SharedFileColors">
-    <fileColor scope="Engine" color="Green" />
-    <fileColor scope="Non-Project Files" color="Yellow" />
-    <fileColor scope="SampleGame" color="Blue" />
+    <fileColor scope="Engine" color="314136" />
+    <fileColor scope="Non-Project Files" color="404136" />
+    <fileColor scope="SampleGame" color="343641" />
   </component>
 </project>

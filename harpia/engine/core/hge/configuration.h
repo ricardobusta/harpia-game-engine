@@ -8,9 +8,9 @@
 #include <string>
 #include <vector>
 
+#include "SDL_keycode.h"
 #include "global_defines.h"
 #include "hge/harpia_math.h"
-#include "SDL_keycode.h"
 
 namespace Harpia {
     struct GameConfiguration {
@@ -37,6 +37,6 @@ namespace Harpia {
         InputConfiguration input = InputConfiguration();
         AudioConfiguration audio = AudioConfiguration();
     };
-}
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_CONFIGURATION_H
+#endif//HARPIAGAMEENGINE_CONFIGURATION_H

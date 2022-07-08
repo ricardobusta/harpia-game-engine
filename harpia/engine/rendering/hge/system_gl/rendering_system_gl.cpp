@@ -2,22 +2,25 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 03/06/2022.
 //
 
-#include "hge/rendering_system_gl.h"
+#include "rendering_system_gl.h"
 
-#include <SDL.h>
-#include <GL/glew.h>
-#include "hge/debug.h"
-#include "hge/configuration.h"
-#include "hge/camera_internal.h"
-#include "hge/renderer_internal.h"
-#include "hge/shader_asset.h"
-#include "hge/transform.h"
-#include "hge/harpia_math.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "hge/camera_internal.h"
+#include "hge/configuration.h"
+#include "hge/debug.h"
+#include "hge/harpia_math.h"
+#include "hge/renderer_component_internal.h"
+#include "hge/transform.h"
+#include "material_asset_gl.h"
+#include "mesh_asset_gl.h"
+#include "renderer_component_gl.h"
+#include "shader_asset_gl.h"
+#include "texture_asset_gl.h"
+#include <GL/glew.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 namespace Harpia::Internal {
-    const int VECTOR_DIMENSION_GL = 3;
-
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;
@@ -61,7 +64,7 @@ namespace Harpia::Internal {
     bool RenderingSystemGL::InitGL() {
         bool success = true;
 
-        glEnable(GL_SCISSOR_TEST); // Necessary for multiple-viewport rendering. Enable/Disable if necessary?
+        glEnable(GL_SCISSOR_TEST);// Necessary for multiple-viewport rendering. Enable/Disable if necessary?
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
 
@@ -76,8 +79,7 @@ namespace Harpia::Internal {
                     camera->_clearColor.r,
                     camera->_clearColor.g,
                     camera->_clearColor.b,
-                    camera->_clearColor.a
-            );
+                    camera->_clearColor.a);
 
             glScissor(camera->_viewport.x,
                       camera->_viewport.y,
@@ -88,17 +90,16 @@ namespace Harpia::Internal {
                     camera->_viewport.x,
                     camera->_viewport.y,
                     camera->_viewport.w,
-                    camera->_viewport.h
-            );
+                    camera->_viewport.h);
 
             glClear(camera->_clearMask);
 
-            for (auto r: _renderers) {
-                glUseProgram(r->_material->_shader->programId);
-                auto projMat = Matrix::Perspective(60.0f * Math::Deg2Rad, 640.0f / 480.0f, 0.01f, 10.0f); // TODO move to camera and cache
-                auto rt = r->GetTransformInternal()->GetTrMatrix();
+            for (auto r: _renderersGL) {
+                auto glShader = r->_material->_shader;
+                glUseProgram(glShader->programId);
+                auto projMat = camera->_projection;// TODO move to camera and cache
                 auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
-                RenderMaterial(r->_material, glm::value_ptr(rt), glm::value_ptr(ct));
+                RenderObjectMaterial(r, glm::value_ptr(ct));
                 DrawMesh(r->_mesh);
             }
 
@@ -112,6 +113,7 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::Quit() {
+        RenderingSystem::Quit();
     }
 
     int RenderingSystemGL::RenderingInitialize() {
@@ -145,59 +147,83 @@ namespace Harpia::Internal {
         return 0;
     }
 
-    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<GLfloat> &vertex, const std::vector<GLint> &index) {
-        auto mesh = new MeshAsset(this);
-        mesh->vertex = vertex;
-        mesh->index = index;
+    void RenderingSystemGL::AddRenderer(Internal::RendererComponent_Internal *renderer) {
+        auto platform = new RendererComponentGL();
+        renderer->_platform = platform;
+        platform->_renderer = renderer;
+        _renderersGL.push_back(dynamic_cast<RendererComponentGL *>(platform));
+    }
+
+    MaterialAsset *RenderingSystemGL::CreateMaterial() {
+        return new MaterialAssetGL(this);
+    }
+
+    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
+        auto mesh = new MeshAssetGL(this);
+        mesh->points = vertex;
+        mesh->normals = normal;
+        mesh->uvs = uv;
+        mesh->indexes = index;
+        glGenVertexArrays(1, &mesh->vao);
+        glGenBuffers(MeshBuffers::Count, mesh->vbo);
         mesh->UpdateMesh();
         return mesh;
     }
 
-    void RenderingSystemGL::DrawMesh(MeshAsset *mesh) {
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBufferId);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBufferId);
-        glDrawElements(GL_TRIANGLES, mesh->index.size(), GL_UNSIGNED_INT, nullptr);
+    void RenderingSystemGL::DrawMesh(MeshAssetGL *mesh) {
+        glBindVertexArray(mesh->vao);
+        glDrawElements(GL_TRIANGLES, mesh->indexes.size(), GL_UNSIGNED_INT, nullptr);
     }
 
-    void RenderingSystemGL::UpdateMesh(GLuint *vertexBufferId, GLuint vertexCount, GLfloat vertexData[],
-                                       GLuint *indexBufferId, GLuint indexCount, GLint indexData[]) {
+    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
+                                       const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
         DebugLog("Update Mesh");
-        glGenBuffers(1, vertexBufferId);
-        glBindBuffer(GL_ARRAY_BUFFER, *vertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
-        glGenBuffers(1, indexBufferId);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *indexBufferId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(GLuint), indexData, GL_STATIC_DRAW);
+        glBindVertexArray(vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Points]);
+        glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Points, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Normals]);
+        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Normals, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Uvs]);
+        glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(float), uvs.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Uvs, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[MeshBuffers::Indexes]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexes.size() * sizeof(unsigned int), indexes.data(), GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(MeshBuffers::Points);
+        glEnableVertexAttribArray(MeshBuffers::Normals);
+        glEnableVertexAttribArray(MeshBuffers::Uvs);
     }
 
-    void RenderingSystemGL::ReleaseMesh(MeshAsset *mesh) {
-        glDeleteBuffers(1, &mesh->vertexBufferId);
-        mesh->vertexBufferId = 0;
-        glDeleteBuffers(1, &mesh->indexBufferId);
-        mesh->indexBufferId = 0;
+    void RenderingSystemGL::ReleaseMesh(MeshAssetGL *mesh) {
+        glDeleteBuffers(MeshBuffers::Count, mesh->vbo);
+        for (auto & i : mesh->vbo) {
+            i = 0;
+        }
+        glDeleteVertexArrays(1, &mesh->vao);
+        mesh->vao = 0;
     }
 
-    ShaderAsset *RenderingSystemGL::LoadShader() {
+    ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertSrc, const std::string &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
-        GLint inPosLocation = -1;
+        GLint pointsLocation = -1;
+        GLint uvsLocation = -1;
+        GLint normalsLocation = -1;
         GLint colorLocation = -1;
         GLint worldToObjectLoc = -1;
         GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
-        ShaderAsset *asset;
+        ShaderAssetGL *asset;
 
-        const std::string vertexShaderSource =
-
-#include "defaultVertexShader.h"
-
-        const auto vsh = vertexShaderSource.data();
-        const std::string fragmentShaderSource =
-
-#include "defaultFragmentShader.h"
-
-        const auto fsh = fragmentShaderSource.data();
+        const auto vsh = vertSrc.data();
+        const auto fsh = fragSrc.data();
 
         programId = glCreateProgram();
 
@@ -235,11 +261,9 @@ namespace Harpia::Internal {
             goto clean_link_program;
         }
 
-        inPosLocation = glGetAttribLocation(programId, "inPos");
-        if (inPosLocation == -1) {
-            DebugLogError("inPos is not a valid glsl program variable!");
-            goto clean_get_attrib;
-        }
+        pointsLocation = glGetAttribLocation(programId, "inPos");
+        uvsLocation = glGetAttribLocation(programId, "inUv");
+        normalsLocation = glGetAttribLocation(programId, "inNormal");
 
         colorLocation = glGetUniformLocation(programId, "u_color");
         if (colorLocation == -1) {
@@ -259,52 +283,93 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        asset = new ShaderAsset(this);
+        asset = new ShaderAssetGL(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
-        asset->vertexLocation = inPosLocation;
+        asset->pointsLocation = pointsLocation;
+        asset->normalsLocation = normalsLocation;
+        asset->uvsLocation = uvsLocation;
         asset->objectToCameraLoc = objectToCameraLoc;
         asset->worldToObjectLoc = worldToObjectLoc;
         asset->colorLoc = colorLocation;
         return asset;
 
-        clean_get_attrib:
-        clean_link_program:
-        clean_f_shader:
+    clean_get_attrib:
+    clean_link_program:
+    clean_f_shader:
         glDeleteShader(fragmentShader);
-        clean_v_shader:
+    clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
         return nullptr;
     }
 
-    void RenderingSystemGL::ReleaseShader(ShaderAsset *shader) {
+    void RenderingSystemGL::ReleaseShader(ShaderAssetGL *shader) {
         glDeleteShader(shader->fragmentShader);
         glDeleteShader(shader->vertexShader);
         glDeleteProgram(shader->programId);
         shader->fragmentShader = 0;
         shader->vertexShader = 0;
         shader->programId = 0;
-        shader->vertexLocation = -1;
+        shader->pointsLocation = -1;
     }
 
-    void RenderingSystemGL::RenderMaterial(MaterialAsset *material, const float *objectTransform,
-                                           const float *cameraTransform) {
+    TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
+        SDL_Surface *surface = IMG_Load(path.c_str());
+        if (surface == nullptr) {
+            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), IMG_GetError());
+            return nullptr;
+        }
+
+        GLuint texture = 0;
+
+        GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
+        if(surface->format->BytesPerPixel == 4) {
+            dataFormat = GL_RGBA;
+        }else{
+            dataFormat = GL_RGB;
+        }
+        // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
+        // testColor & 0xff == ALPHA ?
+
+        DebugLog("Texture size: (%d, %d)", surface->w, surface->h);
+
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        SDL_FreeSurface(surface);
+
+        auto asset = new TextureAssetGL(this, texture);
+        return asset;
+    }
+
+    void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
+        glDeleteTextures(1, &texture->_texture);
+    }
+
+    void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
+        auto material = renderer->_material;
         auto shader = material->_shader;
+        auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
-            GLfloat c[] = {material->color.r, material->color.g, material->color.b, material->color.a};
+            GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
             glUniform4fv(shader->colorLoc, 1, c);
         }
         if (shader->worldToObjectLoc != -1) {
-            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, objectTransform);
+            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
         }
         if (shader->objectToCameraLoc != -1) {
             glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
         }
-        glEnableVertexAttribArray(shader->vertexLocation);
-        glVertexAttribPointer(shader->vertexLocation, VECTOR_DIMENSION_GL, GL_FLOAT, GL_FALSE,
-                              VECTOR_DIMENSION_GL * sizeof(GLfloat), nullptr);
+
+        auto mesh = renderer->_mesh;
+
+        glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
+        glBindVertexArray(mesh->vao);
     }
-} // Harpia::Internal
+}// namespace Harpia::Internal

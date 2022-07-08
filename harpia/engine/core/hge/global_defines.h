@@ -9,8 +9,10 @@ union SDL_Event;
 struct SDL_Surface;
 struct SDL_KeyboardEvent;
 class SDL_Window;
+class SDL_Renderer;
+class SDL_Texture;
 
-namespace Harpia { // Game/Application
+namespace Harpia {// Game/Application
     class Application;
     class Scene;
     class Object;
@@ -24,17 +26,19 @@ namespace Harpia { // Game/Application
     class MusicAsset;
     class MaterialAsset;
     class MeshAsset;
+    class TextureAsset;
     class ShaderAsset;
     class Asset;
     class Transform;
-}
+    struct Color;
+}// namespace Harpia
 
-namespace Harpia { // Components
+namespace Harpia {// Components
     class Component;
     class CameraComponent;
     class AudioComponent;
     class MusicComponent;
     class RendererComponent;
-}
+}// namespace Harpia
 
-#endif //HARPIAGAMEENGINE_GLOBALDEFINES_H
+#endif//HARPIAGAMEENGINE_GLOBALDEFINES_H

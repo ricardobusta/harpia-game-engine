@@ -5,13 +5,21 @@
 #ifndef HARPIAGAMEENGINE_MAIN_SCENE_H
 #define HARPIAGAMEENGINE_MAIN_SCENE_H
 
+#include "hge/global_defines.h"
 #include "hge/scene.h"
 
-namespace SampleGame {
-    class MainScene : public Harpia::Scene {
-    public:
-        void Load(Harpia::Application *application) override;
-    };
-}
+using namespace Harpia;
 
-#endif //HARPIAGAMEENGINE_MAIN_SCENE_H
+namespace SampleGame {
+    class MainScene : public Scene {
+    public:
+        void Load(Application *application) override;
+
+    private:
+        Object *
+        CreateCube(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color, ShaderAsset *shader,
+                   TextureAsset *texture, MeshAsset *mesh);
+    };
+}// namespace SampleGame
+
+#endif//HARPIAGAMEENGINE_MAIN_SCENE_H

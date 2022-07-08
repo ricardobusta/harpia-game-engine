@@ -11,7 +11,7 @@ namespace Harpia {
     }
 
     bool InputReader::GetKeyDown(SDL_Keycode key) {
-        if (auto it{_keyState->find(key)};it != _keyState->end()) {
+        if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.down;
         }
         _onNewKey(key);
@@ -19,7 +19,7 @@ namespace Harpia {
     }
 
     bool InputReader::GetKeyUp(SDL_Keycode key) {
-        if (auto it{_keyState->find(key)};it != _keyState->end()) {
+        if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.up;
         }
         _onNewKey(key);
@@ -27,7 +27,7 @@ namespace Harpia {
     }
 
     bool InputReader::GetKeyIsDown(SDL_Keycode key) {
-        if (auto it{_keyState->find(key)};it != _keyState->end()) {
+        if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.isDown;
         }
         _onNewKey(key);
@@ -35,4 +35,4 @@ namespace Harpia {
     }
 
 
-} // Harpia
+}// namespace Harpia

@@ -8,6 +8,7 @@
 #include "global_defines.h"
 
 namespace Harpia::Internal {
+    class IApplicationSystem;
     class Application_Internal;
     class Component_Internal;
     class CoreSystem;
@@ -17,7 +18,17 @@ namespace Harpia::Internal {
     class SceneSystem;
     class Camera_Internal;
     class Scene_Internal;
-    class Renderer_Internal;
-}
+    class RendererComponent_Internal;
+    class RendererComponentPlatform;
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_INTERNALDEFINES_H
+namespace Harpia::Internal {// GL
+    class RenderingSystemGL;
+    class RendererComponentGL;
+    class MeshAssetGL;
+    class ShaderAssetGL;
+    class TextureAssetGL;
+    class MaterialAssetGL;
+}// namespace Harpia::Internal
+
+#endif//HARPIAGAMEENGINE_INTERNALDEFINES_H

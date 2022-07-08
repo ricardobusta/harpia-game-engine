@@ -5,4 +5,4 @@
 #include "application_internal.h"
 
 namespace Harpia::Internal {
-} // Harpia
+}// namespace Harpia::Internal

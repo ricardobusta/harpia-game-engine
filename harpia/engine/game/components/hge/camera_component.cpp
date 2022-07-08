@@ -20,10 +20,19 @@ namespace Harpia {
     }
 
     CameraComponent::CameraComponent() : Component(), Internal::Camera_Internal() {
-        _clearMask = 0x00004100; // TODO expose in the API
+        _clearMask = 0x00004100;// TODO expose in the API
     }
 
     Transform *CameraComponent::GetTransformInternal() {
         return &GetObject()->transform;
     }
-} // Harpia
+
+    void CameraComponent::SetPerspective(float fovy, float aspect, float near, float far) {
+        _projection = Matrix::Perspective(fovy * Math::Deg2Rad, aspect, near, far);
+    }
+
+    void CameraComponent::SetOrthographic(float height, float aspect, float near, float far) {
+        auto width = height * aspect;
+        _projection = Matrix::Orthographic(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far);
+    }
+}// namespace Harpia

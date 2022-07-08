@@ -4,17 +4,28 @@
 
 #include "application.h"
 
-#include "hge/debug.h"
 #include "hge/audio_system.h"
 #include "hge/core_system.h"
+#include "hge/debug.h"
 #include "hge/input_system.h"
-#include "hge/rendering_system_gl.h"
+#include "hge/system_gl/rendering_system_gl.h"
 #include "hge/scene_system.h"
 
-#define SystemInit(system, args...) do{auto result = system->Initialize(args); \
-if (result < 0) {DebugLogError("%s was not initialized.", #system);return result;}}while(0);
+#define SystemInit(system, args...)                            \
+    do {                                                       \
+        _systems.push_front(system);                           \
+        auto result = system->Initialize(args);                \
+        if (result < 0) {                                      \
+            DebugLogError("%s was not initialized.", #system); \
+            return result;                                     \
+        }                                                      \
+    } while (0);
 
-#define SystemCleanup(system) do{delete system;system=nullptr;}while(0);
+#define SystemCleanup(system) \
+    do {                      \
+        delete system;        \
+        system = nullptr;     \
+    } while (0);
 
 namespace Harpia {
     Application::Application(const std::function<void(Configuration &)> &configure) {
@@ -58,11 +69,9 @@ namespace Harpia {
             DebugLogError("Application executed with an error");
         }
 
-        _sceneManagementSystem->Quit();
-        _audioSystem->Quit();
-        _inputSystem->Quit();
-        _renderSystem->Quit();
-        _coreSystem->Quit();
+        for (auto it = _systems.begin(); it != _systems.end(); it++) {
+            (*it)->Quit();
+        }
 
         DebugLog("All systems quit");
 
@@ -85,7 +94,7 @@ namespace Harpia {
         return _coreSystem->GetInitFlags() |
                _audioSystem->GetInitFlags();
     }
-}
+}// namespace Harpia
 
 #undef SystemInit
 #undef SystemCleanup
