@@ -15,5 +15,5 @@ void main() {
    fragColor.a = u_color.a;
    fragColor.rg = vs_in.uv;
    fragColor.rgb = vs_in.normal.xyz;
-   //fragColor.rgb = texture( u_tex, vs_in.normal.xy ).rgb;
+   fragColor.rgba = texture( u_tex, vs_in.uv ).rgba;
 }

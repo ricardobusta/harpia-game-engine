@@ -12,7 +12,7 @@ namespace Harpia::Internal {
         class MeshGenerator {
         public:
             static void BoxMesh(std::vector<float> &vertex, std::vector<float> &normal, std::vector<float> &texCoord,
-                                std::vector<int> &index, const Vector3 &pos, const Vector3 &size);
+                                std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size);
         };
 } // Harpia::Internal
 

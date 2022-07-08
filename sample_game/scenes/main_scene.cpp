@@ -88,6 +88,6 @@ namespace SampleGame {
                    Color::aqua,
                    shader, texture, boxMesh);
 
-        cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(45 * Math::Deg2Rad, {1, 1, 0}));
+        cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(180 * Math::Deg2Rad, {0, 1, 0}));
     }
 }// namespace SampleGame

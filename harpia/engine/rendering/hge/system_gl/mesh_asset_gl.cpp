@@ -12,7 +12,7 @@ namespace Harpia::Internal {
     }
 
     void MeshAssetGL::UpdateMesh() {
-        _renderingSystem->UpdateMesh(bufferIds, vertex, normal, uv, index);
+        _renderingSystem->UpdateMesh(vao, vbo, points, normals, uvs, indexes);
     }
 
     void MeshAssetGL::Release() {

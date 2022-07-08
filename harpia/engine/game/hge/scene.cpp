@@ -74,7 +74,7 @@ namespace Harpia {
         std::vector<float> v;
         std::vector<float> n;
         std::vector<float> t;
-        std::vector<int> i;
+        std::vector<unsigned int> i;
 
         Internal::MeshGenerator::BoxMesh(v, n, t, i, pos, size);
 

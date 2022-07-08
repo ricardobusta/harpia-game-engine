@@ -158,52 +158,64 @@ namespace Harpia::Internal {
         return new MaterialAssetGL(this);
     }
 
-    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<int> &index) {
+    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
         auto mesh = new MeshAssetGL(this);
-        mesh->vertex = vertex;
-        mesh->normal = normal;
-        mesh->uv = uv;
-        mesh->index = index;
-        glGenBuffers(MeshBuffers::Count, mesh->bufferIds);
+        mesh->points = vertex;
+        mesh->normals = normal;
+        mesh->uvs = uv;
+        mesh->indexes = index;
+        glGenVertexArrays(1, &mesh->vao);
+        glGenBuffers(MeshBuffers::Count, mesh->vbo);
         mesh->UpdateMesh();
         return mesh;
     }
 
     void RenderingSystemGL::DrawMesh(MeshAssetGL *mesh) {
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Index]);
-        glDrawElements(GL_TRIANGLES, mesh->index.size(), GL_UNSIGNED_INT, nullptr);
+        glBindVertexArray(mesh->vao);
+        glDrawElements(GL_TRIANGLES, mesh->indexes.size(), GL_UNSIGNED_INT, nullptr);
     }
 
-    void RenderingSystemGL::UpdateMesh(GLuint *bufferIds, const std::vector<GLfloat> &vertex, const std::vector<GLfloat> &normal,
-                                       const std::vector<GLfloat> &uv, const std::vector<int> &index) {
+    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
+                                       const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
         DebugLog("Update Mesh");
-        glBindBuffer(GL_ARRAY_BUFFER, bufferIds[MeshBuffers::Vertex]);
-        glBufferData(GL_ARRAY_BUFFER, vertex.size() * sizeof(GLfloat), vertex.data(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, bufferIds[MeshBuffers::Normal]);
-        glBufferData(GL_ARRAY_BUFFER, normal.size() * sizeof(GLfloat), normal.data(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, bufferIds[MeshBuffers::Uv]);
-        glBufferData(GL_ARRAY_BUFFER, uv.size() * sizeof(GLfloat), uv.data(), GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferIds[MeshBuffers::Index]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, index.size() * sizeof(GLuint), index.data(), GL_STATIC_DRAW);
+        glBindVertexArray(vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Points]);
+        glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Points, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Normals]);
+        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Normals, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Uvs]);
+        glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(float), uvs.data(), GL_STATIC_DRAW);
+        glVertexAttribPointer(MeshBuffers::Uvs, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[MeshBuffers::Indexes]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexes.size() * sizeof(unsigned int), indexes.data(), GL_STATIC_DRAW);
+
+        glEnableVertexAttribArray(MeshBuffers::Points);
+        glEnableVertexAttribArray(MeshBuffers::Normals);
+        glEnableVertexAttribArray(MeshBuffers::Uvs);
     }
 
     void RenderingSystemGL::ReleaseMesh(MeshAssetGL *mesh) {
-        glDeleteBuffers(MeshBuffers::Count, mesh->bufferIds);
-        for (auto i = 0; i < MeshBuffers::Count; i++) {
-            mesh->bufferIds[i] = 0;
+        glDeleteBuffers(MeshBuffers::Count, mesh->vbo);
+        for (auto & i : mesh->vbo) {
+            i = 0;
         }
+        glDeleteVertexArrays(1, &mesh->vao);
+        mesh->vao = 0;
     }
 
     ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertSrc, const std::string &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
-        GLint inPosLocation = -1;
-        GLint inUvLocation = -1;
-        GLint inNormalLocation = -1;
+        GLint pointsLocation = -1;
+        GLint uvsLocation = -1;
+        GLint normalsLocation = -1;
         GLint colorLocation = -1;
         GLint worldToObjectLoc = -1;
         GLint objectToCameraLoc = -1;
@@ -249,14 +261,9 @@ namespace Harpia::Internal {
             goto clean_link_program;
         }
 
-        inPosLocation = glGetAttribLocation(programId, "inPos");
-        if (inPosLocation == -1) {
-            DebugLogError("inPos is not a valid glsl program variable!");
-            goto clean_get_attrib;
-        }
-
-        inUvLocation = glGetAttribLocation(programId, "inUv");
-        inNormalLocation = glGetAttribLocation(programId, "inNormal");
+        pointsLocation = glGetAttribLocation(programId, "inPos");
+        uvsLocation = glGetAttribLocation(programId, "inUv");
+        normalsLocation = glGetAttribLocation(programId, "inNormal");
 
         colorLocation = glGetUniformLocation(programId, "u_color");
         if (colorLocation == -1) {
@@ -280,9 +287,9 @@ namespace Harpia::Internal {
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
-        asset->vertexLocation = inPosLocation;
-        asset->normalLocation = inNormalLocation;
-        asset->uvLocation = inUvLocation;
+        asset->pointsLocation = pointsLocation;
+        asset->normalsLocation = normalsLocation;
+        asset->uvsLocation = uvsLocation;
         asset->objectToCameraLoc = objectToCameraLoc;
         asset->worldToObjectLoc = worldToObjectLoc;
         asset->colorLoc = colorLocation;
@@ -305,7 +312,7 @@ namespace Harpia::Internal {
         shader->fragmentShader = 0;
         shader->vertexShader = 0;
         shader->programId = 0;
-        shader->vertexLocation = -1;
+        shader->pointsLocation = -1;
     }
 
     TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
@@ -363,15 +370,6 @@ namespace Harpia::Internal {
         auto mesh = renderer->_mesh;
 
         glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
-
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glEnableVertexAttribArray(shader->vertexLocation);
-        glVertexAttribPointer(shader->vertexLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glEnableVertexAttribArray(shader->normalLocation);
-        glVertexAttribPointer(shader->normalLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-        glBindBuffer(GL_ARRAY_BUFFER, mesh->bufferIds[MeshBuffers::Vertex]);
-        glEnableVertexAttribArray(shader->uvLocation);
-        glVertexAttribPointer(shader->uvLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+        glBindVertexArray(mesh->vao);
     }
 }// namespace Harpia::Internal

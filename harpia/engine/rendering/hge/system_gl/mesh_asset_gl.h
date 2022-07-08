@@ -12,12 +12,13 @@
 namespace Harpia ::Internal {
     class MeshAssetGL : public MeshAsset {
     public:
-        std::vector<GLfloat> vertex;
-        std::vector<GLfloat> normal;
-        std::vector<GLfloat> uv;
-        std::vector<GLint> index;
+        std::vector<float> points;
+        std::vector<float> normals;
+        std::vector<float> uvs;
+        std::vector<unsigned int> indexes;
 
-        GLuint bufferIds[4] = {0,0,0,0};
+        GLuint vao = 0;
+        GLuint vbo[4] = {0,0,0,0};
     private:
         RenderingSystemGL *_renderingSystem;
 

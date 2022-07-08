@@ -15,10 +15,10 @@ namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
     private:
         enum MeshBuffers {
-            Vertex = 0,
-            Normal = 1,
-            Uv = 2,
-            Index = 3,
+            Points = 0,
+            Normals = 1,
+            Uvs = 2,
+            Indexes = 3,
             Count = 4
         };
 
@@ -30,8 +30,8 @@ namespace Harpia::Internal {
         void RenderFrame() override;
         void Quit() override;
 
-        void UpdateMesh(GLuint *bufferIds, const std::vector<GLfloat> &vertex, const std::vector<GLfloat> &normal,
-                        const std::vector<GLfloat> &uv, const std::vector<int> &index);
+        void UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
+                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes);
         void ReleaseMesh(MeshAssetGL *mesh);
 
         void ReleaseShader(ShaderAssetGL *shader);
@@ -48,7 +48,7 @@ namespace Harpia::Internal {
         static void PrintShaderLog(GLuint shader);
         ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) override;
 
-        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<int> &index) override;
+        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);
 
         TextureAsset *LoadTexture(const std::string &path) override;
