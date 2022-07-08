@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(ThirdParty.Glew)
 
+message("++ Configure ${PROJECT_NAME}")
+
 if (BUILD_SHARED_LIBS)
     set(GLEW_LINK glew)
 else ()
