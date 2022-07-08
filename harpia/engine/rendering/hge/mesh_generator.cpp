@@ -20,44 +20,71 @@ namespace Harpia::Internal {
         auto cy = pos.y;
         auto cz = pos.z;
         vertex = {
-                -sx + cx, -sy + cy, -sz + cz,// [0]
-                sx + cx, -sy + cy, -sz + cz, // [1]
-                sx + cx, sy + cy, -sz + cz,  // [2]
-                -sx + cx, sy + cy, -sz + cz, // [3]
-                -sx + cx, -sy + cy, sz + cz, // [4]
-                sx + cx, -sy + cy, sz + cz,  // [5]
-                sx + cx, sy + cy, sz + cz,   // [6]
-                -sx + cx, sy + cy, sz + cz,  // [7]
+                sx + cx, sy + cy, sz + cz, -sx + cx, sy + cy, sz + cz, -sx + cx, -sy + cy, sz + cz,    //
+                sx + cx, sy + cy, sz + cz, -sx + cx, -sy + cy, sz + cz, sx + cx, -sy + cy, sz + cz,    //
+                sx + cx, -sy + cy, -sz + cz, sx + cx, -sy + cy, sz + cz, -sx + cx, -sy + cy, sz + cz,  //
+                sx + cx, -sy + cy, -sz + cz, -sx + cx, -sy + cy, sz + cz, -sx + cx, -sy + cy, -sz + cz,//
+                -sx + cx, -sy + cy, -sz + cz, -sx + cx, -sy + cy, sz + cz, -sx + cx, sy + cy, sz + cz, //
+                -sx + cx, -sy + cy, -sz + cz, -sx + cx, sy + cy, sz + cz, -sx + cx, sy + cy, -sz + cz, //
+                -sx + cx, sy + cy, -sz + cz, sx + cx, sy + cy, -sz + cz, sx + cx, -sy + cy, -sz + cz,  //
+                -sx + cx, sy + cy, -sz + cz, sx + cx, -sy + cy, -sz + cz, -sx + cx, -sy + cy, -sz + cz,//
+                sx + cx, sy + cy, -sz + cz, sx + cx, sy + cy, sz + cz, sx + cx, -sy + cy, sz + cz,     //
+                sx + cx, sy + cy, -sz + cz, sx + cx, -sy + cy, sz + cz, sx + cx, -sy + cy, -sz + cz,   //
+                -sx + cx, sy + cy, -sz + cz, -sx + cx, sy + cy, sz + cz, sx + cx, sy + cy, sz + cz,    //
+                -sx + cx, sy + cy, -sz + cz, sx + cx, sy + cy, sz + cz, sx + cx, sy + cy, -sz + cz,    //
         };
         normal = {
-                0, 0, 0,// [0]
-                0, 0, 0,// [1]
-                0, 0, 0,// [2]
-                0, 0, 0,// [3]
-                1, 1, 1,// [4]
-                1, 1, 1,// [5]
-                1, 1, 1,// [6]
-                1, 1, 1,// [7]
+                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   //
+                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   //
+                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,//
+                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,//
+                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,//
+                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,//
+                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,//
+                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,//
+                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   //
+                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   //
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   //
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   //
         };
         uv = {
-                0, 0,// [0]
-                0, 1,// [1]
-                1, 1,// [2]
-                1, 0,// [3]
-                0, 0,// [4]
-                0, 1,// [5]
-                1, 0,// [6]
-                1, 1,// [7]
+                1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,  //
+                1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  //
+                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
+                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
+                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
+                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
+                1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,  //
+                1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  //
+                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
+                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
+                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
+                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
         };
         index = {
-                1, 0, 3, 1, 3, 2,// back face
-                4, 5, 6, 4, 6, 7,// front face
-                0, 4, 7, 0, 7, 3,// left face
-                5, 1, 2, 5, 2, 6,// right face
-                2, 3, 7, 2, 7, 6,// top face
-                0, 1, 5, 0, 5, 4,// bottom face
-        };
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                28, 29, 30, 31, 32, 33, 34, 35};
     }
+
+    void Vec3ToFloatArray(const ofbx::Vec3 *v, const int s, std::vector<float> &out) {
+        out.resize(s * 3);
+        for (auto i = 0; i < s; i++) {
+            auto vi = v[i];
+            out[i * 3 + 0] = vi.x;
+            out[i * 3 + 1] = vi.y;
+            out[i * 3 + 2] = vi.z;
+        }
+    }
+
+    void Vec2ToFloatArray(const ofbx::Vec2 *v, const int s, std::vector<float> &out) {
+        out.resize(s * 2);
+        for (auto i = 0; i < s; i++) {
+            auto vi = v[i];
+            out[i * 2 + 0] = vi.x;
+            out[i * 2 + 1] = vi.y;
+        }
+    }
+
     bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *> &loadedMeshes) {
         FILE *fp = fopen(path.c_str(), "rb");
 
@@ -81,13 +108,20 @@ namespace Harpia::Internal {
             if (object->getType() == ofbx::Object::Type::GEOMETRY) {
                 auto geometry = dynamic_cast<const ofbx::Geometry *>(object);
                 auto name = geometry->name;
-                auto pointsVec = std::vector<ofbx::Vec3>(geometry->getVertices(), geometry->getVertices() + geometry->getVertexCount());
-                auto points = std::vector<float>(pointsVec.begin()->x, pointsVec.end()->z);
-                auto normalsVec = std::vector<ofbx::Vec3>(geometry->getNormals(), geometry->getNormals() + geometry->getVertexCount());
-                auto normals = std::vector<float>(normalsVec.begin()->x, normalsVec.end()->z);
-                auto uvsVec = std::vector<ofbx::Vec2>(geometry->getUVs(), geometry->getUVs() + geometry->getVertexCount());
-                auto uvs = std::vector<float>(uvsVec.begin()->x, uvsVec.end()->y);
-                auto indices = std::vector<unsigned int>(geometry->getFaceIndices(), geometry->getFaceIndices() + geometry->getIndexCount());
+
+                // TODO skip geometry if name does not match
+                std::vector<float> points, normals, uvs;
+
+                Vec3ToFloatArray(geometry->getVertices(), geometry->getVertexCount(), points);
+                Vec3ToFloatArray(geometry->getNormals(), geometry->getVertexCount(), normals);
+                Vec2ToFloatArray(geometry->getUVs(0), geometry->getVertexCount(), uvs);
+
+                std::vector<unsigned int> indices(geometry->getIndexCount());
+                for (auto i = 0; i < geometry->getIndexCount(); i++) {
+                    auto idx = geometry->getFaceIndices()[i];
+                    indices[i] = (idx < 0) ? ~idx : idx;
+                }
+
                 auto mesh = rs.LoadMesh(points, normals, uvs, indices);
                 loadedMeshes[name] = mesh;
             }
