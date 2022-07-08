@@ -18,7 +18,7 @@ using namespace Harpia;
 
 namespace SampleGame {
 
-    Harpia::Object *MainScene::CreateCube(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color,
+    Harpia::Object *MainScene::CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color,
                                           ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
         auto cube = CreateObject();
         auto rotateScript = cube->AddComponent<RotateAround>();
@@ -50,43 +50,53 @@ namespace SampleGame {
         auto screenSize = application->screenSize;
 
         auto cameraObject = CreateObject();
-        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -5.0f}));
+        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -10.0f}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 10.0f);
+        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
         //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0, 0, 0, 1));
 
         auto shader = LoadShaderAsset("assets/shader/test.vert", "assets/shader/test.frag");
         auto texture = LoadTextureAsset("assets/texture/busta.png");
-        auto boxMesh = LoadBoxMeshAsset(Vector<3>::zero, Vector3(0.5f, 0.5f, 0.5f));
+        std::map<std::string, MeshAsset *> meshCollection;
+        LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
+        auto sphereMesh = meshCollection["Cube"];
+        auto capsuleMesh = meshCollection["Cylinder"];
+        auto boxMesh = meshCollection["Sphere"];
+        auto cylinderMesh = meshCollection["Capsule"];
+        auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {2, 2, 2});
 
-        CreateCube(
-                Vector3(-1.7f, 0.0f, 0),
+        for (auto k: meshCollection) {
+            DebugLog("Loaded mesh: %s", k.first.c_str());
+        }
+
+        CreateRotatingShape(
+                Vector3(-4.0f, 0.0f, 0),
                 Vector3(1.0f, 5.0f, 0),
                 Color::orange,
-                shader, texture, boxMesh);
+                shader, texture, sphereMesh);
 
-        CreateCube(Vector3(1.7f, 0.0f, 0),
-                   Vector3(5.0f, 1.0f, 0),
-                   Color::azure,
-                   shader, texture, boxMesh);
+        CreateRotatingShape(Vector3(4.0f, 0.0f, 0),
+                            Vector3(5.0f, 1.0f, 0),
+                            Color::azure,
+                            shader, texture, capsuleMesh);
 
-        CreateCube(Vector3(0.0f, -1.7f, 0),
-                   Vector3(2, 2, 2),
-                   Color::rose,
-                   shader, texture, boxMesh);
+        CreateRotatingShape(Vector3(0.0f, -4.0f, 0),
+                            Vector3(2, 2, 2),
+                            Color::rose,
+                            shader, texture, cylinderMesh);
 
-        CreateCube(Vector3(0.0f, 1.7f, 0),
-                   Vector3(0, 0, 5),
-                   Color::purple,
-                   shader, texture, boxMesh);
+        CreateRotatingShape(Vector3(0.0f, 4.0f, 0),
+                            Vector3(0, 0, 5),
+                            Color::purple,
+                            shader, texture, boxMesh);
 
-        auto cube = CreateCube(Vector3(0.0f, 0.0f, 0),
-                   Vector3(0.0f, 0.0f, 0),
-                   Color::aqua,
-                   shader, texture, boxMesh);
+        auto cube = CreateRotatingShape(Vector3(0.0f, 0.0f, 0),
+                                        Vector3(0.0f, 0.0f, 0),
+                                        Color::aqua,
+                                        shader, texture, oldBox);
 
         cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(180 * Math::Deg2Rad, {0, 1, 0}));
     }
