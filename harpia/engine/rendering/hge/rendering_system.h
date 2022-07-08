@@ -10,6 +10,7 @@
 #include "hge/material_asset.h"
 #include "hge/mesh_asset.h"
 #include <list>
+#include <map>
 #include <vector>
 
 namespace Harpia::Internal {
@@ -29,7 +30,9 @@ namespace Harpia::Internal {
         virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
         virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
-        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,const std::vector<float> &uv,const std::vector<unsigned int> &index) = 0;
+
+        virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
+        virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
 
         virtual TextureAsset *LoadTexture(const std::string &path) = 0;
 
