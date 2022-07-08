@@ -7,7 +7,7 @@
 #include "hge/audio_system.h"
 #include "hge/harpia_string.h"
 #include "hge/in/application_internal.h"
-#include "hge/in/mesh_generator.h"
+#include "hge/mesh_generator.h"
 #include "hge/object.h"
 #include "hge/rendering_system.h"
 #include "hge/shader_asset.h"
@@ -80,6 +80,11 @@ namespace Harpia {
 
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, n, t, i));
     }
+
+    bool Scene::LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
+        return _applicationInternal->_renderSystem->LoadFbxMeshes(path, meshes);
+    }
+
     TextureAsset *Scene::LoadTextureAsset(const std::string &path) {
         auto asset = _applicationInternal->_renderSystem->LoadTexture(path);
         _assets.push_back(asset);

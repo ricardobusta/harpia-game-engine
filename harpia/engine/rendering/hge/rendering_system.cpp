@@ -7,6 +7,7 @@
 #include "hge/configuration.h"
 #include "hge/core_system.h"
 #include "hge/harpia_assert.h"
+#include "hge/mesh_generator.h"
 #include "hge/renderer_component_internal.h"
 #include <SDL.h>
 
@@ -44,5 +45,9 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystem::Quit() {
+    }
+
+    bool RenderingSystem::LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
+        return MeshGenerator::FbxMeshes(*this, path, meshes);
     }
 }// namespace Harpia::Internal

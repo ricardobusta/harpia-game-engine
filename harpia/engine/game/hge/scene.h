@@ -9,6 +9,7 @@
 #include "hge/in/scene_internal.h"
 #include "hge/internal_defines.h"
 #include <string>
+#include <map>
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
@@ -20,6 +21,7 @@ namespace Harpia {
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
         ShaderAsset *LoadShaderAsset(const std::string &vert, const std::string &frag);
         MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
+        bool LoadFbxMeshAssets(const std::string& path, std::map<std::string, MeshAsset*>& meshes);
         TextureAsset *LoadTextureAsset(const std::string &path);
 
     protected:

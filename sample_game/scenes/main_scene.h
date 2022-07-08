@@ -17,7 +17,7 @@ namespace SampleGame {
 
     private:
         Object *
-        CreateCube(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color, ShaderAsset *shader,
+        CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color, ShaderAsset *shader,
                    TextureAsset *texture, MeshAsset *mesh);
     };
 }// namespace SampleGame

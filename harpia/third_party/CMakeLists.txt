@@ -1,6 +1,7 @@
+add_subdirectory(glew)
 add_subdirectory(glm)
+add_subdirectory(openfbx)
 add_subdirectory(sdl)
 add_subdirectory(sdl_image)
 add_subdirectory(sdl_mixer)
 add_subdirectory(sdl_ttf)
-add_subdirectory(glew)

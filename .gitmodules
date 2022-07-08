@@ -16,3 +16,6 @@
 [submodule "harpia/third_party/glew/glew"]
 	path = harpia/third_party/glew/glew
 	url = git@github.com:nigels-com/glew.git
+[submodule "harpia/third_party/openfbx/openfbx"]
+	path = harpia/third_party/openfbx/openfbx
+	url = git@github.com:nem0/OpenFBX.git
