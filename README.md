@@ -36,6 +36,10 @@ I also removed the `include` directory from `.gitignore`, so it would get added 
 
 # Useful Links
 
+## Google Test
+- https://google.github.io/googletest/primer.html
+- 
+
 ## EMScripten
 For compiling the project into a web application
 https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
