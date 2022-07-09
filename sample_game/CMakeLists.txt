@@ -15,7 +15,10 @@ include_directories(
         scenes
         scripts
 )
-add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC})
+
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/appicon.rc")
+
+add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_SRC} ${APP_ICON_RESOURCE_WINDOWS})
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 
