@@ -16,7 +16,7 @@
 #include "renderer_component_gl.h"
 #include "shader_asset_gl.h"
 #include "texture_asset_gl.h"
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -127,10 +127,9 @@ namespace Harpia::Internal {
             return -1;
         }
 
-        glewExperimental = GL_TRUE;
-        GLenum glewError = glewInit();
-        if (glewError != GLEW_OK) {
-            DebugLogError("Error initializing GLEW! %s", glewGetErrorString(glewError));
+        GLenum gl3wError = gl3wInit();
+        if (gl3wError != GL3W_OK) {
+            DebugLogError("Error initializing GL3W! %d", gl3wError);
         }
 
         //Use Vsync
