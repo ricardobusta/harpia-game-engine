@@ -57,7 +57,7 @@ namespace SampleGame {
         camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
         //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
-        camera->SetClearColor(Color(0, 0, 0, 1));
+        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 1));
 
         auto shader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
         auto texture = LoadTextureAsset("assets/textures/tile.png");
@@ -79,8 +79,8 @@ namespace SampleGame {
         rotateScript->speed = {0,2,0};
         //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
-        //auto fontShader = LoadShaderAsset("assets/shaders/font.vert","assets/shaders/font.frag");
-        auto fontMaterial = LoadMaterialAsset(shader);
+        auto fontShader = LoadShaderAsset("assets/shaders/text.vert","assets/shaders/text.frag");
+        auto fontMaterial = LoadMaterialAsset(fontShader);
         fontMaterial->SetTexture(fontAtlas);
         fontMaterial->SetColor(Color::white);
         //textRenderer->SetFontMaterial(fontMaterial,7,9);
