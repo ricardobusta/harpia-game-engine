@@ -76,10 +76,10 @@ namespace Harpia {
             if (charIdx == std::string::npos) {
                 continue;
             }
-            auto x = charIdx % rowSize;
-            auto y = charIdx / rowSize;
+            auto x = (float) (charIdx % rowSize);
+            auto y = (float) (charIdx / rowSize);
 
-            GenerateCharacterMesh(i, {x * uvX, (x + 1.0f) * uvX, y * uvY, (y + 1.0f) * uvY}, positions, normals, uvs, indexes);
+            GenerateCharacterMesh(i, {x * uvX, (x + 1.0f) * uvX, (y + 1.0f) * uvY, y * uvY}, positions, normals, uvs, indexes);
             DebugLog("Generating mesh for character %c", text[i]);
         }
     }
@@ -102,7 +102,7 @@ namespace Harpia {
         std::vector<unsigned int> indexes;
 
         auto uvOffsetX = (float) _charWidth / (float) tex->_width;
-        auto uvOffsetY = (float) _charWidth / (float) tex->_height;
+        auto uvOffsetY = (float) _charHeight / (float) tex->_height;
         auto rowCount = (int) std::floor((float) tex->_width / (float) _charWidth);
 
         GenerateTextMesh(_text, _table, uvOffsetX, uvOffsetY, rowCount, positions, normals, uvs, indexes);

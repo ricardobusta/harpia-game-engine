@@ -109,6 +109,7 @@ namespace SampleGame {
         movableRend->SetMaterial(movableMat);
 
         auto textObject = CreateObject();
+        textObject->transform.SetTrMatrix(Matrix::Translation({-5,3,0}));
         auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
         fontAtlas->_filter = TextureFilter::Nearest;
@@ -118,7 +119,7 @@ namespace SampleGame {
         fontMaterial->SetColor(Color::white);
         fontMaterial->_transparent = true;
         textRenderer->SetFontMaterial(fontMaterial, 7, 9, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
-        textRenderer->SetText("Hello World");
+        textRenderer->SetText("Hello World!");
     }
 
     void MainScene::CreateCameraObject(const Application *application) {
