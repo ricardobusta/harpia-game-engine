@@ -11,6 +11,7 @@
 #include "hge/material_asset.h"
 #include "hge/music_component.h"
 #include "hge/renderer_component.h"
+#include "hge/text_renderer_component.h"
 #include "rotate_around.h"
 #include "test_audio.h"
 
@@ -19,7 +20,7 @@ using namespace Harpia;
 namespace SampleGame {
 
     Harpia::Object *MainScene::CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color,
-                                          ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
+                                                   ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
         auto cube = CreateObject();
         auto rotateScript = cube->AddComponent<RotateAround>();
         rotateScript->target = &cube->transform;
@@ -40,10 +41,10 @@ namespace SampleGame {
         auto audioObject = CreateObject();
 
         auto audioComponent = audioObject->AddComponent<AudioComponent>();
-        audioComponent->SetAudio(LoadAudioAsset("assets/audio/jump.wav"));
+        audioComponent->SetAudio(LoadAudioAsset("assets/audios/jump.wav"));
 
         auto music = audioObject->AddComponent<MusicComponent>();
-        music->SetMusic(LoadMusicAsset("assets/music/idle.ogg"));
+        music->SetMusic(LoadMusicAsset("assets/musics/idle.ogg"));
 
         audioObject->AddComponent<TestAudio>();
 
@@ -58,8 +59,8 @@ namespace SampleGame {
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0, 0, 0, 1));
 
-        auto shader = LoadShaderAsset("assets/shader/test.vert", "assets/shader/test.frag");
-        auto texture = LoadTextureAsset("assets/texture/busta.png");
+        auto shader = LoadShaderAsset("assets/shaders/test.vert", "assets/shaders/test.frag");
+        auto texture = LoadTextureAsset("assets/textures/busta.png");
         std::map<std::string, MeshAsset *> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
         auto sphereMesh = meshCollection["Cube"];
@@ -71,6 +72,15 @@ namespace SampleGame {
         for (auto k: meshCollection) {
             DebugLog("Loaded mesh: %s", k.first.c_str());
         }
+
+        auto textObject = CreateObject();
+        auto textRenderer = textObject->AddComponent<TextRendererComponent>();
+        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
+        auto fontShader = LoadShaderAsset("assets/shaders/font.vert","assets/shaders/font.frag");
+        auto fontMaterial = LoadMaterialAsset(fontShader);
+        fontMaterial->SetTexture(fontAtlas);
+        textRenderer->SetFontMaterial(fontMaterial,7,9);
+        textRenderer->SetText("Hello World");
 
         CreateRotatingShape(
                 Vector3(-4.0f, 0.0f, 0),
@@ -92,12 +102,5 @@ namespace SampleGame {
                             Vector3(0, 0, 5),
                             Color::purple,
                             shader, texture, boxMesh);
-
-        auto cube = CreateRotatingShape(Vector3(0.0f, 0.0f, 0),
-                                        Vector3(0.0f, 0.0f, 0),
-                                        Color::aqua,
-                                        shader, texture, oldBox);
-
-        cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(180 * Math::Deg2Rad, {0, 1, 0}));
     }
 }// namespace SampleGame
