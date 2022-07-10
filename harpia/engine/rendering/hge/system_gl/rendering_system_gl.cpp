@@ -114,7 +114,7 @@ namespace Harpia::Internal {
                     }
                     auto glShader = r->_material->_shader;
                     glUseProgram(glShader->programId);
-                    auto ct = camera->_projection * camera->GetTransformInternal()->GetTrMatrix();
+                    auto ct = camera->_projection * glm::inverse(camera->GetTransformInternal()->GetTrMatrix());
                     RenderObjectMaterial(r, glm::value_ptr(ct));
                     DrawMesh(r->_mesh);
                 }

@@ -53,7 +53,7 @@ namespace SampleGame {
         auto screenSize = application->screenSize;
 
         auto cameraObject = CreateObject();
-        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -15.0f}));
+        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, 15.0f}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
         camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
