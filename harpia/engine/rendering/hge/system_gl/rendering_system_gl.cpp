@@ -273,15 +273,10 @@ namespace Harpia::Internal {
             goto clean_link_program;
         }
 
-        pointsLocation = glGetAttribLocation(programId, "inPos");
-        uvsLocation = glGetAttribLocation(programId, "inUv");
-        normalsLocation = glGetAttribLocation(programId, "inNormal");
-
+        pointsLocation = glGetAttribLocation(programId, "in_position");
+        uvsLocation = glGetAttribLocation(programId, "in_uv");
+        normalsLocation = glGetAttribLocation(programId, "in_normal");
         colorLocation = glGetUniformLocation(programId, "u_color");
-        if (colorLocation == -1) {
-            DebugLogError("u_color is not a valid glsl program variable!");
-            goto clean_get_attrib;
-        }
 
         worldToObjectLoc = glGetUniformLocation(programId, "harpia_WorldToObject");
         if (worldToObjectLoc == -1) {
@@ -314,7 +309,9 @@ namespace Harpia::Internal {
     clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
-        return nullptr;
+        return LoadShader("#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
+                          "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
+                          "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
     }
 
     void RenderingSystemGL::ReleaseShader(ShaderAssetGL *shader) {
