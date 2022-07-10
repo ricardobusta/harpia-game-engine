@@ -359,13 +359,16 @@ namespace Harpia::Internal {
 
         DebugLog("Texture size: (%d, %d)", surface->w, surface->h);
 
+        auto w = surface->w;
+        auto h = surface->h;
+
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
 
         SDL_FreeSurface(surface);
 
-        auto asset = new TextureAssetGL(this, texture);
+        auto asset = new TextureAssetGL(this, texture, w, h);
         return asset;
     }
 
