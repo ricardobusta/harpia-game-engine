@@ -18,7 +18,15 @@ include_directories(
 
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/appicon.rc")
 
-add_executable(${PROJECT_NAME} WIN32 ${${PROJECT_NAME}_SRC} ${APP_ICON_RESOURCE_WINDOWS})
+set(HARPIA_APPLICATION_TYPE "")
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    if (WIN32)
+        set(HARPIA_APPLICATION_TYPE WIN32)
+    endif ()
+endif ()
+
+add_executable(${PROJECT_NAME} ${HARPIA_APPLICATION_TYPE} ${${PROJECT_NAME}_SRC} ${APP_ICON_RESOURCE_WINDOWS})
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 
