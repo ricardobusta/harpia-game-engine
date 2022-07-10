@@ -11,10 +11,10 @@
 namespace Harpia::Internal {
     class TextureAssetGL : public TextureAsset {
     public:
-        GLuint _texture;
+        GLuint _texture = 0;
 
     private:
-        RenderingSystemGL *_renderingSystem;
+        RenderingSystemGL *_renderingSystem = nullptr;
 
     public:
         explicit TextureAssetGL(RenderingSystemGL *renderingSystem, GLuint texture);

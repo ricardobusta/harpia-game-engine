@@ -95,17 +95,22 @@ namespace Harpia::Internal {
 
             glClear(camera->_clearMask);
 
-            for (auto r: _renderersGL) {
-                if(r->_mesh == nullptr || r->_material==nullptr){
-                    continue;
+            //glDisable(GL_BLEND);
+            //glEnable(GL_BLEND);
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            for (auto kvp: _renderersGL) {
+                auto sortingOrder = kvp.first;
+                auto renderers = kvp.second;
+                for (auto r: renderers) {
+                    if (r->_mesh == nullptr || r->_material == nullptr) {
+                        continue;
+                    }
+                    auto glShader = r->_material->_shader;
+                    glUseProgram(glShader->programId);
+                    auto ct = camera->_projection * camera->GetTransformInternal()->GetTrMatrix();
+                    RenderObjectMaterial(r, glm::value_ptr(ct));
+                    DrawMesh(r->_mesh);
                 }
-
-                auto glShader = r->_material->_shader;
-                glUseProgram(glShader->programId);
-                auto projMat = camera->_projection;// TODO move to camera and cache
-                auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
-                RenderObjectMaterial(r, glm::value_ptr(ct));
-                DrawMesh(r->_mesh);
             }
 
             glUseProgram(0);
@@ -155,15 +160,15 @@ namespace Harpia::Internal {
         auto platform = new RendererComponentGL();
         renderer->_platform = platform;
         platform->_renderer = renderer;
-        _renderersGL.push_back(dynamic_cast<RendererComponentGL *>(platform));
+        _renderersGL[-1].push_back(dynamic_cast<RendererComponentGL *>(platform));
     }
 
     MaterialAsset *RenderingSystemGL::CreateMaterial() {
         return new MaterialAssetGL(this);
     }
 
-    void RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index){
-        auto glMesh = dynamic_cast<MeshAssetGL*>(mesh);
+    void RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
+        auto glMesh = dynamic_cast<MeshAssetGL *>(mesh);
         glMesh->points = vertex;
         glMesh->normals = normal;
         glMesh->uvs = uv;
@@ -215,7 +220,7 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::ReleaseMesh(MeshAssetGL *mesh) {
         glDeleteBuffers(MeshBuffers::Count, mesh->vbo);
-        for (auto & i : mesh->vbo) {
+        for (auto &i: mesh->vbo) {
             i = 0;
         }
         glDeleteVertexArrays(1, &mesh->vao);
@@ -335,9 +340,9 @@ namespace Harpia::Internal {
         GLuint texture = 0;
 
         GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
-        if(surface->format->BytesPerPixel == 4) {
+        if (surface->format->BytesPerPixel == 4) {
             dataFormat = GL_RGBA;
-        }else{
+        } else {
             dataFormat = GL_RGB;
         }
         // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
@@ -361,17 +366,15 @@ namespace Harpia::Internal {
         glDeleteTextures(1, &texture->_texture);
     }
 
+    void RenderingSystemGL::SetRendererMaterialList(int oldIndex, int newIndex, RendererComponentGL *renderer) {
+        //_renderersGL[oldIndex].remove(renderer);
+        //_renderersGL[newIndex].push_back(renderer);
+    }
+
     void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
         auto material = renderer->_material;
         auto shader = material->_shader;
         auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
-
-        if(material->_transparent){
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }else{
-            glDisable(GL_BLEND);
-        }
 
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
