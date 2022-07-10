@@ -14,12 +14,10 @@ namespace SampleGame {
         configuration.window.size = Harpia::Vector2Int(640, 480);
 
         configuration.input.mappedKeys.insert(configuration.input.mappedKeys.end(), {
-                SDLK_1,
-                SDLK_2,
-        });
+                                                                                            SDLK_1,
+                                                                                            SDLK_2,
+                                                                                    });
 
-        configuration.game.scenes.insert(configuration.game.scenes.end(), {
-            new MainScene()
-        });
+        configuration.game.scenes.insert(configuration.game.scenes.end(), {new MainScene()});
     }
-}
+}// namespace SampleGame

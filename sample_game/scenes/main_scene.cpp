@@ -3,18 +3,19 @@
 //
 
 #include "main_scene.h"
-#include "hge/application.h"
-#include "hge/audio_component.h"
-#include "hge/camera_component.h"
-#include "hge/color.h"
-#include "hge/debug.h"
-#include "hge/material_asset.h"
-#include "hge/music_component.h"
-#include "hge/renderer_component.h"
-#include "hge/text_renderer_component.h"
-#include "hge/texture_asset.h"
+#include "keyboard_mover.h"
 #include "rotate_around.h"
 #include "test_audio.h"
+#include <hge/application.h>
+#include <hge/audio_component.h>
+#include <hge/camera_component.h>
+#include <hge/color.h>
+#include <hge/debug.h>
+#include <hge/material_asset.h>
+#include <hge/music_component.h>
+#include <hge/renderer_component.h>
+#include <hge/text_renderer_component.h>
+#include <hge/texture_asset.h>
 
 using namespace Harpia;
 
@@ -52,7 +53,7 @@ namespace SampleGame {
         auto screenSize = application->screenSize;
 
         auto cameraObject = CreateObject();
-        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -10.0f}));
+        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -15.0f}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
         camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
@@ -99,6 +100,14 @@ namespace SampleGame {
                             Color::purple,
                             shader, tileTexture, sphereMesh);
 
+        auto movableObject = CreateObject();
+        movableObject->AddComponent<KeyboardMover>();
+        auto movableRend = movableObject->AddComponent<RendererComponent>();
+        auto movableMat = LoadMaterialAsset(shader);
+        movableMat->SetTexture(bustaTexture);
+        movableRend->SetMesh(capsuleMesh);
+        movableRend->SetMaterial(movableMat);
+
         auto textObject = CreateObject();
         //textObject->transform.SetTrMatrix(Matrix::Translation({0,1,0}));
         auto rotateScript = textObject->AddComponent<RotateAround>();
@@ -112,7 +121,7 @@ namespace SampleGame {
         fontMaterial->SetTexture(fontAtlas);
         fontMaterial->SetColor(Color::white);
         fontMaterial->_transparent = true;
-        textRenderer->SetFontMaterial(fontMaterial,7,9);
+        textRenderer->SetFontMaterial(fontMaterial, 7, 9);
         textRenderer->SetText("Hello World");
         //auto rend = textObject->AddComponent<RendererComponent>();
         //rend->SetMaterial(fontMaterial);

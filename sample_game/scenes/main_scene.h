@@ -5,8 +5,8 @@
 #ifndef HARPIAGAMEENGINE_MAIN_SCENE_H
 #define HARPIAGAMEENGINE_MAIN_SCENE_H
 
-#include "hge/global_defines.h"
-#include "hge/scene.h"
+#include <hge/global_defines.h>
+#include <hge/scene.h>
 
 using namespace Harpia;
 

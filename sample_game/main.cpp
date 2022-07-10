@@ -4,15 +4,15 @@
 
 #include <iostream>
 
-#include "hge/application.h"
 #include "game_config.h"
-#include "hge/debug.h"
 #include <filesystem>
+#include <hge/application.h>
+#include <hge/debug.h>
 
 using namespace SampleGame;
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
-    if(!std::filesystem::is_directory("./assets")){
+    if (!std::filesystem::is_directory("./assets")) {
         DebugLogError("Assets folder missing");
         return -1;
     }
