@@ -204,7 +204,6 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
                                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
-        DebugLog("Update Mesh");
         glBindVertexArray(vao);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Points]);
@@ -357,7 +356,7 @@ namespace Harpia::Internal {
         // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
         // testColor & 0xff == ALPHA ?
 
-        DebugLog("Texture size: (%d, %d)", surface->w, surface->h);
+        DebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
 
         auto w = surface->w;
         auto h = surface->h;

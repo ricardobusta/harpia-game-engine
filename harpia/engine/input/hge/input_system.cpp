@@ -15,7 +15,7 @@ namespace Harpia::Internal {
     int InputSystem::Initialize(InputConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init");
+        DebugLog("Init Input");
 
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
@@ -38,7 +38,7 @@ namespace Harpia::Internal {
     void InputSystem::Quit() {
         delete _inputReader;
         _inputReader = nullptr;
-        DebugLog("Quit");
+        DebugLog("Quit Input");
     }
 
     int InputSystem::GetInitFlags() {

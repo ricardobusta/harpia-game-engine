@@ -81,7 +81,7 @@ namespace Harpia {
         SystemCleanup(_renderSystem);
         SystemCleanup(_coreSystem);
 
-        DebugLog("Quit");
+        DebugLog("Quit Application");
         return result;
     }
 

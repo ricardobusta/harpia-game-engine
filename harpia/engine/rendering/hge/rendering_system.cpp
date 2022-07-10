@@ -15,7 +15,7 @@ namespace Harpia::Internal {
     int RenderingSystem::Initialize(GameConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init");
+        DebugLog("Init Rendering");
 
         auto window = coreSystem->GetWindow();
 
@@ -45,6 +45,7 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystem::Quit() {
+        DebugLog("Quit Rendering");
     }
 
     bool RenderingSystem::LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
