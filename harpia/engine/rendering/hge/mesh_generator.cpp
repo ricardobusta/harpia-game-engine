@@ -10,7 +10,7 @@
 
 namespace Harpia::Internal {
     void MeshGenerator::BoxMesh(std::vector<float> &vertex, std::vector<float> &normal, std::vector<float> &uv,
-                                std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size) {
+                                std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size, const bool tileUv) {
         auto vertexCount = 3 * 2 * 6;// vertex-triangle * triangle-face * face
         vertex.clear();
         vertex.reserve(3 * vertexCount);
@@ -42,36 +42,38 @@ namespace Harpia::Internal {
                 -sx + cx, sy + cy, -sz + cz, sx + cx, sy + cy, sz + cz, sx + cx, sy + cy, -sz + cz,    //
         };
         normal = {
-                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   //
-                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   //
-                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,//
-                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,//
-                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,//
-                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,//
-                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,//
-                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,//
-                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   //
-                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   //
-                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   //
-                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   //
+                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   // xy+
+                0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   // xy+
+                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,// xz-
+                0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f,// xz-
+                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,// yz-
+                -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,// yz-
+                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,// xy-
+                0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, -1.0f,// xy-
+                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // yz+
+                1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // yz+
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // xz+
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // xz+
         };
+        auto uvx = tileUv ? size.x : 1.0f;
+        auto uvy = tileUv ? size.y : 1.0f;
+        auto uvz = tileUv ? size.z : 1.0f;
         uv = {
-                1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,  //
-                1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  //
-                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
-                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
-                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
-                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
-                1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,  //
-                1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  //
-                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
-                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
-                1.0f, -0.0f, 1.0f, 1.0f, 0.0f, 1.0f, //
-                1.0f, -0.0f, 0.0f, 1.0f, -0.0f, 0.0f,//
+                uvx, 1 - uvy, 0.0f, 1 - uvy, 0.0f, 1 - 0.0f, // xy+
+                uvx, 1 - uvy, 0.0f, 1 - 0.0f, uvx, 1 - 0.0f, // xy+
+                uvx, 1 - 0.0f, uvx, 1 - uvz, 0.0f, 1 - uvz,  // xz-
+                uvx, 1 - 0.0f, 0.0f, 1 - uvz, 0.0f, 1 - 0.0f,// xz-
+                uvy, 1 - 0.0f, uvy, 1 - uvz, 0.0f, 1 - uvz,  // yz-
+                uvy, 1 - 0.0f, 0.0f, 1 - uvz, 0.0f, 1 - 0.0f,// yz-
+                uvx, 1 - uvy, 0.0f, 1 - uvy, 0.0f, 1 - 0.0f, // xy-
+                uvx, 1 - uvy, 0.0f, 1 - 0.0f, uvx, 1 - 0.0f, // xy-
+                uvy, 1 - 0.0f, uvy, 1 - uvz, 0.0f, 1 - uvz,  // yz+
+                uvy, 1 - 0.0f, 0.0f, 1 - uvz, 0.0f, 1 - 0.0f,// yz+
+                uvx, 1 - 0.0f, uvx, 1 - uvz, 0.0f, 1 - uvz,  // xz+
+                uvx, 1 - 0.0f, 0.0f, 1 - uvz, 0.0f, 1 - 0.0f,// xz+
         };
-        index = {
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-                28, 29, 30, 31, 32, 33, 34, 35};
+        index = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                 28, 29, 30, 31, 32, 33, 34, 35};
     }
 
     void Vec3ToFloatArray(const ofbx::Vec3 *v, const int s, std::vector<float> &out) {
