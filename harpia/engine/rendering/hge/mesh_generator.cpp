@@ -11,8 +11,16 @@
 namespace Harpia::Internal {
     void MeshGenerator::BoxMesh(std::vector<float> &vertex, std::vector<float> &normal, std::vector<float> &uv,
                                 std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size) {
+        auto vertexCount = 3 * 2 * 6;// vertex-triangle * triangle-face * face
         vertex.clear();
-        vertex.reserve(8 * 3);
+        vertex.reserve(3 * vertexCount);
+        normal.clear();
+        normal.reserve(3 * vertexCount);
+        uv.clear();
+        uv.reserve(2 * vertexCount);
+        index.clear();
+        index.reserve(vertexCount);
+
         auto sx = size.x / 2.0f;
         auto sy = size.y / 2.0f;
         auto sz = size.z / 2.0f;
@@ -83,12 +91,12 @@ namespace Harpia::Internal {
             // Mapping FBX uv coordinates
             auto vi = v[i];
             out[i * 2 + 0] = vi.x;
-            out[i * 2 + 1] = 1-vi.y;
+            out[i * 2 + 1] = 1 - vi.y;
         }
     }
 
     int MapIndex(int index) {
-        return (index < 0) ? ~index : index; // Due to FBX end of face index being inverted
+        return (index < 0) ? ~index : index;// Due to FBX end of face index being inverted
     }
 
     bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *> &loadedMeshes) {
