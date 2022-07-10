@@ -57,7 +57,7 @@ namespace SampleGame {
         camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
         //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
-        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 1));
+        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
 
         auto shader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
         auto texture = LoadTextureAsset("assets/textures/tile.png");
@@ -72,22 +72,6 @@ namespace SampleGame {
         for (auto k: meshCollection) {
             DebugLog("Loaded mesh: %s", k.first.c_str());
         }
-
-        auto textObject = CreateObject();
-        auto rotateScript = textObject->AddComponent<RotateAround>();
-        rotateScript->target = &textObject->transform;
-        rotateScript->speed = {0,2,0};
-        //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
-        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
-        auto fontShader = LoadShaderAsset("assets/shaders/text.vert","assets/shaders/text.frag");
-        auto fontMaterial = LoadMaterialAsset(fontShader);
-        fontMaterial->SetTexture(fontAtlas);
-        fontMaterial->SetColor(Color::white);
-        //textRenderer->SetFontMaterial(fontMaterial,7,9);
-        //textRenderer->SetText("Hello World");
-        auto rend = textObject->AddComponent<RendererComponent>();
-        rend->SetMaterial(fontMaterial);
-        rend->SetMesh(cubeMesh);
 
         CreateRotatingShape(
                 Vector3(-4.0f, 0.0f, 0),
@@ -109,5 +93,23 @@ namespace SampleGame {
                             Vector3(0, 0, 3),
                             Color::purple,
                             shader, texture, sphereMesh);
+
+        auto textObject = CreateObject();
+        auto rotateScript = textObject->AddComponent<RotateAround>();
+        rotateScript->target = &textObject->transform;
+        rotateScript->speed = {0,1,0};
+        //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
+        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
+        auto fontShader = LoadShaderAsset("assets/shaders/text.vert","assets/shaders/text.frag");
+        auto fontMaterial = LoadMaterialAsset(fontShader);
+        fontMaterial->SetTexture(fontAtlas);
+        fontMaterial->SetColor(Color::white);
+        fontMaterial->_transparent = true;
+        //textRenderer->SetFontMaterial(fontMaterial,7,9);
+        //textRenderer->SetText("Hello World");
+        auto rend = textObject->AddComponent<RendererComponent>();
+        rend->SetMaterial(fontMaterial);
+        auto mesh = LoadBoxMeshAsset(Vector<3>::zero, {5,5,5});
+        rend->SetMesh(mesh);
     }
 }// namespace SampleGame

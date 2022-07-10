@@ -67,6 +67,7 @@ namespace Harpia::Internal {
         glEnable(GL_SCISSOR_TEST);// Necessary for multiple-viewport rendering. Enable/Disable if necessary?
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // For debug
 
         DebugLog("GL Initialized");
 
@@ -364,6 +365,14 @@ namespace Harpia::Internal {
         auto material = renderer->_material;
         auto shader = material->_shader;
         auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
+
+        if(material->_transparent){
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }else{
+            glDisable(GL_BLEND);
+        }
+
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
             GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};

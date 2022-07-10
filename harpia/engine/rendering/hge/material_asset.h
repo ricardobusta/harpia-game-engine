@@ -13,6 +13,7 @@ namespace Harpia {
     class MaterialAsset : public Asset {
     public:
         Color _color;
+        bool _transparent;
 
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
