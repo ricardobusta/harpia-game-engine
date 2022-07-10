@@ -13,6 +13,6 @@ namespace SampleGame {
         auto x = Input()->GetKeyIsDown(SDLK_d) - Input()->GetKeyIsDown(SDLK_a);
         auto y = Input()->GetKeyIsDown(SDLK_q) - Input()->GetKeyIsDown(SDLK_e);
         auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w);
-        GetObject()->transform.SetTrMatrix(GetObject()->transform.GetTrMatrix() * Matrix::Translation({x*dt, y*dt, z*dt}));
+        GetObject()->transform.SetTrMatrix( Matrix::Translation({x*dt, y*dt, z*dt}) * GetObject()->transform.GetTrMatrix());
     }
 }// namespace SampleGame

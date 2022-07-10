@@ -99,10 +99,6 @@ namespace SampleGame {
         movableRend->SetMaterial(movableMat);
 
         auto textObject = CreateObject();
-        //textObject->transform.SetTrMatrix(Matrix::Translation({0,1,0}));
-        //        auto rotateScript = textObject->AddComponent<RotateAround>();
-        //        rotateScript->target = &textObject->transform;
-        //        rotateScript->speed = {0, 1, 0};
         auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
         fontAtlas->_filter = TextureFilter::Nearest;
@@ -113,15 +109,13 @@ namespace SampleGame {
         fontMaterial->_transparent = true;
         textRenderer->SetFontMaterial(fontMaterial, 7, 9);
         textRenderer->SetText("Hello World");
-        //auto rend = textObject->AddComponent<RendererComponent>();
-        //rend->SetMaterial(fontMaterial);
-        //auto mesh = LoadBoxMeshAsset(Vector<3>::zero, {5,5,5});
-        //rend->SetMesh(mesh);
     }
+
     void MainScene::CreateCameraObject(const Application *application) {
         auto screenSize = application->screenSize;
 
         auto cameraObject = CreateObject();
+        cameraObject->AddComponent<KeyboardMover>();
         cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 5, 15.0f}) * Matrix::Rotation(-15 * Math::Deg2Rad, {1, 0, 0}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
@@ -130,6 +124,7 @@ namespace SampleGame {
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
     }
+    
     void MainScene::CreateAudioObjects() {
         auto audioObject = CreateObject();
 

@@ -10,6 +10,8 @@
 namespace SampleGame {
     class KeyboardMover : public Harpia::Component {
     public:
+        bool rotate = false;
+    public:
         void Update() override;
     };
 }// namespace SampleGame

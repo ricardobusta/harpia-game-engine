@@ -11,7 +11,7 @@ namespace SampleGame {
     void GameConfig::Configure(Harpia::Configuration &configuration) {
         configuration.game.title = "Harpia Sample";
 
-        configuration.window.size = Harpia::Vector2Int(640, 480);
+        configuration.window.size = Harpia::Vector2Int(800 , 600);
 
         configuration.input.mappedKeys.insert(configuration.input.mappedKeys.end(), {
                                                                                             SDLK_1,
