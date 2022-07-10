@@ -17,6 +17,7 @@
 namespace Harpia {
     Object *Scene::CreateObject() {
         auto object = new Object(_applicationInternal);
+        object->transform.SetTrMatrix(Matrix::Identity());
         _objects.push_back(object);
         return object;
     }
