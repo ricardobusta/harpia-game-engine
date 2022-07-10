@@ -60,7 +60,7 @@ namespace SampleGame {
         camera->SetClearColor(Color(0, 0, 0, 1));
 
         auto shader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
-        auto texture = LoadTextureAsset("assets/textures/busta.png");
+        auto texture = LoadTextureAsset("assets/textures/tile.png");
         std::map<std::string, MeshAsset *> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
         auto cubeMesh = meshCollection["Cube"];
@@ -82,13 +82,11 @@ namespace SampleGame {
         //auto fontShader = LoadShaderAsset("assets/shaders/font.vert","assets/shaders/font.frag");
         auto fontMaterial = LoadMaterialAsset(shader);
         fontMaterial->SetTexture(fontAtlas);
+        fontMaterial->SetColor(Color::white);
         //textRenderer->SetFontMaterial(fontMaterial,7,9);
         //textRenderer->SetText("Hello World");
         auto rend = textObject->AddComponent<RendererComponent>();
-        auto mat = LoadMaterialAsset(shader);
-        mat->SetTexture(texture);
-        mat->SetColor(Color::white);
-        rend->SetMaterial(mat);
+        rend->SetMaterial(fontMaterial);
         rend->SetMesh(cubeMesh);
 
         CreateRotatingShape(

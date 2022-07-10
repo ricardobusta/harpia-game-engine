@@ -9,8 +9,7 @@ uniform sampler2D u_tex;
 uniform vec4 u_color;
 
 void main() {
-   fragColor.a = u_color.a;
-   fragColor.rg = vs_uv;
-   fragColor.rgb = vs_normal.xyz;
-   fragColor.rgba = texture( u_tex, vs_uv ).rgba;
+    vec4 textureColor = texture(u_tex, vs_uv).rgba;
+    float normalColor = max(0.5f, dot(vs_normal, vec3(0, 0, - 1)));
+    fragColor.rgba = textureColor * normalColor * u_color;
 }
