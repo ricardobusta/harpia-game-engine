@@ -7,8 +7,8 @@
 #include "rendering_system_gl.h"
 
 namespace Harpia::Internal {
-    TextureAssetGL::TextureAssetGL(RenderingSystemGL *renderingSystem, GLuint texture)
-        : _texture(texture) {
+    TextureAssetGL::TextureAssetGL(RenderingSystemGL *renderingSystem, GLuint texture, int width, int height)
+        : _texture(texture), TextureAsset(width, height) {
     }
 
     void TextureAssetGL::Release() {

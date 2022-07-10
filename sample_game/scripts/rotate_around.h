@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_ROTATE_AROUND_H
 #define HARPIAGAMEENGINE_ROTATE_AROUND_H
 
-#include "hge/component.h"
+#include <hge/component.h>
 
 namespace SampleGame {
     class RotateAround: public Harpia::Component {

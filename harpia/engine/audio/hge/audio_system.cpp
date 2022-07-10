@@ -15,7 +15,7 @@ namespace Harpia::Internal {
     int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init");
+        DebugLog("Init Audio");
         auto result = Mix_Init(MIX_INIT_OGG);
         if (result < 0) {
             DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
@@ -42,7 +42,7 @@ namespace Harpia::Internal {
         _loadedAudios.Clear([this](auto a) { DeleteAudio(a); });
         _loadedMusics.Clear([this](auto m) { DeleteMusic(m); });
         Mix_Quit();
-        DebugLog("Quit");
+        DebugLog("Quit Audio");
     }
 
     void AudioSystem::PlayAudio(AudioAsset *audio) {

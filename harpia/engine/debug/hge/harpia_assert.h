@@ -5,12 +5,13 @@
 #ifndef HARPIAGAMEENGINE_HARPIA_ASSERT_H
 #define HARPIAGAMEENGINE_HARPIA_ASSERT_H
 
+#include "debug.h"
+
 #ifndef HARPIA_DEBUG
 #define Assert(condition) (void(0))
-#define AssertNotNull(condition) (void(0))
+#define AssertNotNull(condition, args...) (void(0))
 #else//HARPIA_DEBUG
 
-#include "Debug.h"
 #include <cassert>
 
 #define AssertThat(condition, args...) Harpia::Assert::That(condition, HARPIA_CALLER, __FILE__, __LINE__, Harpia::Debug::Format(args).c_str())

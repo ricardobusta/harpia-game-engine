@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_GAME_CONFIG_H
 #define HARPIAGAMEENGINE_GAME_CONFIG_H
 
-#include "hge/configuration.h"
+#include <hge/configuration.h>
 
 namespace Harpia {
     class ISceneDescription;
@@ -16,6 +16,6 @@ namespace SampleGame {
     public:
         static void Configure(Harpia::Configuration &configuration);
     };
-}
+}// namespace SampleGame
 
-#endif //HARPIAGAMEENGINE_GAME_CONFIG_H
+#endif//HARPIAGAMEENGINE_GAME_CONFIG_H

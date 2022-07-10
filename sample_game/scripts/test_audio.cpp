@@ -2,7 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 06/06/2022.
 //
 #include "test_audio.h"
-#include "hge/debug.h"
+#include <hge/debug.h>
 
 namespace SampleGame {
     void TestAudio::Start() {

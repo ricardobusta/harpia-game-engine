@@ -5,8 +5,8 @@
 #ifndef HARPIAGAMEENGINE_MAIN_SCENE_H
 #define HARPIAGAMEENGINE_MAIN_SCENE_H
 
-#include "hge/global_defines.h"
-#include "hge/scene.h"
+#include <hge/global_defines.h>
+#include <hge/scene.h>
 
 using namespace Harpia;
 
@@ -19,6 +19,8 @@ namespace SampleGame {
         Object *
         CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color, ShaderAsset *shader,
                    TextureAsset *texture, MeshAsset *mesh);
+        void CreateAudioObjects();
+        void CreateCameraObject(const Application *application);
     };
 }// namespace SampleGame
 

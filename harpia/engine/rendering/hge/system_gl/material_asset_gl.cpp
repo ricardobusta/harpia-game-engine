@@ -18,4 +18,8 @@ namespace Harpia::Internal {
     void MaterialAssetGL::SetTexture(TextureAsset *texture) {
         _texture = dynamic_cast<TextureAssetGL *>(texture);
     }
+
+    const TextureAsset *MaterialAssetGL::GetTexture() const {
+        return _texture;
+    }
 }// namespace Harpia::Internal

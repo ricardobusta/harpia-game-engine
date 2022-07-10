@@ -19,8 +19,18 @@
 #include <GL/gl3w.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <map>
 
 namespace Harpia::Internal {
+    const static std::map<TextureWrapMode, GLint> textureWrapModeMap = {
+            {TextureWrapMode::Clamp, GL_CLAMP_TO_EDGE},
+            {TextureWrapMode::Mirror, GL_MIRRORED_REPEAT},
+            {TextureWrapMode::Repeat, GL_REPEAT}};
+
+    const static std::map<TextureFilter, GLint> textureFilterMap = {
+            {TextureFilter::Nearest, GL_NEAREST},
+            {TextureFilter::Linear, GL_LINEAR}};
+
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;
@@ -67,6 +77,7 @@ namespace Harpia::Internal {
         glEnable(GL_SCISSOR_TEST);// Necessary for multiple-viewport rendering. Enable/Disable if necessary?
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
+        //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // For debug
 
         DebugLog("GL Initialized");
 
@@ -94,15 +105,23 @@ namespace Harpia::Internal {
 
             glClear(camera->_clearMask);
 
-            for (auto r: _renderersGL) {
-                auto glShader = r->_material->_shader;
-                glUseProgram(glShader->programId);
-                auto projMat = camera->_projection;// TODO move to camera and cache
-                auto ct = projMat * camera->GetTransformInternal()->GetTrMatrix();
-                RenderObjectMaterial(r, glm::value_ptr(ct));
-                DrawMesh(r->_mesh);
+            for (auto kvp: _renderersGL) {
+                auto sortingOrder = kvp.first;
+                auto renderers = kvp.second;
+                for (auto r: renderers) {
+                    if (r->_mesh == nullptr || r->_material == nullptr) {
+                        continue;
+                    }
+                    auto glShader = r->_material->_shader;
+                    glUseProgram(glShader->programId);
+                    auto ct = camera->_projection * glm::inverse(camera->GetTransformInternal()->GetTrMatrix());
+                    RenderObjectMaterial(r, glm::value_ptr(ct));
+                    DrawMesh(r->_mesh);
+                }
             }
 
+            _previousMaterial = nullptr;
+            glBindTexture(GL_TEXTURE_2D, 0);
             glUseProgram(0);
         }
         SDL_GL_SwapWindow(_window);
@@ -150,11 +169,20 @@ namespace Harpia::Internal {
         auto platform = new RendererComponentGL();
         renderer->_platform = platform;
         platform->_renderer = renderer;
-        _renderersGL.push_back(dynamic_cast<RendererComponentGL *>(platform));
+        _renderersGL[-1].push_back(dynamic_cast<RendererComponentGL *>(platform));
     }
 
     MaterialAsset *RenderingSystemGL::CreateMaterial() {
         return new MaterialAssetGL(this);
+    }
+
+    void RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
+        auto glMesh = dynamic_cast<MeshAssetGL *>(mesh);
+        glMesh->points = vertex;
+        glMesh->normals = normal;
+        glMesh->uvs = uv;
+        glMesh->indexes = index;
+        glMesh->UpdateMesh();
     }
 
     MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
@@ -176,7 +204,6 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
                                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
-        DebugLog("Update Mesh");
         glBindVertexArray(vao);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Points]);
@@ -201,7 +228,7 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::ReleaseMesh(MeshAssetGL *mesh) {
         glDeleteBuffers(MeshBuffers::Count, mesh->vbo);
-        for (auto & i : mesh->vbo) {
+        for (auto &i: mesh->vbo) {
             i = 0;
         }
         glDeleteVertexArrays(1, &mesh->vao);
@@ -260,15 +287,10 @@ namespace Harpia::Internal {
             goto clean_link_program;
         }
 
-        pointsLocation = glGetAttribLocation(programId, "inPos");
-        uvsLocation = glGetAttribLocation(programId, "inUv");
-        normalsLocation = glGetAttribLocation(programId, "inNormal");
-
+        pointsLocation = glGetAttribLocation(programId, "in_position");
+        uvsLocation = glGetAttribLocation(programId, "in_uv");
+        normalsLocation = glGetAttribLocation(programId, "in_normal");
         colorLocation = glGetUniformLocation(programId, "u_color");
-        if (colorLocation == -1) {
-            DebugLogError("u_color is not a valid glsl program variable!");
-            goto clean_get_attrib;
-        }
 
         worldToObjectLoc = glGetUniformLocation(programId, "harpia_WorldToObject");
         if (worldToObjectLoc == -1) {
@@ -301,7 +323,9 @@ namespace Harpia::Internal {
     clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
-        return nullptr;
+        return LoadShader("#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
+                          "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
+                          "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
     }
 
     void RenderingSystemGL::ReleaseShader(ShaderAssetGL *shader) {
@@ -324,25 +348,26 @@ namespace Harpia::Internal {
         GLuint texture = 0;
 
         GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
-        if(surface->format->BytesPerPixel == 4) {
+        if (surface->format->BytesPerPixel == 4) {
             dataFormat = GL_RGBA;
-        }else{
+        } else {
             dataFormat = GL_RGB;
         }
         // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
         // testColor & 0xff == ALPHA ?
 
-        DebugLog("Texture size: (%d, %d)", surface->w, surface->h);
+        DebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
+
+        auto w = surface->w;
+        auto h = surface->h;
 
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
 
         SDL_FreeSurface(surface);
 
-        auto asset = new TextureAssetGL(this, texture);
+        auto asset = new TextureAssetGL(this, texture, w, h);
         return asset;
     }
 
@@ -350,25 +375,52 @@ namespace Harpia::Internal {
         glDeleteTextures(1, &texture->_texture);
     }
 
+    void RenderingSystemGL::SetRendererMaterialList(int oldIndex, int newIndex, RendererComponentGL *renderer) {
+        //_renderersGL[oldIndex].remove(renderer);
+        //_renderersGL[newIndex].push_back(renderer);
+    }
+
     void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
         auto material = renderer->_material;
-        auto shader = material->_shader;
-        auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
-        glUseProgram(shader->programId);
-        if (shader->colorLoc != -1) {
-            GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
-            glUniform4fv(shader->colorLoc, 1, c);
-        }
-        if (shader->worldToObjectLoc != -1) {
-            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
-        }
-        if (shader->objectToCameraLoc != -1) {
-            glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
+
+        if (material != _previousMaterial) {
+            _previousMaterial = material;
+            if (material != nullptr && material->_transparent) {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            } else {
+                glDisable(GL_BLEND);
+            }
+
+            auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
+            auto shader = material->_shader;
+            glUseProgram(shader->programId);
+            if (shader->colorLoc != -1) {
+                GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
+                glUniform4fv(shader->colorLoc, 1, c);
+            }
+            if (shader->worldToObjectLoc != -1) {
+                glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
+            }
+            if (shader->objectToCameraLoc != -1) {
+                glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
+            }
+
+            if (material->_texture != nullptr) {
+                auto tex = material->_texture;
+                glBindTexture(GL_TEXTURE_2D, tex->_texture);
+                auto wrapMode = textureWrapModeMap.at(tex->_wrapMode);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+                auto texFilter = textureFilterMap.at(tex->_filter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texFilter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter);
+            } else {
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
         }
 
         auto mesh = renderer->_mesh;
-
-        glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
         glBindVertexArray(mesh->vao);
     }
 }// namespace Harpia::Internal

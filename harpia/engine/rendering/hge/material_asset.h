@@ -13,6 +13,7 @@ namespace Harpia {
     class MaterialAsset : public Asset {
     public:
         Color _color;
+        bool _transparent;
 
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
@@ -24,6 +25,7 @@ namespace Harpia {
 
         virtual void SetShader(ShaderAsset *shader) = 0;
         virtual void SetTexture(TextureAsset *texture) = 0;
+        virtual const TextureAsset * GetTexture() const = 0;
         void SetColor(const Color &color);
     };
 }// namespace Harpia

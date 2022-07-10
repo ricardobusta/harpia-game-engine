@@ -10,8 +10,9 @@
 namespace Harpia::Internal {
     class MaterialAssetGL : public MaterialAsset {
     public:
-        ShaderAssetGL *_shader;
-        TextureAssetGL *_texture;
+        ShaderAssetGL *_shader = nullptr;
+        TextureAssetGL *_texture = nullptr;
+        int _sortingOrder = 1000;
 
     public:
         explicit MaterialAssetGL(RenderingSystem *renderingSystem);
@@ -19,6 +20,7 @@ namespace Harpia::Internal {
 
         void SetShader(ShaderAsset *shader) override;
         void SetTexture(TextureAsset *texture) override;
+        const TextureAsset *GetTexture() const override;
     };
 }// namespace Harpia::Internal
 

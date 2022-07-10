@@ -3,23 +3,26 @@
 //
 
 #include "main_scene.h"
-#include "hge/application.h"
-#include "hge/audio_component.h"
-#include "hge/camera_component.h"
-#include "hge/color.h"
-#include "hge/debug.h"
-#include "hge/material_asset.h"
-#include "hge/music_component.h"
-#include "hge/renderer_component.h"
+#include "keyboard_mover.h"
 #include "rotate_around.h"
 #include "test_audio.h"
+#include <hge/application.h>
+#include <hge/audio_component.h>
+#include <hge/camera_component.h>
+#include <hge/color.h>
+#include <hge/debug.h>
+#include <hge/material_asset.h>
+#include <hge/music_component.h>
+#include <hge/renderer_component.h>
+#include <hge/text_renderer_component.h>
+#include <hge/texture_asset.h>
 
 using namespace Harpia;
 
 namespace SampleGame {
 
     Harpia::Object *MainScene::CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Color &color,
-                                          ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
+                                                   ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
         auto cube = CreateObject();
         auto rotateScript = cube->AddComponent<RotateAround>();
         rotateScript->target = &cube->transform;
@@ -37,67 +40,111 @@ namespace SampleGame {
     void MainScene::Load(Harpia::Application *application) {
         DebugLog("Starting MainScene");
 
-        auto audioObject = CreateObject();
+        CreateAudioObjects();
+        CreateCameraObject(application);
 
-        auto audioComponent = audioObject->AddComponent<AudioComponent>();
-        audioComponent->SetAudio(LoadAudioAsset("assets/audio/jump.wav"));
-
-        auto music = audioObject->AddComponent<MusicComponent>();
-        music->SetMusic(LoadMusicAsset("assets/music/idle.ogg"));
-
-        audioObject->AddComponent<TestAudio>();
-
-        auto screenSize = application->screenSize;
-
-        auto cameraObject = CreateObject();
-        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 0, -10.0f}));
-
-        auto camera = cameraObject->AddComponent<CameraComponent>();
-        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 20.0f);
-        //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
-        camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
-        camera->SetClearColor(Color(0, 0, 0, 1));
-
-        auto shader = LoadShaderAsset("assets/shader/test.vert", "assets/shader/test.frag");
-        auto texture = LoadTextureAsset("assets/texture/busta.png");
+        auto defaultShader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
+        auto tileTexture = LoadTextureAsset("assets/textures/tile.png");
+        tileTexture->_filter = Harpia::Nearest;
+        auto bustaTexture = LoadTextureAsset("assets/textures/busta.png");
         std::map<std::string, MeshAsset *> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
-        auto sphereMesh = meshCollection["Cube"];
-        auto capsuleMesh = meshCollection["Cylinder"];
-        auto boxMesh = meshCollection["Sphere"];
-        auto cylinderMesh = meshCollection["Capsule"];
-        auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {2, 2, 2});
+        auto cubeMesh = meshCollection["Cube"];
+        auto cylinderMesh = meshCollection["Cylinder"];
+        auto sphereMesh = meshCollection["Sphere"];
+        auto capsuleMesh = meshCollection["Capsule"];
+        auto coneMesh = meshCollection["Cone"];
+        auto axesMesh = meshCollection["Axes"];
+        auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {1, 2, 3}, true);
 
         for (auto k: meshCollection) {
             DebugLog("Loaded mesh: %s", k.first.c_str());
         }
 
-        CreateRotatingShape(
-                Vector3(-4.0f, 0.0f, 0),
-                Vector3(1.0f, 5.0f, 0),
-                Color::orange,
-                shader, texture, sphereMesh);
+        auto floor = CreateObject();
+        auto floorRend = floor->AddComponent<RendererComponent>();
+        auto floorMat = LoadMaterialAsset(defaultShader);
+        floorMat->SetColor(Color(0.5, 0.9, 0.3));
+        floorMat->SetTexture(tileTexture);
+        floorRend->SetMaterial(floorMat);
+        auto floorMesh = LoadBoxMeshAsset({0, -2, -5}, {20, 1, 20}, true);
+        floorRend->SetMesh(floorMesh);
 
-        CreateRotatingShape(Vector3(4.0f, 0.0f, 0),
-                            Vector3(5.0f, 1.0f, 0),
+        CreateRotatingShape({-10, 0, -5},
+                            {1, 0, 0},
+                            Color::orange,
+                            defaultShader, tileTexture, oldBox);
+
+        CreateRotatingShape({-7.5, 0, -10},
+                            {1, 5, 0},
+                            Color::green,
+                            defaultShader, tileTexture, coneMesh);
+
+        CreateRotatingShape({-5, 0, -5},
+                            {3, 1, 0},
                             Color::azure,
-                            shader, texture, capsuleMesh);
+                            defaultShader, tileTexture, cylinderMesh);
 
-        CreateRotatingShape(Vector3(0.0f, -4.0f, 0),
-                            Vector3(2, 2, 2),
+        CreateRotatingShape({5, 0, -5},
+                            Vector3(2, 1, 2),
+                            Color::white,
+                            defaultShader, bustaTexture, axesMesh);
+
+        CreateRotatingShape({7.5, 0, -10},
+                            {1, 0, 5},
                             Color::rose,
-                            shader, texture, cylinderMesh);
+                            defaultShader, tileTexture, capsuleMesh);
 
-        CreateRotatingShape(Vector3(0.0f, 4.0f, 0),
-                            Vector3(0, 0, 5),
+        CreateRotatingShape({10, 0, -5},
+                            Vector3(0, 0, 3),
                             Color::purple,
-                            shader, texture, boxMesh);
+                            defaultShader, tileTexture, sphereMesh);
 
-        auto cube = CreateRotatingShape(Vector3(0.0f, 0.0f, 0),
-                                        Vector3(0.0f, 0.0f, 0),
-                                        Color::aqua,
-                                        shader, texture, oldBox);
+        auto movableObject = CreateObject();
+        movableObject->AddComponent<KeyboardMover>();
+        auto movableRend = movableObject->AddComponent<RendererComponent>();
+        auto movableMat = LoadMaterialAsset(defaultShader);
+        movableMat->SetTexture(bustaTexture);
+        movableRend->SetMesh(capsuleMesh);
+        movableRend->SetMaterial(movableMat);
 
-        cube->transform.SetTrMatrix(cube->transform.GetTrMatrix() * Matrix::Rotation(180 * Math::Deg2Rad, {0, 1, 0}));
+        auto textObject = CreateObject();
+        textObject->transform.SetTrMatrix(Matrix::Translation({-5,3,0}));
+        auto textRenderer = textObject->AddComponent<TextRendererComponent>();
+        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
+        fontAtlas->_filter = TextureFilter::Nearest;
+        auto fontShader = LoadShaderAsset("assets/shaders/text.vert", "assets/shaders/text.frag");
+        auto fontMaterial = LoadMaterialAsset(fontShader);
+        fontMaterial->SetTexture(fontAtlas);
+        fontMaterial->SetColor(Color::white);
+        fontMaterial->_transparent = true;
+        textRenderer->SetFontMaterial(fontMaterial, 7, 9, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+        textRenderer->SetText("Hello World!");
+    }
+
+    void MainScene::CreateCameraObject(const Application *application) {
+        auto screenSize = application->screenSize;
+
+        auto cameraObject = CreateObject();
+        cameraObject->AddComponent<KeyboardMover>();
+        cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 5, 15.0f}) * Matrix::Rotation(-15 * Math::Deg2Rad, {1, 0, 0}));
+
+        auto camera = cameraObject->AddComponent<CameraComponent>();
+        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 40.0f);
+        //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
+        camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
+        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
+    }
+
+    void MainScene::CreateAudioObjects() {
+        auto audioObject = CreateObject();
+
+        auto audioComponent = audioObject->AddComponent<AudioComponent>();
+        audioComponent->SetAudio(LoadAudioAsset("assets/audios/jump.wav"));
+
+        auto music = audioObject->AddComponent<MusicComponent>();
+        music->SetMusic(LoadMusicAsset("assets/musics/idle.ogg"));
+
+        audioObject->AddComponent<TestAudio>();
     }
 }// namespace SampleGame

@@ -31,6 +31,10 @@ namespace Harpia {
             return glm::rotate(glm::identity<Matrix4x4>(), angle, axis);
         }
 
+        static Matrix4x4 Identity(){
+            return glm::identity<Matrix4x4>();
+        }
+
         static Matrix4x4 Perspective(float fovy, float aspect, float near, float far) {
             return glm::perspective<float>(fovy, aspect, near, far);
         }

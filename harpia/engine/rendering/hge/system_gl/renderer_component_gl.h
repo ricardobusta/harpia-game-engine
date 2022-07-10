@@ -11,14 +11,16 @@
 namespace Harpia::Internal {
     class RendererComponentGL : public RendererComponentPlatform {
     public:
-        MeshAssetGL *_mesh;
-        MaterialAssetGL *_material;
+        MeshAssetGL *_mesh = nullptr;
+        MaterialAssetGL *_material = nullptr;
 
-        RendererComponent_Internal *_renderer;
+        RendererComponent_Internal *_renderer = nullptr;
+        RenderingSystemGL *_renderingSystem = nullptr;
 
     public:
         void SetMesh(MeshAsset *mesh) override;
         void SetMaterial(MaterialAsset *material) override;
+        const MaterialAsset *GetMaterial() override;
     };
 }// namespace Harpia::Internal
 

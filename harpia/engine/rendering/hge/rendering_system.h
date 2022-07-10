@@ -31,6 +31,7 @@ namespace Harpia::Internal {
 
         virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
 
+        virtual void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
         virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
 

@@ -17,6 +17,7 @@
 namespace Harpia {
     Object *Scene::CreateObject() {
         auto object = new Object(_applicationInternal);
+        object->transform.SetTrMatrix(Matrix::Identity());
         _objects.push_back(object);
         return object;
     }
@@ -70,13 +71,13 @@ namespace Harpia {
         return asset;
     }
 
-    MeshAsset *Scene::LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size) {
+    MeshAsset *Scene::LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size, bool tileUv) {
         std::vector<float> v;
         std::vector<float> n;
         std::vector<float> t;
         std::vector<unsigned int> i;
 
-        Internal::MeshGenerator::BoxMesh(v, n, t, i, pos, size);
+        Internal::MeshGenerator::BoxMesh(v, n, t, i, pos, size, tileUv);
 
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, n, t, i));
     }
