@@ -26,6 +26,8 @@ namespace Harpia::Internal {
         SDL_GLContext _context = nullptr;
         std::map<int, std::list<RendererComponentGL *>> _renderersGL;
 
+        MaterialAssetGL * _previousMaterial = nullptr;
+
     public:
         int GetWindowFlags() override;
         void RenderFrame() override;

@@ -95,9 +95,6 @@ namespace Harpia::Internal {
 
             glClear(camera->_clearMask);
 
-            //glDisable(GL_BLEND);
-            //glEnable(GL_BLEND);
-            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             for (auto kvp: _renderersGL) {
                 auto sortingOrder = kvp.first;
                 auto renderers = kvp.second;
@@ -113,6 +110,8 @@ namespace Harpia::Internal {
                 }
             }
 
+            _previousMaterial = nullptr;
+            glBindTexture(GL_TEXTURE_2D, 0);
             glUseProgram(0);
         }
         SDL_GL_SwapWindow(_window);
@@ -373,24 +372,38 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
         auto material = renderer->_material;
-        auto shader = material->_shader;
-        auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
 
-        glUseProgram(shader->programId);
-        if (shader->colorLoc != -1) {
-            GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
-            glUniform4fv(shader->colorLoc, 1, c);
-        }
-        if (shader->worldToObjectLoc != -1) {
-            glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
-        }
-        if (shader->objectToCameraLoc != -1) {
-            glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
+        if(material != _previousMaterial) {
+            _previousMaterial = material;
+            if (material != nullptr && material->_transparent) {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            } else {
+                glDisable(GL_BLEND);
+            }
+
+            auto transform = glm::value_ptr(renderer->_renderer->GetTransformInternal()->GetTrMatrix());
+            auto shader = material->_shader;
+            glUseProgram(shader->programId);
+            if (shader->colorLoc != -1) {
+                GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
+                glUniform4fv(shader->colorLoc, 1, c);
+            }
+            if (shader->worldToObjectLoc != -1) {
+                glUniformMatrix4fv(shader->worldToObjectLoc, 1, GL_FALSE, transform);
+            }
+            if (shader->objectToCameraLoc != -1) {
+                glUniformMatrix4fv(shader->objectToCameraLoc, 1, GL_FALSE, cameraTransform);
+            }
+
+            if (material->_texture != nullptr) {
+                glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
+            } else {
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
         }
 
         auto mesh = renderer->_mesh;
-
-        glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
         glBindVertexArray(mesh->vao);
     }
 }// namespace Harpia::Internal
