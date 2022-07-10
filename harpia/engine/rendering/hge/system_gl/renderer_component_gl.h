@@ -20,6 +20,7 @@ namespace Harpia::Internal {
     public:
         void SetMesh(MeshAsset *mesh) override;
         void SetMaterial(MaterialAsset *material) override;
+        const MaterialAsset *GetMaterial() override;
     };
 }// namespace Harpia::Internal
 

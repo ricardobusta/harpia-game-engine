@@ -117,7 +117,7 @@ namespace SampleGame {
         fontMaterial->SetTexture(fontAtlas);
         fontMaterial->SetColor(Color::white);
         fontMaterial->_transparent = true;
-        textRenderer->SetFontMaterial(fontMaterial, 7, 9);
+        textRenderer->SetFontMaterial(fontMaterial, 7, 9, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
         textRenderer->SetText("Hello World");
     }
 

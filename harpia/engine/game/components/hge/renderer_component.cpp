@@ -8,7 +8,7 @@
 
 namespace Harpia {
     void RendererComponent::SetMesh(MeshAsset *mesh) {
-        if(mesh== nullptr){
+        if (mesh == nullptr) {
             DebugLogError("Mesh was null");
             return;
         }
@@ -17,6 +17,10 @@ namespace Harpia {
 
     void RendererComponent::SetMaterial(MaterialAsset *material) {
         _platform->SetMaterial(material);
+    }
+
+    const MaterialAsset *RendererComponent::GetMaterial() const {
+        return _platform->GetMaterial();
     }
 
     Transform *RendererComponent::GetTransformInternal() {

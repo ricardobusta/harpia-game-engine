@@ -14,18 +14,19 @@ namespace Harpia {
         int _charWidth = -1;
         int _charHeight = -1;
         std::string _text = {};
+        std::string _table = {};
         MeshAsset *_textMesh = nullptr;
 
-        Internal::RenderingSystem *_renderingSystem;
+        Internal::RenderingSystem *_renderingSystem = nullptr;
 
     public:
         void SetText(const std::string &text);
-        void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight);
+        void SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string &table);
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
+
     private:
-        void CreateMesh();
         void UpdateMesh();
     };
 }// namespace Harpia

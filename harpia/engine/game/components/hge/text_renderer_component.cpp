@@ -4,20 +4,23 @@
 
 #include "text_renderer_component.h"
 #include "hge/in/application_internal.h"
+#include "hge/material_asset.h"
 #include "hge/rendering_system.h"
+#include "hge/texture_asset.h"
+#include <cmath>
 
 namespace Harpia {
     void TextRendererComponent::SetText(const std::string &text) {
         _text = text;
-
         UpdateMesh();
     }
 
-    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight) {
+    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string &table) {
         SetMaterial(material);
-        if (charWidth != _charWidth || charHeight != _charHeight) {
+        if (charWidth != _charWidth || charHeight != _charHeight || table != _table) {
             _charWidth = charWidth;
             _charHeight = charHeight;
+            _table = table;
             UpdateMesh();
         }
     }
@@ -26,16 +29,16 @@ namespace Harpia {
         _renderingSystem = applicationInternal->_renderSystem;
     }
 
-    void GenerateCharacterMesh(int index, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void GenerateCharacterMesh(const int index, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         unsigned int nextIndex = index * 4;
         DebugLog("Next index: %d", nextIndex);
-        auto pos = (float) index;
-        
+        float xOffset = (float) index;
+
         positions.insert(positions.end(), {
-                                                  pos + 0, 0, 0,//
-                                                  pos + 1, 0, 0,//
-                                                  pos + 1, 1, 0,//
-                                                  pos + 0, 1, 0 //
+                                                  xOffset + 0, 0, 0,//
+                                                  xOffset + 1, 0, 0,//
+                                                  xOffset + 1, 1, 0,//
+                                                  xOffset + 0, 1, 0 //
                                           });
 
         normals.insert(normals.end(), {
@@ -47,17 +50,17 @@ namespace Harpia {
 
         uvs.insert(uvs.end(),
                    {
-                           0, 0,//
-                           1, 0,//
-                           1, 1,//
-                           0, 1 //
+                           uv[0], uv[2],//
+                           uv[1], uv[2],//
+                           uv[1], uv[3],//
+                           uv[0], uv[3] //
                    });
 
         indexes.insert(indexes.end(), {nextIndex + 0, nextIndex + 1, nextIndex + 2,//
                                        nextIndex + 0, nextIndex + 2, nextIndex + 3});
     }
 
-    void GenerateTextMesh(const std::string &text, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void GenerateTextMesh(const std::string &text, const std::string &table, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         auto vertexCount = 3 * 2 * text.length();
         positions.clear();
         positions.reserve(3 * vertexCount);
@@ -69,7 +72,14 @@ namespace Harpia {
         indexes.reserve(vertexCount);
 
         for (auto i = 0; i < text.length(); i++) {
-            GenerateCharacterMesh(i, positions, normals, uvs, indexes);
+            auto charIdx = table.find_first_of(text[i]);
+            if (charIdx == std::string::npos) {
+                continue;
+            }
+            auto x = charIdx % rowSize;
+            auto y = charIdx / rowSize;
+
+            GenerateCharacterMesh(i, {x * uvX, (x + 1.0f) * uvX, y * uvY, (y + 1.0f) * uvY}, positions, normals, uvs, indexes);
             DebugLog("Generating mesh for character %c", text[i]);
         }
     }
@@ -79,11 +89,23 @@ namespace Harpia {
         if (_charWidth < 0 || _charHeight < 0) {
             return;
         }
+        auto mat = GetMaterial();
+        if (mat == nullptr) {
+            return;
+        }
+        auto tex = mat->GetTexture();
+        if (tex == nullptr) {
+            return;
+        }
 
         std::vector<float> positions, normals, uvs;
         std::vector<unsigned int> indexes;
 
-        GenerateTextMesh(_text, positions, normals, uvs, indexes);
+        auto uvOffsetX = (float) _charWidth / (float) tex->_width;
+        auto uvOffsetY = (float) _charWidth / (float) tex->_height;
+        auto rowCount = (int) std::floor((float) tex->_width / (float) _charWidth);
+
+        GenerateTextMesh(_text, _table, uvOffsetX, uvOffsetY, rowCount, positions, normals, uvs, indexes);
 
         if (_textMesh == nullptr) {
             _textMesh = _renderingSystem->LoadMesh(positions, normals, uvs, indexes);

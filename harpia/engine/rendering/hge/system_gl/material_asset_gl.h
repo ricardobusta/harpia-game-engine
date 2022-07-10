@@ -20,6 +20,7 @@ namespace Harpia::Internal {
 
         void SetShader(ShaderAsset *shader) override;
         void SetTexture(TextureAsset *texture) override;
+        const TextureAsset *GetTexture() const override;
     };
 }// namespace Harpia::Internal
 

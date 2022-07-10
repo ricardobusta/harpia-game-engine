@@ -13,6 +13,8 @@ namespace Harpia {
     public:
         virtual void SetMesh(MeshAsset *mesh);
         virtual void SetMaterial(MaterialAsset *material);
+        virtual const MaterialAsset *GetMaterial() const;
+
     private:
         Transform *GetTransformInternal() override;
     };
