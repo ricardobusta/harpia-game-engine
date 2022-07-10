@@ -12,6 +12,7 @@
 #include "hge/music_component.h"
 #include "hge/renderer_component.h"
 #include "hge/text_renderer_component.h"
+#include "hge/texture_asset.h"
 #include "rotate_around.h"
 #include "test_audio.h"
 
@@ -60,13 +61,17 @@ namespace SampleGame {
         camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
 
         auto shader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
-        auto texture = LoadTextureAsset("assets/textures/tile.png");
+        auto tileTexture = LoadTextureAsset("assets/textures/tile.png");
+        tileTexture->_filter = Harpia::Nearest;
+        auto bustaTexture = LoadTextureAsset("assets/textures/busta.png");
         std::map<std::string, MeshAsset *> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
         auto cubeMesh = meshCollection["Cube"];
         auto cylinderMesh = meshCollection["Cylinder"];
         auto sphereMesh = meshCollection["Sphere"];
         auto capsuleMesh = meshCollection["Capsule"];
+        auto coneMesh = meshCollection["Cone"];
+        auto axesMesh = meshCollection["Axes"];
         auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {2, 2, 2});
 
         for (auto k: meshCollection) {
@@ -77,30 +82,31 @@ namespace SampleGame {
                 Vector3(-4.0f, 0.0f, 0),
                 Vector3(1.0f, 3.0f, 0),
                 Color::orange,
-                shader, texture, cubeMesh);
+                shader, tileTexture, cubeMesh);
 
         CreateRotatingShape(Vector3(4.0f, 0.0f, 0),
                             Vector3(3.0f, 1.0f, 0),
                             Color::azure,
-                            shader, texture, cylinderMesh);
+                            shader, tileTexture, cylinderMesh);
 
         CreateRotatingShape(Vector3(0.0f, -4.0f, 0),
                             Vector3(2, 1, 2),
-                            Color::rose,
-                            shader, texture, capsuleMesh);
+                            Color::white,
+                            shader, bustaTexture, axesMesh);
 
         CreateRotatingShape(Vector3(0.0f, 4.0f, 0),
                             Vector3(0, 0, 3),
                             Color::purple,
-                            shader, texture, sphereMesh);
+                            shader, tileTexture, sphereMesh);
 
         auto textObject = CreateObject();
+        //textObject->transform.SetTrMatrix(Matrix::Translation({0,1,0}));
         auto rotateScript = textObject->AddComponent<RotateAround>();
         rotateScript->target = &textObject->transform;
-        rotateScript->speed = {0,1,0};
+        rotateScript->speed = {0, 1, 0};
         //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
-        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
-        auto fontShader = LoadShaderAsset("assets/shaders/text.vert","assets/shaders/text.frag");
+        auto fontAtlas = LoadTextureAsset("assets/textures/busta.png");
+        auto fontShader = LoadShaderAsset("assets/shaders/text.vert", "assets/shaders/text.frag");
         auto fontMaterial = LoadMaterialAsset(fontShader);
         fontMaterial->SetTexture(fontAtlas);
         fontMaterial->SetColor(Color::white);
@@ -109,7 +115,7 @@ namespace SampleGame {
         //textRenderer->SetText("Hello World");
         auto rend = textObject->AddComponent<RendererComponent>();
         rend->SetMaterial(fontMaterial);
-        auto mesh = LoadBoxMeshAsset(Vector<3>::zero, {5,5,5});
-        rend->SetMesh(mesh);
+        //auto mesh = LoadBoxMeshAsset(Vector<3>::zero, {5,5,5});
+        rend->SetMesh(coneMesh);
     }
 }// namespace SampleGame

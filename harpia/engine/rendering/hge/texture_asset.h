@@ -8,7 +8,19 @@
 #include "hge/asset.h"
 
 namespace Harpia {
+    enum TextureFilter{
+        Nearest,
+        Linear
+    };
+    enum TextureWrapMode{
+        Repeat,
+        Clamp,
+        Mirror
+    };
     class TextureAsset : public Asset {
+    public:
+        TextureFilter _filter = Linear;
+        TextureWrapMode _wrapMode = Repeat;
     };
 }// namespace Harpia
 

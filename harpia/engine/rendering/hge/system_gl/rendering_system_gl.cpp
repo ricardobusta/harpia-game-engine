@@ -19,8 +19,18 @@
 #include <GL/gl3w.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <map>
 
 namespace Harpia::Internal {
+    const static std::map<TextureWrapMode, GLint> textureWrapModeMap = {
+            {TextureWrapMode::Clamp, GL_CLAMP_TO_EDGE},
+            {TextureWrapMode::Mirror, GL_MIRRORED_REPEAT},
+            {TextureWrapMode::Repeat, GL_REPEAT}};
+
+    const static std::map<TextureFilter, GLint> textureFilterMap = {
+            {TextureFilter::Nearest, GL_NEAREST},
+            {TextureFilter::Linear, GL_LINEAR}};
+
     void RenderingSystemGL::PrintProgramLog(GLuint program) {
         if (glIsProgram(program)) {
             int infoLogLength = 0;
@@ -352,8 +362,6 @@ namespace Harpia::Internal {
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         SDL_FreeSurface(surface);
 
@@ -373,7 +381,7 @@ namespace Harpia::Internal {
     void RenderingSystemGL::RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform) {
         auto material = renderer->_material;
 
-        if(material != _previousMaterial) {
+        if (material != _previousMaterial) {
             _previousMaterial = material;
             if (material != nullptr && material->_transparent) {
                 glEnable(GL_BLEND);
@@ -397,7 +405,14 @@ namespace Harpia::Internal {
             }
 
             if (material->_texture != nullptr) {
-                glBindTexture(GL_TEXTURE_2D, material->_texture->_texture);
+                auto tex = material->_texture;
+                glBindTexture(GL_TEXTURE_2D, tex->_texture);
+                auto wrapMode = textureWrapModeMap.at(tex->_wrapMode);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+                auto texFilter = textureFilterMap.at(tex->_filter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texFilter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter);
             } else {
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
