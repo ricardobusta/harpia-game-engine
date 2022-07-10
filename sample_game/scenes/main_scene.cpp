@@ -67,7 +67,7 @@ namespace SampleGame {
         floorMat->SetColor(Color(0.5, 0.9, 0.3));
         floorMat->SetTexture(tileTexture);
         floorRend->SetMaterial(floorMat);
-        auto floorMesh = LoadBoxMeshAsset({0, -0.5, 0}, {10, 1, 10}, true);
+        auto floorMesh = LoadBoxMeshAsset({0, -2, -5}, {20, 1, 20}, true);
         floorRend->SetMesh(floorMesh);
 
         CreateRotatingShape({-10, 0, -5},
