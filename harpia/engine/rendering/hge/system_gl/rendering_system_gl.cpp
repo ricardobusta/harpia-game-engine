@@ -95,6 +95,10 @@ namespace Harpia::Internal {
             glClear(camera->_clearMask);
 
             for (auto r: _renderersGL) {
+                if(r->_mesh == nullptr || r->_material==nullptr){
+                    continue;
+                }
+
                 auto glShader = r->_material->_shader;
                 glUseProgram(glShader->programId);
                 auto projMat = camera->_projection;// TODO move to camera and cache
@@ -155,6 +159,15 @@ namespace Harpia::Internal {
 
     MaterialAsset *RenderingSystemGL::CreateMaterial() {
         return new MaterialAssetGL(this);
+    }
+
+    void RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index){
+        auto glMesh = dynamic_cast<MeshAssetGL*>(mesh);
+        glMesh->points = vertex;
+        glMesh->normals = normal;
+        glMesh->uvs = uv;
+        glMesh->indexes = index;
+        glMesh->UpdateMesh();
     }
 
     MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {

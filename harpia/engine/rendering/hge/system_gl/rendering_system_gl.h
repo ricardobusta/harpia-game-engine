@@ -48,6 +48,7 @@ namespace Harpia::Internal {
         static void PrintShaderLog(GLuint shader);
         ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) override;
 
+        void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
         MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);
 
