@@ -104,18 +104,19 @@ namespace SampleGame {
         auto rotateScript = textObject->AddComponent<RotateAround>();
         rotateScript->target = &textObject->transform;
         rotateScript->speed = {0, 1, 0};
-        //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
-        auto fontAtlas = LoadTextureAsset("assets/textures/busta.png");
+        auto textRenderer = textObject->AddComponent<TextRendererComponent>();
+        auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
+        fontAtlas->_filter = TextureFilter::Nearest;
         auto fontShader = LoadShaderAsset("assets/shaders/text.vert", "assets/shaders/text.frag");
         auto fontMaterial = LoadMaterialAsset(fontShader);
         fontMaterial->SetTexture(fontAtlas);
         fontMaterial->SetColor(Color::white);
         fontMaterial->_transparent = true;
-        //textRenderer->SetFontMaterial(fontMaterial,7,9);
-        //textRenderer->SetText("Hello World");
-        auto rend = textObject->AddComponent<RendererComponent>();
-        rend->SetMaterial(fontMaterial);
+        textRenderer->SetFontMaterial(fontMaterial,7,9);
+        textRenderer->SetText("Hello World");
+        //auto rend = textObject->AddComponent<RendererComponent>();
+        //rend->SetMaterial(fontMaterial);
         //auto mesh = LoadBoxMeshAsset(Vector<3>::zero, {5,5,5});
-        rend->SetMesh(coneMesh);
+        //rend->SetMesh(mesh);
     }
 }// namespace SampleGame

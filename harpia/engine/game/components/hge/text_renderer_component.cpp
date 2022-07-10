@@ -5,6 +5,7 @@
 #include "text_renderer_component.h"
 #include "hge/in/application_internal.h"
 #include "hge/rendering_system.h"
+#include "hge/mesh_generator.h"
 
 namespace Harpia {
     void TextRendererComponent::SetText(const std::string &text) {
@@ -27,7 +28,7 @@ namespace Harpia {
     }
 
     void GenerateMesh(std::vector<float>&positions, std::vector<float>&normals, std::vector<float>&uvs, std::vector<unsigned int>&indexes){
-
+        Internal::MeshGenerator::BoxMesh(positions, normals, uvs, indexes, {0,0,0}, {5,5,5});
     }
 
     void TextRendererComponent::UpdateMesh() {
@@ -42,6 +43,7 @@ namespace Harpia {
 
         if (_textMesh == nullptr) {
             _textMesh = _renderingSystem->LoadMesh(positions, normals, uvs, indexes);
+            SetMesh(_textMesh);
         } else {
             _renderingSystem->UpdateMesh(_textMesh, positions, normals, uvs, indexes);
         }
