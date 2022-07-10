@@ -8,8 +8,8 @@
 #include "hge/harpia_math.h"
 #include "hge/in/scene_internal.h"
 #include "hge/internal_defines.h"
-#include <string>
 #include <map>
+#include <string>
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
@@ -20,8 +20,8 @@ namespace Harpia {
         MusicAsset *LoadMusicAsset(const std::string &path);
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
         ShaderAsset *LoadShaderAsset(const std::string &vert, const std::string &frag);
-        MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size);
-        bool LoadFbxMeshAssets(const std::string& path, std::map<std::string, MeshAsset*>& meshes);
+        MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size, bool tileUv);
+        bool LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
         TextureAsset *LoadTextureAsset(const std::string &path);
 
     protected:
