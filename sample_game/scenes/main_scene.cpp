@@ -110,9 +110,9 @@ namespace SampleGame {
 
         auto textObject = CreateObject();
         //textObject->transform.SetTrMatrix(Matrix::Translation({0,1,0}));
-        auto rotateScript = textObject->AddComponent<RotateAround>();
-        rotateScript->target = &textObject->transform;
-        rotateScript->speed = {0, 1, 0};
+//        auto rotateScript = textObject->AddComponent<RotateAround>();
+//        rotateScript->target = &textObject->transform;
+//        rotateScript->speed = {0, 1, 0};
         auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
         fontAtlas->_filter = TextureFilter::Nearest;
