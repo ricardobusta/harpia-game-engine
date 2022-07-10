@@ -75,6 +75,11 @@ namespace SampleGame {
                             Color::orange,
                             defaultShader, tileTexture, oldBox);
 
+        CreateRotatingShape({-7.5, 0, -10},
+                            {1, 5, 0},
+                            Color::green,
+                            defaultShader, tileTexture, coneMesh);
+
         CreateRotatingShape({-5, 0, -5},
                             {3, 1, 0},
                             Color::azure,
@@ -84,6 +89,11 @@ namespace SampleGame {
                             Vector3(2, 1, 2),
                             Color::white,
                             defaultShader, bustaTexture, axesMesh);
+
+        CreateRotatingShape({7.5, 0, -10},
+                            {1, 0, 5},
+                            Color::rose,
+                            defaultShader, tileTexture, capsuleMesh);
 
         CreateRotatingShape({10, 0, -5},
                             Vector3(0, 0, 3),
@@ -124,7 +134,7 @@ namespace SampleGame {
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
     }
-    
+
     void MainScene::CreateAudioObjects() {
         auto audioObject = CreateObject();
 

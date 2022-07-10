@@ -10,9 +10,11 @@ using namespace Harpia;
 namespace SampleGame {
     void KeyboardMover::Update() {
         auto dt = 0.2f;
-        auto x = Input()->GetKeyIsDown(SDLK_d) - Input()->GetKeyIsDown(SDLK_a);
+        auto x = Input()->GetKeyIsDown(SDLK_d) - Input()->GetKeyIsDown(SDLK_a) +
+                 Input()->GetKeyIsDown(SDLK_RIGHT) - Input()->GetKeyIsDown(SDLK_LEFT);
         auto y = Input()->GetKeyIsDown(SDLK_q) - Input()->GetKeyIsDown(SDLK_e);
-        auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w);
-        GetObject()->transform.SetTrMatrix( Matrix::Translation({x*dt, y*dt, z*dt}) * GetObject()->transform.GetTrMatrix());
+        auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w) +
+                 Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
+        GetObject()->transform.SetTrMatrix(Matrix::Translation({x * dt, y * dt, z * dt}) * GetObject()->transform.GetTrMatrix());
     }
 }// namespace SampleGame
