@@ -59,14 +59,14 @@ namespace SampleGame {
         camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
         camera->SetClearColor(Color(0, 0, 0, 1));
 
-        auto shader = LoadShaderAsset("assets/shaders/test.vert", "assets/shaders/test.frag");
+        auto shader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
         auto texture = LoadTextureAsset("assets/textures/busta.png");
         std::map<std::string, MeshAsset *> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
-        auto sphereMesh = meshCollection["Cube"];
-        auto capsuleMesh = meshCollection["Cylinder"];
-        auto boxMesh = meshCollection["Sphere"];
-        auto cylinderMesh = meshCollection["Capsule"];
+        auto cubeMesh = meshCollection["Cube"];
+        auto cylinderMesh = meshCollection["Cylinder"];
+        auto sphereMesh = meshCollection["Sphere"];
+        auto capsuleMesh = meshCollection["Capsule"];
         auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {2, 2, 2});
 
         for (auto k: meshCollection) {
@@ -74,33 +74,42 @@ namespace SampleGame {
         }
 
         auto textObject = CreateObject();
-        auto textRenderer = textObject->AddComponent<TextRendererComponent>();
+        auto rotateScript = textObject->AddComponent<RotateAround>();
+        rotateScript->target = &textObject->transform;
+        rotateScript->speed = {0,2,0};
+        //auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
-        auto fontShader = LoadShaderAsset("assets/shaders/font.vert","assets/shaders/font.frag");
-        auto fontMaterial = LoadMaterialAsset(fontShader);
+        //auto fontShader = LoadShaderAsset("assets/shaders/font.vert","assets/shaders/font.frag");
+        auto fontMaterial = LoadMaterialAsset(shader);
         fontMaterial->SetTexture(fontAtlas);
-        textRenderer->SetFontMaterial(fontMaterial,7,9);
-        textRenderer->SetText("Hello World");
+        //textRenderer->SetFontMaterial(fontMaterial,7,9);
+        //textRenderer->SetText("Hello World");
+        auto rend = textObject->AddComponent<RendererComponent>();
+        auto mat = LoadMaterialAsset(shader);
+        mat->SetTexture(texture);
+        mat->SetColor(Color::white);
+        rend->SetMaterial(mat);
+        rend->SetMesh(cubeMesh);
 
         CreateRotatingShape(
                 Vector3(-4.0f, 0.0f, 0),
-                Vector3(1.0f, 5.0f, 0),
+                Vector3(1.0f, 3.0f, 0),
                 Color::orange,
-                shader, texture, sphereMesh);
+                shader, texture, cubeMesh);
 
         CreateRotatingShape(Vector3(4.0f, 0.0f, 0),
-                            Vector3(5.0f, 1.0f, 0),
+                            Vector3(3.0f, 1.0f, 0),
                             Color::azure,
-                            shader, texture, capsuleMesh);
-
-        CreateRotatingShape(Vector3(0.0f, -4.0f, 0),
-                            Vector3(2, 2, 2),
-                            Color::rose,
                             shader, texture, cylinderMesh);
 
+        CreateRotatingShape(Vector3(0.0f, -4.0f, 0),
+                            Vector3(2, 1, 2),
+                            Color::rose,
+                            shader, texture, capsuleMesh);
+
         CreateRotatingShape(Vector3(0.0f, 4.0f, 0),
-                            Vector3(0, 0, 5),
+                            Vector3(0, 0, 3),
                             Color::purple,
-                            shader, texture, boxMesh);
+                            shader, texture, sphereMesh);
     }
 }// namespace SampleGame
