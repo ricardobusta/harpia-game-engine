@@ -3,17 +3,22 @@
 //
 
 #include "hge/component.h"
+#include "hge/core_system.h"
 #include "hge/in/application_internal.h"
 #include "hge/input_system.h"
 
 namespace Harpia {
-    Object *Component::GetObject() {
+    Object *Component::GetObject() const {
         return _object;
     }
 
     void Component::Initialize_Internal(Internal::Application_Internal *applicationInternal) {}
 
-    InputReader *Component::Input() {
+    const InputReader *Component::Input() const {
         return _application->_inputSystem->GetInputReader();
+    }
+
+    const Time *Component::Time() const {
+        return _application->_coreSystem->GetTime();
     }
 }// namespace Harpia

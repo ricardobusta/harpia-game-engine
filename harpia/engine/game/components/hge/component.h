@@ -8,15 +8,16 @@
 #include "hge/in/component_internal.h"
 #include "hge/input_reader.h"
 #include "hge/object.h"
+#include "hge/time.h"
 
 namespace Harpia {
     class Component : private Internal::Component_Internal {
     private:
     public:
-        Object *GetObject();
+        [[nodiscard]] Object *GetObject() const;
 
         template<class T>
-        T *GetComponent() {
+        T *GetComponent() const {
             return _object->GetComponent<T>();
         }
 
@@ -24,7 +25,8 @@ namespace Harpia {
 
         virtual void Update(){};
 
-        InputReader *Input();
+        [[nodiscard]] const InputReader *Input() const;
+        [[nodiscard]] const Time *Time() const;
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;

@@ -7,6 +7,7 @@
 
 #include "event.h"
 #include "global_defines.h"
+#include "hge/time.h"
 #include "i_application_system.h"
 #include <list>
 
@@ -24,7 +25,7 @@ namespace Harpia::Internal {
 
     private:
         SDL_Window *_window = nullptr;
-        Configuration *_configuration;
+        Time _time;
 
     public:
         int Initialize(Configuration &config, int InitFlags, int WindowFlags);
@@ -36,6 +37,8 @@ namespace Harpia::Internal {
         int GetWindowFlags() override;
 
         void Quit() override;
+
+        [[nodiscard]] const Time * GetTime() const;
 
         SDL_Window *GetWindow();
     };
