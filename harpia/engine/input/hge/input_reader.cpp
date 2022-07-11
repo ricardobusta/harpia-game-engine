@@ -4,13 +4,15 @@
 
 #include "input_reader.h"
 
+#include <utility>
+
 namespace Harpia {
     InputReader::InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey) {
         _keyState = keyState;
-        _onNewKey = onNewKey;
+        _onNewKey = std::move(onNewKey);
     }
 
-    bool InputReader::GetKeyDown(SDL_Keycode key) {
+    bool InputReader::GetKeyDown(SDL_Keycode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.down;
         }
@@ -18,7 +20,7 @@ namespace Harpia {
         return false;
     }
 
-    bool InputReader::GetKeyUp(SDL_Keycode key) {
+    bool InputReader::GetKeyUp(SDL_Keycode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.up;
         }
@@ -26,7 +28,7 @@ namespace Harpia {
         return false;
     }
 
-    bool InputReader::GetKeyIsDown(SDL_Keycode key) {
+    bool InputReader::GetKeyIsDown(SDL_Keycode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.isDown;
         }

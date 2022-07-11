@@ -5,12 +5,15 @@
 #ifndef HARPIAGAMEENGINE_GLOBALDEFINES_H
 #define HARPIAGAMEENGINE_GLOBALDEFINES_H
 
+#include <cstdint>
+
 union SDL_Event;
 struct SDL_Surface;
 struct SDL_KeyboardEvent;
 class SDL_Window;
-class SDL_Renderer;
-class SDL_Texture;
+
+typedef uint32_t Uint32;
+typedef uint64_t Uint64;
 
 namespace Harpia {// Game/Application
     class Application;
@@ -31,6 +34,7 @@ namespace Harpia {// Game/Application
     class Asset;
     class Transform;
     struct Color;
+    class Time;
 }// namespace Harpia
 
 namespace Harpia {// Components
