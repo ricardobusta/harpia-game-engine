@@ -90,13 +90,16 @@ namespace Harpia::Internal {
                         DebugLog("Input or keyboard layout changed.");
                         break;
                     case SDL_MOUSEMOTION:
+                        onMouseMove.Invoke(e.motion);
                         break;
                     case SDL_MOUSEBUTTONDOWN:
+                        onMouseButtonDown.Invoke(e.button);
                         break;
                     case SDL_MOUSEBUTTONUP:
+                        onMouseButtonUp.Invoke(e.button);
                         break;
                     case SDL_MOUSEWHEEL:
-                        //onMouseWheel.Invoke();
+                        onMouseWheel.Invoke(e.wheel);
                         break;
                     case SDL_JOYAXISMOTION:
                         DebugLog("Joy Axis Motion");

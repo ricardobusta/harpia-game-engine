@@ -7,6 +7,14 @@
 
 #include "global_defines.h"
 
+union SDL_Event;
+struct SDL_Surface;
+struct SDL_KeyboardEvent;
+struct SDL_MouseButtonEvent;
+struct SDL_MouseMotionEvent;
+struct SDL_MouseWheelEvent;
+class SDL_Window;
+
 namespace Harpia::Internal {
     class IApplicationSystem;
     class Application_Internal;

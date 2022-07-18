@@ -7,11 +7,6 @@
 
 #include <cstdint>
 
-union SDL_Event;
-struct SDL_Surface;
-struct SDL_KeyboardEvent;
-class SDL_Window;
-
 typedef uint32_t Uint32;
 typedef uint64_t Uint64;
 

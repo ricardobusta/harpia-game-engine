@@ -3,7 +3,7 @@
 //
 
 #include "main_scene.h"
-#include "keyboard_mover.h"
+#include "character_controller.h"
 #include "rotate_around.h"
 #include "test_audio.h"
 #include <hge/application.h>
@@ -101,7 +101,7 @@ namespace SampleGame {
                             defaultShader, tileTexture, sphereMesh);
 
         auto movableObject = CreateObject();
-        movableObject->AddComponent<KeyboardMover>();
+        movableObject->AddComponent<CharacterController>();
         auto movableRend = movableObject->AddComponent<RendererComponent>();
         auto movableMat = LoadMaterialAsset(defaultShader);
         movableMat->SetTexture(bustaTexture);
@@ -126,7 +126,7 @@ namespace SampleGame {
         auto screenSize = application->screenSize;
 
         auto cameraObject = CreateObject();
-        cameraObject->AddComponent<KeyboardMover>();
+        cameraObject->AddComponent<CharacterController>();
         cameraObject->transform.SetTrMatrix(Matrix::Translation(Vector3{0, 5, 15.0f}) * Matrix::Rotation(-15 * Math::Deg2Rad, {1, 0, 0}));
 
         auto camera = cameraObject->AddComponent<CameraComponent>();

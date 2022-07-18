@@ -6,7 +6,9 @@
 #define HARPIAGAMEENGINE_INPUT_READER_H
 
 #include "SDL_keycode.h"
+#include "hge/harpia_math.h"
 #include "key_state.h"
+#include "mouse_state.h"
 #include <functional>
 #include <map>
 
@@ -14,14 +16,21 @@ namespace Harpia {
     class InputReader {
     private:
         std::map<SDL_Keycode, KeyState> *_keyState;
+        MouseState *_mouseState;
         std::function<void(SDL_Keycode)> _onNewKey;
 
     public:
         InputReader() = delete;
-        explicit InputReader(std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
+        explicit InputReader(MouseState *mouseState, std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
         [[nodiscard]] bool GetKeyDown(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyUp(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyIsDown(SDL_Keycode key) const;
+        [[nodiscard]] bool GetMouseButtonDown(int index) const;
+        [[nodiscard]] bool GetMouseButtonUp(int index) const;
+        [[nodiscard]] bool GetMouseButtonIsDown(int index) const;
+        [[nodiscard]] Vector2 GetMousePos() const;
+        [[nodiscard]] Vector2 GetMousePosDelta() const;
+        [[nodiscard]] Vector2 GetMouseWheelDelta() const;
     };
 }// namespace Harpia
 

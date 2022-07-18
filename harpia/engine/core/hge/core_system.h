@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_CORESYSTEM_H
 
 #include "event.h"
-#include "global_defines.h"
+#include "internal_defines.h"
 #include "hge/time.h"
 #include "i_application_system.h"
 #include <list>
@@ -20,8 +20,12 @@ namespace Harpia::Internal {
         Event<> onLateUpdate;
         Event<> onQuit;
         Event<> onPreEvents;
-        Event<SDL_KeyboardEvent &> onKeyDown;
-        Event<SDL_KeyboardEvent &> onKeyUp;
+        Event<const SDL_KeyboardEvent &> onKeyDown;
+        Event<const SDL_KeyboardEvent &> onKeyUp;
+        Event<const SDL_MouseMotionEvent &> onMouseMove;
+        Event<const SDL_MouseButtonEvent &> onMouseButtonDown;
+        Event<const SDL_MouseButtonEvent &> onMouseButtonUp;
+        Event<const SDL_MouseWheelEvent &> onMouseWheel;
 
     private:
         SDL_Window *_window = nullptr;
@@ -38,7 +42,7 @@ namespace Harpia::Internal {
 
         void Quit() override;
 
-        [[nodiscard]] const Time * GetTime() const;
+        [[nodiscard]] const Time *GetTime() const;
 
         SDL_Window *GetWindow();
     };
