@@ -28,9 +28,8 @@ namespace Harpia {
         [[nodiscard]] bool GetMouseButtonDown(int index) const;
         [[nodiscard]] bool GetMouseButtonUp(int index) const;
         [[nodiscard]] bool GetMouseButtonIsDown(int index) const;
-        [[nodiscard]] Vector2 GetMousePos() const;
-        [[nodiscard]] Vector2 GetMousePosDelta() const;
-        [[nodiscard]] Vector2 GetMouseWheelDelta() const;
+        [[nodiscard]] const Vector2Int &GetMousePos() const;
+        [[nodiscard]] const Vector2Int &GetMouseWheelDelta() const;
     };
 }// namespace Harpia
 
