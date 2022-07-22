@@ -8,7 +8,7 @@
 #include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/harpia_assert.h"
-#include <SDL.h>
+#include <SDL_events.h>
 
 namespace Harpia::Internal {
     //region public
@@ -23,14 +23,20 @@ namespace Harpia::Internal {
             _keyMap[key] = KeyState();
         }
 
-        _inputReader = new InputReader(&_keyMap, [this](auto key) {
+        _inputReader = new InputReader(&_mouseState, &_keyMap, [this](auto key) {
             DebugLogWarning("Key %d not mapped, consider adding it in the game configs", key);
             _keyMap[key] = KeyState();
         });
 
         coreSystem->onPreEvents += [this]() { CleanKeyState(); };
+
         coreSystem->onKeyUp += [this](auto key) { OnKeyUp(key); };
         coreSystem->onKeyDown += [this](auto key) { OnKeyDown(key); };
+
+        coreSystem->onMouseWheel += [this](auto e) { OnMouseWheel(e); };
+        coreSystem->onMouseButtonUp += [this](auto e) { OnMouseUp(e); };
+        coreSystem->onMouseButtonDown += [this](auto e) { OnMouseDown(e); };
+        coreSystem->onMouseMove += [this](auto e) { OnMouseMove(e); };
 
         return 0;
     }
@@ -48,18 +54,25 @@ namespace Harpia::Internal {
     int InputSystem::GetWindowFlags() {
         return 0;
     }
+
+    InputReader *InputSystem::GetInputReader() {
+        return _inputReader;
+    }
     //endregion public
 
     //region private
     void InputSystem::CleanKeyState() {
         for (int key: _dirtyKeys) {
-            _keyMap[key].down = false;
-            _keyMap[key].up = false;
+            CleanKeyState(_keyMap[key]);
         }
         _dirtyKeys.clear();
+
+        for (auto i = 0; i < MouseState::MOUSE_BUTTON_COUNT; i++) {
+            CleanKeyState(_mouseState.mouseButton[i]);
+        }
     }
 
-    void InputSystem::OnKeyUp(SDL_KeyboardEvent &key) {
+    void InputSystem::OnKeyUp(const SDL_KeyboardEvent &key) {
         auto it = _keyMap.find(key.keysym.sym);
         if (it == _keyMap.end()) {
             return;// key not mapped
@@ -70,7 +83,7 @@ namespace Harpia::Internal {
         _dirtyKeys.push_back(key.keysym.sym);
     }
 
-    void InputSystem::OnKeyDown(SDL_KeyboardEvent &key) {
+    void InputSystem::OnKeyDown(const SDL_KeyboardEvent &key) {
         auto it = _keyMap.find(key.keysym.sym);
         if (it == _keyMap.end()) {
             return;// key not mapped
@@ -83,8 +96,30 @@ namespace Harpia::Internal {
         _dirtyKeys.push_back(key.keysym.sym);
     }
 
-    InputReader *InputSystem::GetInputReader() {
-        return _inputReader;
+    void InputSystem::OnMouseWheel(SDL_MouseWheelEvent &wheel) {
+        _mouseState.wheelDelta.x = wheel.x;
+        _mouseState.wheelDelta.y = wheel.y;
+    }
+
+    void InputSystem::OnMouseMove(SDL_MouseMotionEvent &motion) {
+        _mouseState.pos.x = motion.x;
+        _mouseState.pos.y = motion.y;
+    }
+
+    void InputSystem::OnMouseUp(SDL_MouseButtonEvent &button) {
+        auto &b = _mouseState.mouseButton[button.button - 1];
+        b.isDown = false;
+        b.up = true;
+    }
+
+    void InputSystem::OnMouseDown(SDL_MouseButtonEvent &button) {
+        auto &b = _mouseState.mouseButton[button.button - 1];
+        b.isDown = true;
+        b.down = true;
+    }
+    void InputSystem::CleanKeyState(KeyState &key) {
+        key.down = false;
+        key.up = false;
     }
     //endregion private
 }// namespace Harpia::Internal

@@ -30,6 +30,9 @@ namespace Harpia {
         }
 
         void Invoke(Args... args) {
+            if (_listeners.empty()) {
+                return;
+            }
             for (auto l: _listeners) {
                 if (l != nullptr) {
                     l(args...);
