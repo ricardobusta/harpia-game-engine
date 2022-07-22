@@ -18,14 +18,11 @@ namespace SampleGame {
         GetObject()->transform.SetTrMatrix(Matrix::Translation({x * speed, y * speed, z * speed}) * GetObject()->transform.GetTrMatrix());
 
         auto mousePos = Input()->GetMousePos();
-        if (Input()->GetKeyDown(SDLK_UP)) {
-            DebugLog("Key UP");
-        }
-        if (Input()->GetMouseButtonDown(0)) {
-            DebugLog("Mouse down: pos: %d,%d", mousePos.x, mousePos.y);
+        if (Input()->GetMouseButtonIsDown(0)) {
+            DebugLog("Mouse down: pos %d,%d", mousePos.x, mousePos.y);
         }
         if (Input()->GetMouseButtonUp(0)) {
-            DebugLog("Mouse up: pos: %d,%d", mousePos.x, mousePos.y);
+            DebugLog("Mouse up: pos %d,%d", mousePos.x, mousePos.y);
         }
     }
 }// namespace SampleGame
