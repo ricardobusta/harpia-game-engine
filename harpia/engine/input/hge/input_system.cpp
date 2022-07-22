@@ -102,8 +102,6 @@ namespace Harpia::Internal {
     }
 
     void InputSystem::OnMouseMove(SDL_MouseMotionEvent &motion) {
-        _mouseState.posDelta.x = motion.x - _mouseState.pos.x;
-        _mouseState.posDelta.y = motion.y - _mouseState.pos.y;
         _mouseState.pos.x = motion.x;
         _mouseState.pos.y = motion.y;
     }

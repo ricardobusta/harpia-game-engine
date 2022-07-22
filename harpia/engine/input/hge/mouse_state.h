@@ -16,7 +16,6 @@ namespace Harpia {
 
         std::array<KeyState, MOUSE_BUTTON_COUNT> mouseButton;
         Vector2Int pos;
-        Vector2Int posDelta;
         Vector2Int wheelDelta;
     };
 }// namespace Harpia

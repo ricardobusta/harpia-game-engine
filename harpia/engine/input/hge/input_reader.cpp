@@ -3,8 +3,6 @@
 //
 
 #include "input_reader.h"
-
-#include "hge/debug.h"
 #include <utility>
 
 namespace Harpia {
@@ -50,11 +48,11 @@ namespace Harpia {
         return _mouseState->mouseButton[index].isDown;
     }
 
-    const Vector2Int& InputReader::GetMousePos() const {
+    const Vector2Int &InputReader::GetMousePos() const {
         return _mouseState->pos;
     }
 
-    const Vector2Int& InputReader::GetMouseWheelDelta() const {
+    const Vector2Int &InputReader::GetMouseWheelDelta() const {
         return _mouseState->wheelDelta;
     }
 }// namespace Harpia
