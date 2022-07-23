@@ -46,6 +46,8 @@ I also removed the `include` directory from `.gitignore`, so it would get added 
 ## EMScripten
 For compiling the project into a web application
 https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
+https://tech-de.netlify.app/articles/de522284/index.html
+https://stackoverflow.com/questions/51868832/integrate-emscripten-in-clion
 
 ## Lazy Foo'
 Good old SDL tutorials
