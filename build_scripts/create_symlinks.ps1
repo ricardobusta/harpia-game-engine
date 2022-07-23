@@ -1,0 +1,1 @@
+New-Item -ItemType SymbolicLink -Target ".\sample_game\assets" -Path ".\cmake-build-debug\bin\assets"
