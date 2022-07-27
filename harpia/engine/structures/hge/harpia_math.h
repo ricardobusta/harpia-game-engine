@@ -8,6 +8,7 @@
 #include "glm/matrix.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
+#include "glm/gtx/quaternion.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Harpia {
@@ -15,7 +16,7 @@ namespace Harpia {
     typedef glm::vec2 Vector2;
     typedef glm::vec3 Vector3;
     typedef glm::vec4 Vector4;
-    typedef glm::qua<float,glm::defaultp> Quaternion;
+    typedef glm::qua<float> Quaternion;
     typedef glm::mat4x4 Matrix4x4;
 
     struct Matrix {
@@ -27,8 +28,16 @@ namespace Harpia {
             return glm::translate(glm::identity<Matrix4x4>(),translation);
         }
 
+        static Matrix4x4 Scale(const Vector3 &scale){
+            return glm::scale(glm::identity<Matrix4x4>(), scale);
+        }
+
         static Matrix4x4 Rotation(const float &angle, const Vector3 &axis) {
             return glm::rotate(glm::identity<Matrix4x4>(), angle, axis);
+        }
+
+        static Matrix4x4 Rotation(const Quaternion &rotation){
+            return glm::toMat4(rotation);
         }
 
         static Matrix4x4 Identity(){

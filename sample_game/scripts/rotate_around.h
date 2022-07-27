@@ -8,13 +8,17 @@
 #include <hge/component.h>
 
 namespace SampleGame {
-    class RotateAround: public Harpia::Component {
+    class RotateAround : public Harpia::Component {
+    private:
+        float _t = 0;
+
     public:
         Harpia::Vector3 speed;
-        Harpia::Transform * target;
+        Harpia::Transform *target;
+
     public:
         void Update() override;
     };
-} // SampleGame
+}// namespace SampleGame
 
-#endif //HARPIAGAMEENGINE_ROTATE_AROUND_H
+#endif//HARPIAGAMEENGINE_ROTATE_AROUND_H
