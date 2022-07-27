@@ -31,7 +31,6 @@ set(SDL2MIXER_OGG ON)
 list(
         APPEND
         ${PROJECT_NAME}_INCLUDES
-        third_party/SDL/include
         third_party/glm/
 )
 
