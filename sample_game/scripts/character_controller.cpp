@@ -15,7 +15,8 @@ namespace SampleGame {
         auto y = Input()->GetKeyIsDown(SDLK_q) - Input()->GetKeyIsDown(SDLK_e);
         auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w) +
                  Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
-        GetObject()->transform.SetTrMatrix(Matrix::Translation({x * speed, y * speed, z * speed}) * GetObject()->transform.GetTrMatrix());
+        GetObject()->transform.SetPosition(GetObject()->transform.GetPosition() +
+                                           Vector3{x * speed, y * speed, z * speed}); // TODO add "Translate" method
 
         auto mousePos = Input()->GetMousePos();
         if (Input()->GetMouseButtonIsDown(0)) {

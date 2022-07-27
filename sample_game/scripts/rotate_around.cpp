@@ -9,9 +9,9 @@ using namespace Harpia;
 
 namespace SampleGame {
     void RotateAround::Update() {
-        auto dt = 50 * Time()->deltaTime;
-        target->SetTrMatrix(target->GetTrMatrix() * Matrix::Rotation(dt * speed.x * Math::Deg2Rad, {1, 0, 0}) *
-                            Matrix::Rotation(dt * speed.y * Math::Deg2Rad, {0, 1, 0}) *
-                            Matrix::Rotation(dt * speed.z * Math::Deg2Rad, {0, 0, 1}));
+        _t += 50 * Time()->deltaTime;
+        target->SetRotation(_t * speed.x * Math::Deg2Rad, {1, 0, 0});
+        target->Rotate(_t * speed.y * Math::Deg2Rad, {0, 1, 0});
+        target->Rotate(_t * speed.z * Math::Deg2Rad, {0, 0, 1});
     }
-} // SampleGame
+}// namespace SampleGame
