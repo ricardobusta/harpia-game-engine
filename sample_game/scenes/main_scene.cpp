@@ -127,21 +127,21 @@ namespace SampleGame {
         textRenderer->SetFontMaterial(fontMaterial, 7, 9, " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
         textRenderer->SetText("Hello World!");
 
-        CreateCameraObject(application, movableObject);
+        auto screenSize = application->screenSize;
+        CreateCameraObject(application, RectInt{0, 0, screenSize.x / 2, screenSize.y}, movableObject);
+        CreateCameraObject(application, RectInt{screenSize.x / 2, 0, screenSize.x / 2, screenSize.y}, nullptr);
     }
 
-    void MainScene::CreateCameraObject(const Application *application, Object *parent) {
-        auto screenSize = application->screenSize;
-
+    void MainScene::CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent) {
         auto cameraObject = CreateObject();
         cameraObject->transform.SetParent(&parent->transform);
         cameraObject->transform.SetPosition({0, 5, 15.0f});
         cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        camera->SetPerspective(60.0f, 640.0f / 480.0f, 0.01f, 40.0f);
+        camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
         //camera->SetOrthographic(5, 640.0f / 480.0f, 0.01, 10);
-        camera->SetViewport(RectInt(0, 0, screenSize.x, screenSize.y));
+        camera->SetViewport(viewport);
         camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
     }
 
