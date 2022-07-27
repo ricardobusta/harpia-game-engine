@@ -23,8 +23,10 @@ else ()
     option(BUILD_SHARED_LIBS "" ON)
 endif ()
 
-option(SUPPORT_OGG "" ON)
-#option(SUPPORT_MP3_MPG123 "" ON) # TODO Temporarily disabled until figure out MP3 dependencies
+set(SDL2MIXER_VENDORED ON)
+set(SDL2MIXER_FLAC OFF)
+set(SDL2MIXER_OPUS OFF)
+set(SDL2MIXER_OGG ON)
 
 list(
         APPEND
