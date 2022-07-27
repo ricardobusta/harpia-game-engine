@@ -25,7 +25,7 @@ namespace Harpia {
     }
 
     void Transform::SetRotation(float angle, const Vector3 &axis) {
-        _rotation = glm::toQuat(Matrix::Rotation(angle, axis)); // TODO improve this?
+        _rotation = glm::toQuat(Matrix::Rotation(angle, axis));// TODO improve this?
         SetTransformDirty();
     }
 
@@ -38,7 +38,7 @@ namespace Harpia {
         if (_dirty) {
             _cachedTr = Matrix::Translation(_position) * Matrix::Rotation(_rotation) * Matrix::Scale(_scale);
             if (_parent != nullptr) {
-                _cachedTr = _parent->GetTrMatrix() * _cachedTr; // TODO avoid recursive call?
+                _cachedTr = _parent->GetTrMatrix() * _cachedTr;// TODO avoid recursive call?
             }
             _dirty = false;
         }
@@ -51,8 +51,11 @@ namespace Harpia {
             _parent->_children.remove(tr);
         }
         _parent = tr;
-        _parent->_children.push_back(this);
         SetTransformDirty();
+        if (_parent == nullptr) {
+            return;
+        }
+        _parent->_children.push_back(this);
     }
 
     void Transform::SetTransformDirty() {
@@ -61,7 +64,7 @@ namespace Harpia {
         }
         _dirty = true;
         for (auto c: _children) {
-            c->SetTransformDirty(); // TODO avoid recursive call?
+            c->SetTransformDirty();// TODO avoid recursive call?
         }
     }
 }// namespace Harpia
