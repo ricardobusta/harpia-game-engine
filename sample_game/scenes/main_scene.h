@@ -17,11 +17,7 @@ namespace SampleGame {
         void Load(Application *application) override;
 
     private:
-        Object *
-        CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Vector3 &scale, const Color &color,
-                            ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh);
-        void CreateAudioObjects();
-        void CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent);
+        void CreateText(const std::string &text, const Vector3 &pos, MaterialAsset *material);
     };
 }// namespace SampleGame
 
