@@ -25,7 +25,7 @@ namespace Harpia {
         TextureAsset *LoadTextureAsset(const std::string &path);
 
     protected:
-        Object *CreateObject();
+        Object *CreateObject(const std::string &name);
 
     private:
         void LoadScene(Application *application) override;

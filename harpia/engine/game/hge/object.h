@@ -14,6 +14,7 @@
 namespace Harpia {
     class Object {
     public:
+        std::string name;
         Transform transform;
 
     private:
@@ -22,7 +23,7 @@ namespace Harpia {
 
     public:
         Object() = delete;
-        explicit Object(Internal::Application_Internal *application);
+        explicit Object(std::string name, Internal::Application_Internal *application);
 
         template<class T>
         T *AddComponent() {

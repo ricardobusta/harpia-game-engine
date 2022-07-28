@@ -15,8 +15,8 @@
 #include <list>
 
 namespace Harpia {
-    Object *Scene::CreateObject() {
-        auto object = new Object(_applicationInternal);
+    Object *Scene::CreateObject(const std::string &name) {
+        auto object = new Object(name, _applicationInternal);
         _objects.push_back(object);
         return object;
     }

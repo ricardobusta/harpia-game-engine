@@ -3,6 +3,8 @@
 //
 
 #include "hge/object.h"
+
+#include <utility>
 #include "hge/camera_component.h"
 #include "hge/camera_internal.h"
 #include "hge/component.h"
@@ -11,8 +13,8 @@
 #include "hge/rendering_system.h"
 
 namespace Harpia {
-    Object::Object(Internal::Application_Internal *application) {
-        _applicationInternal = application;
+    Object::Object(std::string name, Internal::Application_Internal *application)
+        : name(std::move(name)), _applicationInternal(application) {
     }
 
     void Object::InternalUpdate() {
