@@ -33,7 +33,6 @@ namespace Harpia {
 
     void GenerateCharacterMesh(const int index, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         unsigned int nextIndex = index * 4;
-        DebugLog("Next index: %d", nextIndex);
         float xOffset = (float) index;
 
         positions.insert(positions.end(), {
