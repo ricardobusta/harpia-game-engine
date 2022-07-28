@@ -27,6 +27,7 @@ namespace Harpia {
 
         template<class T>
         T *AddComponent() {
+            static_assert(std::is_base_of<Component, T>::value);
             auto newComponent = HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
             if (std::is_base_of<RendererComponent, T>::value) {
                 AddToRenderSystemIfRenderer((Internal::RendererComponent_Internal *) newComponent);

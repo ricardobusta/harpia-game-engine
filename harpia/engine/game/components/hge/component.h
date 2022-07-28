@@ -21,9 +21,9 @@ namespace Harpia {
             return _object->GetComponent<T>();
         }
 
-        virtual void Start(){};
+        void Start() override{};
 
-        virtual void Update(){};
+        void Update() override{};
 
         [[nodiscard]] const InputReader *Input() const;
         [[nodiscard]] const Time *Time() const;
