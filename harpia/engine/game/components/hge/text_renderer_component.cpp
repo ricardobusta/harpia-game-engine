@@ -10,6 +10,8 @@
 #include <cmath>
 
 namespace Harpia {
+    const std::string TextRendererComponent::ASCII_TABLE = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
     void TextRendererComponent::SetText(const std::string &text) {
         _text = text;
         UpdateMesh();

@@ -10,6 +10,8 @@
 
 namespace Harpia {
     class TextRendererComponent : public RendererComponent {
+    public:
+        const static std::string ASCII_TABLE;
     private:
         int _charWidth = -1;
         int _charHeight = -1;
@@ -21,7 +23,7 @@ namespace Harpia {
 
     public:
         void SetText(const std::string &text);
-        void SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string &table);
+        void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight, const std::string &table = ASCII_TABLE);
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
