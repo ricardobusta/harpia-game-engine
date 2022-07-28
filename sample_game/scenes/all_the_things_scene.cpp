@@ -21,9 +21,11 @@
 using namespace Harpia;
 
 namespace SampleGame {
+    static int shapeCount = 0;
+
     Harpia::Object *AllTheThingsScene::CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Vector3 &scale,
                                                            const Color &color, ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh) {
-        auto shape = CreateObject();
+        auto shape = CreateObject("Shape_" + std::to_string(shapeCount++));
         auto rotateScript = shape->AddComponent<RotateAround>();
         rotateScript->target = &shape->transform;
         rotateScript->speed = rotatingSpeed;
@@ -61,7 +63,7 @@ namespace SampleGame {
             DebugLog("Loaded mesh: %s", k.first.c_str());
         }
 
-        auto floor = CreateObject();
+        auto floor = CreateObject("Floor");
         auto floorRend = floor->AddComponent<RendererComponent>();
         auto floorMat = LoadMaterialAsset(defaultShader);
         floorMat->SetColor(Color(0.5, 0.9, 0.3));
@@ -106,7 +108,7 @@ namespace SampleGame {
                             Color::purple,
                             defaultShader, tileTexture, sphereMesh);
 
-        auto movableObject = CreateObject();
+        auto movableObject = CreateObject("Player");
         movableObject->AddComponent<CharacterController>();
         auto movableRend = movableObject->AddComponent<RendererComponent>();
         auto movableMat = LoadMaterialAsset(defaultShader);
@@ -114,7 +116,7 @@ namespace SampleGame {
         movableRend->SetMesh(capsuleMesh);
         movableRend->SetMaterial(movableMat);
 
-        auto textObject = CreateObject();
+        auto textObject = CreateObject("Text");
         textObject->transform.SetPosition({-5, 3, 0});
         auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
@@ -133,7 +135,7 @@ namespace SampleGame {
     }
 
     void AllTheThingsScene::CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent) {
-        auto cameraObject = CreateObject();
+        auto cameraObject = CreateObject("Camera");
         cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
         //cameraObject->transform.SetPosition({0, 5, 15.0f});
         //cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
@@ -146,7 +148,7 @@ namespace SampleGame {
     }
 
     void AllTheThingsScene::CreateAudioObjects() {
-        auto audioObject = CreateObject();
+        auto audioObject = CreateObject("Audio");
 
         auto audioComponent = audioObject->AddComponent<AudioComponent>();
         audioComponent->SetAudio(LoadAudioAsset("assets/audios/jump.wav"));
