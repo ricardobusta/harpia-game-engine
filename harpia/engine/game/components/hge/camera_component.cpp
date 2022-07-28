@@ -33,6 +33,6 @@ namespace Harpia {
 
     void CameraComponent::SetOrthographic(float height, float aspect, float near, float far) {
         auto width = height * aspect;
-        _projection = Matrix::Orthographic(-width / 2.0f, width / 2.0f, height / 2.0f, -height / 2.0f, -near, -far);
+        _projection = Matrix::Orthographic(-width, width, height, -height, -near, -far);
     }
 }// namespace Harpia
