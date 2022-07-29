@@ -3,6 +3,7 @@
 //
 
 #include "main_scene.h"
+#include "main_scene_controller.h"
 #include <hge/application.h>
 #include <hge/camera_component.h>
 #include <hge/color.h>
@@ -25,19 +26,16 @@ namespace SampleGame {
     void MainScene::Load(Harpia::Application *application) {
         DebugLog("Starting MainScene");
 
-        auto sizeV = 10.0f;
+        auto sizeV = 20.0f;
 
         auto cameraObject = CreateObject("Camera");
-        cameraObject->transform.SetPosition({0, 0, 15.0f});
-        //cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {00, 0, 0});
         auto screenSize = application->screenSize;
         auto viewport = RectInt{0, 0, screenSize.x, screenSize.y};
         auto camera = cameraObject->AddComponent<CameraComponent>();
         auto aspect = (float) viewport.w / (float) viewport.h;
         auto sizeH = sizeV * aspect;
-        camera->SetOrthographic(sizeV, aspect, 60, -60);
+        camera->SetOrthographic(sizeV, aspect, 1, -1);
         camera->SetViewport(viewport);
-        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
 
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
         fontAtlas->_filter = TextureFilter::Nearest;
@@ -47,8 +45,17 @@ namespace SampleGame {
         fontMaterial->SetColor(Color::white);
         fontMaterial->_transparent = true;
 
-        CreateText("Press Key to Load Scene", {-sizeH, sizeV - 1.5f, 0}, fontMaterial);
-        CreateText("[1] All The Things", {-sizeH, sizeV - 5.0f, 0}, fontMaterial);
-        CreateText("...", {-sizeH, sizeV - 6.5f, 0}, fontMaterial);
+        auto controllerObject = CreateObject("SceneController");
+        controllerObject->AddComponent<MainSceneController>();
+
+        CreateText("Press Key to Load Scene", {-sizeH + 1, sizeV - 1.5f, 0}, fontMaterial);
+        CreateText("[1] All The Things", {-sizeH + 2, sizeV - (4.0f + 0 * 1.5f), 0}, fontMaterial);
+        CreateText("[2] Something else", {-sizeH + 2, sizeV - (4.0f + 1 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 2 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 3 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 4 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 5 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 6 * 1.5f), 0}, fontMaterial);
+        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 7 * 1.5f), 0}, fontMaterial);
     }
 }// namespace SampleGame

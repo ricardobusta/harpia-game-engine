@@ -10,7 +10,7 @@
 #include <cmath>
 
 namespace Harpia {
-    const std::string TextRendererComponent::ASCII_TABLE = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+    const std::string TextRendererComponent::ASCII_TABLE = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"; // NOLINT(cert-err58-cpp)
 
     void TextRendererComponent::SetText(const std::string &text) {
         _text = text;
@@ -33,7 +33,7 @@ namespace Harpia {
 
     void GenerateCharacterMesh(const int index, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         unsigned int nextIndex = index * 4;
-        float xOffset = (float) index;
+        auto xOffset = (float) index;
 
         positions.insert(positions.end(), {
                                                   xOffset + 0, 0, 0,//
@@ -78,10 +78,9 @@ namespace Harpia {
                 continue;
             }
             auto x = (float) (charIdx % rowSize);
-            auto y = (float) (charIdx / rowSize);
+            auto y = (float) (charIdx / rowSize); // NOLINT(bugprone-integer-division)
 
             GenerateCharacterMesh(i, {x * uvX, (x + 1.0f) * uvX, (y + 1.0f) * uvY, y * uvY}, positions, normals, uvs, indexes);
-            DebugLog("Generating mesh for character %c", text[i]);
         }
     }
 
