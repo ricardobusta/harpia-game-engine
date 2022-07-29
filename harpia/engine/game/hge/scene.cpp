@@ -90,4 +90,29 @@ namespace Harpia {
         _assets.push_back(asset);
         return asset;
     }
+
+    void Scene::Release() {
+        ReleaseImpl();
+    }
+
+    void Scene::ReleaseImpl() {
+        if (!_loaded) return;
+
+        for (auto a: _assets) {
+            a->Release();
+        }
+        _assets.clear();
+
+        for (auto o: _objects) {
+            delete o;
+        }
+        _objects.clear();
+
+        _loaded = false;
+        DebugLog("Scene released");
+    }
+
+    Scene::~Scene() {
+        ReleaseImpl();
+    }
 }// namespace Harpia

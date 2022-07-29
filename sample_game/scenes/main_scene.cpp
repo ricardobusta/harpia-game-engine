@@ -15,7 +15,7 @@
 using namespace Harpia;
 
 namespace SampleGame {
-    void MainScene::CreateText(const std::string &text, const Vector3 &pos, MaterialAsset *material) {
+    void MainScene::CreateText(const std::string &text, const Vector2 &pos, MaterialAsset *material) {
         auto textObject = CreateObject("Text");
         auto textRenderer = textObject->AddComponent<TextRendererComponent>();
         textObject->transform.SetPosition(pos);
@@ -48,14 +48,19 @@ namespace SampleGame {
         auto controllerObject = CreateObject("SceneController");
         controllerObject->AddComponent<MainSceneController>();
 
-        CreateText("Press Key to Load Scene", {-sizeH + 1, sizeV - 1.5f, 0}, fontMaterial);
-        CreateText("[1] All The Things", {-sizeH + 2, sizeV - (4.0f + 0 * 1.5f), 0}, fontMaterial);
-        CreateText("[2] Something else", {-sizeH + 2, sizeV - (4.0f + 1 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 2 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 3 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 4 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 5 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 6 * 1.5f), 0}, fontMaterial);
-        CreateText("...", {-sizeH + 2, sizeV - (4.0f + 7 * 1.5f), 0}, fontMaterial);
+        auto space = 1.8f;
+        auto tab = 1.0f;
+        auto v = sizeV;
+        auto h = -sizeH + tab;
+
+        CreateText("Press Key to Load Scene", {h, v -= space}, fontMaterial);
+        CreateText("[1] All The Things", {h += tab, v -= 4}, fontMaterial);
+        CreateText("[2] Something else", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("...", {h, v -= space}, fontMaterial);
     }
 }// namespace SampleGame

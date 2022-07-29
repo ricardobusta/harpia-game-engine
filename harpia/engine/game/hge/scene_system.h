@@ -25,6 +25,9 @@ namespace Harpia::Internal {
         int GetWindowFlags() override;
         void Quit() override;
 
+        void LoadScene(int index, bool additive = false);
+        void UnloadScene(int index);
+
     private:
         void LoadScene(Internal::Scene_Internal *scene);
         void OnUpdate();

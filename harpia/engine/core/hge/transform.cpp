@@ -15,6 +15,10 @@ namespace Harpia {
         SetTransformDirty();
     }
 
+    void Transform::SetPosition(const Vector2 &position) {
+        SetPosition({position.x, position.y, 0});
+    }
+
     Vector3 Transform::GetScale() {
         return _scale;
     }

@@ -17,7 +17,7 @@ namespace SampleGame {
         void Load(Application *application) override;
 
     private:
-        void CreateText(const std::string &text, const Vector3 &pos, MaterialAsset *material);
+        void CreateText(const std::string &text, const Vector2 &pos, MaterialAsset *material);
     };
 }// namespace SampleGame
 

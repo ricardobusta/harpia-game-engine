@@ -4,19 +4,11 @@
 
 #include "scene_internal.h"
 #include "hge/asset.h"
-#include "hge/debug.h"
 
 namespace Harpia::Internal {
     void Scene_Internal::LoadInternal(Application *application) {
         _applicationInternal = (Internal::Application_Internal *) application;
         LoadScene(application);
+        _loaded = true;
     }
-
-    void Scene_Internal::Release() {
-        for (auto a: _assets) {
-            a->Release();
-        }
-        _assets.clear();
-        DebugLog("Scene released");
-    }
-} // Harpia
+}// namespace Harpia::Internal

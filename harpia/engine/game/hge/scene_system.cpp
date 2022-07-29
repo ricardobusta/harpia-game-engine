@@ -29,8 +29,7 @@ namespace Harpia::Internal {
         auto ai = (Application_Internal *) application;
 
         coreSystem->onInitialize += [this, ai]() {
-            auto scene = _scenes[0];
-            LoadScene(scene);
+            LoadScene(0, false);
         };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
         return 0;
@@ -56,6 +55,24 @@ namespace Harpia::Internal {
     void SceneSystem::LoadScene(Internal::Scene_Internal *scene) {
         scene->LoadInternal(_application);
         _loadedScenes.push_back(scene);
+    }
+
+    void SceneSystem::LoadScene(int index, bool additive) {
+        if (index >= 0 && index < _scenes.size()) {
+            auto scene = _scenes[index];
+            LoadScene(scene);
+        } else {
+            DebugLogError("Scene index out of range: %d", index);
+        }
+    }
+
+    void SceneSystem::UnloadScene(int index) {
+        if (index > 0 && index < _scenes.size()) {
+            auto scene = _scenes[index];
+            scene->Release();
+        } else {
+            DebugLogError("Scene index out of range: %d", index);
+        }
     }
 
     void SceneSystem::OnUpdate() {
