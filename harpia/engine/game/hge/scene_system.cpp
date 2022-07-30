@@ -16,6 +16,8 @@ namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
+        _sceneManager = new SceneManager(this);
+
         DebugLog("Init Scenes");
         _application = application;
         std::for_each(configuration.scenes.begin(), configuration.scenes.end(),
@@ -49,6 +51,9 @@ namespace Harpia::Internal {
             delete s;
         }
         _loadedScenes.clear();
+        delete _sceneManager;
+        _sceneManager = nullptr;
+        _application = nullptr;
         DebugLog("Quit Scenes");
     }
 
@@ -59,6 +64,12 @@ namespace Harpia::Internal {
 
     void SceneSystem::LoadScene(int index, bool additive) {
         if (index >= 0 && index < _scenes.size()) {
+            if(!additive){
+                for(auto s : _loadedScenes){
+                    s->Release();
+                }
+                _loadedScenes.clear();
+            }
             auto scene = _scenes[index];
             LoadScene(scene);
         } else {
@@ -81,5 +92,8 @@ namespace Harpia::Internal {
                 o->InternalUpdate();
             }
         }
+    }
+    SceneManager *SceneSystem::GetSceneManager() {
+        return _sceneManager;
     }
 }// namespace Harpia::Internal

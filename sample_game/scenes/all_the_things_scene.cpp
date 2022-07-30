@@ -137,12 +137,12 @@ namespace SampleGame {
     void AllTheThingsScene::CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent) {
         auto cameraObject = CreateObject("Camera");
         cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
-        //cameraObject->transform.SetPosition({0, 5, 15.0f});
-        //cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
+        cameraObject->transform.SetPosition({0, 5, 15.0f});
+        cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        //camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
-        camera->SetOrthographic(30, (float) viewport.w / (float) viewport.h, 40, -40);
+        camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
+        //camera->SetOrthographic(30, (float) viewport.w / (float) viewport.h, 40, -40);
         camera->SetViewport(viewport);
         camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
     }

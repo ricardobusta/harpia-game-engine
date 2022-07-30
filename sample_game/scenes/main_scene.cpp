@@ -55,12 +55,14 @@ namespace SampleGame {
 
         CreateText("Press Key to Load Scene", {h, v -= space}, fontMaterial);
         CreateText("[1] All The Things", {h += tab, v -= 4}, fontMaterial);
-        CreateText("[2] Something else", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
-        CreateText("...", {h, v -= space}, fontMaterial);
+        CreateText("[2] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[3] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[4] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[5] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[6] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[7] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[8] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[9] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[Esc] Quit", {h, v -= space}, fontMaterial);
     }
 }// namespace SampleGame

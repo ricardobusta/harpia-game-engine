@@ -8,6 +8,7 @@
 #include "hge/global_defines.h"
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
+#include "scene_manager.h"
 #include <map>
 #include <vector>
 
@@ -19,14 +20,18 @@ namespace Harpia::Internal {
 
         Application *_application = nullptr;
 
+        SceneManager *_sceneManager = nullptr;
+
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
         int GetInitFlags() override;
         int GetWindowFlags() override;
         void Quit() override;
 
-        void LoadScene(int index, bool additive = false);
+        void LoadScene(int index, bool additive);
         void UnloadScene(int index);
+
+        SceneManager *GetSceneManager();
 
     private:
         void LoadScene(Internal::Scene_Internal *scene);

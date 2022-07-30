@@ -9,11 +9,15 @@
 namespace SampleGame {
     void MainSceneController::Update() {
         if (Input()->GetKeyDown(SDLK_1)) {
-            DebugLog("Number 1 pressed");
+            this->SceneManager()->LoadScene(1);
         }
 
         if (Input()->GetKeyDown(SDLK_2)) {
             DebugLog("Number 2 pressed");
+        }
+
+        if (Input()->GetKeyDown(SDLK_ESCAPE)){
+            DebugLog("Quit");
         }
     }
 }// namespace SampleGame

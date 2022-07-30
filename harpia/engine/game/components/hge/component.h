@@ -8,6 +8,7 @@
 #include "hge/in/component_internal.h"
 #include "hge/input_reader.h"
 #include "hge/object.h"
+#include "hge/scene_manager.h"
 #include "hge/time.h"
 
 namespace Harpia {
@@ -27,6 +28,7 @@ namespace Harpia {
 
         [[nodiscard]] const InputReader *Input() const;
         [[nodiscard]] const Time *Time() const;
+        SceneManager *SceneManager();
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
