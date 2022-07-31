@@ -7,6 +7,8 @@
 
 #include "global_defines.h"
 
+#define OUT
+
 union SDL_Event;
 struct SDL_Surface;
 struct SDL_KeyboardEvent;
