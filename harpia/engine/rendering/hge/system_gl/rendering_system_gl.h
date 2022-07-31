@@ -8,6 +8,7 @@
 #include "hge/rendering_system.h"
 
 #include "gl_types.h"
+#include "hge/camera_clear_type.h"
 #include "hge/internal_defines.h"
 #include <map>
 #include <vector>
@@ -62,6 +63,8 @@ namespace Harpia::Internal {
 
         MaterialAsset *CreateMaterial() override;
         void RenderObjectMaterial(MaterialAssetGL *material, const float *cameraTransform);
+
+        static int GetClearMask(CameraClearType clearType);
     };
 }// namespace Harpia::Internal
 

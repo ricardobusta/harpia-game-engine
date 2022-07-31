@@ -5,25 +5,28 @@
 #ifndef HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 #define HARPIAGAMEENGINE_CAMERA_INTERNAL_H
 
+#include "hge/camera_clear_type.h"
 #include "hge/color.h"
+#include "hge/harpia_math.h"
 #include "hge/internal_defines.h"
 #include "hge/rect.h"
-#include "hge/harpia_math.h"
 
 namespace Harpia::Internal {
     class Camera_Internal {
     public:
-        int _clearMask = 0;
-        Color _clearColor;
-        RectInt _viewport;
-        Matrix4x4 _projection;
+        CameraClearType _clearType = CameraClearType::All;
+        Color _clearColor = Color{0, 0, 0, 0};
+        RectInt _viewport = RectInt{0, 0, 1, 1};
+        Matrix4x4 _projection = Matrix::Identity();
+
+        int _clearMask = CameraClearType::All;
+        bool _clearMaskChanged = true;
 
     private:
-        Internal::RenderingSystem *_renderingSystem;
+        Internal::RenderingSystem *_renderingSystem = nullptr;
 
     public:
-        Camera_Internal() = delete;
-        explicit Camera_Internal(int clearMask);
+        Camera_Internal() = default;
         virtual Transform *GetTransformInternal() = 0;
     };
 }// namespace Harpia::Internal

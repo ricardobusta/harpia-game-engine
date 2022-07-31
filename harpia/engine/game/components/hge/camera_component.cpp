@@ -8,7 +8,8 @@
 
 namespace Harpia {
     CameraComponent::CameraComponent()
-        : Component(), Internal::Camera_Internal(0x00004100) {
+        : Component(), Internal::Camera_Internal() {
+        SetClearType(CameraClearType::All);
     }
 
     CameraComponent::~CameraComponent() {
@@ -44,5 +45,10 @@ namespace Harpia {
 
     void CameraComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
         _renderingSystem = applicationInternal->_renderSystem;
+    }
+
+    void CameraComponent::SetClearType(CameraClearType clearType) {
+        _clearType = clearType;
+        _clearMaskChanged = true;
     }
 }// namespace Harpia

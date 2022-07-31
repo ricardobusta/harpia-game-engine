@@ -103,6 +103,10 @@ namespace Harpia::Internal {
                     camera->_viewport.w,
                     camera->_viewport.h);
 
+            if (camera->_clearMaskChanged) {
+                camera->_clearMask = GetClearMask(camera->_clearType);
+                camera->_clearMaskChanged = false;
+            }
             glClear(camera->_clearMask);
 
             for (auto kvp: _renderersGL) {
@@ -425,6 +429,20 @@ namespace Harpia::Internal {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter);
         } else {
             glBindTexture(GL_TEXTURE_2D, 0);
+        }
+    }
+
+    int RenderingSystemGL::GetClearMask(CameraClearType clearType) {
+        switch (clearType) {
+            case CameraClearType::All:
+                return GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
+            case CameraClearType::Depth:
+                return GL_DEPTH_BUFFER_BIT;
+            case CameraClearType::Nothing:
+                return 0;
+            default:
+                DebugLogError("Invalid clear type %d", clearType);
+                return 0;
         }
     }
 }// namespace Harpia::Internal
