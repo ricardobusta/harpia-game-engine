@@ -5,6 +5,7 @@
 #include "game_config.h"
 #include "all_the_things_scene.h"
 #include "main_scene.h"
+#include "spaceship_scene.h"
 
 #include <SDL.h>
 
@@ -20,6 +21,7 @@ namespace SampleGame {
                                                                                     });
 
         configuration.game.scenes.insert(configuration.game.scenes.end(), {new MainScene(),
-                                                                           new AllTheThingsScene()});
+                                                                           new AllTheThingsScene(),
+                                                                           new SpaceshipScene()});
     }
 }// namespace SampleGame
