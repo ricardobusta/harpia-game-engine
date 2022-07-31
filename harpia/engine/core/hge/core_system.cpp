@@ -189,10 +189,10 @@ namespace Harpia::Internal {
                         DebugLog("Drop Complete");
                         break;
                     case SDL_AUDIODEVICEADDED:
-                        DebugLog("Audio Device Added");
+                        //DebugLog("Audio Device Added");
                         break;
                     case SDL_AUDIODEVICEREMOVED:
-                        DebugLog("Audio Device Removed");
+                        //DebugLog("Audio Device Removed");
                         break;
                     case SDL_SENSORUPDATE:
                         DebugLog("Sensor Update");
@@ -210,6 +210,7 @@ namespace Harpia::Internal {
                 break;
             }
 
+            onSceneChanges.Invoke();
             onUpdate.Invoke();
             onRenderStep.Invoke();
             onLateUpdate.Invoke();

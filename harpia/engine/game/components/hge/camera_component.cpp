@@ -3,8 +3,18 @@
 //
 
 #include "camera_component.h"
+#include "hge/in/application_internal.h"
+#include "hge/rendering_system.h"
 
 namespace Harpia {
+    CameraComponent::CameraComponent()
+        : Component(), Internal::Camera_Internal(0x00004100) {
+    }
+
+    CameraComponent::~CameraComponent() {
+        _renderingSystem->RemoveCamera(this);
+    }
+
     void CameraComponent::SetViewport(const RectInt &viewport) {
         _viewport.x = viewport.x;
         _viewport.y = viewport.y;
@@ -19,10 +29,6 @@ namespace Harpia {
         _clearColor.a = color.a;
     }
 
-    CameraComponent::CameraComponent() : Component(), Internal::Camera_Internal() {
-        _clearMask = 0x00004100;// TODO expose in the API
-    }
-
     Transform *CameraComponent::GetTransformInternal() {
         return &GetObject()->transform;
     }
@@ -33,6 +39,10 @@ namespace Harpia {
 
     void CameraComponent::SetOrthographic(float height, float aspect, float near, float far) {
         auto width = height * aspect;
-        _projection = Matrix::Orthographic(-width / 2.0f, width / 2.0f, -height / 2.0f, height / 2.0f, near, far);
+        _projection = Matrix::Orthographic(-width, width, height, -height, -near, -far);
+    }
+
+    void CameraComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
+        _renderingSystem = applicationInternal->_renderSystem;
     }
 }// namespace Harpia

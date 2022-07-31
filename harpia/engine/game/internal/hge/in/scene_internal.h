@@ -5,8 +5,8 @@
 #ifndef HARPIAGAMEENGINE_SCENE_INTERNAL_H
 #define HARPIAGAMEENGINE_SCENE_INTERNAL_H
 
-#include <list>
 #include "hge/internal_defines.h"
+#include <list>
 
 namespace Harpia::Internal {
     class Scene_Internal {
@@ -14,12 +14,16 @@ namespace Harpia::Internal {
         std::list<Object *> _objects;
         std::list<Asset *> _assets;
         Internal::Application_Internal *_applicationInternal = nullptr;
+        bool _loaded;
+
     public:
         void LoadInternal(Application *application);
-        void Release();
+        virtual ~Scene_Internal() = default;
+        virtual void Release() = 0;
+
     protected:
         virtual void LoadScene(Application *application) = 0;
     };
-} // Harpia
+}// namespace Harpia::Internal
 
-#endif //HARPIAGAMEENGINE_SCENE_INTERNAL_H
+#endif//HARPIAGAMEENGINE_SCENE_INTERNAL_H

@@ -3,16 +3,26 @@
 //
 
 #include "hge/object.h"
+
 #include "hge/camera_component.h"
 #include "hge/camera_internal.h"
 #include "hge/component.h"
 #include "hge/in/application_internal.h"
 #include "hge/renderer_component_internal.h"
 #include "hge/rendering_system.h"
+#include <utility>
 
 namespace Harpia {
-    Object::Object(Internal::Application_Internal *application) {
-        _applicationInternal = application;
+    Object::Object(std::string name, Internal::Application_Internal *application)
+        : name(std::move(name)), _applicationInternal(application) {
+    }
+
+    Object::~Object() {
+        DebugLog("Destroying %s object.", name.c_str());
+        for (auto c: _components) {
+            delete c;
+        }
+        _components.clear();
     }
 
     void Object::InternalUpdate() {

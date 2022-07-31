@@ -27,7 +27,9 @@ namespace Harpia::Internal {
         int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
+        void RemoveCamera(Camera_Internal *camera);
         virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
+        virtual void RemoveRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
         virtual ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) = 0;
 

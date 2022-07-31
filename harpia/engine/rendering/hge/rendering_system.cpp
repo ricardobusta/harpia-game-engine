@@ -44,6 +44,10 @@ namespace Harpia::Internal {
         _cameras.push_back(camera);
     }
 
+    void RenderingSystem::RemoveCamera(Camera_Internal *camera) {
+        _cameras.remove(camera);
+    }
+
     void RenderingSystem::Quit() {
         DebugLog("Quit Rendering");
     }

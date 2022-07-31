@@ -26,6 +26,7 @@ namespace Harpia {
 
         Vector3 GetPosition();
         void SetPosition(const Vector3 &position);
+        void SetPosition(const Vector2 &position);
 
         Vector3 GetScale();
         void SetScale(const Vector3 &scale);

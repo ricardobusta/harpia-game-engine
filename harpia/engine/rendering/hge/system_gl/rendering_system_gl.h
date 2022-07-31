@@ -9,8 +9,8 @@
 
 #include "gl_types.h"
 #include "hge/internal_defines.h"
-#include <vector>
 #include <map>
+#include <vector>
 
 namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
@@ -26,7 +26,7 @@ namespace Harpia::Internal {
         SDL_GLContext _context = nullptr;
         std::map<int, std::list<RendererComponentGL *>> _renderersGL;
 
-        MaterialAssetGL * _previousMaterial = nullptr;
+        MaterialAssetGL *_previousMaterial = nullptr;
 
     public:
         int GetWindowFlags() override;
@@ -46,6 +46,7 @@ namespace Harpia::Internal {
     private:
         int RenderingInitialize() override;
         void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
+        void RemoveRenderer(Internal::RendererComponent_Internal *renderer) override;
 
         bool InitGL();
 
@@ -60,7 +61,7 @@ namespace Harpia::Internal {
         TextureAsset *LoadTexture(const std::string &path) override;
 
         MaterialAsset *CreateMaterial() override;
-        void RenderObjectMaterial(RendererComponentGL *renderer, const float *cameraTransform);
+        void RenderObjectMaterial(MaterialAssetGL *material, const float *cameraTransform);
     };
 }// namespace Harpia::Internal
 

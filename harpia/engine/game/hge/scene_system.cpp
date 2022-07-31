@@ -16,23 +16,23 @@ namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
+        _sceneManager = new SceneManager(this);
+
         DebugLog("Init Scenes");
         _application = application;
         std::for_each(configuration.scenes.begin(), configuration.scenes.end(),
-                      [&](auto s) { _scenes.push_back((Scene_Internal *) s); });
+                      [&](auto s) { _availableScenes.push_back((Scene_Internal *) s); });
 
-        if (_scenes.empty()) {
+        if (_availableScenes.empty()) {
             DebugLogError("No scenes were added in the configuration.");
             return -1;
         }
 
-        auto ai = (Application_Internal *) application;
-
-        coreSystem->onInitialize += [this, ai]() {
-            auto scene = _scenes[0];
-            LoadScene(scene);
+        coreSystem->onInitialize += [this]() {
+            LoadScene(0, false);
         };
         coreSystem->onUpdate += [this]() { OnUpdate(); };
+        coreSystem->onSceneChanges += [this]() { OnSceneChanges(); };
         return 0;
     }
 
@@ -50,6 +50,9 @@ namespace Harpia::Internal {
             delete s;
         }
         _loadedScenes.clear();
+        delete _sceneManager;
+        _sceneManager = nullptr;
+        _application = nullptr;
         DebugLog("Quit Scenes");
     }
 
@@ -58,11 +61,62 @@ namespace Harpia::Internal {
         _loadedScenes.push_back(scene);
     }
 
+    void SceneSystem::LoadScene(int index, bool additive) {
+        auto scene = (Internal::Scene_Internal *) nullptr;
+        if (TryGetScene(index, OUT & scene)) {
+            if (!additive) {
+                _unloadScenes = true;
+            }
+            _newScenes.push_back(scene);
+        } else {
+            DebugLogError("Scene index out of range: %d", index);
+        }
+    }
+
+    void SceneSystem::UnloadScene(int index) {
+        auto scene = (Internal::Scene_Internal *) nullptr;
+        if (TryGetScene(index, OUT & scene)) {
+            scene->Release();
+        } else {
+            DebugLogError("Scene index out of range: %d", index);
+        }
+    }
+
+    void SceneSystem::OnSceneChanges() {
+        if (_unloadScenes) {
+            for (auto s: _loadedScenes) {
+                s->Release();
+            }
+            _loadedScenes.clear();
+            _unloadScenes = false;
+        }
+        if (!_newScenes.empty()) {
+            for (auto s: _newScenes) {
+                LoadScene(s);
+            }
+            _newScenes.clear();
+        }
+    }
+
     void SceneSystem::OnUpdate() {
         for (auto s: _loadedScenes) {
             for (auto o: s->_objects) {
                 o->InternalUpdate();
             }
         }
+    }
+
+    SceneManager *SceneSystem::GetSceneManager() {
+        return _sceneManager;
+    }
+
+    bool SceneSystem::TryGetScene(int index, OUT Internal::Scene_Internal **scene) {
+        DebugLog("Scenes size: %d", _availableScenes.size());
+        if (index >= 0 && index < _availableScenes.size()) {
+            *scene = _availableScenes[index];
+            return true;
+        }
+        *scene = nullptr;
+        return false;
     }
 }// namespace Harpia::Internal

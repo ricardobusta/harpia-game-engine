@@ -8,16 +8,22 @@
 #include "hge/global_defines.h"
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
+#include "scene_manager.h"
 #include <map>
 #include <vector>
 
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
     private:
-        std::vector<Internal::Scene_Internal *> _scenes;
+        std::vector<Internal::Scene_Internal *> _availableScenes;
         std::vector<Internal::Scene_Internal *> _loadedScenes;
+        std::vector<Internal::Scene_Internal *> _newScenes;
 
         Application *_application = nullptr;
+
+        SceneManager *_sceneManager = nullptr;
+
+        bool _unloadScenes = false;
 
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
@@ -25,9 +31,16 @@ namespace Harpia::Internal {
         int GetWindowFlags() override;
         void Quit() override;
 
+        void LoadScene(int index, bool additive);
+        void UnloadScene(int index);
+
+        SceneManager *GetSceneManager();
+
     private:
         void LoadScene(Internal::Scene_Internal *scene);
+        void OnSceneChanges();
         void OnUpdate();
+        bool TryGetScene(int index, OUT Internal::Scene_Internal **scene);
     };
 }// namespace Harpia::Internal
 

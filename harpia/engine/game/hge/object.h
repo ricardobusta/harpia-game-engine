@@ -14,6 +14,7 @@
 namespace Harpia {
     class Object {
     public:
+        std::string name = "Object";
         Transform transform;
 
     private:
@@ -22,10 +23,12 @@ namespace Harpia {
 
     public:
         Object() = delete;
-        explicit Object(Internal::Application_Internal *application);
+        explicit Object(std::string name, Internal::Application_Internal *application);
+        ~Object();
 
         template<class T>
         T *AddComponent() {
+            static_assert(std::is_base_of<Component, T>::value);
             auto newComponent = HierarchyStatic::AddComponent<T>(this, _applicationInternal, _components);
             if (std::is_base_of<RendererComponent, T>::value) {
                 AddToRenderSystemIfRenderer((Internal::RendererComponent_Internal *) newComponent);

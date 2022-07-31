@@ -10,10 +10,18 @@
 
 namespace Harpia {
     class RendererComponent : public Component, public Internal::RendererComponent_Internal {
+    protected:
+        Internal::RenderingSystem *_renderingSystem = nullptr;
+
     public:
+        RendererComponent();
+        ~RendererComponent() override;
         virtual void SetMesh(MeshAsset *mesh);
         virtual void SetMaterial(MaterialAsset *material);
         virtual const MaterialAsset *GetMaterial() const;
+
+    protected:
+        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
 
     private:
         Transform *GetTransformInternal() override;

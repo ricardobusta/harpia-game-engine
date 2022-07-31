@@ -15,8 +15,8 @@
 #include <list>
 
 namespace Harpia {
-    Object *Scene::CreateObject() {
-        auto object = new Object(_applicationInternal);
+    Object *Scene::CreateObject(const std::string &name) {
+        auto object = new Object(name, _applicationInternal);
         _objects.push_back(object);
         return object;
     }
@@ -89,5 +89,30 @@ namespace Harpia {
         auto asset = _applicationInternal->_renderSystem->LoadTexture(path);
         _assets.push_back(asset);
         return asset;
+    }
+
+    void Scene::Release() {
+        ReleaseImpl();
+    }
+
+    void Scene::ReleaseImpl() {
+        if (!_loaded) return;
+
+        for (auto a: _assets) {
+            a->Release();
+        }
+        _assets.clear();
+
+        for (auto o: _objects) {
+            delete o;
+        }
+        _objects.clear();
+
+        _loaded = false;
+        DebugLog("Scene released");
+    }
+
+    Scene::~Scene() {
+        ReleaseImpl();
     }
 }// namespace Harpia

@@ -4,9 +4,23 @@
 
 #include "renderer_component.h"
 
+#include "hge/in/application_internal.h"
 #include "hge/renderer_component_platform.h"
+#include "hge/rendering_system.h"
 
 namespace Harpia {
+    RendererComponent::RendererComponent()
+        : Component(), Internal::RendererComponent_Internal() {
+    }
+
+    RendererComponent::~RendererComponent() {
+        _renderingSystem->RemoveRenderer(this);
+    }
+
+    void RendererComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
+        _renderingSystem = applicationInternal->_renderSystem;
+    }
+
     void RendererComponent::SetMesh(MeshAsset *mesh) {
         if (mesh == nullptr) {
             DebugLogError("Mesh was null");
