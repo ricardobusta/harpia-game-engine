@@ -15,6 +15,7 @@ namespace Harpia::Internal {
     class CoreSystem : public IApplicationSystem {
     public:
         Event<> onInitialize;
+        Event<> onSceneChanges;
         Event<> onUpdate;
         Event<> onRenderStep;
         Event<> onLateUpdate;

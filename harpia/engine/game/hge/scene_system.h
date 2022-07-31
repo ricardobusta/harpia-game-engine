@@ -15,12 +15,15 @@
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
     private:
-        std::vector<Internal::Scene_Internal *> _scenes;
+        std::vector<Internal::Scene_Internal *> _availableScenes;
         std::vector<Internal::Scene_Internal *> _loadedScenes;
+        std::vector<Internal::Scene_Internal *> _newScenes;
 
         Application *_application = nullptr;
 
         SceneManager *_sceneManager = nullptr;
+
+        bool _unloadScenes = false;
 
     public:
         int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
@@ -35,7 +38,9 @@ namespace Harpia::Internal {
 
     private:
         void LoadScene(Internal::Scene_Internal *scene);
+        void OnSceneChanges();
         void OnUpdate();
+        bool TryGetScene(int index, OUT Internal::Scene_Internal **scene);
     };
 }// namespace Harpia::Internal
 

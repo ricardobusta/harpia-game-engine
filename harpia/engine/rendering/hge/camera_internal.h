@@ -17,7 +17,13 @@ namespace Harpia::Internal {
         Color _clearColor;
         RectInt _viewport;
         Matrix4x4 _projection;
+
+    private:
+        Internal::RenderingSystem *_renderingSystem;
+
     public:
+        Camera_Internal() = delete;
+        explicit Camera_Internal(int clearMask);
         virtual Transform *GetTransformInternal() = 0;
     };
 }// namespace Harpia::Internal

@@ -15,6 +15,8 @@ namespace Harpia {
     class Component : private Internal::Component_Internal {
     private:
     public:
+        virtual ~Component() = default;
+
         [[nodiscard]] Object *GetObject() const;
 
         template<class T>

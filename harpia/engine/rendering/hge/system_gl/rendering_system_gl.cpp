@@ -181,6 +181,12 @@ namespace Harpia::Internal {
         _renderersGL[-1].push_back(dynamic_cast<RendererComponentGL *>(platform));
     }
 
+    void RenderingSystemGL::RemoveRenderer(Internal::RendererComponent_Internal *renderer) {
+        auto platform = dynamic_cast<RendererComponentGL *>(renderer->_platform);
+        _renderersGL[-1].remove(platform);
+        delete platform;
+    }
+
     MaterialAsset *RenderingSystemGL::CreateMaterial() {
         return new MaterialAssetGL(this);
     }

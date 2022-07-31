@@ -46,6 +46,7 @@ namespace Harpia::Internal {
     private:
         int RenderingInitialize() override;
         void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
+        void RemoveRenderer(Internal::RendererComponent_Internal *renderer) override;
 
         bool InitGL();
 

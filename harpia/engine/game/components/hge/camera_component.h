@@ -10,14 +10,21 @@
 
 namespace Harpia {
     class CameraComponent : public Component, private Internal::Camera_Internal {
+    private:
+        Internal::RenderingSystem *_renderingSystem;
+
     public:
         CameraComponent();
+        ~CameraComponent() override;
 
         void SetViewport(const RectInt &viewport);
         void SetClearColor(const Color &color);
 
         void SetPerspective(float fovy, float aspect, float near, float far);
         void SetOrthographic(float height, float aspect, float near, float far);
+
+    protected:
+        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
 
     private:
         Transform *GetTransformInternal() override;

@@ -210,6 +210,7 @@ namespace Harpia::Internal {
                 break;
             }
 
+            onSceneChanges.Invoke();
             onUpdate.Invoke();
             onRenderStep.Invoke();
             onLateUpdate.Invoke();

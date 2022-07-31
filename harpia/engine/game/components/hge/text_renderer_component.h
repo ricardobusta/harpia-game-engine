@@ -19,14 +19,9 @@ namespace Harpia {
         std::string _table = {};
         MeshAsset *_textMesh = nullptr;
 
-        Internal::RenderingSystem *_renderingSystem = nullptr;
-
     public:
         void SetText(const std::string &text);
         void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight, const std::string &table = ASCII_TABLE);
-
-    protected:
-        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
 
     private:
         void UpdateMesh();
