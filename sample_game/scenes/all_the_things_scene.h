@@ -5,6 +5,7 @@
 #ifndef HARPIAGAMEENGINE_ALL_THE_THINGS_SCENE_H
 #define HARPIAGAMEENGINE_ALL_THE_THINGS_SCENE_H
 
+#include "all_the_things_scene/test_audio.h"
 #include <hge/global_defines.h>
 #include <hge/rect.h>
 #include <hge/scene.h>
@@ -12,7 +13,7 @@
 using namespace Harpia;
 
 namespace SampleGame {
-    class AllTheThingsScene: public Scene {
+    class AllTheThingsScene : public Scene {
     public:
         void Load(Application *application) override;
 
@@ -20,8 +21,8 @@ namespace SampleGame {
         Object *
         CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Vector3 &scale, const Color &color,
                             ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh);
-        void CreateAudioObjects();
-        void CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent);
+        TestAudio *CreateAudioObject();
+        void CreateCameraObject(const Application *application, bool ortho, const RectInt &viewport, Object *parent);
     };
 }// namespace SampleGame
 

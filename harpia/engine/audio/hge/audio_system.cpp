@@ -94,6 +94,10 @@ namespace Harpia::Internal {
         }
     }
 
+    void AudioSystem::SetMusicVolume(float volume) {
+        Mix_VolumeMusic((int)(volume * MIX_MAX_VOLUME));
+    }
+
     void AudioSystem::PauseMusic() {
         Mix_PauseMusic();
     }

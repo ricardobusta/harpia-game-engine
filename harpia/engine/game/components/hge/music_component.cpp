@@ -16,6 +16,7 @@ namespace Harpia {
     void MusicComponent::Play() {
         AssertNotNull(_music);
         _audioSystem->PlayMusic(_music);
+        _audioSystem->SetMusicVolume(0.3f);
     }
 
     bool MusicComponent::IsPaused() {

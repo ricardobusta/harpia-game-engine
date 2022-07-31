@@ -30,6 +30,7 @@ namespace SampleGame {
 
         if (_grounded) {
             if (Input()->GetKeyDown(SDLK_SPACE)) {
+                audio->PlayJumpSfx();
                 _verticalSpeed = 20;
                 _grounded = false;
             }

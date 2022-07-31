@@ -26,6 +26,7 @@ namespace Harpia::Internal {
         MusicAsset *LoadMusic(const std::string &path);
         void ReleaseMusic(MusicAsset *music);
         void PlayMusic(MusicAsset *music);
+        void SetMusicVolume(float volume = 1);
         void PauseMusic();
         void ResumeMusic();
         bool IsMusicPaused();

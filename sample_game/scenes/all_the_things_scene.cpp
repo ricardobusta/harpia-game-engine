@@ -43,7 +43,7 @@ namespace SampleGame {
     void AllTheThingsScene::Load(Harpia::Application *application) {
         DebugLog("Starting AllTheThingsScene");
 
-        CreateAudioObjects();
+        auto testAudio = CreateAudioObject();
 
         auto defaultShader = LoadShaderAsset("assets/shaders/default.vert", "assets/shaders/default.frag");
         auto tileTexture = LoadTextureAsset("assets/textures/tile.png");
@@ -69,7 +69,7 @@ namespace SampleGame {
         floorMat->SetColor(Color(0.5, 0.9, 0.3));
         floorMat->SetTexture(tileTexture);
         floorRend->SetMaterial(floorMat);
-        auto floorMesh = LoadBoxMeshAsset({0, -2.25, -5}, {20, 1, 20}, true);
+        auto floorMesh = LoadBoxMeshAsset({0, -2.25, 0}, {20, 1, 20}, true);
         floorRend->SetMesh(floorMesh);
 
         CreateRotatingShape({-10, 0, -5},
@@ -109,7 +109,9 @@ namespace SampleGame {
                             defaultShader, tileTexture, sphereMesh);
 
         auto movableObject = CreateObject("Player");
-        movableObject->AddComponent<CharacterController>();
+        movableObject->transform.SetPosition({0, 0, 5});
+        auto characterController = movableObject->AddComponent<CharacterController>();
+        characterController->audio = testAudio;
         auto movableRend = movableObject->AddComponent<RendererComponent>();
         auto movableMat = LoadMaterialAsset(defaultShader);
         movableMat->SetTexture(bustaTexture);
@@ -130,24 +132,31 @@ namespace SampleGame {
         textRenderer->SetText("Hello World!");
 
         auto screenSize = application->screenSize;
-        CreateCameraObject(application, RectInt{0, 0, screenSize.x / 2, screenSize.y}, movableObject);
-        CreateCameraObject(application, RectInt{screenSize.x / 2, 0, screenSize.x / 2, screenSize.y}, nullptr);
+        CreateCameraObject(application, false, RectInt{0, 0, screenSize.x, screenSize.y }, movableObject);
+        CreateCameraObject(application, true, RectInt{2*screenSize.x/3, 2 * screenSize.y / 3, screenSize.x/3, screenSize.y / 3}, nullptr);
     }
 
-    void AllTheThingsScene::CreateCameraObject(const Application *application, const RectInt &viewport, Object *parent) {
+    void AllTheThingsScene::CreateCameraObject(const Application *application, bool ortho, const RectInt &viewport, Object *parent) {
         auto cameraObject = CreateObject("Camera");
         cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
-        cameraObject->transform.SetPosition({0, 5, 15.0f});
-        cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
-        //camera->SetOrthographic(30, (float) viewport.w / (float) viewport.h, 40, -40);
         camera->SetViewport(viewport);
-        camera->SetClearColor(Color(0.3f, 0.3f, 0.3f, 0.0f));
+
+        if (ortho) {
+            camera->SetOrthographic(10, (float) viewport.w / (float) viewport.h, 40, -40);
+            cameraObject->transform.Rotate(45 * Math::Deg2Rad, {0, 1, 0});
+            cameraObject->transform.Rotate(-45 * Math::Deg2Rad, {1, 0, 0});
+            camera->SetClearColor(Color::black);
+        } else {
+            camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
+            cameraObject->transform.SetPosition({0, 5, 15.0f});
+            cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
+            camera->SetClearColor(Color::darkGray);
+        }
     }
 
-    void AllTheThingsScene::CreateAudioObjects() {
+    TestAudio *AllTheThingsScene::CreateAudioObject() {
         auto audioObject = CreateObject("Audio");
 
         auto audioComponent = audioObject->AddComponent<AudioComponent>();
@@ -156,6 +165,8 @@ namespace SampleGame {
         auto music = audioObject->AddComponent<MusicComponent>();
         music->SetMusic(LoadMusicAsset("assets/musics/idle.ogg"));
 
-        audioObject->AddComponent<TestAudio>();
+        auto testAudio = audioObject->AddComponent<TestAudio>();
+
+        return testAudio;
     }
 }// namespace SampleGame
