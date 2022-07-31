@@ -5,7 +5,4 @@
 #include "hge/camera_internal.h"
 
 namespace Harpia::Internal {
-    Camera_Internal::Camera_Internal(int clearMask)
-        : _clearMask(clearMask) {
-    }
 }// namespace Harpia::Internal
