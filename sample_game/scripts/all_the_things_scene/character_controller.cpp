@@ -12,11 +12,30 @@ namespace SampleGame {
         auto speed = 10.0f * Time()->deltaTime;
         auto x = Input()->GetKeyIsDown(SDLK_d) - Input()->GetKeyIsDown(SDLK_a) +
                  Input()->GetKeyIsDown(SDLK_RIGHT) - Input()->GetKeyIsDown(SDLK_LEFT);
-        auto y = Input()->GetKeyIsDown(SDLK_q) - Input()->GetKeyIsDown(SDLK_e);
         auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w) +
                  Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
-        GetObject()->transform.SetPosition(GetObject()->transform.GetPosition() +
-                                           Vector3{x * speed, y * speed, z * speed}); // TODO add "Translate" method
+        auto obj = GetObject();
+        auto pos = obj->transform.GetPosition();
+        pos.x += x * speed;
+        pos.y += _verticalSpeed * Time()->deltaTime;
+        pos.z += z * speed;
+
+        if (!_grounded && pos.y <= 0) {
+            pos.y = 0;
+            _verticalSpeed = 0;
+            _grounded = true;
+        }
+
+        obj->transform.SetPosition(pos);
+
+        if (_grounded) {
+            if (Input()->GetKeyDown(SDLK_SPACE)) {
+                _verticalSpeed = 20;
+                _grounded = false;
+            }
+        } else {
+            _verticalSpeed -= 50.0f * Time()->deltaTime;
+        }
 
         auto mousePos = Input()->GetMousePos();
         if (Input()->GetMouseButtonIsDown(0)) {

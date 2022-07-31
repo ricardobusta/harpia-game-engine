@@ -4,9 +4,9 @@
 
 #include "all_the_things_scene.h"
 
-#include "character_controller.h"
-#include "rotate_around.h"
-#include "test_audio.h"
+#include "all_the_things_scene/character_controller.h"
+#include "all_the_things_scene/rotate_around.h"
+#include "all_the_things_scene/test_audio.h"
 #include <hge/application.h>
 #include <hge/audio_component.h>
 #include <hge/camera_component.h>
@@ -69,7 +69,7 @@ namespace SampleGame {
         floorMat->SetColor(Color(0.5, 0.9, 0.3));
         floorMat->SetTexture(tileTexture);
         floorRend->SetMaterial(floorMat);
-        auto floorMesh = LoadBoxMeshAsset({0, -2, -5}, {20, 1, 20}, true);
+        auto floorMesh = LoadBoxMeshAsset({0, -2.25, -5}, {20, 1, 20}, true);
         floorRend->SetMesh(floorMesh);
 
         CreateRotatingShape({-10, 0, -5},

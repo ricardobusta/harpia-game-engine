@@ -15,6 +15,9 @@ namespace SampleGame {
         Harpia::AudioComponent *audio = nullptr;
         Harpia::MusicComponent *music = nullptr;
 
+    public:
+        void PlayJumpSfx();
+
     private:
         void Start() override;
         void Update() override;

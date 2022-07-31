@@ -3,7 +3,7 @@
 //
 
 #include "main_scene.h"
-#include "main_scene_controller.h"
+#include "main_scene/main_scene_controller.h"
 #include <hge/application.h>
 #include <hge/camera_component.h>
 #include <hge/color.h>
