@@ -132,8 +132,8 @@ namespace SampleGame {
         textRenderer->SetText("Hello World!");
 
         auto screenSize = application->screenSize;
-        CreateCameraObject(application, false, RectInt{0, 0, screenSize.x, screenSize.y }, movableObject);
-        CreateCameraObject(application, true, RectInt{2*screenSize.x/3, 2 * screenSize.y / 3, screenSize.x/3, screenSize.y / 3}, nullptr);
+        CreateCameraObject(application, false, RectInt{0, 0, screenSize.x, screenSize.y}, movableObject);
+        CreateCameraObject(application, true, RectInt{2 * screenSize.x / 3, 2 * screenSize.y / 3, screenSize.x / 3, screenSize.y / 3}, nullptr);
     }
 
     void AllTheThingsScene::CreateCameraObject(const Application *application, bool ortho, const RectInt &viewport, Object *parent) {
@@ -147,7 +147,8 @@ namespace SampleGame {
             camera->SetOrthographic(10, (float) viewport.w / (float) viewport.h, 40, -40);
             cameraObject->transform.Rotate(45 * Math::Deg2Rad, {0, 1, 0});
             cameraObject->transform.Rotate(-45 * Math::Deg2Rad, {1, 0, 0});
-            camera->SetClearColor(Color::black);
+            camera->SetClearColor(Color{0, 0, 0, 0});
+            camera->SetClearType(CameraClearType::Depth);
         } else {
             camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
             cameraObject->transform.SetPosition({0, 5, 15.0f});
