@@ -55,7 +55,7 @@ namespace SampleGame {
 
         CreateText("Press Key to Load Scene", {h, v -= space}, fontMaterial);
         CreateText("[1] All The Things", {h += tab, v -= 4}, fontMaterial);
-        CreateText("[2] ... soon ...", {h, v -= space}, fontMaterial);
+        CreateText("[2] Spaceships", {h, v -= space}, fontMaterial);
         CreateText("[3] ... soon ...", {h, v -= space}, fontMaterial);
         CreateText("[4] ... soon ...", {h, v -= space}, fontMaterial);
         CreateText("[5] ... soon ...", {h, v -= space}, fontMaterial);

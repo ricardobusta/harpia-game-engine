@@ -104,7 +104,10 @@ namespace Harpia::Internal {
     bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *> &loadedMeshes) {
         FILE *fp = fopen(path.c_str(), "rb");
 
-        if (!fp) return false;
+        if (!fp) {
+            DebugLogError("Failed to open file %s.", path.c_str());
+            return false;
+        }
 
         fseek(fp, 0, SEEK_END);
         long file_size = ftell(fp);
@@ -138,6 +141,9 @@ namespace Harpia::Internal {
                 }
 
                 auto mesh = rs.LoadMesh(points, normals, uvs, indices);
+                if(!mesh){
+                    DebugLogError("Mesh was null: %s", ofbx::getError());
+                }
                 loadedMeshes[name] = mesh;
             }
         }
