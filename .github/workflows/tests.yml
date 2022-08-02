@@ -67,6 +67,7 @@ jobs:
           libibus-1.0-dev \
           libpulse-dev \
           libsdl2-2.0-0 \
+          libsdl2-dev \
           libsndio-dev \
           libudev-dev \
           libwayland-dev \
