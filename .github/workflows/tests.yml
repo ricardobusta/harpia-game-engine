@@ -19,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-#         - { name: Windows (mingw32),        os: windows-latest, shell: 'msys2 {0}', msystem: mingw32, msys-env: mingw-w64-i686, cc: gcc }
+          - { name: Windows (mingw32),        os: windows-latest, shell: 'msys2 {0}', msystem: mingw32, msys-env: mingw-w64-i686, cc: gcc }
 #          - { name: Windows (mingw64+clang),  os: windows-latest, shell: 'msys2 {0}', msystem: mingw64, msys-env: mingw-w64-x86_64, cc: clang }
           - { name: Linux (CMake),            os: ubuntu-20.04,   shell: sh,    flags: true }
 #          - { name: Linux (autotools),        os: ubuntu-20.04,   shell: sh,    autotools: true }
-#          - { name: MacOS (CMake),            os: macos-latest,   shell: sh }
+          - { name: MacOS (CMake),            os: macos-latest,   shell: sh }
 #          - { name: MacOS (autotools),        os: macos-latest,   shell: sh,    autotools: true }
 
     steps:
@@ -102,8 +102,6 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
-    - name: Git Submodule Update
-      run: git submodule update --init --recursive
     - name: Configure (CMake)
       if: "! matrix.platform.autotools"
       run: |
@@ -120,7 +118,7 @@ jobs:
     - name: Build (CMake)
       if: "! matrix.platform.autotools"
       run: |
-        cmake --build build/ --config Release --verbose --parallel
+        cmake --build build/ --target Harpia.SampleGame --verbose --parallel -j 9
     - name: Run build-time tests (CMake)
       if: "! matrix.platform.autotools"
       run: |
