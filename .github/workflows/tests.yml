@@ -103,7 +103,7 @@ jobs:
     - name: Build (CMake)
       if: "! matrix.platform.autotools"
       run: |
-        cmake --build build/ --target Harpia.SampleGame --verbose --parallel -j 9
+        cmake --build ${pwd}/cmake-build --target Harpia.SampleGame --verbose --parallel -j 9
 #    - name: Install (CMake)
 #      if: "! matrix.platform.autotools"
 #      run: |
