@@ -23,12 +23,15 @@ else ()
     option(BUILD_SHARED_LIBS "" ON)
 endif ()
 
-if (WIN32)
-    set(SDL2MIXER_VENDORED ON)
-    set(SDL2MIXER_FLAC OFF)
-    set(SDL2MIXER_OPUS OFF)
-    set(SDL2MIXER_OGG ON)
-endif ()
+set(SDL2MIXER_VENDORED ON)
+option(SDL2MIXER_VENDORED "" ON)
+set(SDL2MIXER_FLAC OFF)
+option(SDL2MIXER_FLAC "" OFF)
+set(SDL2MIXER_OPUS OFF)
+option(SDL2MIXER_OPUS "" OFF)
+set(SDL2MIXER_OGG ON)
+option(SDL2MIXER_OGG "" ON)
+
 
 list(
         APPEND
