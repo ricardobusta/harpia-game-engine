@@ -31,6 +31,7 @@ namespace SampleGame {
         if(!LoadFbxMeshAssets("assets/spaceships/spaceships.fbx", meshCollection)){
             DebugLogError("Error!");
         }
+        //auto spaceshipMesh = LoadBoxMeshAsset({0,0,0},{1,1,1}, false);
         auto spaceshipMesh = meshCollection["Spaceship"];
         auto projectileMesh = meshCollection["Projectile"];
         for (auto k: meshCollection) {
@@ -41,6 +42,7 @@ namespace SampleGame {
         auto playerRenderer = player->AddComponent<RendererComponent>();
         auto playerMaterial = LoadMaterialAsset(defaultShader);
         auto playerTexture = LoadTextureAsset("assets/spaceships/ship01_tex.png");
+        playerTexture->_filter = TextureFilter::Nearest;
         playerMaterial->SetTexture(playerTexture);
         playerMaterial->SetColor(Color::white);
         playerRenderer->SetMaterial(playerMaterial);
@@ -53,6 +55,7 @@ namespace SampleGame {
         auto enemy01Renderer = enemy01->AddComponent<RendererComponent>();
         auto enemyMaterial = LoadMaterialAsset(defaultShader);
         auto enemyTexture = LoadTextureAsset("assets/spaceships/ship02_tex.png");
+        enemyTexture->_filter = TextureFilter::Nearest;
         enemyMaterial->SetTexture(enemyTexture);
         enemyMaterial->SetColor(Color::white);
         enemy01Renderer->SetMaterial(enemyMaterial);
