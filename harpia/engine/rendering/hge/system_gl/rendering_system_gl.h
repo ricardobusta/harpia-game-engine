@@ -8,12 +8,13 @@
 #include "hge/rendering_system.h"
 
 #include "gl_types.h"
+#include "hge/asset_container.h"
 #include "hge/camera_clear_type.h"
 #include "hge/internal_defines.h"
-#include "hge/asset_container.h"
+#include "shader_asset_gl.h"
+#include "texture_asset_gl.h"
 #include <map>
 #include <vector>
-#include "texture_asset_gl.h"
 
 namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
@@ -32,6 +33,7 @@ namespace Harpia::Internal {
         MaterialAssetGL *_previousMaterial = nullptr;
 
         AssetContainer<TextureAssetGL> _loadedTextures;
+        AssetContainer<ShaderAssetGL> _loadedShaders;
 
     public:
         int GetWindowFlags() override;
@@ -44,7 +46,7 @@ namespace Harpia::Internal {
 
         void ReleaseShader(ShaderAssetGL *shader);
 
-        void ReleaseTexture(TextureAssetGL *texture);
+        void ReleaseTexture(TextureAssetGL *texAsset);
 
         void SetRendererMaterialList(int oldIndex, int newIndex, RendererComponentGL *renderer);
 
@@ -57,15 +59,17 @@ namespace Harpia::Internal {
 
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
-        ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) override;
+        ShaderAsset *LoadShader(const std::string &vertPath, const std::string &fragPath) override;
+        ShaderAssetGL *LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc);
 
         void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal,
                         const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
-        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,
-                            const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
+        MeshAsset *
+        LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv,
+                 const std::vector<unsigned int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);
 
-        TextureAsset *LoadTexture(const std::string &path) override;
+        TextureAsset *LoadTexture(const std::string &texPath) override;
 
         MaterialAsset *CreateMaterial() override;
         void RenderObjectMaterial(MaterialAssetGL *material, const float *cameraTransform);

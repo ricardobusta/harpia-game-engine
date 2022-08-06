@@ -9,6 +9,7 @@
 #include "hge/configuration.h"
 #include "hge/debug.h"
 #include "hge/harpia_math.h"
+#include "hge/harpia_string.h"
 #include "hge/renderer_component_internal.h"
 #include "hge/transform.h"
 #include "material_asset_gl.h"
@@ -109,7 +110,7 @@ namespace Harpia::Internal {
             }
             glClear(camera->_clearMask);
 
-            for (auto kvp: _renderersGL) {
+            for (const auto& kvp: _renderersGL) {
                 auto sortingOrder = kvp.first;
                 auto renderers = kvp.second;
                 for (auto r: renderers) {
@@ -195,7 +196,9 @@ namespace Harpia::Internal {
         return new MaterialAssetGL(this);
     }
 
-    void RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
+    void
+    RenderingSystemGL::UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal,
+                                  const std::vector<float> &uv, const std::vector<unsigned int> &index) {
         auto glMesh = dynamic_cast<MeshAssetGL *>(mesh);
         glMesh->points = vertex;
         glMesh->normals = normal;
@@ -204,7 +207,8 @@ namespace Harpia::Internal {
         glMesh->UpdateMesh();
     }
 
-    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) {
+    MeshAsset *RenderingSystemGL::LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,
+                                           const std::vector<float> &uv, const std::vector<unsigned int> &index) {
         auto mesh = new MeshAssetGL(this);
         mesh->points = vertex;
         mesh->normals = normal;
@@ -221,7 +225,8 @@ namespace Harpia::Internal {
         glDrawElements(GL_TRIANGLES, mesh->indexes.size(), GL_UNSIGNED_INT, nullptr);
     }
 
-    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
+    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points,
+                                       const std::vector<float> &normals,
                                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
         glBindVertexArray(vao);
 
@@ -254,7 +259,26 @@ namespace Harpia::Internal {
         mesh->vao = 0;
     }
 
-    ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertSrc, const std::string &fragSrc) {
+    ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertPath, const std::string &fragPath) {
+        return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto p) -> ShaderAssetGL * {
+            auto ok = false;
+            auto vertSrc = Harpia::String::ReadFile(vertPath, &ok);
+            if (!ok) {
+                DebugLogError("Error when loading vertex shader file %s.", vertPath.c_str());
+                return nullptr;
+            }
+
+            auto fragSrc = Harpia::String::ReadFile(fragPath, &ok);
+            if (!ok) {
+                DebugLogError("Error when loading fragment shader file %s.", fragPath.c_str());
+                return nullptr;
+            }
+
+            return LoadShaderBySrc(vertSrc, fragSrc);
+        });
+    }
+
+    ShaderAssetGL *RenderingSystemGL::LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -342,26 +366,29 @@ namespace Harpia::Internal {
     clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
-        return LoadShader("#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
-                          "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
-                          "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
+        return (ShaderAssetGL *) LoadShaderBySrc(
+                "#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
+                "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
+                "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
     }
 
     void RenderingSystemGL::ReleaseShader(ShaderAssetGL *shader) {
-        glDeleteShader(shader->fragmentShader);
-        glDeleteShader(shader->vertexShader);
-        glDeleteProgram(shader->programId);
-        shader->fragmentShader = 0;
-        shader->vertexShader = 0;
-        shader->programId = 0;
-        shader->pointsLocation = -1;
+        _loadedShaders.ReleaseAsset(shader, [](auto asset) {
+            glDeleteShader(asset->fragmentShader);
+            glDeleteShader(asset->vertexShader);
+            glDeleteProgram(asset->programId);
+            asset->fragmentShader = 0;
+            asset->vertexShader = 0;
+            asset->programId = 0;
+            asset->pointsLocation = -1;
+        });
     }
 
     TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
-        return _loadedTextures.LoadAsset(path, [this](auto p) -> TextureAssetGL * {
-            SDL_Surface *surface = IMG_Load(p.c_str());
+        return _loadedTextures.LoadAsset(path, [this](auto texPath) -> TextureAssetGL * {
+            SDL_Surface *surface = IMG_Load(texPath.c_str());
             if (surface == nullptr) {
-                DebugLogError("Texture %s not loaded. SDL_image Error: %s", p.c_str(), IMG_GetError());
+                DebugLogError("Texture %s not loaded. SDL_image Error: %s", texPath.c_str(), IMG_GetError());
                 return nullptr;
             }
 
@@ -376,7 +403,7 @@ namespace Harpia::Internal {
             // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
             // testColor & 0xff == ALPHA ?
 
-            DebugLog("Loading texture %s Size: (%d, %d)", p.c_str(), surface->w, surface->h);
+            DebugLog("Loading texture %s Size: (%d, %d)", texPath.c_str(), surface->w, surface->h);
 
             auto w = surface->w;
             auto h = surface->h;
@@ -393,8 +420,8 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
-        _loadedTextures.ReleaseAsset(texture, [](auto a) {
-            glDeleteTextures(1, &a->_texture);
+        _loadedTextures.ReleaseAsset(texture, [](auto texAsset) {
+            glDeleteTextures(1, &texAsset->_texture);
         });
     }
 

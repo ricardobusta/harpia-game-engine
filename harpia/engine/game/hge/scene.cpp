@@ -48,21 +48,8 @@ namespace Harpia {
 
     ShaderAsset *Scene::LoadShaderAsset(const std::string &vert, const std::string &frag) {
         DebugLog("Loading shader asset from %s and %s", vert.c_str(), frag.c_str());
-        bool ok = false;
 
-        auto vertSrc = Harpia::String::ReadFile(vert, &ok);
-        if (!ok) {
-            DebugLogError("Error when loading vertex shader file %s.", vert.c_str());
-            return nullptr;
-        }
-
-        auto fragSrc = Harpia::String::ReadFile(frag, &ok);
-        if (!ok) {
-            DebugLogError("Error when loading fragment shader file %s.", frag.c_str());
-            return nullptr;
-        }
-
-        auto asset = _applicationInternal->_renderSystem->LoadShader(vertSrc, fragSrc);
+        auto asset = _applicationInternal->_renderSystem->LoadShader(vert, frag);
         _assets.push_back(asset);
         return asset;
     }
