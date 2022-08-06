@@ -10,6 +10,7 @@
 #include "gl_types.h"
 #include "hge/camera_clear_type.h"
 #include "hge/internal_defines.h"
+#include "hge/asset_container.h"
 #include <map>
 #include <vector>
 
@@ -28,6 +29,8 @@ namespace Harpia::Internal {
         std::map<int, std::list<RendererComponentGL *>> _renderersGL;
 
         MaterialAssetGL *_previousMaterial = nullptr;
+
+        AssetContainer<TextureAssetGL> _loadedTextures;
 
     public:
         int GetWindowFlags() override;
