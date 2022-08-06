@@ -27,15 +27,15 @@ namespace Harpia {
         }
     }
 
-    void GenerateCharacterMesh(const int index, const float charAspect, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateCharacterMesh(const int index, const float charAspect, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         unsigned int nextIndex = index * 4;
         auto xOffset = (float) index * charAspect;
 
         positions.insert(positions.end(), {
-                                                  xOffset + 0, 0, 0,//
+                                                  xOffset + 0, 0, 0,         //
                                                   xOffset + charAspect, 0, 0,//
                                                   xOffset + charAspect, 1, 0,//
-                                                  xOffset + 0, 1, 0 //
+                                                  xOffset + 0, 1, 0          //
                                           });
 
         normals.insert(normals.end(), {
@@ -57,7 +57,7 @@ namespace Harpia {
                                        nextIndex + 0, nextIndex + 2, nextIndex + 3});
     }
 
-    void GenerateTextMesh(const std::string &text, const std::string &table, const float charAspect, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateTextMesh(const std::string &text, const std::string &table, const float charAspect, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         auto vertexCount = 3 * 2 * text.length();
         positions.clear();
         positions.reserve(3 * vertexCount);
@@ -67,6 +67,10 @@ namespace Harpia {
         uvs.reserve(2 * vertexCount);
         indexes.clear();
         indexes.reserve(vertexCount);
+
+        _size = {
+                std::min((float) text.length(), (float) rowSize) * charAspect,
+                text.length() > 0 ? std::ceil((float) text.length() / (float) rowSize) : 0};
 
         for (auto i = 0; i < text.length(); i++) {
             auto charIdx = table.find_first_of(text[i]);

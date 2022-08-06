@@ -12,6 +12,7 @@ namespace Harpia {
     class TextRendererComponent : public RendererComponent {
     public:
         const static std::string ASCII_TABLE;
+
     private:
         int _charWidth = -1;
         int _charHeight = -1;
@@ -27,6 +28,12 @@ namespace Harpia {
 
     private:
         void UpdateMesh();
+        void GenerateCharacterMesh(int index, float charAspect, const std::array<float, 4> &uv,
+                                   std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs,
+                                   std::vector<unsigned int> &indexes);
+        void GenerateTextMesh(const std::string &text, const std::string &table, float charAspect, float uvX,
+                              float uvY, int rowSize, std::vector<float> &positions, std::vector<float> &normals,
+                              std::vector<float> &uvs, std::vector<unsigned int> &indexes);
     };
 }// namespace Harpia
 
