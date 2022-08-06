@@ -86,6 +86,10 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::RenderFrame() {
+        if (_cameras.empty()) {
+            return; // Ideally there is always at least one enabled camera to clean the screen.
+            // If no cameras are enabled, stop updating the screen. Useful during transitions to prevent flickering.
+        }
         for (auto camera: _cameras) {
             glClearColor(
                     camera->_clearColor.r,
@@ -110,7 +114,7 @@ namespace Harpia::Internal {
             }
             glClear(camera->_clearMask);
 
-            for (const auto& kvp: _renderersGL) {
+            for (const auto &kvp: _renderersGL) {
                 auto sortingOrder = kvp.first;
                 auto renderers = kvp.second;
                 for (auto r: renderers) {
