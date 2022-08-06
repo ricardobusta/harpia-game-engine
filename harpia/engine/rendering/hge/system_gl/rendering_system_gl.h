@@ -13,6 +13,7 @@
 #include "hge/asset_container.h"
 #include <map>
 #include <vector>
+#include "texture_asset_gl.h"
 
 namespace Harpia::Internal {
     class RenderingSystemGL : public RenderingSystem {
@@ -58,8 +59,10 @@ namespace Harpia::Internal {
         static void PrintShaderLog(GLuint shader);
         ShaderAsset *LoadShader(const std::string &vertSrc, const std::string &fragSrc) override;
 
-        void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
-        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
+        void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal,
+                        const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
+        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,
+                            const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
         void DrawMesh(MeshAssetGL *mesh);
 
         TextureAsset *LoadTexture(const std::string &path) override;
