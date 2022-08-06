@@ -18,10 +18,12 @@ namespace Harpia {
         std::string _text = {};
         std::string _table = {};
         MeshAsset *_textMesh = nullptr;
+        Vector2 _size;
 
     public:
         void SetText(const std::string &text);
         void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight, const std::string &table = ASCII_TABLE);
+        [[nodiscard]] Vector2 GetSize() const;
 
     private:
         void UpdateMesh();
