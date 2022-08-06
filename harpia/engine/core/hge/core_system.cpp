@@ -23,7 +23,8 @@ namespace Harpia::Internal {
             return -1;
         }
 
-        _time.now = SDL_GetTicks64();
+        _time.deltaTime = 0;
+        _time.now = CalculateNow();
 
         return 0;
     }
@@ -35,7 +36,7 @@ namespace Harpia::Internal {
         SDL_Event e;
 
         while (true) {
-            auto now = _time.timeScale * (float) SDL_GetTicks64() / 1000.0f;
+            auto now = CalculateNow();
             _time.deltaTime = now - _time.now;
             _time.now = now;
             onPreEvents.Invoke();
@@ -217,6 +218,7 @@ namespace Harpia::Internal {
         }
         return 0;
     }
+    float CoreSystem::CalculateNow() const { return _time.timeScale * (float) SDL_GetTicks64() / 1000.0f; }
 
     int CoreSystem::GetInitFlags() {
         return SDL_INIT_VIDEO;

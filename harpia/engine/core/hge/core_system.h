@@ -46,6 +46,8 @@ namespace Harpia::Internal {
         [[nodiscard]] const Time *GetTime() const;
 
         SDL_Window *GetWindow();
+    private:
+        [[nodiscard]] float CalculateNow() const;
     };
 }// namespace Harpia::Internal
 
