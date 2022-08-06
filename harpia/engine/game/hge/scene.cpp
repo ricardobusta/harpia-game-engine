@@ -98,7 +98,7 @@ namespace Harpia {
         _objects.clear();
 
         _loaded = false;
-        DebugLog("Scene released");
+        DebugLog("Scene released %s", GetName().c_str());
     }
 
     Scene::~Scene() {
