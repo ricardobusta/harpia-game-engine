@@ -13,6 +13,8 @@
 #include "hge/shader_asset.h"
 #include "hge/texture_asset.h"
 #include <list>
+#include "hge/rect.h"
+#include "hge/camera_component.h"
 
 namespace Harpia {
     Object *Scene::CreateObject(const std::string &name) {
@@ -114,5 +116,42 @@ namespace Harpia {
 
     Scene::~Scene() {
         ReleaseImpl();
+    }
+
+    CameraComponent *
+    Scene::CreateSimplePerspectiveCamera(float fovy, float near, float far, const Vector3 &pos, float xAngle,
+                                         const RectF &viewport, Object *parent) {
+        auto cameraObject = CreateObject("Camera");
+        cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
+
+        auto screenSize = _applicationInternal->screenSize;
+        auto sx = (float) screenSize.x;
+        auto sy = (float) screenSize.y;
+        auto viewportInt = RectInt{(int) (sx * viewport.x), (int) (sy * viewport.y),
+                                   (int) (sx * viewport.w), (int) (sy * viewport.h)};
+
+        auto camera = cameraObject->AddComponent<CameraComponent>();
+        camera->SetViewport(viewportInt);
+
+        camera->SetPerspective(fovy, (float) viewportInt.w / (float) viewportInt.h, near, far);
+        cameraObject->transform.SetPosition(pos);
+        cameraObject->transform.Rotate(xAngle * Math::Deg2Rad, {1, 0, 0});
+
+        return camera;
+    }
+
+    CameraComponent *Scene::CreateSimpleOrthoCamera(float sizeV, const RectF &viewport) {
+        auto cameraObject = CreateObject("Camera");
+        auto screenSize = _applicationInternal->screenSize;
+        auto sx = (float) screenSize.x;
+        auto sy = (float) screenSize.y;
+        auto viewportInt = RectInt{(int) (sx * viewport.x), (int) (sy * viewport.y),
+                                   (int) (sx * viewport.w), (int) (sy * viewport.h)};
+        auto camera = cameraObject->AddComponent<CameraComponent>();
+        auto aspect = (float) viewportInt.w / (float) viewportInt.h;
+        camera->SetOrthographic(sizeV, aspect, 1, -1);
+        camera->SetViewport(viewportInt);
+
+        return camera;
     }
 }// namespace Harpia

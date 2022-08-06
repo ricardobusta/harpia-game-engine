@@ -17,6 +17,8 @@ namespace Harpia::Internal {
         AudioSystem *_audioSystem = nullptr;
         CoreSystem *_coreSystem = nullptr;
         SceneSystem *_sceneManagementSystem = nullptr;
+
+        Vector2 screenSize = {0, 0};
     };
 }// namespace Harpia::Internal
 

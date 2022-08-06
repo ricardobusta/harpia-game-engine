@@ -11,6 +11,7 @@
 #include "hge/object.h"
 #include <map>
 #include <string>
+#include "hge/rect.h"
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
@@ -25,6 +26,9 @@ namespace Harpia {
         MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size, bool tileUv);
         bool LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
         TextureAsset *LoadTextureAsset(const std::string &path);
+        CameraComponent * CreateSimplePerspectiveCamera(float fovy, float near, float far, const Vector3 &pos, float xAngle,
+                                                        const RectF &viewport = RectF{0,0,1,1}, Object *parent = nullptr);
+        CameraComponent * CreateSimpleOrthoCamera(float sizeV, const RectF &viewport = RectF{0,0,1,1});
         void Release() override;
 
     protected:
