@@ -16,11 +16,8 @@ namespace Harpia {
         _renderingSystem->RemoveCamera(this);
     }
 
-    void CameraComponent::SetViewport(const RectInt &viewport) {
-        _viewport.x = viewport.x;
-        _viewport.y = viewport.y;
-        _viewport.w = viewport.w;
-        _viewport.h = viewport.h;
+    void CameraComponent::SetViewport(const RectF &viewport) {
+        SetViewportInternal(viewport);
     }
 
     void CameraComponent::SetClearColor(const Color &color) {
@@ -34,13 +31,12 @@ namespace Harpia {
         return &GetObject()->transform;
     }
 
-    void CameraComponent::SetPerspective(float fovy, float aspect, float near, float far) {
-        _projection = Matrix::Perspective(fovy * Math::Deg2Rad, aspect, near, far);
+    void CameraComponent::SetPerspective(float fovy, float near, float far) {
+
     }
 
-    void CameraComponent::SetOrthographic(float height, float aspect, float near, float far) {
-        auto width = height * aspect;
-        _projection = Matrix::Orthographic(-width, width, height, -height, -near, -far);
+    void CameraComponent::SetOrthographic(float height, float near, float far) {
+        SetProjectionInternal(true, height, near, far);
     }
 
     void CameraComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {

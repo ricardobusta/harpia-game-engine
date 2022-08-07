@@ -23,6 +23,8 @@ namespace Harpia::Internal {
             return -1;
         }
 
+        SDL_SetWindowResizable(_window, config.window.resizeable ? SDL_TRUE : SDL_FALSE);
+
         _time.deltaTime = 0;
         _time.now = CalculateNow();
 
@@ -73,7 +75,60 @@ namespace Harpia::Internal {
                         DebugLog("Display changed.");
                         break;
                     case SDL_WINDOWEVENT:
-                        //DebugLog("Window event");
+                        switch (e.window.event) {
+                            case SDL_WINDOWEVENT_SHOWN:
+                                //DebugLog("Window %d shown", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_HIDDEN:
+                                //DebugLog("Window %d hidden", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_EXPOSED:
+                                //DebugLog("Window %d exposed", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_MOVED:
+                                //DebugLog("Window %d moved to %d,%d", e.window.windowID, e.window.data1, e.window.data2);
+                                break;
+                            case SDL_WINDOWEVENT_RESIZED:
+                                //DebugLog("Window %d resized to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
+                                onWindowResize.Invoke({e.window.data1, e.window.data2});
+                                break;
+                            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                                //DebugLog("Window %d size changed to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
+                                break;
+                            case SDL_WINDOWEVENT_MINIMIZED:
+                                //DebugLog("Window %d minimized", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_MAXIMIZED:
+                                //DebugLog("Window %d maximized", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_RESTORED:
+                                //DebugLog("Window %d restored", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_ENTER:
+                                //DebugLog("Mouse entered window %d", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_LEAVE:
+                                //DebugLog("Mouse left window %d", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_FOCUS_GAINED:
+                                //DebugLog("Window %d gained keyboard focus", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_FOCUS_LOST:
+                                //DebugLog("Window %d lost keyboard focus", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_CLOSE:
+                                //DebugLog("Window %d closed", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_TAKE_FOCUS:
+                                //DebugLog("Window %d is offered a focus", e.window.windowID);
+                                break;
+                            case SDL_WINDOWEVENT_HIT_TEST:
+                                //DebugLog("Window %d has a special hit test", e.window.windowID);
+                                break;
+                            default:
+                                DebugLog("Window %d got unknown event %d", e.window.windowID, e.window.event);
+                                break;
+                        }
                         break;
                     case SDL_KEYDOWN:
                         onKeyDown.Invoke(e.key);

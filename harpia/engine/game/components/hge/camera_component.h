@@ -17,12 +17,12 @@ namespace Harpia {
         CameraComponent();
         ~CameraComponent() override;
 
-        void SetViewport(const RectInt &viewport);
+        void SetViewport(const RectF &viewport);
         void SetClearColor(const Color &color);
         void SetClearType(CameraClearType type);
 
-        void SetPerspective(float fovy, float aspect, float near, float far);
-        void SetOrthographic(float height, float aspect, float near, float far);
+        void SetPerspective(float fovy, float near, float far);
+        void SetOrthographic(float height, float near, float far);
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;

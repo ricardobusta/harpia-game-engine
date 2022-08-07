@@ -18,16 +18,19 @@ namespace Harpia::Internal {
     protected:
         std::list<Camera_Internal *> _cameras;
         SDL_Window *_window = nullptr;
+        Vector2Int _screenSize;
 
     public:
         virtual ~RenderingSystem() = default;
 
         virtual MaterialAsset *CreateMaterial() = 0;
 
-        int Initialize(GameConfiguration &configuration, Internal::CoreSystem *coreSystem);
+        int Initialize(Configuration &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void RemoveCamera(Camera_Internal *camera);
+        void ResizeCameras(Vector2Int newSize);
+
         virtual void AddRenderer(Internal::RendererComponent_Internal *platform) = 0;
         virtual void RemoveRenderer(Internal::RendererComponent_Internal *platform) = 0;
 
