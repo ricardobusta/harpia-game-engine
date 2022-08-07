@@ -62,12 +62,12 @@ namespace Harpia::Internal {
             }
 
             it->second->useCount--;
+            DebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
             if (it->second->useCount <= 0) {
                 deleteAsset(asset);
                 delete it->second;
                 _assetMap.erase(path);
             }
-            DebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
         }
 
         void Clear(std::function<void(TAsset *asset)> deleteAsset) {
