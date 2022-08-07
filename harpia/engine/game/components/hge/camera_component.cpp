@@ -32,7 +32,7 @@ namespace Harpia {
     }
 
     void CameraComponent::SetPerspective(float fovy, float near, float far) {
-
+        SetProjectionInternal(false, fovy, near, far);
     }
 
     void CameraComponent::SetOrthographic(float height, float near, float far) {
