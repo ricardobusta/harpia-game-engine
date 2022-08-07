@@ -111,16 +111,10 @@ namespace Harpia {
         auto cameraObject = CreateObject("Camera");
         cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
 
-        auto screenSize = _applicationInternal->screenSize;
-        auto sx = (float) screenSize.x;
-        auto sy = (float) screenSize.y;
-        auto viewportInt = RectInt{(int) (sx * viewport.x), (int) (sy * viewport.y),
-                                   (int) (sx * viewport.w), (int) (sy * viewport.h)};
-
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        camera->SetViewport(viewportInt);
+        camera->SetViewport(viewport);
 
-        camera->SetPerspective(fovy, (float) viewportInt.w / (float) viewportInt.h, near, far);
+        camera->SetPerspective(fovy, near, far);
         cameraObject->transform.SetPosition(pos);
         cameraObject->transform.Rotate(xAngle * Math::Deg2Rad, {1, 0, 0});
 
@@ -130,14 +124,10 @@ namespace Harpia {
     CameraComponent *Scene::CreateSimpleOrthoCamera(float sizeV, const RectF &viewport) {
         auto cameraObject = CreateObject("Camera");
         auto screenSize = _applicationInternal->screenSize;
-        auto sx = (float) screenSize.x;
-        auto sy = (float) screenSize.y;
-        auto viewportInt = RectInt{(int) (sx * viewport.x), (int) (sy * viewport.y),
-                                   (int) (sx * viewport.w), (int) (sy * viewport.h)};
+        auto aspect = (float) screenSize.x / (float) screenSize.y;
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        auto aspect = (float) viewportInt.w / (float) viewportInt.h;
-        camera->SetOrthographic(sizeV, aspect, 1, -1);
-        camera->SetViewport(viewportInt);
+        camera->SetOrthographic(sizeV, 1, -1);
+        camera->SetViewport(viewport);
 
         return camera;
     }
