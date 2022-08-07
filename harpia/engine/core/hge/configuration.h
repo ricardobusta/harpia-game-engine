@@ -20,6 +20,7 @@ namespace Harpia {
 
     struct WindowConfiguration {
         Vector2Int size = Vector2Int(640, 480);
+        bool resizeable = false;
     };
 
     struct InputConfiguration {
