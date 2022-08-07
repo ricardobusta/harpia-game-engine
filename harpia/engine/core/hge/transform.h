@@ -30,6 +30,7 @@ namespace Harpia {
 
         Vector3 GetScale();
         void SetScale(const Vector3 &scale);
+        void SetScale(const float scale);
 
         //Quaternion GetRotation();
         void SetRotation(float angle, const Vector3 &axis);

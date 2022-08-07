@@ -28,6 +28,11 @@ namespace Harpia {
         SetTransformDirty();
     }
 
+    void Transform::SetScale(const float scale) {
+        _scale = {scale, scale, scale};
+        SetTransformDirty();
+    }
+
     void Transform::SetRotation(float angle, const Vector3 &axis) {
         _rotation = glm::toQuat(Matrix::Rotation(angle, axis));// TODO improve this?
         SetTransformDirty();
