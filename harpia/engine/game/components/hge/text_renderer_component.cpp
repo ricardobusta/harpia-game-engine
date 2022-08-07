@@ -69,7 +69,7 @@ namespace Harpia {
         indexes.reserve(vertexCount);
 
         _size = {
-                std::min((float) text.length(), (float) rowSize) * charAspect,
+                (float) text.length() * charAspect,
                 text.length() > 0 ? std::ceil((float) text.length() / (float) rowSize) : 0};
 
         for (auto i = 0; i < text.length(); i++) {
