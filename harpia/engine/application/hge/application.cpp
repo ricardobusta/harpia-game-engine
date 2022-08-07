@@ -8,8 +8,8 @@
 #include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/input_system.h"
-#include "hge/system_gl/rendering_system_gl.h"
 #include "hge/scene_system.h"
+#include "hge/system_gl/rendering_system_gl.h"
 
 #define SystemInit(system, args...)                            \
     do {                                                       \
@@ -43,6 +43,10 @@ namespace Harpia {
         _audioSystem = new Internal::AudioSystem();
         _sceneManagementSystem = new Internal::SceneSystem();
 
+        _coreSystem->onWindowResize.AddListener([this](auto size){
+            screenSize = size;
+        });
+
         _createdWithSuccess = true;
     }
 
@@ -57,7 +61,7 @@ namespace Harpia {
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
-        SystemInit(_renderSystem, configuration.game, _coreSystem);
+        SystemInit(_renderSystem, configuration, _coreSystem);
         SystemInit(_inputSystem, configuration.input, _coreSystem);
         SystemInit(_audioSystem, configuration.audio, _coreSystem);
         SystemInit(_sceneManagementSystem, configuration.game, this, _coreSystem);
@@ -93,6 +97,14 @@ namespace Harpia {
     int Application::GetInitFlags() {
         return _coreSystem->GetInitFlags() |
                _audioSystem->GetInitFlags();
+    }
+
+    const Vector2 &Application::GetScreenSize() const {
+        return screenSize;
+    }
+
+    float Application::GetScreenAspect() const {
+        return (float) screenSize.x / (float) screenSize.y;
     }
 }// namespace Harpia
 

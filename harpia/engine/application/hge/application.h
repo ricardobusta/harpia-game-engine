@@ -14,19 +14,16 @@ namespace Harpia {
     class Application : private Internal::Application_Internal {
     private:
         bool _createdWithSuccess = false;
-
         std::list<Internal::IApplicationSystem *> _systems;
 
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
-
         ~Application();
-
         int Execute();
-
         int GetInitFlags();
-
         int GetWindowFlags();
+        const Vector2& GetScreenSize() const;
+        float GetScreenAspect() const;
     };
 }// namespace Harpia
 
