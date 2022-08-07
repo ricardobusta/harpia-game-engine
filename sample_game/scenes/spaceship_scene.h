@@ -13,10 +13,11 @@ using namespace Harpia;
 namespace SampleGame {
 
     class SpaceshipScene : public Scene {
+        HARPIA_SCENE
     public:
         void Load(Application *application) override;
     private:
-        void CreateCameraObject(bool ortho, const RectInt &viewport, Object *parent);
+        void CreateCameraObject(bool ortho, const RectF &viewport, Object *parent);
         Object *CreateProjectile(MaterialAsset *material, MeshAsset *mesh);
     };
 

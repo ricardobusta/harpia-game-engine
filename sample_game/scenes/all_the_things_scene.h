@@ -14,6 +14,7 @@ using namespace Harpia;
 
 namespace SampleGame {
     class AllTheThingsScene : public Scene {
+        HARPIA_SCENE
     public:
         void Load(Application *application) override;
 
@@ -22,7 +23,7 @@ namespace SampleGame {
         CreateRotatingShape(const Vector3 &position, const Vector3 &rotatingSpeed, const Vector3 &scale, const Color &color,
                             ShaderAsset *shader, TextureAsset *texture, MeshAsset *mesh);
         TestAudio *CreateAudioObject();
-        void CreateCameraObject(const Application *application, bool ortho, const RectInt &viewport, Object *parent);
+        void CreateCameraObject(const Application *application, bool ortho, const RectF &viewport, Object *parent);
     };
 }// namespace SampleGame
 

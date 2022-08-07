@@ -29,13 +29,10 @@ namespace SampleGame {
         auto sizeV = 20.0f;
 
         auto cameraObject = CreateObject("Camera");
-        auto screenSize = application->screenSize;
-        auto viewport = RectInt{0, 0, screenSize.x, screenSize.y};
         auto camera = cameraObject->AddComponent<CameraComponent>();
-        auto aspect = (float) viewport.w / (float) viewport.h;
-        auto sizeH = sizeV * aspect;
-        camera->SetOrthographic(sizeV, aspect, 1, -1);
-        camera->SetViewport(viewport);
+        auto sizeH = sizeV * application->GetScreenAspect();
+        camera->SetOrthographic(sizeV, 1, -1);
+        camera->SetViewport(RectF{0, 0, 1, 1});
 
         auto fontAtlas = LoadTextureAsset("assets/fonts/pixel.png");
         fontAtlas->_filter = TextureFilter::Nearest;

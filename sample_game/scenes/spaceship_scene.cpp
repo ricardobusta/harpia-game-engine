@@ -3,12 +3,12 @@
 //
 
 #include "spaceship_scene.h"
-#include "hge/renderer_component.h"
+#include "hge/application.h"
+#include "hge/camera_component.h"
 #include "hge/color.h"
 #include "hge/material_asset.h"
-#include "hge/camera_component.h"
 #include "hge/rect.h"
-#include "hge/application.h"
+#include "hge/renderer_component.h"
 #include "hge/texture_asset.h"
 #include "spaceship_scene/player_spaceship_controller.h"
 
@@ -28,10 +28,9 @@ namespace SampleGame {
         floorRend->SetMesh(floorMesh);
 
         std::map<std::string, MeshAsset *> meshCollection;
-        if(!LoadFbxMeshAssets("assets/spaceships/spaceships.fbx", meshCollection)){
+        if (!LoadFbxMeshAssets("assets/spaceships/spaceships.fbx", meshCollection)) {
             DebugLogError("Error!");
         }
-        //auto spaceshipMesh = LoadBoxMeshAsset({0,0,0},{1,1,1}, false);
         auto spaceshipMesh = meshCollection["Spaceship"];
         auto projectileMesh = meshCollection["Projectile"];
         for (auto k: meshCollection) {
@@ -47,8 +46,8 @@ namespace SampleGame {
         playerMaterial->SetColor(Color::white);
         playerRenderer->SetMaterial(playerMaterial);
         playerRenderer->SetMesh(spaceshipMesh);
-        player->transform.Rotate(180 * Math::Deg2Rad, {0,1,0});
-        player->transform.SetPosition({0,0,5});
+        player->transform.Rotate(180 * Math::Deg2Rad, {0, 1, 0});
+        player->transform.SetPosition({0, 0, 5});
         auto playerController = player->AddComponent<PlayerSpaceshipController>();
 
         auto enemy01 = CreateObject("Enemy");
@@ -60,31 +59,30 @@ namespace SampleGame {
         enemyMaterial->SetColor(Color::white);
         enemy01Renderer->SetMaterial(enemyMaterial);
         enemy01Renderer->SetMesh(spaceshipMesh);
-        enemy01->transform.SetPosition({0,0,-5});
+        enemy01->transform.SetPosition({0, 0, -5});
 
-        playerController->bullet1= CreateProjectile(playerMaterial, projectileMesh);
-        playerController->bullet2= CreateProjectile(playerMaterial, projectileMesh);
+        playerController->bullet1 = CreateProjectile(playerMaterial, projectileMesh);
+        playerController->bullet2 = CreateProjectile(playerMaterial, projectileMesh);
 
-        auto screenSize = application->screenSize;
-        CreateCameraObject(false, RectInt{0,0, screenSize.x, screenSize.y}, nullptr);
-        CreateCameraObject(true, RectInt{2*screenSize.x/3,2*screenSize.y/3, screenSize.x/3, screenSize.y/3}, nullptr);
+        CreateCameraObject(false, RectF{0, 0, 1, 1}, nullptr);
+        auto prop = 1.0f / 3;
+        CreateCameraObject(true, RectF{1 - prop, 1 - prop, prop, prop}, nullptr);
     }
 
-    void SpaceshipScene::CreateCameraObject(bool ortho, const RectInt &viewport, Object *parent) {
+    void SpaceshipScene::CreateCameraObject(bool ortho, const RectF &viewport, Object *parent) {
         auto cameraObject = CreateObject("Camera");
-        cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
 
         auto camera = cameraObject->AddComponent<CameraComponent>();
         camera->SetViewport(viewport);
 
         if (ortho) {
-            camera->SetOrthographic(10, (float) viewport.w / (float) viewport.h, 40, -40);
+            camera->SetOrthographic(10, 40, -40);
             cameraObject->transform.Rotate(45 * Math::Deg2Rad, {0, 1, 0});
             cameraObject->transform.Rotate(-45 * Math::Deg2Rad, {1, 0, 0});
             camera->SetClearColor(Color{0, 0, 0, 0});
             camera->SetClearType(CameraClearType::Depth);
         } else {
-            camera->SetPerspective(60.0f, (float) viewport.w / (float) viewport.h, 0.01f, 40.0f);
+            camera->SetPerspective(60.0f, 0.01f, 40.0f);
             cameraObject->transform.SetPosition({0, 5, 15.0f});
             cameraObject->transform.Rotate(-15 * Math::Deg2Rad, {1, 0, 0});
             camera->SetClearColor(Color::darkGray);
@@ -96,8 +94,8 @@ namespace SampleGame {
         auto renderer = projectile->AddComponent<RendererComponent>();
         renderer->SetMaterial(material);
         renderer->SetMesh(mesh);
-        projectile->transform.SetPosition({1000,0,0});
-        projectile->transform.SetScale({0,0,0});
+        projectile->transform.SetPosition({1000, 0, 0});
+        projectile->transform.SetScale({0, 0, 0});
         return projectile;
     }
 }// namespace SampleGame
