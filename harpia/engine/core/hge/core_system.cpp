@@ -15,8 +15,10 @@ namespace Harpia::Internal {
             return result;
         }
 
-        _window = SDL_CreateWindow(config.game.title.c_str(), SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, config.window.size.x, config.window.size.y, WindowFlags);
+        auto pos = config.window.overridePosition
+                           ? config.window.position
+                           : Vector2Int{SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED};
+        _window = SDL_CreateWindow(config.game.title.c_str(), pos.x, pos.y, config.window.size.x, config.window.size.y, WindowFlags);
         if (_window == nullptr) {
             DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
             return -1;
