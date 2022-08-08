@@ -31,7 +31,7 @@ namespace Harpia::Internal {
         void ResumeMusic();
         bool IsMusicPaused();
 
-        int Initialize(AudioConfiguration &config, CoreSystem *coreSystem);
+        int Initialize(const AudioConfiguration &config, CoreSystem *coreSystem);
         int GetInitFlags() override;
         int GetWindowFlags() override;
         void Quit() override;

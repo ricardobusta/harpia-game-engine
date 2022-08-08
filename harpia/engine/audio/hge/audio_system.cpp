@@ -12,7 +12,7 @@
 #include "hge/harpia_assert.h"
 
 namespace Harpia::Internal {
-    int AudioSystem::Initialize(AudioConfiguration &config, CoreSystem *coreSystem) {
+    int AudioSystem::Initialize(const AudioConfiguration &config, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
         DebugLog("Init Audio");
@@ -52,13 +52,13 @@ namespace Harpia::Internal {
     }
 
     AudioAsset *AudioSystem::LoadAudio(const std::string &path) {
-        return _loadedAudios.LoadAsset(path, [this](auto p) -> AudioAsset * {
+        return _loadedAudios.LoadAsset(path, [this](auto p) -> std::unique_ptr<AudioAsset> {
             auto ref = Mix_LoadWAV(p.c_str());
             if (ref == nullptr) {
                 DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
                 return nullptr;
             }
-            auto audio = new AudioAsset(this);
+            auto audio = std::make_unique<AudioAsset>(this);
             audio->ref = ref;
             return audio;
         });
@@ -72,17 +72,16 @@ namespace Harpia::Internal {
 
     void AudioSystem::DeleteAudio(AudioAsset *audio) {
         Mix_FreeChunk(audio->ref);
-        delete audio;
     }
 
     MusicAsset *AudioSystem::LoadMusic(const std::string &path) {
-        return _loadedMusics.LoadAsset(path, [this](auto p) -> MusicAsset * {
+        return _loadedMusics.LoadAsset(path, [this](auto p) -> std::unique_ptr<MusicAsset> {
             auto ref = Mix_LoadMUS(p.c_str());
             if (ref == nullptr) {
                 DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
                 return nullptr;
             }
-            auto music = new MusicAsset(this);
+            auto music = std::make_unique<MusicAsset>(this);
             music->ref = ref;
             return music;
         });
@@ -95,7 +94,7 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::SetMusicVolume(float volume) {
-        Mix_VolumeMusic((int)(volume * MIX_MAX_VOLUME));
+        Mix_VolumeMusic((int) (volume * MIX_MAX_VOLUME));
     }
 
     void AudioSystem::PauseMusic() {

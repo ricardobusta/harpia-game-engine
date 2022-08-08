@@ -253,7 +253,7 @@ namespace Harpia::Internal {
     }
 
     ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertPath, const std::string &fragPath) {
-        return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto p) -> ShaderAssetGL * {
+        return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto p) -> std::unique_ptr<ShaderAssetGL> {
             auto ok = false;
             auto vertSrc = Harpia::String::ReadFile(vertPath, &ok);
             if (!ok) {
@@ -271,7 +271,7 @@ namespace Harpia::Internal {
         });
     }
 
-    ShaderAssetGL *RenderingSystemGL::LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc) {
+    std::unique_ptr<ShaderAssetGL> RenderingSystemGL::LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -282,7 +282,7 @@ namespace Harpia::Internal {
         GLint worldToObjectLoc = -1;
         GLint objectToCameraLoc = -1;
         GLint success = GL_FALSE;
-        ShaderAssetGL *asset;
+        std::unique_ptr<ShaderAssetGL> asset;
 
         const auto vsh = vertSrc.data();
         const auto fsh = fragSrc.data();
@@ -340,7 +340,7 @@ namespace Harpia::Internal {
             goto clean_get_attrib;
         }
 
-        asset = new ShaderAssetGL(this);
+        asset = std::make_unique<ShaderAssetGL>(this);
         asset->programId = programId;
         asset->fragmentShader = fragmentShader;
         asset->vertexShader = vertexShader;
@@ -359,7 +359,7 @@ namespace Harpia::Internal {
     clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
-        return (ShaderAssetGL *) LoadShaderBySrc(
+        return LoadShaderBySrc(
                 "#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
                 "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
                 "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
@@ -378,7 +378,7 @@ namespace Harpia::Internal {
     }
 
     TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
-        return _loadedTextures.LoadAsset(path, [this](auto texPath) -> TextureAssetGL * {
+        return _loadedTextures.LoadAsset(path, [this](auto texPath) -> std::unique_ptr<TextureAssetGL> {
             SDL_Surface *surface = IMG_Load(texPath.c_str());
             if (surface == nullptr) {
                 DebugLogError("Texture %s not loaded. SDL_image Error: %s", texPath.c_str(), IMG_GetError());
@@ -407,7 +407,7 @@ namespace Harpia::Internal {
 
             SDL_FreeSurface(surface);
 
-            auto asset = new TextureAssetGL(this, texture, w, h);
+            auto asset = std::make_unique<TextureAssetGL>(this, texture, w, h);
             return asset;
         });
     }
