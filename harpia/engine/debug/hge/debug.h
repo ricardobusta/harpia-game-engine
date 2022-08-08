@@ -15,7 +15,7 @@
 #include <string>
 
 #ifdef __MINGW32__
-#define HARPIA_CALLER Harpia::Debug::CallerName(__PRETTY_FUNCTION__).c_str()
+#define HARPIA_CALLER Harpia::Debug::CallerName(__PRETTY_FUNCTION__).data()
 #else//__MINGW32__
 #define HARPIA_CALLER __func__
 #endif//__MINGW32__
@@ -48,9 +48,8 @@ namespace Harpia {
             LogError(tag, file, line, Format(format, args...).c_str());
         }
 
-        static std::string CallerName(const std::string &s);
+        static std::basic_string_view<char> CallerName(const std::string_view &s);
 
-    public:
         template<typename... Args>
         static std::string Format(const char *format) {
             return std::string(format);// We don't want the '\0' inside

@@ -1,7 +1,7 @@
 //
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 29/05/2022.
 //
-#include "Debug.h"
+#include "debug.h"
 
 #ifdef HARPIA_DEBUG
 
@@ -20,7 +20,7 @@ namespace Harpia {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[%s] %s at %s:%d", tag, message, file, line);
     }
 
-    std::string Debug::CallerName(const std::string &s) {
+    std::basic_string_view<char> Debug::CallerName(const std::string_view &s) {
         size_t end = s.find('(');
         size_t begin = s.substr(0, end).rfind(' ') + 1;
         size_t size = end - begin;
