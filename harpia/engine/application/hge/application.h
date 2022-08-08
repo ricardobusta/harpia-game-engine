@@ -20,8 +20,8 @@ namespace Harpia {
         explicit Application(const std::function<void(Configuration &)> &configure);
         ~Application();
         int Execute();
-        int GetInitFlags();
-        int GetWindowFlags();
+        [[nodiscard]] int GetInitFlags() const;
+        [[nodiscard]] int GetWindowFlags() const;
         [[nodiscard]] const Vector2& GetScreenSize() const;
         [[nodiscard]] float GetScreenAspect() const;
     };

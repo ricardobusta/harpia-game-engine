@@ -13,7 +13,6 @@
 
 namespace Harpia {
     class Component : private Internal::Component_Internal {
-    private:
     public:
         virtual ~Component() = default;
 
@@ -24,16 +23,22 @@ namespace Harpia {
             return _object->GetComponent<T>();
         }
 
-        void Start() override{};
+        void Start() override{
+                // optional
+        };
 
-        void Update() override{};
+        void Update() override{
+                // optional
+        };
 
         [[nodiscard]] const InputReader *Input() const;
         [[nodiscard]] const Time *Time() const;
         SceneManager *SceneManager();
 
     protected:
-        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
+        void Initialize_Internal(Internal::Application_Internal *applicationInternal) override{
+                // optional
+        };
     };
 }// namespace Harpia
 

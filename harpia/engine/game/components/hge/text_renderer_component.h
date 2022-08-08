@@ -22,16 +22,16 @@ namespace Harpia {
         Vector2 _size;
 
     public:
-        void SetText(const std::string &text);
-        void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight, const std::string &table = ASCII_TABLE);
+        void SetText(const std::string_view &text);
+        void SetFontMaterial(MaterialAsset *material, int charWidth, int charHeight, const std::string_view &table = ASCII_TABLE);
         [[nodiscard]] Vector2 GetSize() const;
 
     private:
         void UpdateMesh();
         void GenerateCharacterMesh(int index, float charAspect, const std::array<float, 4> &uv,
                                    std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs,
-                                   std::vector<unsigned int> &indexes);
-        void GenerateTextMesh(const std::string &text, const std::string &table, float charAspect, float uvX,
+                                   std::vector<unsigned int> &indexes) const;
+        void GenerateTextMesh(const std::string &text, const std::string_view &table, float charAspect, float uvX,
                               float uvY, int rowSize, std::vector<float> &positions, std::vector<float> &normals,
                               std::vector<float> &uvs, std::vector<unsigned int> &indexes);
     };

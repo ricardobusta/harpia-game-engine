@@ -13,7 +13,7 @@
 
 #define SystemInit(system, args...)                            \
     do {                                                       \
-        _systems.push_front(system.get());                           \
+        _systems.push_front(system.get());                     \
         auto result = system->Initialize(args);                \
         if (result < 0) {                                      \
             DebugLogError("%s was not initialized.", #system); \
@@ -75,12 +75,12 @@ namespace Harpia {
         return result;
     }
 
-    int Application::GetWindowFlags() {
+    int Application::GetWindowFlags() const {
         return _coreSystem->GetWindowFlags() |
                _renderSystem->GetWindowFlags();
     }
 
-    int Application::GetInitFlags() {
+    int Application::GetInitFlags() const {
         return _coreSystem->GetInitFlags() |
                _audioSystem->GetInitFlags();
     }

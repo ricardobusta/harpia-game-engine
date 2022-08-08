@@ -19,11 +19,11 @@ namespace Harpia {
         _audioSystem->SetMusicVolume(0.3f);
     }
 
-    bool MusicComponent::IsPaused() {
+    bool MusicComponent::IsPaused() const {
         return _audioSystem->IsMusicPaused();
     }
 
-    void MusicComponent::Pause(bool pause) {
+    void MusicComponent::Pause(bool pause) const {
         if (pause) {
             _audioSystem->PauseMusic();
         } else {

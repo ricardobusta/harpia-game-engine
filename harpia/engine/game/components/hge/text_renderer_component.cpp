@@ -12,12 +12,12 @@
 namespace Harpia {
     const std::string TextRendererComponent::ASCII_TABLE = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";// NOLINT(cert-err58-cpp)
 
-    void TextRendererComponent::SetText(const std::string &text) {
+    void TextRendererComponent::SetText(const std::string_view &text) {
         _text = text;
         UpdateMesh();
     }
 
-    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string &table) {
+    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string_view &table) {
         SetMaterial(material);
         if (charWidth != _charWidth || charHeight != _charHeight || table != _table) {
             _charWidth = charWidth;
@@ -27,7 +27,7 @@ namespace Harpia {
         }
     }
 
-    void TextRendererComponent::GenerateCharacterMesh(const int index, const float charAspect, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateCharacterMesh(const int index, const float charAspect, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) const {
         unsigned int nextIndex = index * 4;
         auto xOffset = (float) index * charAspect;
 
@@ -57,7 +57,7 @@ namespace Harpia {
                                        nextIndex + 0, nextIndex + 2, nextIndex + 3});
     }
 
-    void TextRendererComponent::GenerateTextMesh(const std::string &text, const std::string &table, const float charAspect, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateTextMesh(const std::string &text, const std::string_view &table, const float charAspect, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         auto vertexCount = 3 * 2 * text.length();
         positions.clear();
         positions.reserve(3 * vertexCount);
@@ -98,7 +98,9 @@ namespace Harpia {
             return;
         }
 
-        std::vector<float> positions, normals, uvs;
+        std::vector<float> positions;
+        std::vector<float> normals;
+        std::vector<float> uvs;
         std::vector<unsigned int> indexes;
 
         auto uvOffsetX = (float) _charWidth / (float) tex->_width;
