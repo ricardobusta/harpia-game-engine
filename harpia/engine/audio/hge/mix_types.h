@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_MIX_TYPES_H
 #define HARPIAGAMEENGINE_MIX_TYPES_H
 
-typedef struct _Mix_Music Mix_Music; // NOLINT(bugprone-reserved-identifier)
-typedef struct Mix_Chunk Mix_Chunk;
+using Mix_Music = struct _Mix_Music; // NOLINT(bugprone-reserved-identifier)
+using Mix_Chunk = struct Mix_Chunk;
 
 #endif //HARPIAGAMEENGINE_MIX_TYPES_H

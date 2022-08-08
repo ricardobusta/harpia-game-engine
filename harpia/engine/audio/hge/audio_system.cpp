@@ -12,7 +12,7 @@
 #include "hge/harpia_assert.h"
 
 namespace Harpia::Internal {
-    int AudioSystem::Initialize(const AudioConfiguration &config, CoreSystem *coreSystem) {
+    int AudioSystem::Initialize([[maybe_unused]] const AudioConfiguration &config, CoreSystem *coreSystem) const {
         AssertNotNull(coreSystem);
 
         DebugLog("Init Audio");
@@ -45,7 +45,7 @@ namespace Harpia::Internal {
         DebugLog("Quit Audio");
     }
 
-    void AudioSystem::PlayAudio(AudioAsset *audio) {
+    void AudioSystem::PlayAudio(AudioAsset *audio) const {
         if (Mix_PlayChannel(-1, audio->ref, 0) < 0) {
             DebugLogError("Audio could not be played. Mix_Error: %s", Mix_GetError());
         }
@@ -70,7 +70,7 @@ namespace Harpia::Internal {
         });
     }
 
-    void AudioSystem::DeleteAudio(AudioAsset *audio) {
+    void AudioSystem::DeleteAudio(AudioAsset *audio) const {
         Mix_FreeChunk(audio->ref);
     }
 
@@ -87,25 +87,25 @@ namespace Harpia::Internal {
         });
     }
 
-    void AudioSystem::PlayMusic(MusicAsset *music) {
+    void AudioSystem::PlayMusic(MusicAsset *music) const {
         if (Mix_PlayMusic(music->ref, -1) < 0) {
             DebugLogError("Music could not be played. Mix_Error: %s", Mix_GetError());
         }
     }
 
-    void AudioSystem::SetMusicVolume(float volume) {
+    void AudioSystem::SetMusicVolume(float volume) const {
         Mix_VolumeMusic((int) (volume * MIX_MAX_VOLUME));
     }
 
-    void AudioSystem::PauseMusic() {
+    void AudioSystem::PauseMusic() const {
         Mix_PauseMusic();
     }
 
-    void AudioSystem::ResumeMusic() {
+    void AudioSystem::ResumeMusic() const {
         Mix_ResumeMusic();
     }
 
-    bool AudioSystem::IsMusicPaused() {
+    bool AudioSystem::IsMusicPaused() const {
         return Mix_PausedMusic() == SDL_TRUE;
     }
 
@@ -115,8 +115,7 @@ namespace Harpia::Internal {
         });
     }
 
-    void AudioSystem::DeleteMusic(MusicAsset *music) {
+    void AudioSystem::DeleteMusic(MusicAsset *music) const {
         Mix_FreeMusic(music->ref);
-        delete music;
     }
 }// namespace Harpia::Internal
