@@ -33,9 +33,10 @@ namespace Harpia::Internal {
     private:
         SDL_Window *_window = nullptr;
         Time _time;
+        bool _quit = false;
 
     public:
-        int Initialize(Configuration &config, int InitFlags, int WindowFlags);
+        int Initialize(const Configuration &config, int InitFlags, int WindowFlags);
         int Execute();
         int GetInitFlags() override;
         int GetWindowFlags() override;
@@ -45,6 +46,8 @@ namespace Harpia::Internal {
 
     private:
         [[nodiscard]] float CalculateNow() const;
+        void HandleWindowEvent(const SDL_Event &e);
+        void HandleEvents(const SDL_Event &e);
     };
 }// namespace Harpia::Internal
 

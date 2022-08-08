@@ -30,8 +30,7 @@ namespace Harpia::Internal {
         }
 
         TAsset *LoadAsset(const std::string &path, std::function<TAsset *(const std::string &)> loadFunction) {
-            auto it = _assetMap.find(path);
-            if (it != _assetMap.end()) {
+            if (auto it = _assetMap.find(path); it != _assetMap.end()) {
                 it->second->useCount++;
                 DebugLog("Loading existing %s %s use count: %d", typeid(TAsset).name(), path.c_str(), it->second->useCount);
                 return it->second->asset;

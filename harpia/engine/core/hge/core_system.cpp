@@ -9,9 +9,8 @@
 #include <SDL.h>
 
 namespace Harpia::Internal {
-    int CoreSystem::Initialize(Configuration &config, int InitFlags, int WindowFlags) {
-        auto result = SDL_Init(InitFlags);
-        if (result < 0) {
+    int CoreSystem::Initialize(const Configuration &config, int InitFlags, int WindowFlags) {
+        if (auto result = SDL_Init(InitFlags); result < 0) {
             DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
             return result;
         }
@@ -34,7 +33,7 @@ namespace Harpia::Internal {
     int CoreSystem::Execute() {
         onInitialize.Invoke();
 
-        bool quit = false;
+        _quit = false;
         SDL_Event e;
 
         while (true) {
@@ -44,225 +43,10 @@ namespace Harpia::Internal {
             onPreEvents.Invoke();
 
             while (SDL_PollEvent(&e) != 0) {
-                switch (e.type) {
-                    case SDL_QUIT:
-                        onQuit.Invoke();
-                        quit = true;
-                        DebugLog("Requested to quit");
-                        break;
-                    case SDL_APP_TERMINATING:
-                        DebugLog("App terminating");
-                        break;
-                    case SDL_APP_LOWMEMORY:
-                        DebugLogWarning("App low on memory. Free stuff.");
-                        break;
-                    case SDL_APP_WILLENTERBACKGROUND:
-                        DebugLog("App will pause.");
-                        break;
-                    case SDL_APP_DIDENTERBACKGROUND:
-                        DebugLog("App paused.");
-                        break;
-                    case SDL_APP_WILLENTERFOREGROUND:
-                        DebugLog("App will resume.");
-                        break;
-                    case SDL_APP_DIDENTERFOREGROUND:
-                        DebugLog("App resumed.");
-                        break;
-                    case SDL_LOCALECHANGED:
-                        DebugLog("Device locale changed.");
-                        break;
-                    case SDL_DISPLAYEVENT:
-                        DebugLog("Display changed.");
-                        break;
-                    case SDL_WINDOWEVENT:
-                        switch (e.window.event) {
-                            case SDL_WINDOWEVENT_SHOWN:
-                                //DebugLog("Window %d shown", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_HIDDEN:
-                                //DebugLog("Window %d hidden", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_EXPOSED:
-                                //DebugLog("Window %d exposed", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_MOVED:
-                                //DebugLog("Window %d moved to %d,%d", e.window.windowID, e.window.data1, e.window.data2);
-                                break;
-                            case SDL_WINDOWEVENT_RESIZED:
-                                //DebugLog("Window %d resized to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
-                                onWindowResize.Invoke({e.window.data1, e.window.data2});
-                                break;
-                            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                                //DebugLog("Window %d size changed to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
-                                break;
-                            case SDL_WINDOWEVENT_MINIMIZED:
-                                //DebugLog("Window %d minimized", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_MAXIMIZED:
-                                //DebugLog("Window %d maximized", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_RESTORED:
-                                //DebugLog("Window %d restored", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_ENTER:
-                                //DebugLog("Mouse entered window %d", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_LEAVE:
-                                //DebugLog("Mouse left window %d", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_FOCUS_GAINED:
-                                //DebugLog("Window %d gained keyboard focus", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_FOCUS_LOST:
-                                //DebugLog("Window %d lost keyboard focus", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_CLOSE:
-                                //DebugLog("Window %d closed", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_TAKE_FOCUS:
-                                //DebugLog("Window %d is offered a focus", e.window.windowID);
-                                break;
-                            case SDL_WINDOWEVENT_HIT_TEST:
-                                //DebugLog("Window %d has a special hit test", e.window.windowID);
-                                break;
-                            default:
-                                DebugLog("Window %d got unknown event %d", e.window.windowID, e.window.event);
-                                break;
-                        }
-                        break;
-                    case SDL_KEYDOWN:
-                        onKeyDown.Invoke(e.key);
-                        break;
-                    case SDL_KEYUP:
-                        onKeyUp.Invoke(e.key);
-                        break;
-                    case SDL_TEXTEDITING:
-                        //DebugLog("Text editing");
-                        break;
-                    case SDL_TEXTINPUT:
-                        //DebugLog("Text input");
-                        break;
-                    case SDL_KEYMAPCHANGED:
-                        DebugLog("Input or keyboard layout changed.");
-                        break;
-                    case SDL_MOUSEMOTION:
-                        onMouseMove.Invoke(e.motion);
-                        break;
-                    case SDL_MOUSEBUTTONDOWN:
-                        onMouseButtonDown.Invoke(e.button);
-                        break;
-                    case SDL_MOUSEBUTTONUP:
-                        onMouseButtonUp.Invoke(e.button);
-                        break;
-                    case SDL_MOUSEWHEEL:
-                        onMouseWheel.Invoke(e.wheel);
-                        break;
-                    case SDL_JOYAXISMOTION:
-                        DebugLog("Joy Axis Motion");
-                        break;
-                    case SDL_JOYBALLMOTION:
-                        DebugLog("Joy Ball Motion");
-                        break;
-                    case SDL_JOYHATMOTION:
-                        DebugLog("Joy Hat Motion");
-                        break;
-                    case SDL_JOYBUTTONDOWN:
-                        DebugLog("Joy Button Down");
-                        break;
-                    case SDL_JOYBUTTONUP:
-                        DebugLog("Joy Button Up");
-                        break;
-                    case SDL_JOYDEVICEADDED:
-                        DebugLog("Joy Device Added");
-                        break;
-                    case SDL_JOYDEVICEREMOVED:
-                        DebugLog("Joy Device Removed");
-                        break;
-                    case SDL_JOYBATTERYUPDATED:
-                        DebugLog("Joy Battery Updated");
-                        break;
-                    case SDL_CONTROLLERAXISMOTION:
-                        DebugLog("Controller Axis Motion");
-                        break;
-                    case SDL_CONTROLLERBUTTONDOWN:
-                        DebugLog("Controller Button Down");
-                        break;
-                    case SDL_CONTROLLERBUTTONUP:
-                        DebugLog("Controller Button Up");
-                        break;
-                    case SDL_CONTROLLERDEVICEADDED:
-                        DebugLog("Controller Device Added");
-                        break;
-                    case SDL_CONTROLLERDEVICEREMOVED:
-                        DebugLog("Controller Device Removed");
-                        break;
-                    case SDL_CONTROLLERDEVICEREMAPPED:
-                        DebugLog("Controller Device Remapped");
-                        break;
-                    case SDL_CONTROLLERTOUCHPADDOWN:
-                        DebugLog("Controller Touchpad Down");
-                        break;
-                    case SDL_CONTROLLERTOUCHPADMOTION:
-                        DebugLog("Controller Touchpad Motion");
-                        break;
-                    case SDL_CONTROLLERTOUCHPADUP:
-                        DebugLog("Controller Touchpad Up");
-                        break;
-                    case SDL_CONTROLLERSENSORUPDATE:
-                        DebugLog("Controller Sensor Update");
-                        break;
-                    case SDL_FINGERDOWN:
-                        DebugLog("Finger Down");
-                        break;
-                    case SDL_FINGERUP:
-                        DebugLog("Finger Up");
-                        break;
-                    case SDL_FINGERMOTION:
-                        DebugLog("Finger Motion");
-                        break;
-                    case SDL_DOLLARGESTURE:
-                        DebugLog("Dollar Gesture");
-                        break;
-                    case SDL_DOLLARRECORD:
-                        DebugLog("Dollar Record");
-                        break;
-                    case SDL_MULTIGESTURE:
-                        DebugLog("Multi gesture");
-                        break;
-                    case SDL_CLIPBOARDUPDATE:
-                        DebugLog("Clipboard Update");
-                        break;
-                    case SDL_DROPFILE:
-                        DebugLog("Drop File");
-                        break;
-                    case SDL_DROPTEXT:
-                        DebugLog("Drop Text");
-                        break;
-                    case SDL_DROPBEGIN:
-                        DebugLog("Drop Begin");
-                        break;
-                    case SDL_DROPCOMPLETE:
-                        DebugLog("Drop Complete");
-                        break;
-                    case SDL_AUDIODEVICEADDED:
-                        //DebugLog("Audio Device Added");
-                        break;
-                    case SDL_AUDIODEVICEREMOVED:
-                        //DebugLog("Audio Device Removed");
-                        break;
-                    case SDL_SENSORUPDATE:
-                        DebugLog("Sensor Update");
-                        break;
-                    case SDL_RENDER_TARGETS_RESET:
-                        DebugLog("Targets Reset");
-                        break;
-                    case SDL_RENDER_DEVICE_RESET:
-                        DebugLog("Device Reset");
-                        break;
-                }
+                HandleEvents(e);
             }
 
-            if (quit) {
+            if (_quit) {
                 break;
             }
 
@@ -273,6 +57,232 @@ namespace Harpia::Internal {
         }
         return 0;
     }
+    void CoreSystem::HandleEvents(const SDL_Event &e) {
+        switch (e.type) {
+            case SDL_QUIT:
+                onQuit.Invoke();
+                _quit = true;
+                DebugLog("Requested to quit");
+                break;
+            case SDL_APP_TERMINATING:
+                DebugLog("App terminating");
+                break;
+            case SDL_APP_LOWMEMORY:
+                DebugLogWarning("App low on memory. Free stuff.");
+                break;
+            case SDL_APP_WILLENTERBACKGROUND:
+                DebugLog("App will pause.");
+                break;
+            case SDL_APP_DIDENTERBACKGROUND:
+                DebugLog("App paused.");
+                break;
+            case SDL_APP_WILLENTERFOREGROUND:
+                DebugLog("App will resume.");
+                break;
+            case SDL_APP_DIDENTERFOREGROUND:
+                DebugLog("App resumed.");
+                break;
+            case SDL_LOCALECHANGED:
+                DebugLog("Device locale changed.");
+                break;
+            case SDL_DISPLAYEVENT:
+                DebugLog("Display changed.");
+                break;
+            case SDL_WINDOWEVENT:
+                HandleWindowEvent(e);
+                break;
+            case SDL_KEYDOWN:
+                onKeyDown.Invoke(e.key);
+                break;
+            case SDL_KEYUP:
+                onKeyUp.Invoke(e.key);
+                break;
+            case SDL_TEXTEDITING:
+                //DebugLog("Text editing");
+                break;
+            case SDL_TEXTINPUT:
+                //DebugLog("Text input");
+                break;
+            case SDL_KEYMAPCHANGED:
+                DebugLog("Input or keyboard layout changed.");
+                break;
+            case SDL_MOUSEMOTION:
+                onMouseMove.Invoke(e.motion);
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                onMouseButtonDown.Invoke(e.button);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                onMouseButtonUp.Invoke(e.button);
+                break;
+            case SDL_MOUSEWHEEL:
+                onMouseWheel.Invoke(e.wheel);
+                break;
+            case SDL_JOYAXISMOTION:
+                DebugLog("Joy Axis Motion");
+                break;
+            case SDL_JOYBALLMOTION:
+                DebugLog("Joy Ball Motion");
+                break;
+            case SDL_JOYHATMOTION:
+                DebugLog("Joy Hat Motion");
+                break;
+            case SDL_JOYBUTTONDOWN:
+                DebugLog("Joy Button Down");
+                break;
+            case SDL_JOYBUTTONUP:
+                DebugLog("Joy Button Up");
+                break;
+            case SDL_JOYDEVICEADDED:
+                DebugLog("Joy Device Added");
+                break;
+            case SDL_JOYDEVICEREMOVED:
+                DebugLog("Joy Device Removed");
+                break;
+            case SDL_JOYBATTERYUPDATED:
+                DebugLog("Joy Battery Updated");
+                break;
+            case SDL_CONTROLLERAXISMOTION:
+                DebugLog("Controller Axis Motion");
+                break;
+            case SDL_CONTROLLERBUTTONDOWN:
+                DebugLog("Controller Button Down");
+                break;
+            case SDL_CONTROLLERBUTTONUP:
+                DebugLog("Controller Button Up");
+                break;
+            case SDL_CONTROLLERDEVICEADDED:
+                DebugLog("Controller Device Added");
+                break;
+            case SDL_CONTROLLERDEVICEREMOVED:
+                DebugLog("Controller Device Removed");
+                break;
+            case SDL_CONTROLLERDEVICEREMAPPED:
+                DebugLog("Controller Device Remapped");
+                break;
+            case SDL_CONTROLLERTOUCHPADDOWN:
+                DebugLog("Controller Touchpad Down");
+                break;
+            case SDL_CONTROLLERTOUCHPADMOTION:
+                DebugLog("Controller Touchpad Motion");
+                break;
+            case SDL_CONTROLLERTOUCHPADUP:
+                DebugLog("Controller Touchpad Up");
+                break;
+            case SDL_CONTROLLERSENSORUPDATE:
+                DebugLog("Controller Sensor Update");
+                break;
+            case SDL_FINGERDOWN:
+                DebugLog("Finger Down");
+                break;
+            case SDL_FINGERUP:
+                DebugLog("Finger Up");
+                break;
+            case SDL_FINGERMOTION:
+                DebugLog("Finger Motion");
+                break;
+            case SDL_DOLLARGESTURE:
+                DebugLog("Dollar Gesture");
+                break;
+            case SDL_DOLLARRECORD:
+                DebugLog("Dollar Record");
+                break;
+            case SDL_MULTIGESTURE:
+                DebugLog("Multi gesture");
+                break;
+            case SDL_CLIPBOARDUPDATE:
+                DebugLog("Clipboard Update");
+                break;
+            case SDL_DROPFILE:
+                DebugLog("Drop File");
+                break;
+            case SDL_DROPTEXT:
+                DebugLog("Drop Text");
+                break;
+            case SDL_DROPBEGIN:
+                DebugLog("Drop Begin");
+                break;
+            case SDL_DROPCOMPLETE:
+                DebugLog("Drop Complete");
+                break;
+            case SDL_AUDIODEVICEADDED:
+                //DebugLog("Audio Device Added");
+                break;
+            case SDL_AUDIODEVICEREMOVED:
+                //DebugLog("Audio Device Removed");
+                break;
+            case SDL_SENSORUPDATE:
+                DebugLog("Sensor Update");
+                break;
+            case SDL_RENDER_TARGETS_RESET:
+                DebugLog("Targets Reset");
+                break;
+            case SDL_RENDER_DEVICE_RESET:
+                DebugLog("Device Reset");
+                break;
+            default:
+                // Unknown event
+                break;
+        }
+    }
+
+    void CoreSystem::HandleWindowEvent(const SDL_Event &e) {
+        switch (e.window.event) {
+            case SDL_WINDOWEVENT_SHOWN:
+                //DebugLog("Window %d shown", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_HIDDEN:
+                //DebugLog("Window %d hidden", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_EXPOSED:
+                //DebugLog("Window %d exposed", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_MOVED:
+                //DebugLog("Window %d moved to %d,%d", e.window.windowID, e.window.data1, e.window.data2);
+                break;
+            case SDL_WINDOWEVENT_RESIZED:
+                //DebugLog("Window %d resized to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
+                onWindowResize.Invoke({e.window.data1, e.window.data2});
+                break;
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                //DebugLog("Window %d size changed to %dx%d", e.window.windowID, e.window.data1, e.window.data2);
+                break;
+            case SDL_WINDOWEVENT_MINIMIZED:
+                //DebugLog("Window %d minimized", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_MAXIMIZED:
+                //DebugLog("Window %d maximized", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_RESTORED:
+                //DebugLog("Window %d restored", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_ENTER:
+                //DebugLog("Mouse entered window %d", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_LEAVE:
+                //DebugLog("Mouse left window %d", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_GAINED:
+                //DebugLog("Window %d gained keyboard focus", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+                //DebugLog("Window %d lost keyboard focus", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_CLOSE:
+                //DebugLog("Window %d closed", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_TAKE_FOCUS:
+                //DebugLog("Window %d is offered a focus", e.window.windowID);
+                break;
+            case SDL_WINDOWEVENT_HIT_TEST:
+                //DebugLog("Window %d has a special hit test", e.window.windowID);
+                break;
+            default:
+                DebugLog("Window %d got unknown event %d", e.window.windowID, e.window.event);
+                break;
+        }
+    }
+
     float CoreSystem::CalculateNow() const { return _time.timeScale * (float) SDL_GetTicks64() / 1000.0f; }
 
     int CoreSystem::GetInitFlags() {

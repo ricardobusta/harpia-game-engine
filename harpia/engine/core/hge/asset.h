@@ -13,6 +13,7 @@ namespace Harpia {
     public:
         std::string path;
 
+        virtual ~Asset() = default;
         virtual void Release() = 0;
     };
 }// namespace Harpia

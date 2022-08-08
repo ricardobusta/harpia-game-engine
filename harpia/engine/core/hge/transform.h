@@ -24,20 +24,18 @@ namespace Harpia {
     public:
         Transform() = default;
 
-        Vector3 GetPosition();
+        [[nodiscard]] Vector3 GetPosition() const;
         void SetPosition(const Vector3 &position);
         void SetPosition(const Vector2 &position);
 
-        Vector3 GetScale();
+        [[nodiscard]] Vector3 GetScale() const;
         void SetScale(const Vector3 &scale);
-        void SetScale(const float scale);
+        void SetScale(float scale);
 
-        //Quaternion GetRotation();
         void SetRotation(float angle, const Vector3 &axis);
         void Rotate(float angle, const Vector3 &axis);
 
-        Matrix4x4 GetTrMatrix();// TODO Temporary solution until transform wrappers are created
-        //void SetTrMatrix(const Matrix4x4 &tr);// TODO temporary
+        Matrix4x4 GetTrMatrix();
 
         void SetParent(Transform *tr);
 
