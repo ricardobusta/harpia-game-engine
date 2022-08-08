@@ -11,15 +11,18 @@ namespace Harpia {
 
         explicit Color(float r, float g, float b, float a = 1);
 
-        float r, g, b, a;
+        float r;
+        float g;
+        float b;
+        float a;
 
-        int IntR() { return (int) (r * 255.f); }
+        [[nodiscard]] int IntR() const { return (int) (r * 255.f); }
 
-        int IntG() { return (int) (g * 255.f); }
+        [[nodiscard]] int IntG() const { return (int) (g * 255.f); }
 
-        int IntB() { return (int) (b * 255.f); }
+        [[nodiscard]] int IntB() const { return (int) (b * 255.f); }
 
-        int IntA() { return (int) (a * 255.f); }
+        [[nodiscard]] int IntA() const { return (int) (a * 255.f); }
 
         [[maybe_unused]] static const Color white;
         [[maybe_unused]] static const Color green;

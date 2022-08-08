@@ -18,9 +18,9 @@ namespace Harpia {
         static std::string Format(const char *format, Args... args) {
             // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
             int stringSize = std::snprintf(nullptr, 0, format, args...) + 1;// Extra space for '\0'
-            if (stringSize <= 0) { throw std::runtime_error("Error during formatting."); }
+            if (stringSize <= 0) { throw std::invalid_argument("Error during formatting."); }
             auto size = static_cast<size_t>(stringSize);
-            std::unique_ptr<char[]> buf(new char[size]);
+            auto buf(std::make_unique<std::string>(size, ' '));
             std::snprintf(buf.get(), size, format, args...);
             return std::string(buf.get(), buf.get() + size - 1);// We don't want the '\0' inside
         }
