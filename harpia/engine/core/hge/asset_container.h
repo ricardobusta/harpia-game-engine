@@ -22,7 +22,7 @@ namespace Harpia::Internal {
     template<class TAsset>
     class AssetContainer {
     private:
-        std::map<std::string, AssetContainerEntry<TAsset> *> _assetMap;
+        std::map<std::string, std::unique_ptr<AssetContainerEntry<TAsset>>> _assetMap;
 
     public:
         AssetContainer() {
@@ -39,12 +39,13 @@ namespace Harpia::Internal {
             if (!asset) {
                 return nullptr;
             }
-            auto entry = new AssetContainerEntry<TAsset>();
+            auto entry = std::make_unique<AssetContainerEntry<TAsset>>();
             static_cast<Asset *>(asset.get())->path = path;
             entry->asset = std::move(asset);
             entry->useCount = 1;
-            _assetMap[path] = entry;
-            return entry->asset.get();
+            auto output = entry->asset.get();
+            _assetMap[path] = std::move(entry);
+            return output;
         }
 
         void ReleaseAsset(TAsset *asset, std::function<void(TAsset *asset)> deleteAsset) {
