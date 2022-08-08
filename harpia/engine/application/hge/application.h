@@ -22,8 +22,8 @@ namespace Harpia {
         int Execute();
         int GetInitFlags();
         int GetWindowFlags();
-        const Vector2& GetScreenSize() const;
-        float GetScreenAspect() const;
+        [[nodiscard]] const Vector2& GetScreenSize() const;
+        [[nodiscard]] float GetScreenAspect() const;
     };
 }// namespace Harpia
 

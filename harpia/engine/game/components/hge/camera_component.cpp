@@ -40,7 +40,7 @@ namespace Harpia {
     }
 
     void CameraComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
-        _renderingSystem = applicationInternal->_renderSystem;
+        _renderingSystem = applicationInternal->_renderSystem.get();
     }
 
     void CameraComponent::SetClearType(CameraClearType clearType) {

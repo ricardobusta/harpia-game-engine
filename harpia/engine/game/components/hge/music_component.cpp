@@ -32,6 +32,6 @@ namespace Harpia {
     }
 
     void MusicComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {
-        _audioSystem = applicationInternal->_audioSystem;
+        _audioSystem = applicationInternal->_audioSystem.get();
     }
 }// namespace Harpia
