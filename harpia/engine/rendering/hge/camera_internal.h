@@ -16,7 +16,7 @@ namespace Harpia::Internal {
     public:
         CameraClearType _clearType = CameraClearType::All;
         Color _clearColor = Color{0, 0, 0, 0};
-        RectInt _viewport = RectInt{0, 0, 1, 1};
+        RectInt _viewport = RectInt{0, 0, 0, 0};
         Matrix4x4 _projection = Matrix::Identity();
 
         int _clearMask = CameraClearType::All;
@@ -24,10 +24,21 @@ namespace Harpia::Internal {
 
     private:
         Internal::RenderingSystem *_renderingSystem = nullptr;
+        bool _isOrtho = false;
+        float _aspect = 1;
+        Vector2Int _screenSize = {0, 0};
+        Vector3 _projectionParams = {0, 0, 0};
+        RectF _viewportParams = RectF{0, 0, 0, 0};
 
     public:
         Camera_Internal() = default;
         virtual Transform *GetTransformInternal() = 0;
+        void UpdateInternal(const Vector2Int &size);
+        void SetInternalParams(const Vector2Int &size);
+
+    protected:
+        void SetProjectionInternal(bool isOrtho, float vertical, float near, float far);
+        void SetViewportInternal(const RectF &viewport);
     };
 }// namespace Harpia::Internal
 

@@ -6,9 +6,10 @@
 #define HARPIAGAMEENGINE_CORESYSTEM_H
 
 #include "event.h"
-#include "internal_defines.h"
 #include "hge/time.h"
 #include "i_application_system.h"
+#include "internal_defines.h"
+#include "hge/harpia_math.h"
 #include <list>
 
 namespace Harpia::Internal {
@@ -27,25 +28,26 @@ namespace Harpia::Internal {
         Event<const SDL_MouseButtonEvent &> onMouseButtonDown;
         Event<const SDL_MouseButtonEvent &> onMouseButtonUp;
         Event<const SDL_MouseWheelEvent &> onMouseWheel;
+        Event<Vector2> onWindowResize;
 
     private:
         SDL_Window *_window = nullptr;
         Time _time;
+        bool _quit = false;
 
     public:
-        int Initialize(Configuration &config, int InitFlags, int WindowFlags);
-
+        int Initialize(const Configuration &config, int InitFlags, int WindowFlags);
         int Execute();
-
         int GetInitFlags() override;
-
         int GetWindowFlags() override;
-
         void Quit() override;
-
         [[nodiscard]] const Time *GetTime() const;
-
         SDL_Window *GetWindow();
+
+    private:
+        [[nodiscard]] float CalculateNow() const;
+        void HandleWindowEvent(const SDL_Event &e);
+        void HandleEvents(const SDL_Event &e);
     };
 }// namespace Harpia::Internal
 

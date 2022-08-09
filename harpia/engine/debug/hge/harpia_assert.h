@@ -20,9 +20,14 @@
 namespace Harpia {
     class Assert {
     public:
-        static void That(bool condition, const char *caller, const char *file, const int line, const char *message);
-        static void NotNull(void *target, const char *targetName, const char *caller, const char *file, const int line,
-                            const char *message);
+        static void That(bool condition, const char *caller, const char *file, int line, const char *message);
+
+        template<typename T>
+        static void NotNull(T *target, const char *targetName, const char *caller, const char *file, int line,
+                            const char *message){
+            That(target != nullptr, caller, file, line,
+                 Harpia::Debug::Format("%s is nullptr. %s", targetName, message).c_str());
+        }
     };
 }// namespace Harpia
 

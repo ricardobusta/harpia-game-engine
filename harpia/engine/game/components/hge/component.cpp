@@ -13,8 +13,6 @@ namespace Harpia {
         return _object;
     }
 
-    void Component::Initialize_Internal(Internal::Application_Internal *applicationInternal) {}
-
     const InputReader *Component::Input() const {
         return _application->_inputSystem->GetInputReader();
     }

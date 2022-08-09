@@ -19,7 +19,7 @@ namespace Harpia::Internal {
 
         _keyMap.clear();
         for (int key: configuration.mappedKeys) {
-            DebugLog("Adding key %d to map", key);
+            //DebugLog("Adding key %d to map", key);
             _keyMap[key] = KeyState();
         }
 

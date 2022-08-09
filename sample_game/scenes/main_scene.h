@@ -13,6 +13,7 @@ using namespace Harpia;
 
 namespace SampleGame {
     class MainScene : public Scene {
+        HARPIA_SCENE
     public:
         void Load(Application *application) override;
 

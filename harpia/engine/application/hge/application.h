@@ -12,24 +12,18 @@
 
 namespace Harpia {
     class Application : private Internal::Application_Internal {
-    public:
-        Vector2Int screenSize;
-
     private:
         bool _createdWithSuccess = false;
-
         std::list<Internal::IApplicationSystem *> _systems;
 
     public:
         explicit Application(const std::function<void(Configuration &)> &configure);
-
         ~Application();
-
         int Execute();
-
-        int GetInitFlags();
-
-        int GetWindowFlags();
+        [[nodiscard]] int GetInitFlags() const;
+        [[nodiscard]] int GetWindowFlags() const;
+        [[nodiscard]] const Vector2& GetScreenSize() const;
+        [[nodiscard]] float GetScreenAspect() const;
     };
 }// namespace Harpia
 

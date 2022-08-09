@@ -20,9 +20,9 @@ namespace Harpia {
 
         void Play();
 
-        void Pause(bool pause);
+        void Pause(bool pause) const;
 
-        bool IsPaused();
+        bool IsPaused() const;
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;

@@ -7,8 +7,8 @@
 
 #include <cstdint>
 
-typedef uint32_t Uint32;
-typedef uint64_t Uint64;
+using Uint32 = uint32_t;
+using Uint64 = uint64_t;
 
 namespace Harpia {// Game/Application
     class Application;
@@ -28,7 +28,6 @@ namespace Harpia {// Game/Application
     class ShaderAsset;
     class Asset;
     class Transform;
-    struct Color;
     class Time;
 }// namespace Harpia
 

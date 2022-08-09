@@ -6,14 +6,14 @@
 #define HARPIAGAMEENGINE_RENDERER_COMPONENT_INTERNAL_H
 
 #include "hge/internal_defines.h"
+#include <memory>
 
 namespace Harpia::Internal {
     class RendererComponent_Internal {
     public:
         MeshAsset *_mesh = nullptr;
+        std::unique_ptr<RendererComponentPlatform> _platform;
 
-        RendererComponentPlatform *_platform = nullptr;
-    public:
         virtual Transform *GetTransformInternal() = 0;
     };
 }// namespace Harpia::Internal

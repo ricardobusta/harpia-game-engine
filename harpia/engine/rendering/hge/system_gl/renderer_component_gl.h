@@ -17,7 +17,7 @@ namespace Harpia::Internal {
         RendererComponent_Internal *_renderer = nullptr;
         RenderingSystemGL *_renderingSystem = nullptr;
 
-    public:
+        ~RendererComponentGL() override = default;
         void SetMesh(MeshAsset *mesh) override;
         void SetMaterial(MaterialAsset *material) override;
         const MaterialAsset *GetMaterial() override;

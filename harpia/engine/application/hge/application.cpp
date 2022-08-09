@@ -8,24 +8,18 @@
 #include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/input_system.h"
-#include "hge/system_gl/rendering_system_gl.h"
 #include "hge/scene_system.h"
+#include "hge/system_gl/rendering_system_gl.h"
 
 #define SystemInit(system, args...)                            \
     do {                                                       \
-        _systems.push_front(system);                           \
+        _systems.push_front(system.get());                     \
         auto result = system->Initialize(args);                \
         if (result < 0) {                                      \
             DebugLogError("%s was not initialized.", #system); \
             return result;                                     \
         }                                                      \
-    } while (0);
-
-#define SystemCleanup(system) \
-    do {                      \
-        delete system;        \
-        system = nullptr;     \
-    } while (0);
+    } while (0)
 
 namespace Harpia {
     Application::Application(const std::function<void(Configuration &)> &configure) {
@@ -37,11 +31,15 @@ namespace Harpia {
         configure(configuration);
         screenSize = configuration.window.size;
 
-        _coreSystem = new Internal::CoreSystem();
-        _renderSystem = new Internal::RenderingSystemGL();
-        _inputSystem = new Internal::InputSystem();
-        _audioSystem = new Internal::AudioSystem();
-        _sceneManagementSystem = new Internal::SceneSystem();
+        _coreSystem = std::make_unique<Internal::CoreSystem>();
+        _renderSystem = std::make_unique<Internal::RenderingSystemGL>();
+        _inputSystem = std::make_unique<Internal::InputSystem>();
+        _audioSystem = std::make_unique<Internal::AudioSystem>();
+        _sceneManagementSystem = std::make_unique<Internal::SceneSystem>();
+
+        _coreSystem->onWindowResize.AddListener([this](auto size) {
+            screenSize = size;
+        });
 
         _createdWithSuccess = true;
     }
@@ -57,10 +55,10 @@ namespace Harpia {
         DebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
-        SystemInit(_renderSystem, configuration.game, _coreSystem);
-        SystemInit(_inputSystem, configuration.input, _coreSystem);
-        SystemInit(_audioSystem, configuration.audio, _coreSystem);
-        SystemInit(_sceneManagementSystem, configuration.game, this, _coreSystem);
+        SystemInit(_renderSystem, configuration, _coreSystem.get());
+        SystemInit(_inputSystem, configuration.input, _coreSystem.get());
+        SystemInit(_audioSystem, configuration.audio, _coreSystem.get());
+        SystemInit(_sceneManagementSystem, configuration.game, this, _coreSystem.get());
 
         DebugLog("All systems initialized");
 
@@ -69,32 +67,29 @@ namespace Harpia {
             DebugLogError("Application executed with an error");
         }
 
-        for (auto it = _systems.begin(); it != _systems.end(); it++) {
-            (*it)->Quit();
+        for (auto &_system: _systems) {
+            _system->Quit();
         }
-
-        DebugLog("All systems quit");
-
-        SystemCleanup(_sceneManagementSystem);
-        SystemCleanup(_audioSystem);
-        SystemCleanup(_inputSystem);
-        SystemCleanup(_renderSystem);
-        SystemCleanup(_coreSystem);
 
         DebugLog("Quit Application");
         return result;
     }
 
-    int Application::GetWindowFlags() {
+    int Application::GetWindowFlags() const {
         return _coreSystem->GetWindowFlags() |
                _renderSystem->GetWindowFlags();
     }
 
-    int Application::GetInitFlags() {
+    int Application::GetInitFlags() const {
         return _coreSystem->GetInitFlags() |
                _audioSystem->GetInitFlags();
     }
-}// namespace Harpia
 
-#undef SystemInit
-#undef SystemCleanup
+    const Vector2 &Application::GetScreenSize() const {
+        return screenSize;
+    }
+
+    float Application::GetScreenAspect() const {
+        return (float) screenSize.x / (float) screenSize.y;
+    }
+}// namespace Harpia

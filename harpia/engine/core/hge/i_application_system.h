@@ -9,6 +9,7 @@ namespace Harpia::Internal {
 
     class IApplicationSystem {
     public:
+        virtual ~IApplicationSystem() = default;
         virtual int GetInitFlags() = 0;
         virtual int GetWindowFlags() = 0;
         virtual void Quit() = 0;

@@ -15,37 +15,37 @@ namespace Harpia::Internal {
     template<class TAsset>
     class AssetContainerEntry {
     public:
-        TAsset *asset;
+        std::unique_ptr<TAsset> asset;
         int useCount;
     };
 
     template<class TAsset>
     class AssetContainer {
     private:
-        std::map<std::string, AssetContainerEntry<TAsset> *> _assetMap;
+        std::map<std::string, std::unique_ptr<AssetContainerEntry<TAsset>>> _assetMap;
 
     public:
         AssetContainer() {
             static_assert(std::is_base_of<Asset, TAsset>::value, "Type expected to inherit from Asset.");
         }
 
-        TAsset *LoadAsset(const std::string &path, std::function<TAsset *(const std::string &)> loadFunction) {
-            auto it = _assetMap.find(path);
-            if (it != _assetMap.end()) {
+        TAsset *LoadAsset(const std::string &path, std::function<std::unique_ptr<TAsset>(const std::string &)> loadFunction) {
+            if (auto it = _assetMap.find(path); it != _assetMap.end()) {
                 it->second->useCount++;
                 DebugLog("Loading existing %s %s use count: %d", typeid(TAsset).name(), path.c_str(), it->second->useCount);
-                return it->second->asset;
+                return it->second->asset.get();
             }
-            auto asset = loadFunction(path);
-            if (asset == nullptr) {
+            auto asset = std::move(loadFunction(path));
+            if (!asset) {
                 return nullptr;
             }
-            auto entry = new AssetContainerEntry<TAsset>();
-            static_cast<Asset *>(asset)->path = path;
-            entry->asset = asset;
+            auto entry = std::make_unique<AssetContainerEntry<TAsset>>();
+            static_cast<Asset *>(asset.get())->path = path;
+            entry->asset = std::move(asset);
             entry->useCount = 1;
-            _assetMap[path] = entry;
-            return asset;
+            auto output = entry->asset.get();
+            _assetMap[path] = std::move(entry);
+            return output;
         }
 
         void ReleaseAsset(TAsset *asset, std::function<void(TAsset *asset)> deleteAsset) {
@@ -62,18 +62,16 @@ namespace Harpia::Internal {
             }
 
             it->second->useCount--;
+            DebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
             if (it->second->useCount <= 0) {
                 deleteAsset(asset);
-                delete it->second;
                 _assetMap.erase(path);
             }
-            DebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
         }
 
         void Clear(std::function<void(TAsset *asset)> deleteAsset) {
             for (auto it = _assetMap.begin(); it != _assetMap.end(); it++) {
-                deleteAsset(it->second->asset);
-                delete it->second;
+                deleteAsset(it->second->asset.get());
             }
             _assetMap.clear();
         }

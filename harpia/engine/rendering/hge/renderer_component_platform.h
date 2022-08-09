@@ -10,6 +10,7 @@
 namespace Harpia::Internal {
     class RendererComponentPlatform {
     public:
+        virtual ~RendererComponentPlatform() = default;
         virtual void SetMesh(MeshAsset *mesh) = 0;
         virtual void SetMaterial(MaterialAsset *material) = 0;
         virtual const MaterialAsset *GetMaterial() = 0;

@@ -7,16 +7,19 @@
 
 #include "hge/configuration.h"
 #include "hge/internal_defines.h"
+#include <memory>
 
 namespace Harpia::Internal {
     class Application_Internal {
     public:
         Configuration configuration;
-        RenderingSystem *_renderSystem = nullptr;
-        InputSystem *_inputSystem = nullptr;
-        AudioSystem *_audioSystem = nullptr;
-        CoreSystem *_coreSystem = nullptr;
-        SceneSystem *_sceneManagementSystem = nullptr;
+        std::unique_ptr<RenderingSystem> _renderSystem;
+        std::unique_ptr<InputSystem> _inputSystem;
+        std::unique_ptr<AudioSystem> _audioSystem;
+        std::unique_ptr<CoreSystem> _coreSystem;
+        std::unique_ptr<SceneSystem> _sceneManagementSystem;
+
+        Vector2 screenSize = {0, 0};
     };
 }// namespace Harpia::Internal
 

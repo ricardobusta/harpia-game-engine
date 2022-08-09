@@ -12,12 +12,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Harpia {
-    typedef glm::vec<2,int> Vector2Int;
-    typedef glm::vec2 Vector2;
-    typedef glm::vec3 Vector3;
-    typedef glm::vec4 Vector4;
-    typedef glm::qua<float> Quaternion;
-    typedef glm::mat4x4 Matrix4x4;
+    using Vector2Int = glm::vec<2, int>;
+    using Vector2 = glm::vec2;
+    using Vector3 = glm::vec3;
+    using Vector4 = glm::vec4;
+    using Quaternion = glm::qua<float>;
+    using Matrix4x4 = glm::mat4x4;
 
     struct Matrix {
         static Matrix4x4 Multiply(const Matrix4x4 &m1, const Matrix4x4 &m2){
@@ -54,7 +54,7 @@ namespace Harpia {
     };
 
     struct Math {
-        constexpr static const float PI = 3.14159265358979323846;
+        constexpr static const float PI = 3.14159265358979323846f;
         constexpr static const float Deg2Rad = (PI * 2.0f) / 360.0f;
     };
 

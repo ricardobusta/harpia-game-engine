@@ -14,8 +14,6 @@ namespace Harpia::Internal {
 
     void RendererComponentGL::SetMaterial(MaterialAsset *material) {
         auto materialGl = dynamic_cast<MaterialAssetGL *>(material);
-        _renderingSystem->SetRendererMaterialList(_material == nullptr ? -1 : _material->_sortingOrder,
-                                                  materialGl->_sortingOrder, this);
         _material = materialGl;
     }
 

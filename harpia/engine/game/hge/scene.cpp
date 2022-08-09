@@ -13,6 +13,8 @@
 #include "hge/shader_asset.h"
 #include "hge/texture_asset.h"
 #include <list>
+#include "hge/rect.h"
+#include "hge/camera_component.h"
 
 namespace Harpia {
     Object *Scene::CreateObject(const std::string &name) {
@@ -46,21 +48,8 @@ namespace Harpia {
 
     ShaderAsset *Scene::LoadShaderAsset(const std::string &vert, const std::string &frag) {
         DebugLog("Loading shader asset from %s and %s", vert.c_str(), frag.c_str());
-        bool ok = false;
 
-        auto vertSrc = Harpia::String::ReadFile(vert, &ok);
-        if (!ok) {
-            DebugLogError("Error when loading vertex shader file %s.", vert.c_str());
-            return nullptr;
-        }
-
-        auto fragSrc = Harpia::String::ReadFile(frag, &ok);
-        if (!ok) {
-            DebugLogError("Error when loading fragment shader file %s.", frag.c_str());
-            return nullptr;
-        }
-
-        auto asset = _applicationInternal->_renderSystem->LoadShader(vertSrc, fragSrc);
+        auto asset = _applicationInternal->_renderSystem->LoadShader(vert, frag);
         _assets.push_back(asset);
         return asset;
     }
@@ -109,10 +98,37 @@ namespace Harpia {
         _objects.clear();
 
         _loaded = false;
-        DebugLog("Scene released");
+        DebugLog("Scene released %s", GetName().c_str());
     }
 
     Scene::~Scene() {
         ReleaseImpl();
+    }
+
+    CameraComponent *
+    Scene::CreateSimplePerspectiveCamera(float fovy, float near, float far, const Vector3 &pos, float xAngle,
+                                         const RectF &viewport, Object *parent) {
+        auto cameraObject = CreateObject("Camera");
+        cameraObject->transform.SetParent(parent ? &parent->transform : nullptr);
+
+        auto camera = cameraObject->AddComponent<CameraComponent>();
+        camera->SetViewport(viewport);
+
+        camera->SetPerspective(fovy, near, far);
+        cameraObject->transform.SetPosition(pos);
+        cameraObject->transform.Rotate(xAngle * Math::Deg2Rad, {1, 0, 0});
+
+        return camera;
+    }
+
+    CameraComponent *Scene::CreateSimpleOrthoCamera(float sizeV, const RectF &viewport) {
+        auto cameraObject = CreateObject("Camera");
+        auto screenSize = _applicationInternal->screenSize;
+        auto aspect = (float) screenSize.x / (float) screenSize.y;
+        auto camera = cameraObject->AddComponent<CameraComponent>();
+        camera->SetOrthographic(sizeV, 1, -1);
+        camera->SetViewport(viewport);
+
+        return camera;
     }
 }// namespace Harpia

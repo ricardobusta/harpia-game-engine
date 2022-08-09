@@ -12,13 +12,16 @@ namespace Harpia {
         explicit Rect(const T &x, const T &y, const T &w, const T &h)
                 : x(x), y(y), w(w), h(h) {}
 
-        Rect() {}
+        Rect() = default;
 
-        T x, y, w, h;
+        T x;
+        T y;
+        T w;
+        T h;
     };
 
-    typedef Rect<float> RectF;
-    typedef Rect<int> RectInt;
+    using RectF = Rect<float>;
+    using RectInt = Rect<int>;
 } // Harpia
 
 #endif //HARPIAGAMEENGINE_RECT_H

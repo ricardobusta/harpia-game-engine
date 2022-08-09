@@ -13,7 +13,6 @@
 
 namespace Harpia::Internal {
     class AudioSystem : public IApplicationSystem {
-    public:
     private:
         AssetContainer<AudioAsset> _loadedAudios;
         AssetContainer<MusicAsset> _loadedMusics;
@@ -21,26 +20,26 @@ namespace Harpia::Internal {
     public:
         AudioAsset *LoadAudio(const std::string &path);
         void ReleaseAudio(AudioAsset *audio);
-        void PlayAudio(AudioAsset *audio);
+        void PlayAudio(AudioAsset *audio) const;
 
         MusicAsset *LoadMusic(const std::string &path);
         void ReleaseMusic(MusicAsset *music);
-        void PlayMusic(MusicAsset *music);
-        void SetMusicVolume(float volume = 1);
-        void PauseMusic();
-        void ResumeMusic();
-        bool IsMusicPaused();
+        void PlayMusic(MusicAsset *music) const;
+        void SetMusicVolume(float volume = 1) const;
+        void PauseMusic() const;
+        void ResumeMusic() const;
+        [[nodiscard]] bool IsMusicPaused() const;
 
-        int Initialize(AudioConfiguration &config, CoreSystem *coreSystem);
+        int Initialize(const AudioConfiguration &config, CoreSystem *coreSystem) const;
         int GetInitFlags() override;
         int GetWindowFlags() override;
         void Quit() override;
 
     private:
-        void DeleteAudio(AudioAsset *audio);
-        void ReleaseAllUsages(AudioAsset *audio);
-        void DeleteMusic(MusicAsset *music);
-        void ReleaseAllUsages(MusicAsset *music);
+        void DeleteAudio(AudioAsset *audio) const;
+        void ReleaseAllUsages(AudioAsset *audio) const;
+        void DeleteMusic(MusicAsset *music) const;
+        void ReleaseAllUsages(MusicAsset *music) const;
     };
 
 }// namespace Harpia::Internal

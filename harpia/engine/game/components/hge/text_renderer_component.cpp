@@ -12,12 +12,12 @@
 namespace Harpia {
     const std::string TextRendererComponent::ASCII_TABLE = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";// NOLINT(cert-err58-cpp)
 
-    void TextRendererComponent::SetText(const std::string &text) {
+    void TextRendererComponent::SetText(const std::string_view &text) {
         _text = text;
         UpdateMesh();
     }
 
-    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string &table) {
+    void TextRendererComponent::SetFontMaterial(MaterialAsset *material, const int charWidth, const int charHeight, const std::string_view &table) {
         SetMaterial(material);
         if (charWidth != _charWidth || charHeight != _charHeight || table != _table) {
             _charWidth = charWidth;
@@ -27,15 +27,15 @@ namespace Harpia {
         }
     }
 
-    void GenerateCharacterMesh(const int index, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateCharacterMesh(const int index, const float charAspect, const std::array<float, 4> &uv, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) const {
         unsigned int nextIndex = index * 4;
-        auto xOffset = (float) index;
+        auto xOffset = (float) index * charAspect;
 
         positions.insert(positions.end(), {
-                                                  xOffset + 0, 0, 0,//
-                                                  xOffset + 1, 0, 0,//
-                                                  xOffset + 1, 1, 0,//
-                                                  xOffset + 0, 1, 0 //
+                                                  xOffset + 0, 0, 0,         //
+                                                  xOffset + charAspect, 0, 0,//
+                                                  xOffset + charAspect, 1, 0,//
+                                                  xOffset + 0, 1, 0          //
                                           });
 
         normals.insert(normals.end(), {
@@ -57,7 +57,7 @@ namespace Harpia {
                                        nextIndex + 0, nextIndex + 2, nextIndex + 3});
     }
 
-    void GenerateTextMesh(const std::string &text, const std::string &table, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
+    void TextRendererComponent::GenerateTextMesh(const std::string &text, const std::string_view &table, const float charAspect, const float uvX, const float uvY, const int rowSize, std::vector<float> &positions, std::vector<float> &normals, std::vector<float> &uvs, std::vector<unsigned int> &indexes) {
         auto vertexCount = 3 * 2 * text.length();
         positions.clear();
         positions.reserve(3 * vertexCount);
@@ -68,6 +68,10 @@ namespace Harpia {
         indexes.clear();
         indexes.reserve(vertexCount);
 
+        _size = {
+                (float) text.length() * charAspect,
+                text.length() > 0 ? std::ceil((float) text.length() / (float) rowSize) : 0};
+
         for (auto i = 0; i < text.length(); i++) {
             auto charIdx = table.find_first_of(text[i]);
             if (charIdx == std::string::npos) {
@@ -76,7 +80,7 @@ namespace Harpia {
             auto x = (float) (charIdx % rowSize);
             auto y = (float) (charIdx / rowSize);// NOLINT(bugprone-integer-division)
 
-            GenerateCharacterMesh(i, {x * uvX, (x + 1.0f) * uvX, (y + 1.0f) * uvY, y * uvY}, positions, normals, uvs, indexes);
+            GenerateCharacterMesh(i, charAspect, {x * uvX, (x + 1.0f) * uvX, (y + 1.0f) * uvY, y * uvY}, positions, normals, uvs, indexes);
         }
     }
 
@@ -94,14 +98,17 @@ namespace Harpia {
             return;
         }
 
-        std::vector<float> positions, normals, uvs;
+        std::vector<float> positions;
+        std::vector<float> normals;
+        std::vector<float> uvs;
         std::vector<unsigned int> indexes;
 
         auto uvOffsetX = (float) _charWidth / (float) tex->_width;
         auto uvOffsetY = (float) _charHeight / (float) tex->_height;
+        auto charAspect = (float) _charWidth / (float) _charHeight;
         auto rowCount = (int) std::floor((float) tex->_width / (float) _charWidth);
 
-        GenerateTextMesh(_text, _table, uvOffsetX, uvOffsetY, rowCount, positions, normals, uvs, indexes);
+        GenerateTextMesh(_text, _table, charAspect, uvOffsetX, uvOffsetY, rowCount, positions, normals, uvs, indexes);
 
         if (_textMesh == nullptr) {
             _textMesh = _renderingSystem->LoadMesh(positions, normals, uvs, indexes);
@@ -109,5 +116,9 @@ namespace Harpia {
         } else {
             _renderingSystem->UpdateMesh(_textMesh, positions, normals, uvs, indexes);
         }
+    }
+
+    Vector2 TextRendererComponent::GetSize() const {
+        return _size;
     }
 }// namespace Harpia

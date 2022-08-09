@@ -6,7 +6,7 @@
 #include "hge/harpia_math.h"
 
 namespace Harpia {
-    Vector3 Transform::GetPosition() {
+    Vector3 Transform::GetPosition() const {
         return _position;
     }
 
@@ -19,12 +19,17 @@ namespace Harpia {
         SetPosition({position.x, position.y, 0});
     }
 
-    Vector3 Transform::GetScale() {
+    Vector3 Transform::GetScale() const {
         return _scale;
     }
 
     void Transform::SetScale(const Vector3 &scale) {
         _scale = scale;
+        SetTransformDirty();
+    }
+
+    void Transform::SetScale(const float scale) {
+        _scale = {scale, scale, scale};
         SetTransformDirty();
     }
 
