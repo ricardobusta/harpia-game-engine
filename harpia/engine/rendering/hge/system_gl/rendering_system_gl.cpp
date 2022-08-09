@@ -39,14 +39,12 @@ namespace Harpia::Internal {
 
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
-            char *infoLog = new char[maxLength];
+            std::vector<char> infoLog(maxLength);
 
-            glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog);
+            glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog(infoLog);
+                DebugLog(infoLog.data());
             }
-
-            delete[] infoLog;
         } else {
             DebugLogError("Name %d is not a program", program);
         }
@@ -59,20 +57,18 @@ namespace Harpia::Internal {
 
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-            char *infoLog = new char[maxLength];
+            auto infoLog = std::vector<char>(maxLength);
 
-            glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog);
+            glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog(infoLog);
+                DebugLog(infoLog.data());
             }
-
-            delete[] infoLog;
         } else {
             DebugLogError("Name %d is not a shader", shader);
         }
     }
 
-    bool RenderingSystemGL::InitGL() {
+    bool RenderingSystemGL::InitGL() const {
         bool success = true;
 
         glEnable(GL_SCISSOR_TEST);// Necessary for multiple-viewport rendering. Enable/Disable if necessary?
@@ -91,47 +87,50 @@ namespace Harpia::Internal {
             // If no cameras are enabled, stop updating the screen. Useful during transitions to prevent flickering.
         }
         for (auto camera: _cameras) {
-            glClearColor(camera->_clearColor.r, camera->_clearColor.g, camera->_clearColor.b, camera->_clearColor.a);
-
-            auto viewport = camera->_viewport;
-            glScissor(viewport.x, viewport.y, viewport.w, viewport.h);
-            glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
-
-            if (camera->_clearMaskChanged) {
-                camera->_clearMask = GetClearMask(camera->_clearType);
-                camera->_clearMaskChanged = false;
-            }
-            glClear(camera->_clearMask);
-
-            for (const auto &kvp: _renderersGL) {
-                auto sortingOrder = kvp.first;
-                auto renderers = kvp.second;
-                for (auto r: renderers) {
-                    if (r->_mesh == nullptr || r->_material == nullptr) {
-                        continue;
-                    }
-                    auto glMaterial = r->_material;
-                    auto glShader = glMaterial->_shader;
-                    if (_previousMaterial != glMaterial) {
-                        _previousMaterial = glMaterial;
-                        glUseProgram(glShader->programId);
-                        auto ct = camera->_projection * glm::inverse(camera->GetTransformInternal()->GetTrMatrix());
-                        RenderObjectMaterial(r->_material, glm::value_ptr(ct));
-                    }
-
-                    auto t = glm::value_ptr(r->_renderer->GetTransformInternal()->GetTrMatrix());
-                    if (glShader->worldToObjectLoc != -1) {
-                        glUniformMatrix4fv(glShader->worldToObjectLoc, 1, GL_FALSE, t);
-                    }
-                    DrawMesh(r->_mesh);
-                }
-            }
-
-            _previousMaterial = nullptr;
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glUseProgram(0);
+            RenderCameraFrame(camera);
         }
         SDL_GL_SwapWindow(_window);
+    }
+
+    void RenderingSystemGL::RenderCameraFrame(Camera_Internal *camera) {
+        glClearColor(camera->_clearColor.r, camera->_clearColor.g, camera->_clearColor.b, camera->_clearColor.a);
+
+        auto viewport = camera->_viewport;
+        glScissor(viewport.x, viewport.y, viewport.w, viewport.h);
+        glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
+
+        if (camera->_clearMaskChanged) {
+            camera->_clearMask = GetClearMask(camera->_clearType);
+            camera->_clearMaskChanged = false;
+        }
+        glClear(camera->_clearMask);
+
+        for (const auto &[key, value]: _renderersGL) {
+            auto const &renderers = value;
+            for (auto r: renderers) {
+                if (r->_mesh == nullptr || r->_material == nullptr) {
+                    continue;
+                }
+                auto glMaterial = r->_material;
+                auto glShader = glMaterial->_shader;
+                if (_previousMaterial != glMaterial) {
+                    _previousMaterial = glMaterial;
+                    glUseProgram(glShader->programId);
+                    auto ct = camera->_projection * glm::inverse(camera->GetTransformInternal()->GetTrMatrix());
+                    RenderObjectMaterial(r->_material, glm::value_ptr(ct));
+                }
+
+                auto t = glm::value_ptr(r->_renderer->GetTransformInternal()->GetTrMatrix());
+                if (glShader->worldToObjectLoc != -1) {
+                    glUniformMatrix4fv(glShader->worldToObjectLoc, 1, GL_FALSE, t);
+                }
+                DrawMesh(r->_mesh);
+            }
+        }
+
+        _previousMaterial = nullptr;
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glUseProgram(0);
     }
 
     int RenderingSystemGL::GetWindowFlags() {
@@ -140,6 +139,7 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::Quit() {
         RenderingSystem::Quit();
+        DebugLog("Quit rendering GL");
     }
 
     int RenderingSystemGL::RenderingInitialize() {
@@ -153,8 +153,7 @@ namespace Harpia::Internal {
             return -1;
         }
 
-        GLenum gl3wError = gl3wInit();
-        if (gl3wError != GL3W_OK) {
+        if (GLenum gl3wError = gl3wInit(); gl3wError != GL3W_OK) {
             DebugLogError("Error initializing GL3W! %d", gl3wError);
         }
 
@@ -173,16 +172,15 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::AddRenderer(Internal::RendererComponent_Internal *renderer) {
-        auto platform = new RendererComponentGL();
-        renderer->_platform = platform;
+        renderer->_platform = std::make_unique<RendererComponentGL>();
+        auto platform = dynamic_cast<RendererComponentGL *>(renderer->_platform.get());
         platform->_renderer = renderer;
-        _renderersGL[-1].push_back(dynamic_cast<RendererComponentGL *>(platform));
+        _renderersGL[-1].push_back(platform);
     }
 
     void RenderingSystemGL::RemoveRenderer(Internal::RendererComponent_Internal *renderer) {
-        auto platform = dynamic_cast<RendererComponentGL *>(renderer->_platform);
+        auto platform = dynamic_cast<RendererComponentGL *>(renderer->_platform.get());
         _renderersGL[-1].remove(platform);
-        delete platform;
     }
 
     MaterialAsset *RenderingSystemGL::CreateMaterial() {
@@ -208,27 +206,27 @@ namespace Harpia::Internal {
         mesh->uvs = uv;
         mesh->indexes = index;
         glGenVertexArrays(1, &mesh->vao);
-        glGenBuffers(MeshBuffers::Count, mesh->vbo);
+        glGenBuffers(MeshBuffers::Count, mesh->vbo.data());
         mesh->UpdateMesh();
         return mesh;
     }
 
-    void RenderingSystemGL::DrawMesh(MeshAssetGL *mesh) {
+    void RenderingSystemGL::DrawMesh(MeshAssetGL const *mesh) const {
         glBindVertexArray(mesh->vao);
-        glDrawElements(GL_TRIANGLES, mesh->indexes.size(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, (GLsizei) mesh->indexes.size(), GL_UNSIGNED_INT, nullptr);
     }
 
-    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points,
+    void RenderingSystemGL::UpdateMesh(GLuint vao, GLuint const *vbo, const std::vector<float> &points,
                                        const std::vector<float> &normals,
-                                       const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) {
+                                       const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) const {
         glBindVertexArray(vao);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Points]);
-        glBufferData(GL_ARRAY_BUFFER, points.size() * sizeof(float), points.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr) (points.size() * sizeof(float)), points.data(), GL_STATIC_DRAW);
         glVertexAttribPointer(MeshBuffers::Points, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Normals]);
-        glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(float), normals.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr) (normals.size() * sizeof(float)), normals.data(), GL_STATIC_DRAW);
         glVertexAttribPointer(MeshBuffers::Normals, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[MeshBuffers::Uvs]);
@@ -244,7 +242,7 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystemGL::ReleaseMesh(MeshAssetGL *mesh) {
-        glDeleteBuffers(MeshBuffers::Count, mesh->vbo);
+        glDeleteBuffers(MeshBuffers::Count, mesh->vbo.data());
         for (auto &i: mesh->vbo) {
             i = 0;
         }
@@ -253,7 +251,7 @@ namespace Harpia::Internal {
     }
 
     ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertPath, const std::string &fragPath) {
-        return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto p) -> std::unique_ptr<ShaderAssetGL> {
+        return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto) -> std::unique_ptr<ShaderAssetGL> {
             auto ok = false;
             auto vertSrc = Harpia::String::ReadFile(vertPath, &ok);
             if (!ok) {
@@ -271,7 +269,7 @@ namespace Harpia::Internal {
         });
     }
 
-    std::unique_ptr<ShaderAssetGL> RenderingSystemGL::LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc) {
+    std::unique_ptr<ShaderAssetGL> RenderingSystemGL::LoadShaderBySrc(const std::string_view &vertSrc, const std::string_view &fragSrc) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -378,38 +376,40 @@ namespace Harpia::Internal {
     }
 
     TextureAsset *RenderingSystemGL::LoadTexture(const std::string &path) {
-        return _loadedTextures.LoadAsset(path, [this](auto texPath) -> std::unique_ptr<TextureAssetGL> {
-            SDL_Surface *surface = IMG_Load(texPath.c_str());
-            if (surface == nullptr) {
-                DebugLogError("Texture %s not loaded. SDL_image Error: %s", texPath.c_str(), IMG_GetError());
-                return nullptr;
-            }
+        return _loadedTextures.LoadAsset(path, [this](auto p) { return LoadTextureAsset(p); });
+    }
 
-            GLuint texture = 0;
+    std::unique_ptr<TextureAssetGL> RenderingSystemGL::LoadTextureAsset(const std::string &path) {
+        SDL_Surface *surface = IMG_Load(path.c_str());
+        if (surface == nullptr) {
+            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), IMG_GetError());
+            return nullptr;
+        }
 
-            GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
-            if (surface->format->BytesPerPixel == 4) {
-                dataFormat = GL_RGBA;
-            } else {
-                dataFormat = GL_RGB;
-            }
-            // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
-            // testColor & 0xff == ALPHA ?
+        GLuint texture = 0;
 
-            DebugLog("Loading texture %s Size: (%d, %d)", texPath.c_str(), surface->w, surface->h);
+        GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
+        if (surface->format->BytesPerPixel == 4) {
+            dataFormat = GL_RGBA;
+        } else {
+            dataFormat = GL_RGB;
+        }
+        // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
+        // testColor & 0xff == ALPHA ?
 
-            auto w = surface->w;
-            auto h = surface->h;
+        DebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
 
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
+        auto w = surface->w;
+        auto h = surface->h;
 
-            SDL_FreeSurface(surface);
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
 
-            auto asset = std::make_unique<TextureAssetGL>(this, texture, w, h);
-            return asset;
-        });
+        SDL_FreeSurface(surface);
+
+        auto asset = std::make_unique<TextureAssetGL>(this, texture, w, h);
+        return asset;
     }
 
     void RenderingSystemGL::ReleaseTexture(TextureAssetGL *texture) {
@@ -418,13 +418,12 @@ namespace Harpia::Internal {
         });
     }
 
-    void RenderingSystemGL::SetRendererMaterialList(int oldIndex, int newIndex, RendererComponentGL *renderer) {
-        //_renderersGL[oldIndex].remove(renderer);
-        //_renderersGL[newIndex].push_back(renderer);
-    }
+    void RenderingSystemGL::RenderObjectMaterial(MaterialAssetGL const *material, const float *cameraTransform) const {
+        if (material == nullptr) {
+            return;
+        }
 
-    void RenderingSystemGL::RenderObjectMaterial(MaterialAssetGL *material, const float *cameraTransform) {
-        if (material != nullptr && material->_transparent) {
+        if (material->_transparent) {
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         } else {
@@ -434,8 +433,8 @@ namespace Harpia::Internal {
         auto shader = material->_shader;
         glUseProgram(shader->programId);
         if (shader->colorLoc != -1) {
-            GLfloat c[] = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
-            glUniform4fv(shader->colorLoc, 1, c);
+            std::array<GLfloat, 4> c = {material->_color.r, material->_color.g, material->_color.b, material->_color.a};
+            glUniform4fv(shader->colorLoc, 1, c.data());
         }
 
         if (shader->objectToCameraLoc != -1) {

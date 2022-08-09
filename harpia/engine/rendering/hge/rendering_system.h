@@ -21,7 +21,7 @@ namespace Harpia::Internal {
         Vector2Int _screenSize;
 
     public:
-        virtual ~RenderingSystem() = default;
+        ~RenderingSystem() override = default;
 
         virtual MaterialAsset *CreateMaterial() = 0;
 

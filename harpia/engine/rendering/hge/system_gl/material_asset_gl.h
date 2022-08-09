@@ -14,13 +14,12 @@ namespace Harpia::Internal {
         TextureAssetGL *_texture = nullptr;
         int _sortingOrder = 1000;
 
-    public:
         explicit MaterialAssetGL(RenderingSystem *renderingSystem);
         MaterialAssetGL() = delete;
 
         void SetShader(ShaderAsset *shader) override;
         void SetTexture(TextureAsset *texture) override;
-        const TextureAsset *GetTexture() const override;
+        [[nodiscard]] const TextureAsset *GetTexture() const override;
     };
 }// namespace Harpia::Internal
 

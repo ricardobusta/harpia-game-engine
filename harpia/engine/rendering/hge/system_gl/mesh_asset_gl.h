@@ -8,6 +8,7 @@
 #include "gl_types.h"
 #include "hge/mesh_asset.h"
 #include <vector>
+#include <array>
 
 namespace Harpia ::Internal {
     class MeshAssetGL : public MeshAsset {
@@ -18,7 +19,7 @@ namespace Harpia ::Internal {
         std::vector<unsigned int> indexes;
 
         GLuint vao = 0;
-        GLuint vbo[4] = {0,0,0,0};
+        std::array<GLuint,4> vbo = {0,0,0,0};
     private:
         RenderingSystemGL *_renderingSystem;
 

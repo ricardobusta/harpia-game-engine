@@ -40,41 +40,40 @@ namespace Harpia::Internal {
         void RenderFrame() override;
         void Quit() override;
 
-        void UpdateMesh(GLuint vao, GLuint *vbo, const std::vector<float> &points, const std::vector<float> &normals,
-                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes);
+        void UpdateMesh(GLuint vao, GLuint const *vbo, const std::vector<float> &points, const std::vector<float> &normals,
+                        const std::vector<float> &uvs, const std::vector<unsigned int> &indexes) const;
         void ReleaseMesh(MeshAssetGL *mesh);
 
         void ReleaseShader(ShaderAssetGL *shader);
 
         void ReleaseTexture(TextureAssetGL *texAsset);
 
-        void SetRendererMaterialList(int oldIndex, int newIndex, RendererComponentGL *renderer);
-
     private:
         int RenderingInitialize() override;
         void AddRenderer(Internal::RendererComponent_Internal *renderer) override;
         void RemoveRenderer(Internal::RendererComponent_Internal *renderer) override;
 
-        bool InitGL();
+        [[nodiscard]] bool InitGL() const;
 
         static void PrintProgramLog(GLuint program);
         static void PrintShaderLog(GLuint shader);
         ShaderAsset *LoadShader(const std::string &vertPath, const std::string &fragPath) override;
-        std::unique_ptr<ShaderAssetGL> LoadShaderBySrc(const std::string &vertSrc, const std::string &fragSrc);
+        std::unique_ptr<ShaderAssetGL> LoadShaderBySrc(const std::string_view &vertSrc, const std::string_view &fragSrc);
 
         void UpdateMesh(MeshAsset *mesh, const std::vector<float> &vertex, const std::vector<float> &normal,
                         const std::vector<float> &uv, const std::vector<unsigned int> &index) override;
-        MeshAsset *
-        LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv,
-                 const std::vector<unsigned int> &index) override;
-        void DrawMesh(MeshAssetGL *mesh);
+        MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal, const std::vector<float> &uv,
+                            const std::vector<unsigned int> &index) override;
+        void DrawMesh(MeshAssetGL const *mesh) const;
 
         TextureAsset *LoadTexture(const std::string &texPath) override;
+        std::unique_ptr<TextureAssetGL> LoadTextureAsset(const std::string &path);
 
         MaterialAsset *CreateMaterial() override;
-        void RenderObjectMaterial(MaterialAssetGL *material, const float *cameraTransform);
+        void RenderObjectMaterial(MaterialAssetGL const *material, const float *cameraTransform) const;
 
         static int GetClearMask(CameraClearType clearType);
+        void RenderCameraFrame(Camera_Internal *camera);
     };
 }// namespace Harpia::Internal
 
