@@ -19,6 +19,7 @@ namespace Harpia::Internal {
         RectInt _viewport = RectInt{0, 0, 0, 0};
         Matrix4x4 _projection = Matrix::Identity();
 
+        int _layerMask = 0xFFFF;
         int _clearMask = CameraClearType::All;
         bool _clearMaskChanged = true;
 

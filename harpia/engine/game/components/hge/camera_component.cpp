@@ -47,4 +47,8 @@ namespace Harpia {
         _clearType = clearType;
         _clearMaskChanged = true;
     }
+
+    void CameraComponent::SetLayerMask(int layerMask) {
+        _layerMask = layerMask;
+    }
 }// namespace Harpia

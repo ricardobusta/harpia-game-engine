@@ -40,4 +40,8 @@ namespace Harpia {
     Transform *RendererComponent::GetTransformInternal() {
         return &GetObject()->transform;
     }
+
+    void RendererComponent::SetLayerMask(int layerMask) {
+        _layerMask = layerMask;
+    }
 }// namespace Harpia

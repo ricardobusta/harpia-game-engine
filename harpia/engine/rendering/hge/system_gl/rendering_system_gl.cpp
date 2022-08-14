@@ -108,7 +108,7 @@ namespace Harpia::Internal {
         for (const auto &[key, value]: _renderersGL) {
             auto const &renderers = value;
             for (auto r: renderers) {
-                if (r->_mesh == nullptr || r->_material == nullptr) {
+                if ((r->_renderer->_layerMask & camera->_layerMask) == 0 || r->_mesh == nullptr || r->_material == nullptr) {
                     continue;
                 }
                 auto glMaterial = r->_material;

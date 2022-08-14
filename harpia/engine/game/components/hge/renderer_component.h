@@ -19,6 +19,7 @@ namespace Harpia {
         virtual void SetMesh(MeshAsset *mesh);
         virtual void SetMaterial(MaterialAsset *material);
         virtual const MaterialAsset *GetMaterial() const;
+        void SetLayerMask(int layerMask);
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
