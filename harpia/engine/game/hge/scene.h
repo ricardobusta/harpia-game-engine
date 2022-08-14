@@ -19,10 +19,9 @@ public:              \
 
 namespace Harpia {
     class Scene : private Internal::Scene_Internal {
-    private:
     public:
         ~Scene() override;
-        virtual std::string GetName() const = 0;
+        [[nodiscard]] virtual std::string GetName() const = 0;
         virtual void Load(Application *application) = 0;
         AudioAsset *LoadAudioAsset(const std::string &path);
         MusicAsset *LoadMusicAsset(const std::string &path);

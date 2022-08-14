@@ -13,7 +13,7 @@
 #include <SDL.h>
 
 namespace Harpia::Internal {
-    int RenderingSystem::Initialize(Configuration &configuration, CoreSystem *coreSystem) {
+    int RenderingSystem::Initialize(Configuration const &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
         DebugLog("Init Rendering");
@@ -31,8 +31,7 @@ namespace Harpia::Internal {
             ResizeCameras(size);
         });
 
-        auto result = RenderingInitialize();
-        if (result < 0) {
+        if (auto result = RenderingInitialize(); result < 0) {
             DebugLogError("Failed to initialize specifics.");
             return result;
         }

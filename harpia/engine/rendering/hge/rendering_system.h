@@ -25,7 +25,7 @@ namespace Harpia::Internal {
 
         virtual MaterialAsset *CreateMaterial() = 0;
 
-        int Initialize(Configuration &configuration, Internal::CoreSystem *coreSystem);
+        int Initialize(Configuration const &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void RemoveCamera(Camera_Internal *camera);
