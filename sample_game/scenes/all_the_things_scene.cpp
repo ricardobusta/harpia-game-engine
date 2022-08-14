@@ -49,7 +49,7 @@ namespace SampleGame {
         auto tileTexture = LoadTextureAsset("assets/textures/tile.png");
         tileTexture->_filter = Harpia::Nearest;
         auto bustaTexture = LoadTextureAsset("assets/textures/busta.png");
-        std::map<std::string, MeshAsset *> meshCollection;
+        std::map<std::string, MeshAsset *, std::less<>> meshCollection;
         LoadFbxMeshAssets("assets/models/shapes.fbx", meshCollection);
         auto cubeMesh = meshCollection["Cube"];
         auto cylinderMesh = meshCollection["Cylinder"];
@@ -59,14 +59,14 @@ namespace SampleGame {
         auto axesMesh = meshCollection["Axes"];
         auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {1, 2, 3}, true);
 
-        for (auto k: meshCollection) {
-            DebugLog("Loaded mesh: %s", k.first.c_str());
+        for (auto const &[k, v]: meshCollection) {
+            DebugLog("Loaded mesh: %s", k.c_str());
         }
 
         auto floor = CreateObject("Floor");
         auto floorRend = floor->AddComponent<RendererComponent>();
         auto floorMat = LoadMaterialAsset(defaultShader);
-        floorMat->SetColor(Color(0.5, 0.9, 0.3));
+        floorMat->SetColor(Color(0.5f, 0.9f, 0.3f));
         floorMat->SetTexture(tileTexture);
         floorRend->SetMaterial(floorMat);
         auto floorMesh = LoadBoxMeshAsset({0, -2.25, 0}, {20, 1, 20}, true);

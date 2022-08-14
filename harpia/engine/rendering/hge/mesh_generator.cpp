@@ -101,7 +101,7 @@ namespace Harpia::Internal {
         return (index < 0) ? ~index : index;// Due to FBX end of face index being inverted
     }
 
-    bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *> &loadedMeshes) {
+    bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &loadedMeshes) {
         FILE *fp = fopen(path.c_str(), "rb");
 
         if (!fp) {

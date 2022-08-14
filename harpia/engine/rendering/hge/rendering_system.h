@@ -40,7 +40,7 @@ namespace Harpia::Internal {
                                 const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,
                                     const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
-        virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
+        virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes);
 
         virtual TextureAsset *LoadTexture(const std::string &path) = 0;
 

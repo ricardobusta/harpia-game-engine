@@ -27,14 +27,14 @@ namespace SampleGame {
         auto floorMesh = LoadBoxMeshAsset({0, -2.25, 0}, {20, 1, 20}, true);
         floorRend->SetMesh(floorMesh);
 
-        std::map<std::string, MeshAsset *> meshCollection;
+        std::map<std::string, MeshAsset *, std::less<>> meshCollection;
         if (!LoadFbxMeshAssets("assets/spaceships/spaceships.fbx", meshCollection)) {
             DebugLogError("Error!");
         }
         auto spaceshipMesh = meshCollection["Spaceship"];
         auto projectileMesh = meshCollection["Projectile"];
-        for (auto k: meshCollection) {
-            DebugLog("Loaded mesh: %s %d", k.first.c_str(), k.second);
+        for (const auto &[k, v]: meshCollection) {
+            DebugLog("Loaded mesh: %s %d", k.c_str(), v);
         }
 
         auto player = CreateObject("Player");

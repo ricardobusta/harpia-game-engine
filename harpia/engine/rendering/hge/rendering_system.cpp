@@ -65,7 +65,7 @@ namespace Harpia::Internal {
         DebugLog("Quit Rendering");
     }
 
-    bool RenderingSystem::LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
+    bool RenderingSystem::LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes) {
         return MeshGenerator::FbxMeshes(*this, path, meshes);
     }
 }// namespace Harpia::Internal

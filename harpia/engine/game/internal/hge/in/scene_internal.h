@@ -16,7 +16,6 @@ namespace Harpia::Internal {
         Internal::Application_Internal *_applicationInternal = nullptr;
         bool _loaded;
 
-    public:
         void LoadInternal(Application *application);
         virtual ~Scene_Internal() = default;
         virtual void Release() = 0;

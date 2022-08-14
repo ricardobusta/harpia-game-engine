@@ -29,7 +29,7 @@ namespace Harpia {
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
         ShaderAsset *LoadShaderAsset(const std::string &vert, const std::string &frag);
         MeshAsset *LoadBoxMeshAsset(const Vector3 &pos, const Vector3 &size, bool tileUv);
-        bool LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
+        bool LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes);
         TextureAsset *LoadTextureAsset(const std::string &path);
         CameraComponent *CreateSimplePerspectiveCamera(float fovy, float near, float far, const Vector3 &pos, float xAngle,
                                                        const RectF &viewport = RectF{0, 0, 1, 1}, Object *parent = nullptr);

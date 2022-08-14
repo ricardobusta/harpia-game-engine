@@ -70,7 +70,7 @@ namespace Harpia {
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, n, t, i));
     }
 
-    bool Scene::LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
+    bool Scene::LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes) {
         return _applicationInternal->_renderSystem->LoadFbxMeshes(path, meshes);
     }
 
