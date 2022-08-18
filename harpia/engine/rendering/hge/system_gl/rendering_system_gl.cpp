@@ -96,7 +96,12 @@ namespace Harpia::Internal {
         glClearColor(camera->_clearColor.r, camera->_clearColor.g, camera->_clearColor.b, camera->_clearColor.a);
 
         auto viewport = camera->_viewport;
-        glScissor(viewport.x, viewport.y, viewport.w, viewport.h);
+        if(camera->_useScissors){
+            auto scissors = camera->_scissors;
+            glScissor(scissors.x, scissors.y, scissors.w, scissors.h);
+        }else {
+            glScissor(viewport.x, viewport.y, viewport.w, viewport.h);
+        }
         glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
 
         if (camera->_clearMaskChanged) {
