@@ -18,9 +18,10 @@
 
 namespace Harpia {
     Object *Scene::CreateObject(const std::string &name) {
-        auto object = new Object(name, _applicationInternal);
-        _objects.push_back(object);
-        return object;
+        auto object = std::make_unique<Object>(name, _applicationInternal);
+        auto ptr = object.get();
+        _objects.push_back(std::move(object));
+        return ptr;
     }
 
     void Scene::LoadScene(Application *application) {
@@ -92,9 +93,6 @@ namespace Harpia {
         }
         _assets.clear();
 
-        for (auto o: _objects) {
-            delete o;
-        }
         _objects.clear();
 
         _loaded = false;

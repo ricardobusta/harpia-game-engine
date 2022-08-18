@@ -8,6 +8,7 @@
 #include "hge/internal_defines.h"
 #include <algorithm>
 #include <list>
+#include <memory>
 
 namespace Harpia {
 
@@ -15,24 +16,25 @@ namespace Harpia {
     public:
         template<class T>
         static T *AddComponent(Object *object, Internal::Application_Internal *application,
-                               std::list<Component *> &components) {
-            static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
-            auto *c = new T();
-            auto *ci = (Internal::Component_Internal *) c;// c style cast to override private inheritance
+                               std::list<std::unique_ptr<Component>> &components) {
+            static_assert(std::is_base_of_v<Component, T>, "Class do not extend Component");
+            auto c = std::make_unique<T>();
+            auto *ci = (Internal::Component_Internal *) c.get();// c style cast to override private inheritance
             InitializeInternalComponent(ci, object, application);
-            components.push_back(c);
-            return c;
+            auto ptr = c.get();
+            components.push_back(std::move(c));
+            return ptr;
         }
 
         template<class T>
-        static T *GetComponent(std::list<Component *> &components) {
-            static_assert(std::is_base_of<Component, T>::value, "Class do not extend Component");
-            auto c = std::find_if(std::begin(components), std::end(components),
-                                  [&](auto c) { return dynamic_cast<T *>(c) != nullptr; });
-            if (c == std::end(components)) {
+        static T *GetComponent(std::list<std::unique_ptr<Component>> &components) {
+            static_assert(std::is_base_of_v<Component, T>, "Class do not extend Component");
+            auto component = std::find_if(std::begin(components), std::end(components),
+                                  [&](auto &c) { return dynamic_cast<T *>(c.get()) != nullptr; });
+            if (component == std::end(components)) {
                 return nullptr;
             }
-            return dynamic_cast<T *>(*c);
+            return dynamic_cast<T *>(*component->get());
         }
 
     private:

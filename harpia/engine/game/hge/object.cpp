@@ -19,26 +19,23 @@ namespace Harpia {
 
     Object::~Object() {
         DebugLog("Destroying %s object.", name.c_str());
-        for (auto c: _components) {
-            delete c;
-        }
         _components.clear();
     }
 
-    void Object::InternalUpdate() {
-        for (auto c: _components) {
-            auto ci = (Internal::Component_Internal *) c;
+    void Object::InternalUpdate() const {
+        for (auto const &c: _components) {
+            auto ci = (Internal::Component_Internal *) c.get();
             ci->InternalUpdate();
         }
     }
 
-    void Object::AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) {
+    void Object::AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) const {
         if (camera != nullptr) {
             _applicationInternal->_renderSystem->AddCamera(camera);
         }
     }
 
-    void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) {
+    void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) const {
         if (renderer != nullptr) {
             _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
