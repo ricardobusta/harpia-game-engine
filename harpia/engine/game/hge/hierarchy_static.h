@@ -34,7 +34,7 @@ namespace Harpia {
             if (component == std::end(components)) {
                 return nullptr;
             }
-            return dynamic_cast<T *>(*component->get());
+            return dynamic_cast<T *>(component->get());
         }
 
     private:
