@@ -34,6 +34,8 @@ namespace Harpia::Internal {
         SDL_Window *_window = nullptr;
         Time _time;
         bool _quit = false;
+        Uint64 _fpsCap = 0;
+        Uint64 _frameStartTick;
 
     public:
         int Initialize(const Configuration &config, int InitFlags, int WindowFlags);
@@ -46,8 +48,10 @@ namespace Harpia::Internal {
 
     private:
         [[nodiscard]] float CalculateNow() const;
+        [[nodiscard]] Uint64 NowTick() const;
         void HandleWindowEvent(const SDL_Event &e);
         void HandleEvents(const SDL_Event &e);
+        void FrameDelay() const;
     };
 }// namespace Harpia::Internal
 
