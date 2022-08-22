@@ -24,6 +24,7 @@ namespace Harpia {
         bool overridePosition = false;
         Vector2Int position = {0, 0};
         bool resizeable = false;
+        bool vsync = false;
     };
 
     struct InputConfiguration {

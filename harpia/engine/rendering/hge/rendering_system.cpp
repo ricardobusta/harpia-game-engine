@@ -38,6 +38,8 @@ namespace Harpia::Internal {
 
         coreSystem->onRenderStep += [this]() { RenderFrame(); };
 
+        _useVsync = configuration.window.vsync;
+
         return 0;
     }
 

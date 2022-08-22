@@ -19,6 +19,7 @@ namespace Harpia::Internal {
         std::list<Camera_Internal *> _cameras;
         SDL_Window *_window = nullptr;
         Vector2Int _screenSize;
+        bool _useVsync;
 
     public:
         ~RenderingSystem() override = default;

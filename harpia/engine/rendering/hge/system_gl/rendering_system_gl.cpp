@@ -96,10 +96,10 @@ namespace Harpia::Internal {
         glClearColor(camera->_clearColor.r, camera->_clearColor.g, camera->_clearColor.b, camera->_clearColor.a);
 
         auto viewport = camera->_viewport;
-        if(camera->_useScissors){
+        if (camera->_useScissors) {
             auto scissors = camera->_scissors;
             glScissor(scissors.x, scissors.y, scissors.w, scissors.h);
-        }else {
+        } else {
             glScissor(viewport.x, viewport.y, viewport.w, viewport.h);
         }
         glViewport(viewport.x, viewport.y, viewport.w, viewport.h);
@@ -163,8 +163,14 @@ namespace Harpia::Internal {
         }
 
         //Use Vsync
-        if (SDL_GL_SetSwapInterval(1) < 0) {
-            DebugLogError("Warning: Unable to set VSync! SDL Error: %s", SDL_GetError());
+        if(_useVsync) {
+            if (SDL_GL_SetSwapInterval(-1) < 0 && SDL_GL_SetSwapInterval(1) < 0) {
+                DebugLogError("Warning: Unable to set VSync = true! SDL Error: %s", SDL_GetError());
+            }
+        }else{
+            if (SDL_GL_SetSwapInterval(0) < 0) {
+                DebugLogError("Warning: Unable to set VSync = false! SDL Error: %s", SDL_GetError());
+            }
         }
 
         //Initialize OpenGL
