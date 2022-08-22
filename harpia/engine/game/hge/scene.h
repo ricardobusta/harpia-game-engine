@@ -5,6 +5,7 @@
 #ifndef HARPIAGAMEENGINE_SCENE_H
 #define HARPIAGAMEENGINE_SCENE_H
 
+#include "hge/assets.h"
 #include "hge/all_components.h"
 #include "hge/harpia_math.h"
 #include "hge/in/scene_internal.h"
