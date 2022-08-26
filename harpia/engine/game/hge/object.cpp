@@ -10,6 +10,7 @@
 #include "hge/in/application_internal.h"
 #include "hge/renderer_component_internal.h"
 #include "hge/rendering_system.h"
+#include "hge/scene.h"
 #include <utility>
 
 namespace Harpia {
@@ -20,6 +21,14 @@ namespace Harpia {
     Object::~Object() {
         DebugLog("Destroying %s object.", name.c_str());
         _components.clear();
+    }
+
+    bool Object::IsActive() const {
+        return _active;
+    }
+
+    void Object::SetActive(bool active) {
+        _active = active;
     }
 
     void Object::InternalUpdate() const {
@@ -39,5 +48,13 @@ namespace Harpia {
         if (renderer != nullptr) {
             _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
+    }
+
+    void Object::InternalSetScene(class Scene *scene) {
+        _scene = scene;
+    }
+
+    Scene *Object::Scene() {
+        return _scene;
     }
 }// namespace Harpia

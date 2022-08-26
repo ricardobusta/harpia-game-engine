@@ -19,7 +19,10 @@ namespace Harpia {
 
     private:
         std::list<std::unique_ptr<Component>> _components;
-        Internal::Application_Internal *_applicationInternal;
+        Internal::Application_Internal *_applicationInternal = nullptr;
+
+        bool _active;
+        Scene *_scene;
 
     public:
         Object() = delete;
@@ -44,7 +47,15 @@ namespace Harpia {
             return HierarchyStatic::GetComponent<T>(_components);
         }
 
+        [[nodiscard]] bool IsActive() const;
+
+        void SetActive(bool active);
+
         void InternalUpdate() const;
+
+        void InternalSetScene(Scene *scene);
+
+        Scene* Scene();
 
     private:
         void AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) const;
