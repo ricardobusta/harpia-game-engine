@@ -19,6 +19,7 @@
 namespace Harpia {
     Object *Scene::CreateObject(const std::string &name) {
         auto object = std::make_unique<Object>(name, _applicationInternal);
+        object->InternalSetScene(this);
         _objects.push_back(std::move(object));
         return _objects.back().get();
     }

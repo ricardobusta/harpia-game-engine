@@ -25,6 +25,7 @@ namespace Harpia {
         ~Scene() override;
         [[nodiscard]] virtual std::string GetName() const = 0;
         virtual void Load(Application *application) = 0;
+        Object *CreateObject(const std::string &name);
         AudioAsset *LoadAudioAsset(const std::string &path);
         MusicAsset *LoadMusicAsset(const std::string &path);
         MaterialAsset *LoadMaterialAsset(ShaderAsset *shader);
@@ -36,9 +37,6 @@ namespace Harpia {
                                                        const RectF &viewport = RectF{0, 0, 1, 1}, Object *parent = nullptr);
         CameraComponent *CreateSimpleOrthoCamera(float sizeV, const RectF &viewport = RectF{0, 0, 1, 1});
         void Release() override;
-
-    protected:
-        Object *CreateObject(const std::string &name);
 
     private:
         void LoadScene(Application *application) override;
