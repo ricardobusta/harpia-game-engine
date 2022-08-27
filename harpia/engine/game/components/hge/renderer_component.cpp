@@ -44,4 +44,8 @@ namespace Harpia {
     void RendererComponent::SetLayerMask(int layerMask) {
         _layerMask = layerMask;
     }
+
+    bool RendererComponent::IsEnabledInternal() {
+        return GetObject()->IsEnabled();
+    }
 }// namespace Harpia

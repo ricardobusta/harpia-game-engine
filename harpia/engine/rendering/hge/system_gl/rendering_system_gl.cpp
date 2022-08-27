@@ -113,7 +113,10 @@ namespace Harpia::Internal {
         for (const auto &[key, value]: _renderersGL) {
             auto const &renderers = value;
             for (auto r: renderers) {
-                if ((r->_renderer->_layerMask & camera->_layerMask) == 0 || r->_mesh == nullptr || r->_material == nullptr) {
+                if (!r->_renderer->IsEnabledInternal() ||
+                    (r->_renderer->_layerMask & camera->_layerMask) == 0 ||
+                    r->_mesh == nullptr ||
+                    r->_material == nullptr) {
                     continue;
                 }
                 auto glMaterial = r->_material;
@@ -163,11 +166,11 @@ namespace Harpia::Internal {
         }
 
         //Use Vsync
-        if(_useVsync) {
+        if (_useVsync) {
             if (SDL_GL_SetSwapInterval(-1) < 0 && SDL_GL_SetSwapInterval(1) < 0) {
                 DebugLogError("Warning: Unable to set VSync = true! SDL Error: %s", SDL_GetError());
             }
-        }else{
+        } else {
             if (SDL_GL_SetSwapInterval(0) < 0) {
                 DebugLogError("Warning: Unable to set VSync = false! SDL Error: %s", SDL_GetError());
             }

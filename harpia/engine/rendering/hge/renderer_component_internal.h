@@ -16,6 +16,7 @@ namespace Harpia::Internal {
         int _layerMask = 0xFFFF;
 
         virtual Transform *GetTransformInternal() = 0;
+        virtual bool IsEnabledInternal() = 0;
     };
 }// namespace Harpia::Internal
 

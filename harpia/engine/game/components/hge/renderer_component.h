@@ -26,6 +26,7 @@ namespace Harpia {
 
     private:
         Transform *GetTransformInternal() override;
+        bool IsEnabledInternal() override;
     };
 }// namespace Harpia
 
