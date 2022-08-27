@@ -30,6 +30,9 @@ namespace Harpia {
     }
 
     void Object::InternalUpdate() const {
+        if (!_enabled) {
+            return;
+        }
         for (auto const &c: _components) {
             auto ci = (Internal::Component_Internal *) c.get();
             ci->InternalUpdate();
