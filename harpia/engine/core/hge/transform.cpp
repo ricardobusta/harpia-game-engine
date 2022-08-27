@@ -19,6 +19,14 @@ namespace Harpia {
         SetPosition({position.x, position.y, 0});
     }
 
+    void Transform::Translate(const Vector3 &translation) {
+        SetPosition(_position + translation);
+    }
+
+    void Transform::Translate(const Vector2 &translation) {
+        SetPosition({_position.x + translation.x, _position.y + _position.y, 0});
+    }
+
     Vector3 Transform::GetScale() const {
         return _scale;
     }
@@ -33,8 +41,17 @@ namespace Harpia {
         SetTransformDirty();
     }
 
+    Quaternion Transform::GetRotation() const {
+        return _rotation;
+    }
+
     void Transform::SetRotation(float angle, const Vector3 &axis) {
         _rotation = glm::toQuat(Matrix::Rotation(angle, axis));// TODO improve this?
+        SetTransformDirty();
+    }
+
+    void Transform::SetRotation(Quaternion &rotation) {
+        _rotation = rotation;
         SetTransformDirty();
     }
 
