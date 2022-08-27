@@ -15,7 +15,7 @@ namespace Harpia {
     }
 
     Object *Component::CreateObject(std::string name) const {
-        Scene()->CreateObject(name);
+        return Scene()->CreateObject(name);
     }
 
     const InputReader *Component::Input() const {
