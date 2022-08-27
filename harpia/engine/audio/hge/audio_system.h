@@ -28,6 +28,7 @@ namespace Harpia::Internal {
         void SetMusicVolume(float volume = 1) const;
         void PauseMusic() const;
         void ResumeMusic() const;
+        void SetMusicPosition(float positionInSeconds) const;
         [[nodiscard]] bool IsMusicPaused() const;
 
         int Initialize(const AudioConfiguration &config, CoreSystem *coreSystem) const;

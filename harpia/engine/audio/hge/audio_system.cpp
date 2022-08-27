@@ -109,6 +109,12 @@ namespace Harpia::Internal {
         return Mix_PausedMusic() == SDL_TRUE;
     }
 
+    void AudioSystem::SetMusicPosition(float positionInSeconds) const {
+        if(Mix_SetMusicPosition((double)positionInSeconds)<0){
+            DebugLogError("Music position not set. Mix_Error: %s", Mix_GetError());
+        }
+    }
+
     void AudioSystem::ReleaseMusic(MusicAsset *music) {
         _loadedMusics.ReleaseAsset(music, [this](auto m) {
             DeleteMusic(m);

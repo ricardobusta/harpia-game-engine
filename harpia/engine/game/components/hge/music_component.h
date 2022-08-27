@@ -17,12 +17,11 @@ namespace Harpia {
 
     public:
         void SetMusic(MusicAsset *music);
-
         void Play();
-
         void Pause(bool pause) const;
-
-        bool IsPaused() const;
+        [[nodiscard]] bool IsPaused() const;
+        void SetVolume(float volume) const;
+        void SetPosition(float positionInSeconds) const;
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override;
