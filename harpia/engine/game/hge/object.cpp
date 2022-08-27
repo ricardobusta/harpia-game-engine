@@ -3,8 +3,6 @@
 //
 
 #include "hge/object.h"
-
-#include "hge/camera_component.h"
 #include "hge/camera_internal.h"
 #include "hge/component.h"
 #include "hge/in/application_internal.h"
@@ -23,12 +21,12 @@ namespace Harpia {
         _components.clear();
     }
 
-    bool Object::IsActive() const {
-        return _active;
+    bool Object::IsEnabled() const {
+        return _enabled;
     }
 
-    void Object::SetActive(bool active) {
-        _active = active;
+    void Object::SetEnabled(bool enabled) {
+        _enabled = enabled;
     }
 
     void Object::InternalUpdate() const {
