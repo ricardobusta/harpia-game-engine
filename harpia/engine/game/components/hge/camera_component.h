@@ -18,8 +18,10 @@ namespace Harpia {
         ~CameraComponent() override;
 
         void SetViewport(const RectF &viewport);
+        void SetScissors(const RectF &scissors);
         void SetClearColor(const Color &color);
         void SetClearType(CameraClearType type);
+        void SetLayerMask(int layerMask);
 
         void SetPerspective(float fovy, float near, float far);
         void SetOrthographic(float height, float near, float far);

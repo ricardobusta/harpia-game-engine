@@ -27,12 +27,16 @@ namespace Harpia {
         [[nodiscard]] Vector3 GetPosition() const;
         void SetPosition(const Vector3 &position);
         void SetPosition(const Vector2 &position);
+        void Translate(const Vector3 &translation);
+        void Translate(const Vector2 &translation);
 
         [[nodiscard]] Vector3 GetScale() const;
         void SetScale(const Vector3 &scale);
         void SetScale(float scale);
 
+        [[nodiscard]] Quaternion GetRotation() const;
         void SetRotation(float angle, const Vector3 &axis);
+        void SetRotation(Quaternion &rotation);
         void Rotate(float angle, const Vector3 &axis);
 
         Matrix4x4 GetTrMatrix();

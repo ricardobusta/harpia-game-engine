@@ -11,17 +11,19 @@
 #include "scene_manager.h"
 #include <map>
 #include <vector>
+#include <memory>
+#include <set>
 
 namespace Harpia::Internal {
     class SceneSystem : public IApplicationSystem {
     private:
         std::vector<Internal::Scene_Internal *> _availableScenes;
         std::vector<Internal::Scene_Internal *> _loadedScenes;
-        std::vector<Internal::Scene_Internal *> _newScenes;
+        std::set<Internal::Scene_Internal *> _newScenes;
 
         Application *_application = nullptr;
 
-        SceneManager *_sceneManager = nullptr;
+        std::unique_ptr<SceneManager> _sceneManager = nullptr;
 
         bool _unloadScenes = false;
 
@@ -39,7 +41,7 @@ namespace Harpia::Internal {
     private:
         void LoadScene(Internal::Scene_Internal *scene);
         void OnSceneChanges();
-        void OnUpdate();
+        void OnUpdate() const;
         bool TryGetScene(int index, OUT Internal::Scene_Internal **scene);
     };
 }// namespace Harpia::Internal

@@ -31,9 +31,12 @@ namespace Harpia {
                 // optional
         };
 
+        [[nodiscard]] Object *CreateObject(std::string name) const;
+
         [[nodiscard]] const InputReader *Input() const;
         [[nodiscard]] const Time *Time() const;
         SceneManager *SceneManager();
+        [[nodiscard]] Scene *Scene() const;
 
     protected:
         void Initialize_Internal(Internal::Application_Internal *applicationInternal) override{

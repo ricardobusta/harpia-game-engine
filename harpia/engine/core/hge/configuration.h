@@ -16,6 +16,7 @@ namespace Harpia {
     struct GameConfiguration {
         std::string title = "Harpia Application";
         std::vector<Scene *> scenes = std::vector<Scene *>();
+        unsigned int frameRateCap = 0;
     };
 
     struct WindowConfiguration {
@@ -23,6 +24,7 @@ namespace Harpia {
         bool overridePosition = false;
         Vector2Int position = {0, 0};
         bool resizeable = false;
+        bool vsync = false;
     };
 
     struct InputConfiguration {

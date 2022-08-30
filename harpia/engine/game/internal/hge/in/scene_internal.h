@@ -7,16 +7,16 @@
 
 #include "hge/internal_defines.h"
 #include <list>
+#include <memory>
 
 namespace Harpia::Internal {
     class Scene_Internal {
     public:
-        std::list<Object *> _objects;
+        std::list<std::unique_ptr<Object>> _objects;
         std::list<Asset *> _assets;
         Internal::Application_Internal *_applicationInternal = nullptr;
         bool _loaded;
 
-    public:
         void LoadInternal(Application *application);
         virtual ~Scene_Internal() = default;
         virtual void Release() = 0;

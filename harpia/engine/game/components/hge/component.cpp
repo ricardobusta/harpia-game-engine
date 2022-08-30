@@ -7,10 +7,15 @@
 #include "hge/in/application_internal.h"
 #include "hge/input_system.h"
 #include "hge/scene_system.h"
+#include "hge/scene.h"
 
 namespace Harpia {
     Object *Component::GetObject() const {
         return _object;
+    }
+
+    Object *Component::CreateObject(std::string name) const {
+        return Scene()->CreateObject(name);
     }
 
     const InputReader *Component::Input() const {
@@ -23,5 +28,9 @@ namespace Harpia {
 
     SceneManager *Component::SceneManager() {
         return _application->_sceneManagementSystem->GetSceneManager();
+    }
+
+    Scene *Component::Scene() const {
+        return GetObject()->Scene();
     }
 }// namespace Harpia

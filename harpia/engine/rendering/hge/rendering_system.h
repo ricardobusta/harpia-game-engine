@@ -19,13 +19,14 @@ namespace Harpia::Internal {
         std::list<Camera_Internal *> _cameras;
         SDL_Window *_window = nullptr;
         Vector2Int _screenSize;
+        bool _useVsync;
 
     public:
         ~RenderingSystem() override = default;
 
         virtual MaterialAsset *CreateMaterial() = 0;
 
-        int Initialize(Configuration &configuration, Internal::CoreSystem *coreSystem);
+        int Initialize(Configuration const &configuration, Internal::CoreSystem *coreSystem);
         virtual void RenderFrame() = 0;
         void AddCamera(Camera_Internal *camera);
         void RemoveCamera(Camera_Internal *camera);
@@ -40,7 +41,7 @@ namespace Harpia::Internal {
                                 const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
         virtual MeshAsset *LoadMesh(const std::vector<float> &vertex, const std::vector<float> &normal,
                                     const std::vector<float> &uv, const std::vector<unsigned int> &index) = 0;
-        virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *> &meshes);
+        virtual bool LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes);
 
         virtual TextureAsset *LoadTexture(const std::string &path) = 0;
 

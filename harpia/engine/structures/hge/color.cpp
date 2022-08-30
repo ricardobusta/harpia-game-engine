@@ -12,6 +12,10 @@ namespace Harpia {
     Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {
     }
 
+    Color::Color(int r, int g, int b, int a)
+        : Color((float) r / 255.0f, (float) g / 255.0f, (float) b / 255.0f, (float) a / 255.0f) {
+    }
+
     [[maybe_unused]] const Color Color::red = Color(1.0f, 0.0f, 0.0f, 1.0f);
     [[maybe_unused]] const Color Color::green = Color(0.0f, 1.0f, 0.0f, 1.0f);
     [[maybe_unused]] const Color Color::blue = Color(0.0f, 0.0f, 1.0f, 1.0f);

@@ -18,9 +18,10 @@
 
 namespace Harpia {
     Object *Scene::CreateObject(const std::string &name) {
-        auto object = new Object(name, _applicationInternal);
-        _objects.push_back(object);
-        return object;
+        auto object = std::make_unique<Object>(name, _applicationInternal);
+        object->InternalSetScene(this);
+        _objects.push_back(std::move(object));
+        return _objects.back().get();
     }
 
     void Scene::LoadScene(Application *application) {
@@ -70,7 +71,7 @@ namespace Harpia {
         return LoadMeshAsset(_applicationInternal->_renderSystem->LoadMesh(v, n, t, i));
     }
 
-    bool Scene::LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *> &meshes) {
+    bool Scene::LoadFbxMeshAssets(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes) const{
         return _applicationInternal->_renderSystem->LoadFbxMeshes(path, meshes);
     }
 
@@ -92,9 +93,6 @@ namespace Harpia {
         }
         _assets.clear();
 
-        for (auto o: _objects) {
-            delete o;
-        }
         _objects.clear();
 
         _loaded = false;
@@ -123,8 +121,6 @@ namespace Harpia {
 
     CameraComponent *Scene::CreateSimpleOrthoCamera(float sizeV, const RectF &viewport) {
         auto cameraObject = CreateObject("Camera");
-        auto screenSize = _applicationInternal->screenSize;
-        auto aspect = (float) screenSize.x / (float) screenSize.y;
         auto camera = cameraObject->AddComponent<CameraComponent>();
         camera->SetOrthographic(sizeV, 1, -1);
         camera->SetViewport(viewport);

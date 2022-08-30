@@ -9,6 +9,9 @@ namespace Harpia::Internal {
         SetInternalParams(size);
         SetProjectionInternal(_isOrtho, _projectionParams.x, _projectionParams.y, _projectionParams.z);
         SetViewportInternal(_viewportParams);
+        if(_useScissors){
+            SetScissorsInternal(_scissorsParams);
+        }
     }
 
     void Camera_Internal::SetInternalParams(const Vector2Int &size) {
@@ -35,5 +38,14 @@ namespace Harpia::Internal {
         _viewport.y = (int) (viewport.y * (float) _screenSize.y);
         _viewport.w = (int) (viewport.w * (float) _screenSize.x);
         _viewport.h = (int) (viewport.h * (float) _screenSize.y);
+    }
+
+    void Camera_Internal::SetScissorsInternal(const RectF &scissors) {
+        _useScissors = true;
+        _scissorsParams = scissors;
+        _scissors.x = (int) (scissors.x * (float) _screenSize.x);
+        _scissors.y = (int) (scissors.y * (float) _screenSize.y);
+        _scissors.w = (int) (scissors.w * (float) _screenSize.x);
+        _scissors.h = (int) (scissors.h * (float) _screenSize.y);
     }
 }// namespace Harpia::Internal

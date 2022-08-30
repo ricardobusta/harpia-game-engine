@@ -3,13 +3,12 @@
 //
 
 #include "hge/object.h"
-
-#include "hge/camera_component.h"
 #include "hge/camera_internal.h"
 #include "hge/component.h"
 #include "hge/in/application_internal.h"
 #include "hge/renderer_component_internal.h"
 #include "hge/rendering_system.h"
+#include "hge/scene.h"
 #include <utility>
 
 namespace Harpia {
@@ -19,28 +18,44 @@ namespace Harpia {
 
     Object::~Object() {
         DebugLog("Destroying %s object.", name.c_str());
-        for (auto c: _components) {
-            delete c;
-        }
         _components.clear();
     }
 
-    void Object::InternalUpdate() {
-        for (auto c: _components) {
-            auto ci = (Internal::Component_Internal *) c;
+    bool Object::IsEnabled() const {
+        return _enabled;
+    }
+
+    void Object::SetEnabled(bool enabled) {
+        _enabled = enabled;
+    }
+
+    void Object::InternalUpdate() const {
+        if (!_enabled) {
+            return;
+        }
+        for (auto const &c: _components) {
+            auto ci = (Internal::Component_Internal *) c.get();
             ci->InternalUpdate();
         }
     }
 
-    void Object::AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) {
+    void Object::AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) const {
         if (camera != nullptr) {
             _applicationInternal->_renderSystem->AddCamera(camera);
         }
     }
 
-    void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) {
+    void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) const {
         if (renderer != nullptr) {
             _applicationInternal->_renderSystem->AddRenderer(renderer);
         }
+    }
+
+    void Object::InternalSetScene(class Scene *scene) {
+        _scene = scene;
+    }
+
+    Scene *Object::Scene() {
+        return _scene;
     }
 }// namespace Harpia

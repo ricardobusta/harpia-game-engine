@@ -13,8 +13,10 @@ namespace Harpia::Internal {
     public:
         MeshAsset *_mesh = nullptr;
         std::unique_ptr<RendererComponentPlatform> _platform;
+        int _layerMask = 0xFFFF;
 
         virtual Transform *GetTransformInternal() = 0;
+        virtual bool IsEnabledInternal() = 0;
     };
 }// namespace Harpia::Internal
 

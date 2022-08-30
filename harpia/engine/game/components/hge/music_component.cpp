@@ -16,7 +16,6 @@ namespace Harpia {
     void MusicComponent::Play() {
         AssertNotNull(_music);
         _audioSystem->PlayMusic(_music);
-        _audioSystem->SetMusicVolume(0.3f);
     }
 
     bool MusicComponent::IsPaused() const {
@@ -29,6 +28,14 @@ namespace Harpia {
         } else {
             _audioSystem->ResumeMusic();
         }
+    }
+
+    void MusicComponent::SetVolume(float volume) const {
+        _audioSystem->SetMusicVolume(volume);
+    }
+
+    void MusicComponent::SetPosition(float positionInSeconds) const {
+        _audioSystem->SetMusicPosition(positionInSeconds);
     }
 
     void MusicComponent::Initialize_Internal(Internal::Application_Internal *applicationInternal) {

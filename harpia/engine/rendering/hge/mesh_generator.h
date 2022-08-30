@@ -15,8 +15,8 @@ namespace Harpia::Internal {
     class MeshGenerator {
     public:
         static void BoxMesh(std::vector<float> &vertex, std::vector<float> &normal, std::vector<float> &texCoord,
-                            std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size, const bool tileUv);
-        static bool FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *> &loadedMeshes);
+                            std::vector<unsigned int> &index, const Vector3 &pos, const Vector3 &size, bool tileUv);
+        static bool FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &loadedMeshes);
     };
 }// namespace Harpia::Internal
 

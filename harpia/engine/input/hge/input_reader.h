@@ -22,6 +22,7 @@ namespace Harpia {
     public:
         InputReader() = delete;
         explicit InputReader(MouseState *mouseState, std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
+        [[nodiscard]] int GetButtonAxis(SDL_KeyCode positive, SDL_KeyCode negative) const;
         [[nodiscard]] bool GetKeyDown(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyUp(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyIsDown(SDL_Keycode key) const;

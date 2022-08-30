@@ -29,6 +29,8 @@ namespace Harpia::Internal {
         _time.deltaTime = 0;
         _time.now = CalculateNow();
 
+        _fpsCap = (Uint64) config.game.frameRateCap;
+
         return 0;
     }
 
@@ -39,6 +41,7 @@ namespace Harpia::Internal {
         SDL_Event e;
 
         while (true) {
+            _frameStartTick = NowTick();
             auto now = CalculateNow();
             _time.deltaTime = now - _time.now;
             _time.now = now;
@@ -56,6 +59,8 @@ namespace Harpia::Internal {
             onUpdate.Invoke();
             onRenderStep.Invoke();
             onLateUpdate.Invoke();
+
+            FrameDelay();
         }
         return 0;
     }
@@ -285,7 +290,23 @@ namespace Harpia::Internal {
         }
     }
 
-    float CoreSystem::CalculateNow() const { return _time.timeScale * (float) SDL_GetTicks64() / 1000.0f; }
+    void CoreSystem::FrameDelay() const {
+        if (_fpsCap == 0) {
+            return;
+        }
+
+        auto frameLimitTime = 1000 / _fpsCap;
+        auto frameTime = NowTick() - _frameStartTick;
+        if (frameTime < frameLimitTime) {
+            SDL_Delay(frameLimitTime - frameTime);
+        }
+    }
+
+    float CoreSystem::CalculateNow() const { return _time.timeScale * (float) NowTick() / 1000.0f; }
+
+    Uint64 CoreSystem::NowTick() const {
+        return SDL_GetTicks64();
+    }
 
     int CoreSystem::GetInitFlags() {
         return SDL_INIT_VIDEO;

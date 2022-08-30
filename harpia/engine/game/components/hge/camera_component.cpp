@@ -16,6 +16,10 @@ namespace Harpia {
         _renderingSystem->RemoveCamera(this);
     }
 
+    void CameraComponent::SetScissors(const RectF &scissors){
+        SetScissorsInternal(scissors);
+    }
+
     void CameraComponent::SetViewport(const RectF &viewport) {
         SetViewportInternal(viewport);
     }
@@ -46,5 +50,9 @@ namespace Harpia {
     void CameraComponent::SetClearType(CameraClearType clearType) {
         _clearType = clearType;
         _clearMaskChanged = true;
+    }
+
+    void CameraComponent::SetLayerMask(int layerMask) {
+        _layerMask = layerMask;
     }
 }// namespace Harpia

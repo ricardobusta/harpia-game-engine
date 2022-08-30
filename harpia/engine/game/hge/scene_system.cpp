@@ -16,12 +16,12 @@ namespace Harpia::Internal {
     int SceneSystem::Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        _sceneManager = new SceneManager(this);
+        _sceneManager = std::make_unique<SceneManager>(this);
 
         DebugLog("Init Scenes");
         _application = application;
         std::for_each(configuration.scenes.begin(), configuration.scenes.end(),
-                      [&](auto s) { _availableScenes.push_back((Scene_Internal *) s); });
+                      [&](auto &s) { _availableScenes.push_back((Scene_Internal *) s); });
 
         if (_availableScenes.empty()) {
             DebugLogError("No scenes were added in the configuration.");
@@ -45,12 +45,10 @@ namespace Harpia::Internal {
     }
 
     void SceneSystem::Quit() {
-        for (auto s: _loadedScenes) {
+        for (auto const &s: _loadedScenes) {
             s->Release();
-            delete s;
         }
         _loadedScenes.clear();
-        delete _sceneManager;
         _sceneManager = nullptr;
         _application = nullptr;
         DebugLog("Quit Scenes");
@@ -67,7 +65,7 @@ namespace Harpia::Internal {
             if (!additive) {
                 _unloadScenes = true;
             }
-            _newScenes.push_back(scene);
+            _newScenes.insert(scene);
         } else {
             DebugLogError("Scene index out of range: %d", index);
         }
@@ -89,6 +87,7 @@ namespace Harpia::Internal {
             }
             _loadedScenes.clear();
             _unloadScenes = false;
+            return;
         }
         if (!_newScenes.empty()) {
             for (auto s: _newScenes) {
@@ -98,16 +97,16 @@ namespace Harpia::Internal {
         }
     }
 
-    void SceneSystem::OnUpdate() {
-        for (auto s: _loadedScenes) {
-            for (auto o: s->_objects) {
+    void SceneSystem::OnUpdate() const {
+        for (auto const &s: _loadedScenes) {
+            for (auto const &o: s->_objects) {
                 o->InternalUpdate();
             }
         }
     }
 
     SceneManager *SceneSystem::GetSceneManager() {
-        return _sceneManager;
+        return _sceneManager.get();
     }
 
     bool SceneSystem::TryGetScene(int index, OUT Internal::Scene_Internal **scene) {
