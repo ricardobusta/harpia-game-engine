@@ -52,6 +52,10 @@ jobs:
         run: |
           ./harpia/third_party/emsdk/upstream/emscripten/emcc -v
           echo '=== Compile C'
-          ./harpia/third_party/emsdk/upstream/emscripten/emcc ./emcc_test.c
+          ./harpia/third_party/emsdk/upstream/emscripten/emcc ./emcc_test.c -o ./index.html
+          echo '===index.html'
+          cat ./index.html
           echo '=== Compile C++'
-          ./harpia/third_party/emsdk/upstream/emscripten/em++ ./empp_test.cpp
+          ./harpia/third_party/emsdk/upstream/emscripten/em++ ./empp_test.cpp -o ./index.html
+          echo '===index.html'
+          cat ./index.html
