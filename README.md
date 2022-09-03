@@ -41,6 +41,7 @@ https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
 https://tech-de.netlify.app/articles/de522284/index.html
 https://stackoverflow.com/questions/51868832/integrate-emscripten-in-clion
 https://stackoverflow.com/questions/51868832/integrate-emscripten-in-clion/72578219#72578219
+https://gist.github.com/WesThorburn/00c47b267a0e8c8431e06b14997778e4
 
 ## Lazy Foo'
 Good old SDL tutorials

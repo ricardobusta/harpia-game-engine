@@ -47,15 +47,13 @@ jobs:
           ./emsdk activate latest
           echo '=== set env'
           echo 'source "./emsdk_env.sh"' >> $HOME/.bash_profile
+          export PATH="./harpia/third_party/emsdk/upstream/emscripten/:$PATH"
       - name: Compile test file
         if: runner.os == 'Linux'
         run: |
-          ./harpia/third_party/emsdk/upstream/emscripten/emcc -v
-          echo '=== Compile C'
-          ./harpia/third_party/emsdk/upstream/emscripten/emcc ./emcc_test.c -o ./index.html
-          echo '===index.html'
-          cat ./index.html
-          echo '=== Compile C++'
-          ./harpia/third_party/emsdk/upstream/emscripten/em++ ./empp_test.cpp -o ./index.html
-          echo '===index.html'
-          cat ./index.html
+          echo '=== Set Toolchain File'
+          CMAKE_TOOLCHAIN_FILE=./harpia/third_party/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+          mkdir build
+          cd build
+          emcmake cmake ..
+          make
