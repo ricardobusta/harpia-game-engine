@@ -51,10 +51,10 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           echo '=== Print emsdk version. PWD: ${PWD}'
-          cd harpia/third_party/emsdk/upstream/bin
+          cd harpia/third_party/emsdk/upstream/emscripten
           ls
-          ./harpia/third_party/emsdk/upstream/bin/emcc -v
+          ./harpia/third_party/emsdk/upstream/emscripten/emcc -v
           echo '=== Compile C'
-          ./harpia/third_party/emsdk/upstream/bin/emcc ./emcc_test.c
+          ./harpia/third_party/emsdk/upstream/emscripten/emcc ./emcc_test.c
           echo '=== Compile C++'
-          ./harpia/third_party/emsdk/upstream/bin/em++ ./empp_test.cpp
+          ./harpia/third_party/emsdk/upstream/emscripten/em++ ./empp_test.cpp
