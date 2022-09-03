@@ -18,24 +18,16 @@ git submodule update --init --recursive
 ```
 to make sure all SDL submodules were checked out.
 
-## Upgrading Dependencies
+## EMScripten Setup
 
-### GLEW
-
-Glew do not work out of the box. First I added the source.
-This also required installing a bunch of other tools within it, like git and python.
-Then, using msys2 I generated the necessary code with:
-
-```bash
-cd auto
-make
-cd ../
-make
-make install
-make install.all
 ```
-
-I also removed the `include` directory from `.gitignore`, so it would get added to the git repo.
+# Download and install the latest SDK tools.
+.\emsdk.bat install latest
+# Make the "latest" SDK "active" for the current user. (writes .emscripten file)
+.\emsdk.bat activate latest
+# Activate PATH and other environment variables in the current terminal
+./emsdk_env.bat
+```
 
 # Useful Links
 
@@ -48,6 +40,7 @@ For compiling the project into a web application
 https://emscripten.org/docs/introducing_emscripten/about_emscripten.html
 https://tech-de.netlify.app/articles/de522284/index.html
 https://stackoverflow.com/questions/51868832/integrate-emscripten-in-clion
+https://stackoverflow.com/questions/51868832/integrate-emscripten-in-clion/72578219#72578219
 
 ## Lazy Foo'
 Good old SDL tutorials
