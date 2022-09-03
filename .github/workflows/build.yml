@@ -37,8 +37,13 @@ jobs:
       - name: Configure EMSDK (Linux)
         if: runner.os == 'Linux'
         run: |
+          echo '=== move to emsdk directory'
           cd ./harpia/third_party/emsdk/
+          echo '=== git pull'
           git pull
+          echo '=== install latest'
           ./emsdk install latest
+          echo '=== activate latest'
           ./emsdk activate latest
+          echo '=== set env'
           source ./emsdk_env.sh
