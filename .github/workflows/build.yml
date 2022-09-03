@@ -55,5 +55,5 @@ jobs:
           CMAKE_TOOLCHAIN_FILE=./harpia/third_party/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
           mkdir build
           cd build
-          emcmake cmake ..
+          ./harpia/third_party/emsdk/upstream/emscripten/emcmake cmake ..
           make
