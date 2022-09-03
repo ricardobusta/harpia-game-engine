@@ -47,3 +47,12 @@ jobs:
           ./emsdk activate latest
           echo '=== set env'
           echo 'source "./emsdk_env.sh"' >> $HOME/.bash_profile
+      - name: Compile test file
+        if: runner.os == 'Linux'
+        run: |
+          echo '=== Print emsdk version'
+          ./emcc -v
+          echo '=== Compile C'
+          ./emcc ./emcc_test.c
+          echo '=== Compile C++'
+          ./em++ ./empp_test.cpp
