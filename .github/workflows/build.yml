@@ -1,0 +1,44 @@
+name: tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: ${{ matrix.platform.name }}
+    runs-on: ${{ matrix.platform.os }}
+
+    defaults:
+      run:
+        shell: ${{ matrix.platform.shell }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - { name: Linux (CMake), os: ubuntu-latest, shell: sh, flags: true }
+
+    steps:
+      - name: Setup Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install \
+            build-essential
+            python3
+            cmake
+            git
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Configure EMSDK (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd ./harpia/third_party/emsdk/
+          ./emsdk update
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
