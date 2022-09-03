@@ -46,4 +46,4 @@ jobs:
           echo '=== activate latest'
           ./emsdk activate latest
           echo '=== set env'
-          source ./emsdk_env.sh
+          echo 'source "./emsdk_env.sh"' >> $HOME/.bash_profile
