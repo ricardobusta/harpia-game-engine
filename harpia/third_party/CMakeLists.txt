@@ -4,6 +4,6 @@ add_subdirectory(googletest)
 add_subdirectory(openfbx)
 add_subdirectory(sdl)
 add_subdirectory(sdl_image)
-add_subdirectory(sdl_mixer)
+#add_subdirectory(sdl_mixer)
 
 message("SDL")
