@@ -22,32 +22,12 @@ jobs:
           - { name: Linux (CMake), os: ubuntu-latest, shell: sh, flags: true }
 
     steps:
-      - name: Setup Linux dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            build-essential \
-            python3 \
-            cmake \
-            git
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - name: Configure EMSDK (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          echo '=== move to emsdk directory'
-          cd ./harpia/third_party/emsdk/
-          echo '=== git pull'
-          git pull
-          echo '=== install latest'
-          ./emsdk install latest
-          echo '=== activate latest'
-          ./emsdk activate latest
-          echo '=== set env'
-          echo 'source "./emsdk_env.sh"' >> $HOME/.bash_profile
-          export PATH="./harpia/third_party/emsdk/upstream/emscripten/:$PATH"
+      - uses: mymindstorm/setup-emsdk@v10
+        with:
+          version: 2.0.27
       - name: Build WebGL
         if: runner.os == 'Linux'
         run: |
