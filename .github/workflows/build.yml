@@ -59,3 +59,13 @@ jobs:
           ../harpia/third_party/emsdk/upstream/emscripten/emcmake cmake ..
           echo '=== make'
           make
+      - name: Print Build Logs
+        run: |
+          if test -f "/home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"; then
+              echo "=== cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"
+              cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log
+          fi
+          if test -f "/home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log"; then
+              echo "=== cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log"
+              cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log
+          fi
