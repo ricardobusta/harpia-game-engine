@@ -60,6 +60,7 @@ jobs:
           echo '=== make'
           make
       - name: Print Build Logs
+        if: always()
         run: |
           if test -f "/home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"; then
               echo "=== cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"
