@@ -31,7 +31,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             build-essential \
-            libxext-dev
+            libxext-dev \
+            libsamplerate-dev
       - uses: mymindstorm/setup-emsdk@v10
         with:
           version: 2.0.27
