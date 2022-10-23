@@ -22,7 +22,7 @@
 	url = https://github.com/google/googletest
 [submodule "harpia/third_party/gl3w"]
 	path = harpia/third_party/gl3w
-	url = https://github.com/skaslev/gl3w
+url=git@github.com:ricardobusta/gl3w.git
 [submodule "harpia/third_party/emsdk"]
 	path = harpia/third_party/emsdk
 	url = https://github.com/emscripten-core/emsdk.git
