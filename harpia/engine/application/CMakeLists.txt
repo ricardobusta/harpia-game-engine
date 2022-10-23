@@ -7,9 +7,12 @@ file(GLOB ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/hge/*.
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
+
+find_package(OpenGL REQUIRED)
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         Harpia.Game
         Harpia.Application.Internal
+        OpenGL::GL
 )
 add_subdirectory(internal)
