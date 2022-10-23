@@ -12,4 +12,4 @@ target_link_libraries(
         Harpia.Game
         Harpia.Application.Internal
 )
-add_subdirectory(Internal)
+add_subdirectory(internal)
