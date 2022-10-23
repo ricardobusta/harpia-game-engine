@@ -9,6 +9,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 
 find_package(OpenGL REQUIRED)
+message(STATUS "OPENGL_FOUND:= ${OPENGL_FOUND}")
+
+if(OPENGL_FOUND)
+    message('OPENGL_FOUND-is-true')
+else()
+    message('OPENGL_FOUND-is-false')
+endif()
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         Harpia.Game
