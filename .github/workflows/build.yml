@@ -32,10 +32,15 @@ jobs:
           sudo apt-get install \
             build-essential \
             libxext-dev \
-            libsamplerate-dev
+            libsamplerate-dev \
+            python3
       - uses: mymindstorm/setup-emsdk@v10
         with:
           version: 2.0.27
+      - name: Setup gl3w
+        if: runner.os == 'Linux'
+        run: |
+          python .\harpia\third_party\gl3w\gl3w_gen.py
       - name: Configure CMake
         run: |
           emcmake cmake -S . -B build \
