@@ -27,23 +27,13 @@ jobs:
           submodules: recursive
       - name: Install Dependencies (Linux)
         if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-            libxext-dev mesa-common-dev build-essential git make autoconf automake libtool \
-            pkg-config cmake ninja-build gnome-desktop-testing libasound2-dev libpulse-dev \
-            libaudio-dev libjack-dev libsndio-dev libsamplerate0-dev libx11-dev libxext-dev \
-            libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libwayland-dev \
-            libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
-            libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev \
-            python3
+        run: ./build_scripts/setup_linux.sh
       - uses: mymindstorm/setup-emsdk@v11
         with:
           version: 3.1.24
       - name: Setup gl3w
         if: runner.os == 'Linux'
-        run: |
-          python ./harpia/third_party/gl3w/gl3w_gen.py
+        run: python ./harpia/third_party/gl3w/gl3w_gen.py
       - name: Configure CMake
         run: |
           emcmake cmake -S . -B build \
