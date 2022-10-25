@@ -28,7 +28,7 @@ jobs:
       - name: Install Dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
-          chmod 777 -r ./build_scripts \
+          chmod -R 777 ./build_scripts \
           ./build_scripts/setup_linux.sh
       - uses: mymindstorm/setup-emsdk@v11
         with:
