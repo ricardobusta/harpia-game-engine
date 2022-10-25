@@ -36,7 +36,12 @@ jobs:
       - name: Setup gl3w
         if: runner.os == 'Linux'
         run: python ./harpia/third_party/gl3w/gl3w_gen.py
-      - name: Configure CMake
+      - name: Tests
+        if: runner.os == 'Linux'
+        run: |
+          cmake --build tests-build/ --verbose --target Harpia.Tests
+          ./tests-build/bin/Harpia.Tests --gtest_color=no
+      - name: Configure Emcmake CMake
         run: |
           emcmake cmake -S . -B build \
             -DSDL_TESTS=ON \
