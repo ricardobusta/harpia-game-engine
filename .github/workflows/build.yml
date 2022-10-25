@@ -27,7 +27,9 @@ jobs:
           submodules: recursive
       - name: Install Dependencies (Linux)
         if: runner.os == 'Linux'
-        run: ./build_scripts/setup_linux.sh
+        run: |
+          chmod 777 -r ./build_scripts \
+          ./build_scripts/setup_linux.sh
       - uses: mymindstorm/setup-emsdk@v11
         with:
           version: 3.1.24
