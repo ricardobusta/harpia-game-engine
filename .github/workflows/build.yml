@@ -33,7 +33,8 @@ jobs:
       - name: Tests
         if: runner.os == 'Linux'
         run: |
-          cmake -S . -B tests-build/ --verbose --target Harpia.Tests
+          cmake -S . -B tests-build
+          cmake --build tests-build/ --verbose --target Harpia.Tests
           ./tests-build/bin/Harpia.Tests --gtest_color=no
       - uses: mymindstorm/setup-emsdk@v11
         with:
@@ -48,6 +49,8 @@ jobs:
             -DSDL_INSTALL_TESTS=ON \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=prefix
+      - name: Build
+        run: cmake --build build/ --verbose
       - name: Print Build Logs
         if: always()
         run: |
