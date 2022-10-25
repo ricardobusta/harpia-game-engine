@@ -1,6 +1,6 @@
 # Harpia Game Engine
 
-[![tests](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/tests.yml/badge.svg)](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/tests.yml)
+[![build](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml)
 
 Game Engine made with learning purposes. My idea is to train my knowledge with C++ language and different aspects of engine/ development.
 
