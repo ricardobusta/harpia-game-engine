@@ -9,7 +9,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
-        #SDL2_mixer
+        SDL2_mixer
         Harpia.Core
         Harpia.Application.Internal
 )
