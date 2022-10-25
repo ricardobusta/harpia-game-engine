@@ -4,6 +4,10 @@
 cmake_minimum_required(VERSION 3.22)
 project(HarpiaGameEngine)
 
-add_subdirectory(hello_world)
-#add_subdirectory(sample_game)
-#add_subdirectory(harpia)
+if (EMSCRIPTEN)
+    # TODO temporary workaround until I figure out why the project does not compile with EMSCRIPTEN
+    add_subdirectory(hello_world)
+else ()
+    add_subdirectory(sample_game)
+    add_subdirectory(harpia)
+endif ()
