@@ -30,17 +30,17 @@ jobs:
         run: |
           chmod -R 777 ./build_scripts \
           ./build_scripts/setup_linux.sh
+      - name: Tests
+        if: runner.os == 'Linux'
+        run: |
+          cmake -S . -B tests-build/ --verbose --target Harpia.Tests
+          ./tests-build/bin/Harpia.Tests --gtest_color=no
       - uses: mymindstorm/setup-emsdk@v11
         with:
           version: 3.1.24
       - name: Setup gl3w
         if: runner.os == 'Linux'
         run: python ./harpia/third_party/gl3w/gl3w_gen.py
-      - name: Tests
-        if: runner.os == 'Linux'
-        run: |
-          cmake --build tests-build/ --verbose --target Harpia.Tests
-          ./tests-build/bin/Harpia.Tests --gtest_color=no
       - name: Configure Emcmake CMake
         run: |
           emcmake cmake -S . -B build \
@@ -48,8 +48,6 @@ jobs:
             -DSDL_INSTALL_TESTS=ON \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=prefix
-      - name: Build
-        run: cmake --build build/ --verbose
       - name: Print Build Logs
         if: always()
         run: |
