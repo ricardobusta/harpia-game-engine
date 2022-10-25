@@ -61,3 +61,17 @@ IF (WIN32)
     file(COPY ${COMPILER_PATH}/libstdc++-6.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
     file(COPY ${COMPILER_PATH}/libgcc_s_seh-1.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
 endif (WIN32)
+
+enable_testing()
+file(GLOB_RECURSE ${PROJECT_NAME}_TESTS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/**/*.tests.cpp)
+message(${PROJECT_NAME}_TESTS - ${${PROJECT_NAME}_TESTS})
+add_executable(
+        ${PROJECT_NAME}.Tests
+        ${${PROJECT_NAME}_TESTS}
+)
+target_link_libraries(
+        ${PROJECT_NAME}.Tests
+        gtest_main
+)
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}.Tests)
