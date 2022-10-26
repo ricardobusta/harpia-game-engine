@@ -11,17 +11,3 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         Harpia.Core
 )
-
-enable_testing()
-file(GLOB ${PROJECT_NAME}_TESTS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/tests/*.cpp)
-add_executable(
-        ${PROJECT_NAME}.Tests
-        ${${PROJECT_NAME}_TESTS}
-)
-target_link_libraries(
-        ${PROJECT_NAME}.Tests
-        gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}.Tests)

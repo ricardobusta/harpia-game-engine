@@ -28,15 +28,28 @@ jobs:
       - name: Install Dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
-          chmod -R 777 ./build_scripts \
-          ./build_scripts/setup_linux.sh
-      - uses: mymindstorm/setup-emsdk@v11
-        with:
-          version: 3.1.24
+          sudo apt-get update
+          sudo apt-get install \
+          libxext-dev mesa-common-dev build-essential git make autoconf automake libtool \
+          pkg-config cmake ninja-build gnome-desktop-testing libasound2-dev libpulse-dev \
+          libaudio-dev libjack-dev libsndio-dev libsamplerate0-dev libx11-dev libxext-dev \
+          libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libwayland-dev \
+          libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
+          libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev \
+          python3
       - name: Setup gl3w
         if: runner.os == 'Linux'
         run: python ./harpia/third_party/gl3w/gl3w_gen.py
-      - name: Configure CMake
+      - name: Run Tests
+        if: runner.os == 'Linux'
+        run: |
+          cmake -S . -B tests-build
+          cmake --build tests-build/ --verbose --target Harpia.Tests
+          ./tests-build/bin/Harpia.Tests --gtest_color=no
+      - uses: ricardobusta/setup-emsdk@v11a
+        with:
+          version: 3.1.24
+      - name: Configure Emcmake CMake
         run: |
           emcmake cmake -S . -B build \
             -DSDL_TESTS=ON \
