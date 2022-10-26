@@ -39,7 +39,7 @@ jobs:
           cmake -S . -B tests-build
           cmake --build tests-build/ --verbose --target Harpia.Tests
           ./tests-build/bin/Harpia.Tests --gtest_color=no
-      - uses: mymindstorm/setup-emsdk@v11
+      - uses: ricardobusta/setup-emsdk@v11a
         with:
           version: 3.1.24
       - name: Configure Emcmake CMake
