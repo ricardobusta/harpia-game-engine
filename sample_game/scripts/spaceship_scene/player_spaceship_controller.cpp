@@ -5,6 +5,7 @@
 #include "player_spaceship_controller.h"
 
 #include "hge/harpia_math.h"
+#include "hge/key_code.h"
 
 namespace SampleGame {
     bool rotating = false;
@@ -19,10 +20,10 @@ namespace SampleGame {
 
     void PlayerSpaceshipController::Update() {
         auto speed = 10.0f * Time()->deltaTime;
-        auto x = Input()->GetKeyIsDown(SDLK_D) - Input()->GetKeyIsDown(SDLK_A) +
-                 Input()->GetKeyIsDown(SDLK_RIGHT) - Input()->GetKeyIsDown(SDLK_LEFT);
-        auto z = Input()->GetKeyIsDown(SDLK_S) - Input()->GetKeyIsDown(SDLK_W) +
-                 Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
+        auto x = Input()->GetKeyIsDown(Harpia::KeyCode::D) - Input()->GetKeyIsDown(Harpia::KeyCode::A) +
+                 Input()->GetKeyIsDown(Harpia::KeyCode::Right) - Input()->GetKeyIsDown(Harpia::KeyCode::Left);
+        auto z = Input()->GetKeyIsDown(Harpia::KeyCode::S) - Input()->GetKeyIsDown(Harpia::KeyCode::W) +
+                 Input()->GetKeyIsDown(Harpia::KeyCode::Down) - Input()->GetKeyIsDown(Harpia::KeyCode::Up);
 
         auto obj = GetObject();
 
@@ -32,7 +33,7 @@ namespace SampleGame {
 
         obj->transform.SetPosition(pos);
 
-        if (!shooting && Input()->GetKeyDown(SDLK_SPACE)) {
+        if (!shooting && Input()->GetKeyDown(Harpia::KeyCode::Space)) {
             shooting = true;
             shootingStart = Time()->now;
             bullet1->transform.SetScale({bulletSize, bulletSize, bulletSize});
@@ -57,7 +58,7 @@ namespace SampleGame {
             }
         }
 
-        if (!rotating && Input()->GetKeyDown(SDLK_LCTRL)) {
+        if (!rotating && Input()->GetKeyDown(Harpia::KeyCode::LeftCtrl)) {
             rotating = true;
             rotateStart = Time()->now;
         }

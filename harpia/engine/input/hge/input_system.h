@@ -11,14 +11,15 @@
 #include "hge/i_application_system.h"
 #include "hge/input_reader.h"
 #include "hge/internal_defines.h"
+#include "hge/key_code.h"
 #include "hge/key_state.h"
 #include "hge/mouse_state.h"
 
 namespace Harpia::Internal {
     class InputSystem : public IApplicationSystem {
     private:
-        std::map<SDL_Keycode, KeyState> _keyMap;
-        std::list<SDL_Keycode> _dirtyKeys;
+        std::map<Harpia::KeyCode, KeyState> _keyMap;
+        std::list<Harpia::KeyCode> _dirtyKeys;
         MouseState _mouseState;
         InputReader *_inputReader;
 

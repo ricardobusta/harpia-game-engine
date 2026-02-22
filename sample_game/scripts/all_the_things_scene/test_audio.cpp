@@ -3,6 +3,7 @@
 //
 #include "test_audio.h"
 #include <hge/debug.h>
+#include <hge/key_code.h>
 
 namespace SampleGame {
     void TestAudio::PlayJumpSfx() {
@@ -16,7 +17,7 @@ namespace SampleGame {
     }
 
     void TestAudio::Update() {
-        if (Input()->GetKeyDown(SDLK_1)) {
+        if (Input()->GetKeyDown(Harpia::KeyCode::Alpha1)) {
             DebugLog("1 pressed");
             DebugLog(music->IsPaused()?"Playing music":"Pausing music");
             music->Pause(!music->IsPaused());

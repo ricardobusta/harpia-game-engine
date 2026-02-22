@@ -7,7 +7,7 @@
 #include "main_scene.h"
 #include "spaceship_scene.h"
 
-#include <SDL3/SDL.h>
+#include <hge/key_code.h>
 
 namespace SampleGame {
     void GameConfig::Configure(Harpia::Configuration &configuration) {
@@ -17,8 +17,8 @@ namespace SampleGame {
         configuration.window.resizeable = true;
 
         configuration.input.mappedKeys.insert(configuration.input.mappedKeys.end(), {
-                                                                                            SDLK_1,
-                                                                                            SDLK_2,
+                                                                                            Harpia::KeyCode::Alpha1,
+                                                                                            Harpia::KeyCode::Alpha2,
                                                                                     });
 
         configuration.game.scenes.insert(configuration.game.scenes.end(), {new MainScene(),

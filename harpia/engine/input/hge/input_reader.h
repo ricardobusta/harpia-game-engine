@@ -5,30 +5,31 @@
 #ifndef HARPIAGAMEENGINE_INPUT_READER_H
 #define HARPIAGAMEENGINE_INPUT_READER_H
 
-#include <SDL3/SDL_keycode.h>
 #include "hge/harpia_math.h"
-#include "key_state.h"
-#include "mouse_state.h"
+#include "hge/key_code.h"
+#include "hge/key_state.h"
+#include "hge/mouse_button.h"
+#include "hge/mouse_state.h"
 #include <functional>
 #include <map>
 
 namespace Harpia {
     class InputReader {
     private:
-        std::map<SDL_Keycode, KeyState> *_keyState;
+        std::map<KeyCode, KeyState> *_keyState;
         MouseState *_mouseState;
-        std::function<void(SDL_Keycode)> _onNewKey;
+        std::function<void(KeyCode)> _onNewKey;
 
     public:
         InputReader() = delete;
-        explicit InputReader(MouseState *mouseState, std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
-        [[nodiscard]] int GetButtonAxis(SDL_Keycode positive, SDL_Keycode negative) const;
-        [[nodiscard]] bool GetKeyDown(SDL_Keycode key) const;
-        [[nodiscard]] bool GetKeyUp(SDL_Keycode key) const;
-        [[nodiscard]] bool GetKeyIsDown(SDL_Keycode key) const;
-        [[nodiscard]] bool GetMouseButtonDown(int index) const;
-        [[nodiscard]] bool GetMouseButtonUp(int index) const;
-        [[nodiscard]] bool GetMouseButtonIsDown(int index) const;
+        explicit InputReader(MouseState *mouseState, std::map<KeyCode, KeyState> *keyState, std::function<void(KeyCode)> onNewKey);
+        [[nodiscard]] int GetButtonAxis(KeyCode positive, KeyCode negative) const;
+        [[nodiscard]] bool GetKeyDown(KeyCode key) const;
+        [[nodiscard]] bool GetKeyUp(KeyCode key) const;
+        [[nodiscard]] bool GetKeyIsDown(KeyCode key) const;
+        [[nodiscard]] bool GetMouseButtonDown(MouseButton button) const;
+        [[nodiscard]] bool GetMouseButtonUp(MouseButton button) const;
+        [[nodiscard]] bool GetMouseButtonIsDown(MouseButton button) const;
         [[nodiscard]] const Vector2Int &GetMousePos() const;
         [[nodiscard]] const Vector2Int &GetMouseWheelDelta() const;
     };

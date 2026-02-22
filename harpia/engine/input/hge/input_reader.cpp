@@ -6,13 +6,13 @@
 #include <utility>
 
 namespace Harpia {
-    InputReader::InputReader(MouseState *mouseState, std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey) {
+    InputReader::InputReader(MouseState *mouseState, std::map<KeyCode, KeyState> *keyState, std::function<void(KeyCode)> onNewKey) {
         _keyState = keyState;
         _onNewKey = std::move(onNewKey);
         _mouseState = mouseState;
     }
 
-    bool InputReader::GetKeyDown(const SDL_Keycode key) const {
+    bool InputReader::GetKeyDown(const KeyCode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.down;
         }
@@ -20,7 +20,7 @@ namespace Harpia {
         return false;
     }
 
-    bool InputReader::GetKeyUp(const SDL_Keycode key) const {
+    bool InputReader::GetKeyUp(const KeyCode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.up;
         }
@@ -28,7 +28,7 @@ namespace Harpia {
         return false;
     }
 
-    bool InputReader::GetKeyIsDown(const SDL_Keycode key) const {
+    bool InputReader::GetKeyIsDown(const KeyCode key) const {
         if (auto it{_keyState->find(key)}; it != _keyState->end()) {
             return it->second.isDown;
         }
@@ -36,16 +36,16 @@ namespace Harpia {
         return false;
     }
 
-    bool InputReader::GetMouseButtonDown(const int index) const {
-        return _mouseState->mouseButton[index].down;
+    bool InputReader::GetMouseButtonDown(const MouseButton button) const {
+        return _mouseState->mouseButton[static_cast<int>(button)].down;
     }
 
-    bool InputReader::GetMouseButtonUp(const int index) const {
-        return _mouseState->mouseButton[index].up;
+    bool InputReader::GetMouseButtonUp(const MouseButton button) const {
+        return _mouseState->mouseButton[static_cast<int>(button)].up;
     }
 
-    bool InputReader::GetMouseButtonIsDown(const int index) const {
-        return _mouseState->mouseButton[index].isDown;
+    bool InputReader::GetMouseButtonIsDown(const MouseButton button) const {
+        return _mouseState->mouseButton[static_cast<int>(button)].isDown;
     }
 
     const Vector2Int &InputReader::GetMousePos() const {
@@ -56,7 +56,7 @@ namespace Harpia {
         return _mouseState->wheelDelta;
     }
 
-    int InputReader::GetButtonAxis(SDL_Keycode positive, SDL_Keycode negative) const {
+    int InputReader::GetButtonAxis(KeyCode positive, KeyCode negative) const {
         return (int) GetKeyIsDown(positive) - (int) GetKeyIsDown(negative);
     }
 }// namespace Harpia

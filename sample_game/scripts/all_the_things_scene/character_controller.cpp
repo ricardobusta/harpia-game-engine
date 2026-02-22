@@ -4,16 +4,18 @@
 
 #include "character_controller.h"
 #include "hge/harpia_math.h"
+#include "hge/key_code.h"
+#include "hge/mouse_button.h"
 
 using namespace Harpia;
 
 namespace SampleGame {
     void CharacterController::Update() {
         auto speed = 10.0f * Time()->deltaTime;
-        auto x = Input()->GetKeyIsDown(SDLK_D) - Input()->GetKeyIsDown(SDLK_A) +
-                 Input()->GetKeyIsDown(SDLK_RIGHT) - Input()->GetKeyIsDown(SDLK_LEFT);
-        auto z = Input()->GetKeyIsDown(SDLK_S) - Input()->GetKeyIsDown(SDLK_W) +
-                 Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
+        auto x = Input()->GetKeyIsDown(KeyCode::D) - Input()->GetKeyIsDown(KeyCode::A) +
+                 Input()->GetKeyIsDown(KeyCode::Right) - Input()->GetKeyIsDown(KeyCode::Left);
+        auto z = Input()->GetKeyIsDown(KeyCode::S) - Input()->GetKeyIsDown(KeyCode::W) +
+                 Input()->GetKeyIsDown(KeyCode::Down) - Input()->GetKeyIsDown(KeyCode::Up);
         auto obj = GetObject();
         auto pos = obj->transform.GetPosition();
         pos.x += x * speed;
@@ -29,7 +31,7 @@ namespace SampleGame {
         obj->transform.SetPosition(pos);
 
         if (_grounded) {
-            if (Input()->GetKeyDown(SDLK_SPACE)) {
+            if (Input()->GetKeyDown(KeyCode::Space)) {
                 audio->PlayJumpSfx();
                 _verticalSpeed = 20;
                 _grounded = false;
@@ -39,10 +41,10 @@ namespace SampleGame {
         }
 
         auto mousePos = Input()->GetMousePos();
-        if (Input()->GetMouseButtonIsDown(0)) {
+        if (Input()->GetMouseButtonIsDown(MouseButton::Left)) {
             DebugLog("Mouse down: pos %d,%d", mousePos.x, mousePos.y);
         }
-        if (Input()->GetMouseButtonUp(0)) {
+        if (Input()->GetMouseButtonUp(MouseButton::Left)) {
             DebugLog("Mouse up: pos %d,%d", mousePos.x, mousePos.y);
         }
     }
