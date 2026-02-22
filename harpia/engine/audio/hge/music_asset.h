@@ -12,7 +12,7 @@
 namespace Harpia {
     class MusicAsset : public Asset {
     public:
-        Mix_Music *ref = nullptr;
+        MIX_Audio *ref = nullptr;
     private:
         Internal::AudioSystem *_audioSystem = nullptr;
     public:

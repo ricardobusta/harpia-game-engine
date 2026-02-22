@@ -4,27 +4,34 @@
 
 #include "audio_system.h"
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/harpia_assert.h"
 
 namespace Harpia::Internal {
-    int AudioSystem::Initialize([[maybe_unused]] const AudioConfiguration &config, CoreSystem *coreSystem) const {
+    int AudioSystem::Initialize([[maybe_unused]] const AudioConfiguration &config, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
         DebugLog("Init Audio");
-        auto result = Mix_Init(MIX_INIT_OGG);
-        if (result < 0) {
-            DebugLogError("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
-            return result;
+
+        if (!MIX_Init()) {
+            DebugLogError("SDL_mixer could not initialize! SDL Error: %s", SDL_GetError());
+            return -1;
         }
-        result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048);
-        if (result < 0) {
-            DebugLogError("SDL_mixer could not open audio! SDL_mixer Error: %s", Mix_GetError());
-            return result;
+
+        _mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+        if (_mixer == nullptr) {
+            DebugLogError("SDL_mixer could not open audio device! SDL Error: %s", SDL_GetError());
+            return -1;
+        }
+
+        _musicTrack = MIX_CreateTrack(_mixer);
+        if (_musicTrack == nullptr) {
+            DebugLogError("SDL_mixer could not create music track! SDL Error: %s", SDL_GetError());
+            return -1;
         }
 
         return 0;
@@ -41,21 +48,30 @@ namespace Harpia::Internal {
     void AudioSystem::Quit() {
         _loadedAudios.Clear([this](auto a) { DeleteAudio(a); });
         _loadedMusics.Clear([this](auto m) { DeleteMusic(m); });
-        Mix_Quit();
+        if (_musicTrack != nullptr) {
+            MIX_DestroyTrack(_musicTrack);
+            _musicTrack = nullptr;
+        }
+        if (_mixer != nullptr) {
+            MIX_DestroyMixer(_mixer);
+            _mixer = nullptr;
+        }
+        MIX_Quit();
         DebugLog("Quit Audio");
     }
 
     void AudioSystem::PlayAudio(AudioAsset *audio) const {
-        if (Mix_PlayChannel(-1, audio->ref, 0) < 0) {
-            DebugLogError("Audio could not be played. Mix_Error: %s", Mix_GetError());
+        if (!MIX_PlayAudio(_mixer, audio->ref)) {
+            DebugLogError("Audio could not be played. SDL Error: %s", SDL_GetError());
         }
     }
 
     AudioAsset *AudioSystem::LoadAudio(const std::string &path) {
         return _loadedAudios.LoadAsset(path, [this](auto p) -> std::unique_ptr<AudioAsset> {
-            auto ref = Mix_LoadWAV(p.c_str());
+            // predecode=true: fully decode into memory up-front, suitable for short sound effects
+            auto ref = MIX_LoadAudio(_mixer, p.c_str(), true);
             if (ref == nullptr) {
-                DebugLogError("AudioAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
+                DebugLogError("AudioAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
                 return nullptr;
             }
             auto audio = std::make_unique<AudioAsset>(this);
@@ -71,14 +87,15 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::DeleteAudio(AudioAsset *audio) const {
-        Mix_FreeChunk(audio->ref);
+        MIX_DestroyAudio(audio->ref);
     }
 
     MusicAsset *AudioSystem::LoadMusic(const std::string &path) {
         return _loadedMusics.LoadAsset(path, [this](auto p) -> std::unique_ptr<MusicAsset> {
-            auto ref = Mix_LoadMUS(p.c_str());
+            // predecode=false: stream from disk, suitable for long music tracks
+            auto ref = MIX_LoadAudio(_mixer, p.c_str(), false);
             if (ref == nullptr) {
-                DebugLogError("MusicAsset %s was not loaded. SDL_mixer Error: %s", p.c_str(), Mix_GetError());
+                DebugLogError("MusicAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
                 return nullptr;
             }
             auto music = std::make_unique<MusicAsset>(this);
@@ -88,30 +105,33 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::PlayMusic(MusicAsset *music) const {
-        if (Mix_PlayMusic(music->ref, -1) < 0) {
-            DebugLogError("Music could not be played. Mix_Error: %s", Mix_GetError());
+        MIX_SetTrackAudio(_musicTrack, music->ref);
+        MIX_SetTrackLoops(_musicTrack, -1);// -1 = loop indefinitely
+        if (!MIX_PlayTrack(_musicTrack, 0)) {
+            DebugLogError("Music could not be played. SDL Error: %s", SDL_GetError());
         }
     }
 
     void AudioSystem::SetMusicVolume(float volume) const {
-        Mix_VolumeMusic((int) (volume * MIX_MAX_VOLUME));
+        MIX_SetTrackGain(_musicTrack, volume);
     }
 
     void AudioSystem::PauseMusic() const {
-        Mix_PauseMusic();
+        MIX_PauseTrack(_musicTrack);
     }
 
     void AudioSystem::ResumeMusic() const {
-        Mix_ResumeMusic();
+        MIX_ResumeTrack(_musicTrack);
     }
 
     bool AudioSystem::IsMusicPaused() const {
-        return Mix_PausedMusic() == SDL_TRUE;
+        return MIX_TrackPaused(_musicTrack);
     }
 
     void AudioSystem::SetMusicPosition(float positionInSeconds) const {
-        if(Mix_SetMusicPosition((double)positionInSeconds)<0){
-            DebugLogError("Music position not set. Mix_Error: %s", Mix_GetError());
+        Sint64 frames = MIX_TrackMSToFrames(_musicTrack, (Sint64) (positionInSeconds * 1000.0f));
+        if (!MIX_SetTrackPlaybackPosition(_musicTrack, frames)) {
+            DebugLogError("Music position not set. SDL Error: %s", SDL_GetError());
         }
     }
 
@@ -122,6 +142,9 @@ namespace Harpia::Internal {
     }
 
     void AudioSystem::DeleteMusic(MusicAsset *music) const {
-        Mix_FreeMusic(music->ref);
+        MIX_DestroyAudio(music->ref);
     }
+
+    void AudioSystem::ReleaseAllUsages([[maybe_unused]] AudioAsset *audio) const {}
+    void AudioSystem::ReleaseAllUsages([[maybe_unused]] MusicAsset *music) const {}
 }// namespace Harpia::Internal

@@ -9,13 +9,13 @@ target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_H
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 
 if (BUILD_SHARED_LIBS)
-    set(SDL_LINK SDL2)
+    set(SDL_LINK SDL3-shared)
 else ()
-    set(SDL_LINK SDL2-static)
+    set(SDL_LINK SDL3-static)
 endif ()
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
-        mingw32
+        $<$<PLATFORM_ID:Windows>:mingw32>
         ${SDL_LINK}
         Harpia.Debug
         Harpia.Structures

@@ -10,7 +10,7 @@
 #include "hge/harpia_assert.h"
 #include "hge/mesh_generator.h"
 #include "hge/renderer_component_internal.h"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 namespace Harpia::Internal {
     int RenderingSystem::Initialize(Configuration const &configuration, CoreSystem *coreSystem) {

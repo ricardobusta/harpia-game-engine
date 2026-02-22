@@ -2,7 +2,7 @@
 // Created by Ricardo Bustamante <ricardo@busta.dev> on 31/05/2022.
 //
 
-#include "Color.h"
+#include "color.h"
 
 namespace Harpia {
 

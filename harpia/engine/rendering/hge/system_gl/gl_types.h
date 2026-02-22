@@ -24,8 +24,6 @@ typedef double GLdouble;
 typedef double GLclampd;
 typedef void GLvoid;
 
-// SDL
-typedef void *SDL_GLContext;
 
 #endif//HARPIAGAMEENGINE_GLTYPES_H
 #endif//__glew_h__

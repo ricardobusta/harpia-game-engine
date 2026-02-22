@@ -9,6 +9,7 @@
 
 #include "gl_types.h"
 #include "hge/asset_container.h"
+#include <SDL3/SDL.h>
 #include "hge/camera_clear_type.h"
 #include "hge/internal_defines.h"
 #include "shader_asset_gl.h"

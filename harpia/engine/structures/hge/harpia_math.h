@@ -6,7 +6,7 @@
 #define HARPIAGAMEENGINE_HARPIAMATH_H
 
 #include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtx/quaternion.hpp"
+#include "glm/gtc/quaternion.hpp"
 #include "glm/matrix.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
@@ -37,7 +37,7 @@ namespace Harpia {
         }
 
         static Matrix4x4 Rotation(const Quaternion &rotation) {
-            return glm::toMat4(rotation);
+            return glm::mat4_cast(rotation);
         }
 
         static Matrix4x4 Identity() {

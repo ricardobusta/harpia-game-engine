@@ -5,7 +5,7 @@
 #ifndef HARPIAGAMEENGINE_INPUT_READER_H
 #define HARPIAGAMEENGINE_INPUT_READER_H
 
-#include "SDL_keycode.h"
+#include <SDL3/SDL_keycode.h>
 #include "hge/harpia_math.h"
 #include "key_state.h"
 #include "mouse_state.h"
@@ -22,7 +22,7 @@ namespace Harpia {
     public:
         InputReader() = delete;
         explicit InputReader(MouseState *mouseState, std::map<SDL_Keycode, KeyState> *keyState, std::function<void(SDL_Keycode)> onNewKey);
-        [[nodiscard]] int GetButtonAxis(SDL_KeyCode positive, SDL_KeyCode negative) const;
+        [[nodiscard]] int GetButtonAxis(SDL_Keycode positive, SDL_Keycode negative) const;
         [[nodiscard]] bool GetKeyDown(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyUp(SDL_Keycode key) const;
         [[nodiscard]] bool GetKeyIsDown(SDL_Keycode key) const;

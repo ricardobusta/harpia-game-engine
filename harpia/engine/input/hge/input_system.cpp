@@ -8,7 +8,7 @@
 #include "hge/core_system.h"
 #include "hge/debug.h"
 #include "hge/harpia_assert.h"
-#include <SDL_events.h>
+#include <SDL3/SDL_events.h>
 
 namespace Harpia::Internal {
     //region public
@@ -73,18 +73,18 @@ namespace Harpia::Internal {
     }
 
     void InputSystem::OnKeyUp(const SDL_KeyboardEvent &key) {
-        auto it = _keyMap.find(key.keysym.sym);
+        auto it = _keyMap.find(key.key);
         if (it == _keyMap.end()) {
             return;// key not mapped
         }
 
         it->second.isDown = false;
         it->second.up = true;
-        _dirtyKeys.push_back(key.keysym.sym);
+        _dirtyKeys.push_back(key.key);
     }
 
     void InputSystem::OnKeyDown(const SDL_KeyboardEvent &key) {
-        auto it = _keyMap.find(key.keysym.sym);
+        auto it = _keyMap.find(key.key);
         if (it == _keyMap.end()) {
             return;// key not mapped
         }
@@ -93,17 +93,17 @@ namespace Harpia::Internal {
         }
         it->second.down = true;
         it->second.isDown = true;
-        _dirtyKeys.push_back(key.keysym.sym);
+        _dirtyKeys.push_back(key.key);
     }
 
     void InputSystem::OnMouseWheel(SDL_MouseWheelEvent &wheel) {
-        _mouseState.wheelDelta.x = wheel.x;
-        _mouseState.wheelDelta.y = wheel.y;
+        _mouseState.wheelDelta.x = (int) wheel.x;
+        _mouseState.wheelDelta.y = (int) wheel.y;
     }
 
     void InputSystem::OnMouseMove(SDL_MouseMotionEvent &motion) {
-        _mouseState.pos.x = motion.x;
-        _mouseState.pos.y = motion.y;
+        _mouseState.pos.x = (int) motion.x;
+        _mouseState.pos.y = (int) motion.y;
     }
 
     void InputSystem::OnMouseUp(SDL_MouseButtonEvent &button) {

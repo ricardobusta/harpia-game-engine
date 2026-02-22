@@ -7,7 +7,7 @@
 #include "main_scene.h"
 #include "spaceship_scene.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 namespace SampleGame {
     void GameConfig::Configure(Harpia::Configuration &configuration) {

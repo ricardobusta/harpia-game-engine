@@ -18,8 +18,8 @@
 #include "shader_asset_gl.h"
 #include "texture_asset_gl.h"
 #include <GL/gl3w.h>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 #include <map>
 
 namespace Harpia::Internal {
@@ -167,11 +167,11 @@ namespace Harpia::Internal {
 
         //Use Vsync
         if (_useVsync) {
-            if (SDL_GL_SetSwapInterval(-1) < 0 && SDL_GL_SetSwapInterval(1) < 0) {
+            if (!SDL_GL_SetSwapInterval(-1) && !SDL_GL_SetSwapInterval(1)) {
                 DebugLogError("Warning: Unable to set VSync = true! SDL Error: %s", SDL_GetError());
             }
         } else {
-            if (SDL_GL_SetSwapInterval(0) < 0) {
+            if (!SDL_GL_SetSwapInterval(0)) {
                 DebugLogError("Warning: Unable to set VSync = false! SDL Error: %s", SDL_GetError());
             }
         }
@@ -396,14 +396,14 @@ namespace Harpia::Internal {
     std::unique_ptr<TextureAssetGL> RenderingSystemGL::LoadTextureAsset(const std::string &path) {
         SDL_Surface *surface = IMG_Load(path.c_str());
         if (surface == nullptr) {
-            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), IMG_GetError());
+            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), SDL_GetError());
             return nullptr;
         }
 
         GLuint texture = 0;
 
-        GLenum dataFormat = GL_RGBA;// TODO figure out how to map surface->format into dataFormat. Maybe with SDL_MapRGBA
-        if (surface->format->BytesPerPixel == 4) {
+        GLenum dataFormat = GL_RGBA;// SDL3: surface->format is SDL_PixelFormat enum; use SDL_BYTESPERPIXEL macro
+        if (SDL_BYTESPERPIXEL(surface->format) == 4) {
             dataFormat = GL_RGBA;
         } else {
             dataFormat = GL_RGB;
@@ -420,7 +420,7 @@ namespace Harpia::Internal {
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
 
-        SDL_FreeSurface(surface);
+        SDL_DestroySurface(surface);
 
         auto asset = std::make_unique<TextureAssetGL>(this, texture, w, h);
         return asset;

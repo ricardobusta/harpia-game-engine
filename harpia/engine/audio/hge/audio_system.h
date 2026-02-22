@@ -9,6 +9,7 @@
 #include "hge/asset_container.h"
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
+#include "mix_types.h"
 #include "music_asset.h"
 
 namespace Harpia::Internal {
@@ -16,6 +17,8 @@ namespace Harpia::Internal {
     private:
         AssetContainer<AudioAsset> _loadedAudios;
         AssetContainer<MusicAsset> _loadedMusics;
+        MIX_Mixer *_mixer = nullptr;
+        MIX_Track *_musicTrack = nullptr;
 
     public:
         AudioAsset *LoadAudio(const std::string &path);
@@ -31,7 +34,7 @@ namespace Harpia::Internal {
         void SetMusicPosition(float positionInSeconds) const;
         [[nodiscard]] bool IsMusicPaused() const;
 
-        int Initialize(const AudioConfiguration &config, CoreSystem *coreSystem) const;
+        int Initialize(const AudioConfiguration &config, CoreSystem *coreSystem);
         int GetInitFlags() override;
         int GetWindowFlags() override;
         void Quit() override;

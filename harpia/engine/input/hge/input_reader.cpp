@@ -56,7 +56,7 @@ namespace Harpia {
         return _mouseState->wheelDelta;
     }
 
-    int InputReader::GetButtonAxis(SDL_KeyCode positive, SDL_KeyCode negative) const {
+    int InputReader::GetButtonAxis(SDL_Keycode positive, SDL_Keycode negative) const {
         return (int) GetKeyIsDown(positive) - (int) GetKeyIsDown(negative);
     }
 }// namespace Harpia

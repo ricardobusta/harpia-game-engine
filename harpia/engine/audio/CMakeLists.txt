@@ -7,9 +7,15 @@ file(GLOB ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/hge/*.
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
+if (BUILD_SHARED_LIBS)
+    set(SDL_MIXER_LINK SDL3_mixer-shared)
+else ()
+    set(SDL_MIXER_LINK SDL3_mixer-static)
+endif ()
+
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
-        SDL2_mixer
+        ${SDL_MIXER_LINK}
         Harpia.Core
         Harpia.Application.Internal
 )

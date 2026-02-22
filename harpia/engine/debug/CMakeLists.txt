@@ -8,9 +8,9 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 if (BUILD_SHARED_LIBS)
-    set(SDL_LINK SDL2)
+    set(SDL_LINK SDL3-shared)
 else ()
-    set(SDL_LINK SDL2-static)
+    set(SDL_LINK SDL3-static)
 endif ()
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC

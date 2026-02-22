@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "SDL_keycode.h"
+#include <SDL3/SDL_keycode.h>
 #include "global_defines.h"
 #include "hge/harpia_math.h"
 

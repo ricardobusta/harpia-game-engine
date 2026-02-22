@@ -49,7 +49,6 @@ namespace Harpia::Internal {
     private:
         [[nodiscard]] float CalculateNow() const;
         [[nodiscard]] Uint64 NowTick() const;
-        void HandleWindowEvent(const SDL_Event &e);
         void HandleEvents(const SDL_Event &e);
         void FrameDelay() const;
     };

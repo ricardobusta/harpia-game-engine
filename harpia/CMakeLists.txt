@@ -18,22 +18,26 @@ if (EMSCRIPTEN)
     message("== EMSCRIPTEN Build")
     set(CMAKE_EXECUTABLE_SUFFIX .js)
     option(BUILD_SHARED_LIBS "" OFF)
-    set(SDL2MIXER_VENDORED OFF)
-    set(SDL2MIXER_MOD OFF)
+    set(SDL3MIXER_VENDORED OFF)
+    set(SDL3MIXER_MOD OFF)
 else ()
     message("== Desktop Build")
     option(BUILD_SHARED_LIBS "" ON)
-    set(SDL2MIXER_VENDORED ON)
+    set(SDL3MIXER_VENDORED ON)
 endif ()
 
-set(SDL2MIXER_FLAC OFF)
-set(SDL2MIXER_OPUS OFF)
-set(SDL2MIXER_OGG ON)
+set(SDL3MIXER_FLAC OFF)
+set(SDL3MIXER_OPUS OFF)
+set(SDL3MIXER_OGG ON)
 
 list(
         APPEND
         ${PROJECT_NAME}_INCLUDES
         third_party/glm/
+        third_party/sdl/include/
+        third_party/sdl_mixer/include/
+        third_party/sdl_image/include/
+        third_party/sdl_ttf/include/
 )
 
 include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})

@@ -13,11 +13,17 @@ add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 
+if (BUILD_SHARED_LIBS)
+    set(SDL_IMAGE_LINK SDL3_image-shared)
+else ()
+    set(SDL_IMAGE_LINK SDL3_image-static)
+endif ()
+
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         gl3w
         Harpia.Core
         Harpia.Application.Internal
         Harpia.Game.Internal
-        SDL2_image
+        ${SDL_IMAGE_LINK}
 )

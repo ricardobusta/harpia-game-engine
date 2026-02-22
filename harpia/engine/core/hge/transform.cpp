@@ -46,7 +46,7 @@ namespace Harpia {
     }
 
     void Transform::SetRotation(float angle, const Vector3 &axis) {
-        _rotation = glm::toQuat(Matrix::Rotation(angle, axis));// TODO improve this?
+        _rotation = glm::quat_cast(Matrix::Rotation(angle, axis));// TODO improve this?
         SetTransformDirty();
     }
 
@@ -56,7 +56,7 @@ namespace Harpia {
     }
 
     void Transform::Rotate(float angle, const Vector3 &axis) {
-        _rotation = _rotation * glm::toQuat(Matrix::Rotation(angle, axis));
+        _rotation = _rotation * glm::quat_cast(Matrix::Rotation(angle, axis));
         SetTransformDirty();
     }
 

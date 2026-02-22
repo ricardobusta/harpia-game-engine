@@ -15,7 +15,7 @@ struct SDL_KeyboardEvent;
 struct SDL_MouseButtonEvent;
 struct SDL_MouseMotionEvent;
 struct SDL_MouseWheelEvent;
-class SDL_Window;
+struct SDL_Window;
 
 namespace Harpia::Internal {
     class IApplicationSystem;

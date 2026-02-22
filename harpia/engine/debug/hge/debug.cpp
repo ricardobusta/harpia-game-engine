@@ -5,7 +5,7 @@
 
 #ifdef HARPIA_DEBUG
 
-#include <SDL_log.h>
+#include <SDL3/SDL_log.h>
 
 namespace Harpia {
     void Debug::Log(const char *tag, const char *message) {

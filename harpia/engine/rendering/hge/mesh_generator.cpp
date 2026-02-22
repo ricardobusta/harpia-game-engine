@@ -76,31 +76,6 @@ namespace Harpia::Internal {
                  28, 29, 30, 31, 32, 33, 34, 35};
     }
 
-    void Vec3ToFloatArray(const ofbx::Vec3 *v, const int s, std::vector<float> &out) {
-        out.resize(s * 3);
-        for (auto i = 0; i < s; i++) {
-            // Mapping FBX coordinate system
-            auto vi = v[i];
-            out[i * 3 + 0] = vi.x;
-            out[i * 3 + 1] = vi.z;
-            out[i * 3 + 2] = -vi.y;
-        }
-    }
-
-    void Vec2ToFloatArray(const ofbx::Vec2 *v, const int s, std::vector<float> &out) {
-        out.resize(s * 2);
-        for (auto i = 0; i < s; i++) {
-            // Mapping FBX uv coordinates
-            auto vi = v[i];
-            out[i * 2 + 0] = vi.x;
-            out[i * 2 + 1] = 1 - vi.y;
-        }
-    }
-
-    int MapIndex(int index) {
-        return (index < 0) ? ~index : index;// Due to FBX end of face index being inverted
-    }
-
     bool MeshGenerator::FbxMeshes(RenderingSystem &rs, const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &loadedMeshes) {
         FILE *fp = fopen(path.c_str(), "rb");
 
@@ -114,7 +89,12 @@ namespace Harpia::Internal {
         fseek(fp, 0, SEEK_SET);
         auto *content = new ofbx::u8[file_size];
         fread(content, 1, file_size, fp);
-        auto scene = ofbx::load((ofbx::u8 *) content, file_size, (ofbx::u64) ofbx::LoadFlags::TRIANGULATE);
+        fclose(fp);
+
+        // Load without TRIANGULATE (removed in new OpenFBX); triangulation is done manually below
+        auto scene = ofbx::load((ofbx::u8 *) content, (ofbx::usize) file_size, (ofbx::u16) ofbx::LoadFlags::NONE);
+        delete[] content;
+
         if (!scene) {
             DebugLogError(ofbx::getError());
             return false;
@@ -124,28 +104,83 @@ namespace Harpia::Internal {
 
         for (auto i = 0; i < scene->getAllObjectCount(); i++) {
             auto object = objects[i];
-            if (object->getType() == ofbx::Object::Type::GEOMETRY) {
-                auto geometry = dynamic_cast<const ofbx::Geometry *>(object);
-                auto name = geometry->name;
-
-                // TODO skip geometry if name does not match
-                std::vector<float> points, normals, uvs;
-                Vec3ToFloatArray(geometry->getVertices(), geometry->getVertexCount(), points);
-                Vec3ToFloatArray(geometry->getNormals(), geometry->getVertexCount(), normals);
-                Vec2ToFloatArray(geometry->getUVs(0), geometry->getVertexCount(), uvs);
-
-                std::vector<unsigned int> indices(geometry->getIndexCount());
-                auto index = geometry->getFaceIndices();
-                for (auto i = 0; i < geometry->getIndexCount(); i++) {
-                    indices[i] = MapIndex(index[i]);
-                }
-
-                auto mesh = rs.LoadMesh(points, normals, uvs, indices);
-                if(!mesh){
-                    DebugLogError("Mesh was null: %s", ofbx::getError());
-                }
-                loadedMeshes[name] = mesh;
+            if (object->getType() != ofbx::Object::Type::GEOMETRY) {
+                continue;
             }
+            auto geometry = dynamic_cast<const ofbx::Geometry *>(object);
+            auto name = geometry->name;
+
+            const ofbx::GeometryData &geomData = geometry->getGeometryData();
+            ofbx::Vec3Attributes positions = geomData.getPositions();
+            ofbx::Vec3Attributes normals = geomData.getNormals();
+            ofbx::Vec2Attributes uvs = geomData.getUVs(0);
+
+            int partitionCount = geomData.getPartitionCount();
+
+            // Pre-count total triangles across all partitions
+            int totalTriangles = 0;
+            for (int p = 0; p < partitionCount; p++) {
+                totalTriangles += geomData.getPartition(p).triangles_count;
+            }
+
+            std::vector<float> points, meshNormals, meshUvs;
+            std::vector<unsigned int> indices;
+            points.reserve(totalTriangles * 3 * 3);
+            meshNormals.reserve(totalTriangles * 3 * 3);
+            meshUvs.reserve(totalTriangles * 3 * 2);
+            indices.reserve(totalTriangles * 3);
+
+            std::vector<int> triIndices;
+
+            for (int p = 0; p < partitionCount; p++) {
+                const ofbx::GeometryPartition &partition = geomData.getPartition(p);
+                triIndices.resize(partition.max_polygon_triangles * 3);
+
+                for (int polyIdx = 0; polyIdx < partition.polygon_count; polyIdx++) {
+                    const ofbx::GeometryPartition::Polygon &polygon = partition.polygons[polyIdx];
+                    ofbx::u32 triCount = ofbx::triangulate(geomData, polygon, triIndices.data());
+
+                    for (ofbx::u32 t = 0; t < triCount; t++) {
+                        int vertIdx = triIndices[t];
+
+                        // Positions — remap FBX coordinate system (Y-up → Z-up swap)
+                        ofbx::Vec3 pos = positions.get(vertIdx);
+                        points.push_back(pos.x);
+                        points.push_back(pos.z);
+                        points.push_back(-pos.y);
+
+                        // Normals
+                        if (normals.values != nullptr) {
+                            ofbx::Vec3 n = normals.get(vertIdx);
+                            meshNormals.push_back(n.x);
+                            meshNormals.push_back(n.z);
+                            meshNormals.push_back(-n.y);
+                        } else {
+                            meshNormals.push_back(0.0f);
+                            meshNormals.push_back(1.0f);
+                            meshNormals.push_back(0.0f);
+                        }
+
+                        // UVs — flip V axis
+                        if (uvs.values != nullptr) {
+                            ofbx::Vec2 uv = uvs.get(vertIdx);
+                            meshUvs.push_back(uv.x);
+                            meshUvs.push_back(1.0f - uv.y);
+                        } else {
+                            meshUvs.push_back(0.0f);
+                            meshUvs.push_back(0.0f);
+                        }
+
+                        indices.push_back((unsigned int) (points.size() / 3 - 1));
+                    }
+                }
+            }
+
+            auto mesh = rs.LoadMesh(points, meshNormals, meshUvs, indices);
+            if (!mesh) {
+                DebugLogError("Mesh was null: %s", ofbx::getError());
+            }
+            loadedMeshes[name] = mesh;
         }
 
         scene->destroy();

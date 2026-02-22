@@ -10,9 +10,9 @@ using namespace Harpia;
 namespace SampleGame {
     void CharacterController::Update() {
         auto speed = 10.0f * Time()->deltaTime;
-        auto x = Input()->GetKeyIsDown(SDLK_d) - Input()->GetKeyIsDown(SDLK_a) +
+        auto x = Input()->GetKeyIsDown(SDLK_D) - Input()->GetKeyIsDown(SDLK_A) +
                  Input()->GetKeyIsDown(SDLK_RIGHT) - Input()->GetKeyIsDown(SDLK_LEFT);
-        auto z = Input()->GetKeyIsDown(SDLK_s) - Input()->GetKeyIsDown(SDLK_w) +
+        auto z = Input()->GetKeyIsDown(SDLK_S) - Input()->GetKeyIsDown(SDLK_W) +
                  Input()->GetKeyIsDown(SDLK_DOWN) - Input()->GetKeyIsDown(SDLK_UP);
         auto obj = GetObject();
         auto pos = obj->transform.GetPosition();
