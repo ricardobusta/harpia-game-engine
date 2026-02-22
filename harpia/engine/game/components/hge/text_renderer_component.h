@@ -6,7 +6,9 @@
 #define HARPIAGAMEENGINE_TEXT_RENDERER_COMPONENT_H
 
 #include "renderer_component.h"
+#include <array>
 #include <string>
+#include <vector>
 
 namespace Harpia {
     class TextRendererComponent : public RendererComponent {

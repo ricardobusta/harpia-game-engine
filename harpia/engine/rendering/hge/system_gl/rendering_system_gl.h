@@ -14,7 +14,9 @@
 #include "hge/internal_defines.h"
 #include "shader_asset_gl.h"
 #include "texture_asset_gl.h"
+#include <list>
 #include <map>
+#include <memory>
 #include <vector>
 
 namespace Harpia::Internal {

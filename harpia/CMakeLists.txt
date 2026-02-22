@@ -13,17 +13,22 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_DEBUG_POSTFIX "d")
 set(CMAKE_RELEASE_POSTFIX "")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -Werror) # Handle warnings as errors
 if (EMSCRIPTEN)
     message("== EMSCRIPTEN Build")
-    set(CMAKE_EXECUTABLE_SUFFIX .js)
+    set(CMAKE_EXECUTABLE_SUFFIX .html)
     option(BUILD_SHARED_LIBS "" OFF)
     set(SDL3MIXER_VENDORED OFF)
     set(SDL3MIXER_MOD OFF)
+    # Disable SDL3_image backends that require native libs not in Emscripten sysroot
+    set(SDL3IMAGE_AVIF OFF)
+    set(SDL3IMAGE_WEBP OFF)
+    # Do not propagate -Werror to Emscripten builds — third-party code produces
+    # extra warnings under Emscripten's stricter frontend that are not actionable.
 else ()
     message("== Desktop Build")
     option(BUILD_SHARED_LIBS "" ON)
     set(SDL3MIXER_VENDORED ON)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror") # Handle warnings as errors
 endif ()
 
 set(SDL3MIXER_FLAC OFF)

@@ -10,6 +10,8 @@
 #include "hge/hierarchy_static.h"
 #include "hge/transform.h"
 #include <list>
+#include <memory>
+#include <string>
 
 namespace Harpia {
     class Object {

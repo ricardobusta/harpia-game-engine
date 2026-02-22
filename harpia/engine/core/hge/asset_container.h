@@ -9,6 +9,7 @@
 #include "hge/debug.h"
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace Harpia::Internal {

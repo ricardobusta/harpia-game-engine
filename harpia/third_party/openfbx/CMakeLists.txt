@@ -17,3 +17,10 @@ set(
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
+
+# Suppress all warnings from this third-party library — we cannot modify its source
+target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CXX_COMPILER_ID:Clang,AppleClang>:-Wno-everything>
+        $<$<CXX_COMPILER_ID:GNU>:-w>
+        $<$<BOOL:${EMSCRIPTEN}>:-Wno-everything>
+)
