@@ -22,6 +22,12 @@ fi
 echo "== Activating emsdk..."
 source "$EMSDK_DIR/emsdk_env.sh"
 
+# Clean previous build
+if [ -d "$BUILD_DIR" ]; then
+    echo "== Cleaning previous build..."
+    rm -rf "$BUILD_DIR"
+fi
+
 # Configure and build
 echo "== Configuring Emscripten build ($BUILD_TYPE)..."
 mkdir -p "$BUILD_DIR"

@@ -110,8 +110,7 @@ Output in `cmake-build-web/bin/`:
 **3. Test locally** (browsers block WebAssembly over `file://`):
 
 ```bash
-cd cmake-build-web/bin
-python3 -m http.server 8080
+./build_scripts/serve_web.sh
 # Open http://localhost:8080/Harpia.SampleGame.html
 ```
 
