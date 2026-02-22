@@ -42,3 +42,16 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 
 #install_symlink(${CMAKE_CURRENT_SOURCE_DIR}/Assets/ ${CMAKE_BINARY_DIR}/bin/Assets/)
 #file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Assets/ DESTINATION ${CMAKE_BINARY_DIR}/bin/Assets/)
+
+if (EMSCRIPTEN)
+    target_link_options(${PROJECT_NAME} PRIVATE
+            "SHELL:-s ALLOW_MEMORY_GROWTH=1"
+            "--preload-file" "${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
+    )
+    # Use custom HTML shell if available
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../build_scripts/emscripten_shell.html")
+        target_link_options(${PROJECT_NAME} PRIVATE
+                "--shell-file" "${CMAKE_CURRENT_SOURCE_DIR}/../build_scripts/emscripten_shell.html"
+        )
+    endif ()
+endif ()

@@ -17,7 +17,11 @@
 #include "renderer_component_gl.h"
 #include "shader_asset_gl.h"
 #include "texture_asset_gl.h"
+#ifdef __EMSCRIPTEN__
+#include <GLES3/gl3.h>
+#else
 #include <GL/gl3w.h>
+#endif
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <map>
@@ -151,9 +155,15 @@ namespace Harpia::Internal {
     }
 
     int RenderingSystemGL::RenderingInitialize() {
+#ifdef __EMSCRIPTEN__
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+#else
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+#endif
 
         _context = SDL_GL_CreateContext(_window);
         if (_context == nullptr) {
@@ -161,9 +171,11 @@ namespace Harpia::Internal {
             return -1;
         }
 
+#ifndef __EMSCRIPTEN__
         if (GLenum gl3wError = gl3wInit(); gl3wError != GL3W_OK) {
             DebugLogError("Error initializing GL3W! %d", gl3wError);
         }
+#endif
 
         //Use Vsync
         if (_useVsync) {
@@ -264,6 +276,27 @@ namespace Harpia::Internal {
         mesh->vao = 0;
     }
 
+    static std::string NormalizeShaderSource(const std::string_view &source, bool isFragment) {
+        std::string result(source);
+        // Strip existing #version line
+        auto pos = result.find("#version");
+        if (pos != std::string::npos) {
+            auto lineEnd = result.find('\n', pos);
+            if (lineEnd != std::string::npos)
+                result.erase(pos, lineEnd - pos + 1);
+            else
+                result.erase(pos);
+        }
+#ifdef __EMSCRIPTEN__
+        std::string header = "#version 300 es\n";
+        if (isFragment) header += "precision mediump float;\n";
+#else
+        std::string header = "#version 400\n";
+#endif
+        result.insert(0, header);
+        return result;
+    }
+
     ShaderAsset *RenderingSystemGL::LoadShader(const std::string &vertPath, const std::string &fragPath) {
         return _loadedShaders.LoadAsset(vertPath + fragPath, [this, vertPath, fragPath](auto) -> std::unique_ptr<ShaderAssetGL> {
             auto ok = false;
@@ -296,8 +329,10 @@ namespace Harpia::Internal {
         GLint success = GL_FALSE;
         std::unique_ptr<ShaderAssetGL> asset;
 
-        const auto vsh = vertSrc.data();
-        const auto fsh = fragSrc.data();
+        auto normalizedVert = NormalizeShaderSource(vertSrc, false);
+        auto normalizedFrag = NormalizeShaderSource(fragSrc, true);
+        const auto vsh = normalizedVert.c_str();
+        const auto fsh = normalizedFrag.c_str();
 
         programId = glCreateProgram();
 

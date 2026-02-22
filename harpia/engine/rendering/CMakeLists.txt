@@ -19,9 +19,15 @@ else ()
     set(SDL_IMAGE_LINK SDL3_image-static)
 endif ()
 
+if (NOT EMSCRIPTEN)
+    set(GL3W_LINK gl3w)
+else ()
+    set(GL3W_LINK "")
+endif ()
+
 target_link_libraries(
         ${PROJECT_NAME} PUBLIC
-        gl3w
+        ${GL3W_LINK}
         Harpia.Core
         Harpia.Application.Internal
         Harpia.Game.Internal

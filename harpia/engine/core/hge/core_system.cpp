@@ -8,6 +8,10 @@
 #include "hge/debug.h"
 #include <SDL3/SDL.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 namespace Harpia::Internal {
     int CoreSystem::Initialize(const Configuration &config, int InitFlags, int WindowFlags) {
         if (!SDL_Init(InitFlags)) {
@@ -41,31 +45,48 @@ namespace Harpia::Internal {
         onInitialize.Invoke();
 
         _quit = false;
-        SDL_Event e;
 
+#ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop_arg(EmscriptenTick, this, 0, 1);
+#else
         while (true) {
-            _frameStartTick = NowTick();
-            auto now = CalculateNow();
-            _time.deltaTime = now - _time.now;
-            _time.now = now;
-            onPreEvents.Invoke();
-
-            while (SDL_PollEvent(&e) != 0) {
-                HandleEvents(e);
-            }
-
+            Tick();
             if (_quit) {
                 break;
             }
-
-            onSceneChanges.Invoke();
-            onUpdate.Invoke();
-            onRenderStep.Invoke();
-            onLateUpdate.Invoke();
-
-            FrameDelay();
         }
+#endif
         return 0;
+    }
+
+    void CoreSystem::Tick() {
+        _frameStartTick = NowTick();
+        auto now = CalculateNow();
+        _time.deltaTime = now - _time.now;
+        _time.now = now;
+        onPreEvents.Invoke();
+
+        while (SDL_PollEvent(&_event) != 0) {
+            HandleEvents(_event);
+        }
+
+        if (_quit) {
+#ifdef __EMSCRIPTEN__
+            emscripten_cancel_main_loop();
+#endif
+            return;
+        }
+
+        onSceneChanges.Invoke();
+        onUpdate.Invoke();
+        onRenderStep.Invoke();
+        onLateUpdate.Invoke();
+
+        FrameDelay();
+    }
+
+    void CoreSystem::EmscriptenTick(void *arg) {
+        static_cast<CoreSystem *>(arg)->Tick();
     }
 
     void CoreSystem::HandleEvents(const SDL_Event &e) {

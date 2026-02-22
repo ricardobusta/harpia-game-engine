@@ -10,7 +10,7 @@
 #include "i_application_system.h"
 #include "internal_defines.h"
 #include "hge/harpia_math.h"
-#include <list>
+#include <SDL3/SDL.h>
 
 namespace Harpia::Internal {
     class CoreSystem : public IApplicationSystem {
@@ -36,6 +36,7 @@ namespace Harpia::Internal {
         bool _quit = false;
         Uint64 _fpsCap = 0;
         Uint64 _frameStartTick;
+        SDL_Event _event;
 
     public:
         int Initialize(const Configuration &config, int InitFlags, int WindowFlags);
@@ -47,6 +48,8 @@ namespace Harpia::Internal {
         SDL_Window *GetWindow();
 
     private:
+        void Tick();
+        static void EmscriptenTick(void *arg);
         [[nodiscard]] float CalculateNow() const;
         [[nodiscard]] Uint64 NowTick() const;
         void HandleEvents(const SDL_Event &e);
