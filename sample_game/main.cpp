@@ -13,13 +13,20 @@
 
 using namespace SampleGame;
 
+#ifdef __EMSCRIPTEN__
+static Harpia::Application *gApp = nullptr;
+#endif
+
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
 #ifndef __EMSCRIPTEN__
     if (!std::filesystem::is_directory("./assets")) {
         DebugLogError("Assets folder missing");
         return -1;
     }
-#endif
     auto app = Harpia::Application(GameConfig::Configure);
     return app.Execute();
+#else
+    gApp = new Harpia::Application(GameConfig::Configure);
+    return gApp->Execute();
+#endif
 }

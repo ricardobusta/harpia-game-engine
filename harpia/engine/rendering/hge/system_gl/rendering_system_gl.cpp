@@ -47,10 +47,10 @@ namespace Harpia::Internal {
 
             glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog(infoLog.data());
+                DebugLog("[Harpia] Program log: %s", infoLog.data());
             }
         } else {
-            DebugLogError("Name %d is not a program", program);
+            DebugLogError("[Harpia] Name %d is not a program", program);
         }
     }
 
@@ -65,10 +65,10 @@ namespace Harpia::Internal {
 
             glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog(infoLog.data());
+                DebugLog("[Harpia] Shader log: %s", infoLog.data());
             }
         } else {
-            DebugLogError("Name %d is not a shader", shader);
+            DebugLogError("[Harpia] Name %d is not a shader", shader);
         }
     }
 
@@ -125,6 +125,9 @@ namespace Harpia::Internal {
                 }
                 auto glMaterial = r->_material;
                 auto glShader = glMaterial->_shader;
+                if (glShader == nullptr) {
+                    continue;// Shader failed to load — skip silently, error already logged during load
+                }
                 if (_previousMaterial != glMaterial) {
                     _previousMaterial = glMaterial;
                     glUseProgram(glShader->programId);
@@ -302,13 +305,13 @@ namespace Harpia::Internal {
             auto ok = false;
             auto vertSrc = Harpia::String::ReadFile(vertPath, &ok);
             if (!ok) {
-                DebugLogError("Error when loading vertex shader file %s.", vertPath.c_str());
+                DebugLogError("[Harpia] Cannot read vertex shader: %s", vertPath.c_str());
                 return nullptr;
             }
 
             auto fragSrc = Harpia::String::ReadFile(fragPath, &ok);
             if (!ok) {
-                DebugLogError("Error when loading fragment shader file %s.", fragPath.c_str());
+                DebugLogError("[Harpia] Cannot read fragment shader: %s", fragPath.c_str());
                 return nullptr;
             }
 
@@ -343,7 +346,7 @@ namespace Harpia::Internal {
         success = GL_FALSE;
         glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("Unable to compile vertex shader %d!", vertexShader);
+            DebugLogError("[Harpia] Vertex shader %d compile failed%s:", vertexShader, isFallback ? " (fallback)" : "");
             PrintShaderLog(vertexShader);
             goto clean_v_shader;
         }
@@ -356,7 +359,7 @@ namespace Harpia::Internal {
         success = GL_FALSE;
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("Unable to compile fragment shader %d!", fragmentShader);
+            DebugLogError("[Harpia] Fragment shader %d compile failed%s:", fragmentShader, isFallback ? " (fallback)" : "");
             PrintShaderLog(fragmentShader);
             goto clean_f_shader;
         }
@@ -365,7 +368,7 @@ namespace Harpia::Internal {
         success = GL_TRUE;
         glGetProgramiv(programId, GL_LINK_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("Error linking program %d!", programId);
+            DebugLogError("[Harpia] Program %d link failed%s:", programId, isFallback ? " (fallback)" : "");
             PrintProgramLog(programId);
             goto clean_link_program;
         }
@@ -377,13 +380,13 @@ namespace Harpia::Internal {
 
         worldToObjectLoc = glGetUniformLocation(programId, "harpia_WorldToObject");
         if (worldToObjectLoc == -1) {
-            DebugLogError("Issue when getting harpia_WorldToObject");
+            DebugLogError("[Harpia] harpia_WorldToObject uniform not found%s", isFallback ? " (fallback)" : "");
             goto clean_get_attrib;
         }
 
         objectToCameraLoc = glGetUniformLocation(programId, "harpia_ObjectToCamera");
         if (objectToCameraLoc == -1) {
-            DebugLogError("Issue when getting harpia_ObjectToCamera");
+            DebugLogError("[Harpia] harpia_ObjectToCamera uniform not found%s", isFallback ? " (fallback)" : "");
             goto clean_get_attrib;
         }
 
@@ -407,7 +410,7 @@ namespace Harpia::Internal {
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
         if (isFallback) {
-            DebugLogError("Fallback shader also failed to compile. Rendering will be broken.");
+            DebugLogError("[Harpia] Fallback shader also failed. Rendering will be broken.");
             return nullptr;
         }
         return LoadShaderBySrc(

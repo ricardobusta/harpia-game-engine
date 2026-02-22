@@ -16,7 +16,7 @@ target_link_libraries(
         ${PROJECT_NAME} PUBLIC
         ${SDL_LINK}
 )
-if (CMAKE_BUILD_TYPE MATCHES Debug)
+if (CMAKE_BUILD_TYPE MATCHES "Debug|RelWithDebInfo")
     target_compile_definitions(
             ${PROJECT_NAME} PUBLIC
             -DHARPIA_DEBUG

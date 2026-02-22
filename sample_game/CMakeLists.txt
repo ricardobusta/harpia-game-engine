@@ -48,6 +48,8 @@ if (EMSCRIPTEN)
             "SHELL:-s ALLOW_MEMORY_GROWTH=1"
             "SHELL:-s INITIAL_MEMORY=64MB"
             "SHELL:-s STACK_SIZE=8MB"
+            "SHELL:-s MIN_WEBGL_VERSION=2"
+            "SHELL:-s MAX_WEBGL_VERSION=2"
             "--preload-file" "${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
     )
     # Use custom HTML shell if available

@@ -22,6 +22,7 @@ namespace Harpia::Internal {
         Event<> onLateUpdate;
         Event<> onQuit;
         Event<> onPreEvents;
+        Event<> onShutdown;
         Event<const SDL_KeyboardEvent &> onKeyDown;
         Event<const SDL_KeyboardEvent &> onKeyUp;
         Event<const SDL_MouseMotionEvent &> onMouseMove;

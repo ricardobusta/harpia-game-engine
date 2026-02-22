@@ -62,6 +62,15 @@ namespace Harpia {
 
         DebugLog("All systems initialized");
 
+#ifdef __EMSCRIPTEN__
+        _coreSystem->onShutdown += [this]() {
+            for (auto &s : _systems) {
+                s->Quit();
+            }
+            DebugLog("Quit Application");
+        };
+        return _coreSystem->Execute();
+#else
         auto result = _coreSystem->Execute();
         if (result < 0) {
             DebugLogError("Application executed with an error");
@@ -73,6 +82,7 @@ namespace Harpia {
 
         DebugLog("Quit Application");
         return result;
+#endif
     }
 
     int Application::GetWindowFlags() const {

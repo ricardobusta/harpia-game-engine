@@ -47,7 +47,8 @@ namespace Harpia::Internal {
         _quit = false;
 
 #ifdef __EMSCRIPTEN__
-        emscripten_set_main_loop_arg(EmscriptenTick, this, 0, 1);
+        emscripten_set_main_loop_arg(EmscriptenTick, this, 0, 0);
+        return 0;
 #else
         while (true) {
             Tick();
@@ -73,6 +74,7 @@ namespace Harpia::Internal {
         if (_quit) {
 #ifdef __EMSCRIPTEN__
             emscripten_cancel_main_loop();
+            onShutdown.Invoke();
 #endif
             return;
         }
@@ -82,7 +84,9 @@ namespace Harpia::Internal {
         onRenderStep.Invoke();
         onLateUpdate.Invoke();
 
-        FrameDelay();
+#ifndef __EMSCRIPTEN__
+        FrameDelay();// In the browser requestAnimationFrame already controls frame pacing
+#endif
     }
 
     void CoreSystem::EmscriptenTick(void *arg) {
