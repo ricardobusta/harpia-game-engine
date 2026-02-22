@@ -30,6 +30,7 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror") # Handle warnings as errors
 endif ()
 
+set(SDLTTF_VENDORED ON CACHE BOOL "" FORCE)
 set(SDL3MIXER_FLAC OFF)
 set(SDL3MIXER_OPUS OFF)
 set(SDL3MIXER_OGG ON)
