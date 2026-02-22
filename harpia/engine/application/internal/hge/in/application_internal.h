@@ -19,7 +19,7 @@ namespace Harpia::Internal {
         std::unique_ptr<CoreSystem> _coreSystem;
         std::unique_ptr<SceneSystem> _sceneManagementSystem;
 
-        Vector2 screenSize = {0, 0};
+        Vector2Int screenSize = {0, 0};
     };
 }// namespace Harpia::Internal
 

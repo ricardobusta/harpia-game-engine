@@ -4,6 +4,7 @@
 
 #include "hge/transform.h"
 #include "hge/harpia_math.h"
+#include "hge/glm_conversions.h"
 
 namespace Harpia {
     Vector3 Transform::GetPosition() const {
@@ -46,7 +47,7 @@ namespace Harpia {
     }
 
     void Transform::SetRotation(float angle, const Vector3 &axis) {
-        _rotation = glm::quat_cast(Matrix::Rotation(angle, axis));// TODO improve this?
+        _rotation = Internal::MatrixMath::ToQuat(Internal::MatrixMath::Rotation(angle, axis));
         SetTransformDirty();
     }
 
@@ -56,13 +57,14 @@ namespace Harpia {
     }
 
     void Transform::Rotate(float angle, const Vector3 &axis) {
-        _rotation = _rotation * glm::quat_cast(Matrix::Rotation(angle, axis));
+        _rotation = _rotation * Internal::MatrixMath::ToQuat(Internal::MatrixMath::Rotation(angle, axis));
         SetTransformDirty();
     }
 
     Matrix4x4 Transform::GetTrMatrix() {
         if (_dirty) {
-            _cachedTr = Matrix::Translation(_position) * Matrix::Rotation(_rotation) * Matrix::Scale(_scale);
+            using M = Internal::MatrixMath;
+            _cachedTr = M::Translation(_position) * M::Rotation(_rotation) * M::Scale(_scale);
             if (_parent != nullptr) {
                 _cachedTr = _parent->GetTrMatrix() * _cachedTr;// TODO avoid recursive call?
             }

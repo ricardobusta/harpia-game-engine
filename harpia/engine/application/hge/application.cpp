@@ -85,7 +85,7 @@ namespace Harpia {
                _audioSystem->GetInitFlags();
     }
 
-    const Vector2 &Application::GetScreenSize() const {
+    const Vector2Int &Application::GetScreenSize() const {
         return screenSize;
     }
 

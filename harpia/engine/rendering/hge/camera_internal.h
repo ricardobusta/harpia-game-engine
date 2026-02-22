@@ -19,7 +19,7 @@ namespace Harpia::Internal {
         RectInt _viewport = RectInt{0, 0, 0, 0};
         bool _useScissors = false;
         RectInt _scissors = RectInt{0, 0, 0, 0};
-        Matrix4x4 _projection = Matrix::Identity();
+        Matrix4x4 _projection;  // default ctor = identity
 
         int _layerMask = 0xFFFF;
         int _clearMask = CameraClearType::All;

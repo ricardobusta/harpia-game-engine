@@ -4,8 +4,8 @@
 
 #include "rendering_system_gl.h"
 
-#include "glm/gtc/type_ptr.hpp"
 #include "hge/camera_internal.h"
+#include "hge/glm_conversions.h"
 #include "hge/configuration.h"
 #include "hge/debug.h"
 #include "hge/harpia_math.h"
@@ -124,11 +124,11 @@ namespace Harpia::Internal {
                 if (_previousMaterial != glMaterial) {
                     _previousMaterial = glMaterial;
                     glUseProgram(glShader->programId);
-                    auto ct = camera->_projection * glm::inverse(camera->GetTransformInternal()->GetTrMatrix());
-                    RenderObjectMaterial(r->_material, glm::value_ptr(ct));
+                    auto ct = camera->_projection * MatrixMath::Inverse(camera->GetTransformInternal()->GetTrMatrix());
+                    RenderObjectMaterial(r->_material, ct.ptr());
                 }
 
-                auto t = glm::value_ptr(r->_renderer->GetTransformInternal()->GetTrMatrix());
+                auto t = r->_renderer->GetTransformInternal()->GetTrMatrix().ptr();
                 if (glShader->worldToObjectLoc != -1) {
                     glUniformMatrix4fv(glShader->worldToObjectLoc, 1, GL_FALSE, t);
                 }

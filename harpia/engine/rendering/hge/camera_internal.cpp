@@ -3,6 +3,7 @@
 //
 
 #include "hge/camera_internal.h"
+#include "hge/glm_conversions.h"
 
 namespace Harpia::Internal {
     void Camera_Internal::UpdateInternal(const Vector2Int &size) {
@@ -25,10 +26,10 @@ namespace Harpia::Internal {
         if (isOrtho) {
             auto height = vertical;
             auto width = vertical * _aspect;
-            _projection = Matrix::Orthographic(-width, width, height, -height, -near, -far);
+            _projection = MatrixMath::Orthographic(-width, width, height, -height, -near, -far);
         } else {
             auto fovy = vertical;
-            _projection = Matrix::Perspective(fovy * Math::Deg2Rad, _aspect, near, far);
+            _projection = MatrixMath::Perspective(fovy * Math::Deg2Rad, _aspect, near, far);
         }
     }
 

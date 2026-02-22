@@ -28,7 +28,7 @@ namespace Harpia::Internal {
         Event<const SDL_MouseButtonEvent &> onMouseButtonDown;
         Event<const SDL_MouseButtonEvent &> onMouseButtonUp;
         Event<const SDL_MouseWheelEvent &> onMouseWheel;
-        Event<Vector2> onWindowResize;
+        Event<Vector2Int> onWindowResize;
 
     private:
         SDL_Window *_window = nullptr;

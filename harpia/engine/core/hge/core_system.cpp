@@ -106,7 +106,7 @@ namespace Harpia::Internal {
             case SDL_EVENT_WINDOW_MOVED:
                 break;
             case SDL_EVENT_WINDOW_RESIZED:
-                onWindowResize.Invoke({e.window.data1, e.window.data2});
+                onWindowResize.Invoke(Vector2Int(e.window.data1, e.window.data2));
                 break;
             case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
                 break;

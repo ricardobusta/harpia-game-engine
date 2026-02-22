@@ -13,13 +13,13 @@ namespace Harpia {
     private:
         Vector3 _position = Vector<3>::zero;
         Vector3 _scale = Vector<3>::one;
-        Quaternion _rotation = glm::identity<Quaternion>();
+        Quaternion _rotation;   // default ctor = identity (0,0,0,1)
 
         Transform *_parent = nullptr;
         std::list<Transform *> _children;
 
         bool _dirty = false;
-        Matrix4x4 _cachedTr = Matrix::Identity();
+        Matrix4x4 _cachedTr;    // default ctor = identity
 
     public:
         Transform() = default;
