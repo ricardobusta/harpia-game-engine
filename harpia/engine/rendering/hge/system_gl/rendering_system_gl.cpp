@@ -316,7 +316,7 @@ namespace Harpia::Internal {
         });
     }
 
-    std::unique_ptr<ShaderAssetGL> RenderingSystemGL::LoadShaderBySrc(const std::string_view &vertSrc, const std::string_view &fragSrc) {
+    std::unique_ptr<ShaderAssetGL> RenderingSystemGL::LoadShaderBySrc(const std::string_view &vertSrc, const std::string_view &fragSrc, bool isFallback) {
         GLuint programId = 0;
         GLuint vertexShader = 0;
         GLuint fragmentShader = 0;
@@ -406,10 +406,15 @@ namespace Harpia::Internal {
     clean_v_shader:
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
+        if (isFallback) {
+            DebugLogError("Fallback shader also failed to compile. Rendering will be broken.");
+            return nullptr;
+        }
         return LoadShaderBySrc(
                 "#version 400\nlayout (location = 0) in vec3 in_position;uniform mat4 harpia_WorldToObject;uniform mat4 harpia_ObjectToCamera;"
                 "void main() {gl_Position = harpia_ObjectToCamera * harpia_WorldToObject * vec4( in_position, 1.0 );}",
-                "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0,1,1,1);}");
+                "#version 400\nout vec4 fragColor;void main(){fragColor.rgba = vec4(0.0,1.0,1.0,1.0);}",
+                true);
     }
 
     void RenderingSystemGL::ReleaseShader(ShaderAssetGL *shader) {
