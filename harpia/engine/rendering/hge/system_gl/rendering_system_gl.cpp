@@ -437,14 +437,16 @@ namespace Harpia::Internal {
 
         GLuint texture = 0;
 
-        GLenum dataFormat = GL_RGBA;// SDL3: surface->format is SDL_PixelFormat enum; use SDL_BYTESPERPIXEL macro
-        if (SDL_BYTESPERPIXEL(surface->format) == 4) {
-            dataFormat = GL_RGBA;
-        } else {
-            dataFormat = GL_RGB;
+        // SDL3: surface->format is SDL_PixelFormat enum; use SDL_BYTESPERPIXEL macro.
+        // In WebGL2/GLES3 the internalFormat and format must match — always convert
+        // the surface to RGBA so we use a single known-good format combination.
+        SDL_Surface *converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+        SDL_DestroySurface(surface);
+        surface = converted;
+        if (surface == nullptr) {
+            DebugLogError("Failed to convert texture %s to RGBA: %s", path.c_str(), SDL_GetError());
+            return nullptr;
         }
-        // auto testColor = SDL_MapRGBA(surface->format, RED, BLUE, GREEN, ALPHA);
-        // testColor & 0xff == ALPHA ?
 
         DebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
 
@@ -453,7 +455,7 @@ namespace Harpia::Internal {
 
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, dataFormat, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
 
         SDL_DestroySurface(surface);
 

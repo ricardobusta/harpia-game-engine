@@ -46,6 +46,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 if (EMSCRIPTEN)
     target_link_options(${PROJECT_NAME} PRIVATE
             "SHELL:-s ALLOW_MEMORY_GROWTH=1"
+            "SHELL:-s INITIAL_MEMORY=64MB"
+            "SHELL:-s STACK_SIZE=8MB"
             "--preload-file" "${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
     )
     # Use custom HTML shell if available
