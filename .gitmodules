@@ -15,7 +15,7 @@
 	url = https://github.com/g-truc/glm
 [submodule "harpia/third_party/openfbx/openfbx"]
 	path = harpia/third_party/openfbx/openfbx
-	url = git@github.com:nem0/OpenFBX.git
+url=git@github.com:ricardobusta/OpenFBX.git
 	url = https://github.com/nem0/OpenFBX
 [submodule "harpia/third_party/googletest"]
 	path = harpia/third_party/googletest
