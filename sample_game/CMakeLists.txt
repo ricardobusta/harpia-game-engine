@@ -40,8 +40,33 @@ add_executable(${PROJECT_NAME} ${HARPIA_APPLICATION_TYPE} ${${PROJECT_NAME}_SRC}
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
 target_link_libraries(${PROJECT_NAME} PUBLIC Harpia)
 
-#install_symlink(${CMAKE_CURRENT_SOURCE_DIR}/Assets/ ${CMAKE_BINARY_DIR}/bin/Assets/)
-#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Assets/ DESTINATION ${CMAKE_BINARY_DIR}/bin/Assets/)
+# ---------------------------------------------------------------------------
+# Assets: symlink (Debug/RelWithDebInfo) or copy (Release) next to the binary.
+# Emscripten skips this — assets are baked in via --preload-file below.
+# ---------------------------------------------------------------------------
+if (NOT EMSCRIPTEN)
+    set(ASSETS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/assets")
+    set(ASSETS_DST "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets")
+
+    if (CMAKE_BUILD_TYPE MATCHES "Debug|RelWithDebInfo")
+        # Symlink so changes to source assets are visible immediately without rebuild.
+        # cmake -E rm -rf removes a symlink without following it on Unix/Windows.
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E rm -rf "${ASSETS_DST}"
+            COMMAND ${CMAKE_COMMAND} -E create_symlink "${ASSETS_SRC}" "${ASSETS_DST}"
+            COMMENT "Assets: symlinking ${ASSETS_SRC} -> ${ASSETS_DST}"
+            VERBATIM
+        )
+    else()
+        # Full copy so the Release output folder is self-contained.
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E rm -rf "${ASSETS_DST}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${ASSETS_SRC}" "${ASSETS_DST}"
+            COMMENT "Assets: copying ${ASSETS_SRC} -> ${ASSETS_DST}"
+            VERBATIM
+        )
+    endif()
+endif()
 
 if (EMSCRIPTEN)
     target_link_options(${PROJECT_NAME} PRIVATE
