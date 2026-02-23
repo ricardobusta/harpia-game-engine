@@ -89,44 +89,53 @@
         // ---------------------------------------------------------------------------
         // SDL sets canvas.width / canvas.height (the GPU buffer resolution).
         // We set canvas.style.width / canvas.style.height (the CSS display size)
-        // independently so the game always fills the available space while keeping
-        // the correct aspect ratio — works for standalone HTML and itch.io iframes.
-
-        var _gameW = 0; // resolved from canvas.width after SDL initialises
-        var _gameH = 0;
+        // to scale the canvas to fill the available space while keeping the correct
+        // aspect ratio — works for standalone HTML and itch.io iframes.
+        //
+        // We use the wrapper div's clientWidth/Height rather than window.innerWidth/
+        // Height because it reflects the actual CSS-rendered space in both standalone
+        // pages and itch.io iframes more reliably on first paint.
 
         function fitCanvas() {
-            var canvas = document.getElementById('canvas');
-            if (!canvas) return;
+            var canvas  = document.getElementById('canvas');
+            var wrapper = document.getElementById('canvas-wrapper');
+            if (!canvas || !wrapper) return;
 
-            // Use the SDL buffer dimensions once available, fall back to 800x600
-            var gw = canvas.width  > 0 ? canvas.width  : (_gameW > 0 ? _gameW : 800);
-            var gh = canvas.height > 0 ? canvas.height : (_gameH > 0 ? _gameH : 600);
-            _gameW = gw;
-            _gameH = gh;
+            var gw = canvas.width;
+            var gh = canvas.height;
+            if (gw <= 0 || gh <= 0) return; // SDL not ready yet — skip
 
-            var scale = Math.min(window.innerWidth / gw, window.innerHeight / gh);
+            var availW = wrapper.clientWidth  || window.innerWidth;
+            var availH = wrapper.clientHeight || window.innerHeight;
+            if (availW <= 0 || availH <= 0) return;
+
+            var scale = Math.min(availW / gw, availH / gh);
             canvas.style.width  = Math.round(gw * scale) + 'px';
             canvas.style.height = Math.round(gh * scale) + 'px';
         }
 
-        // Re-fit whenever the browser window (or itch.io iframe) is resized
+        // Poll via rAF until SDL has set non-zero canvas dimensions, then fit.
+        // This handles the case where onRuntimeInitialized fires before SDL's
+        // SDL_CreateWindow has written canvas.width / canvas.height.
+        function fitCanvasWhenReady() {
+            var canvas = document.getElementById('canvas');
+            if (canvas && canvas.width > 0 && canvas.height > 0) {
+                fitCanvas();
+            } else {
+                requestAnimationFrame(fitCanvasWhenReady);
+            }
+        }
+
+        // Re-fit whenever the browser window or itch.io iframe is resized
         window.addEventListener('resize', fitCanvas);
 
-        // SDL sets canvas.width/height during main(); watch for that attribute
-        // change so we can apply the correct initial scale immediately.
-        var _observer = new MutationObserver(function(mutations) {
-            for (var i = 0; i < mutations.length; i++) {
-                var attr = mutations[i].attributeName;
-                if (attr === 'width' || attr === 'height') {
-                    fitCanvas();
-                    break;
-                }
-            }
-        });
+        // MutationObserver as a belt-and-suspenders backup: if SDL sets
+        // canvas.width/height after the rAF loop already gave up, re-fit.
         var _canvas = document.getElementById('canvas');
         if (_canvas) {
-            _observer.observe(_canvas, { attributes: true });
+            new MutationObserver(function() {
+                fitCanvas();
+            }).observe(_canvas, { attributes: true, attributeFilter: ['width', 'height'] });
         }
 
         // ---------------------------------------------------------------------------
@@ -136,8 +145,8 @@
             canvas: (function() { return document.getElementById('canvas'); })(),
 
             setStatus: function(text) {
-                var statusEl  = document.getElementById('status');
-                var spinnerEl = document.getElementById('spinner');
+                var statusEl    = document.getElementById('status');
+                var spinnerEl   = document.getElementById('spinner');
                 var progressBar = document.getElementById('progress-bar');
                 if (!text) {
                     statusEl.classList.add('hidden');
@@ -157,8 +166,8 @@
 
             onRuntimeInitialized: function() {
                 document.getElementById('status').classList.add('hidden');
-                // SDL runs main() synchronously here; canvas.width/height are set by now
-                fitCanvas();
+                // Start polling: wait for SDL to set canvas dimensions, then fit.
+                fitCanvasWhenReady();
             }
         };
     </script>

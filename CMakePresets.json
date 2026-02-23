@@ -59,18 +59,6 @@
       "name": "web-release",
       "displayName": "Web / Release",
       "configurePreset": "web-release"
-    },
-    {
-      "name": "serve",
-      "displayName": "Web / Serve (Debug)",
-      "configurePreset": "web",
-      "targets": ["serve"]
-    },
-    {
-      "name": "itch",
-      "displayName": "Web / Package for itch.io",
-      "configurePreset": "web-release",
-      "targets": ["itch"]
     }
   ],
 
@@ -79,8 +67,8 @@
       "name": "debug",
       "displayName": "Debug",
       "steps": [
-        { "type": "configure", "name": "debug" },
-        { "type": "build",     "name": "debug" }
+        { "type": "configure", "name": "debug"   },
+        { "type": "build",     "name": "debug"   }
       ]
     },
     {
@@ -92,19 +80,19 @@
       ]
     },
     {
-      "name": "serve",
-      "displayName": "Web / Build + Serve",
+      "name": "web",
+      "displayName": "Web / Debug",
       "steps": [
-        { "type": "configure", "name": "web"   },
-        { "type": "build",     "name": "serve" }
+        { "type": "configure", "name": "web"     },
+        { "type": "build",     "name": "web"     }
       ]
     },
     {
-      "name": "itch",
-      "displayName": "Web / Build + Package for itch.io",
+      "name": "web-release",
+      "displayName": "Web / Release",
       "steps": [
         { "type": "configure", "name": "web-release" },
-        { "type": "build",     "name": "itch"        }
+        { "type": "build",     "name": "web-release" }
       ]
     }
   ]
