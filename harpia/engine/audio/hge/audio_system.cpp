@@ -106,10 +106,12 @@ namespace Harpia::Internal {
 
     void AudioSystem::PlayMusic(MusicAsset *music) const {
         MIX_SetTrackAudio(_musicTrack, music->ref);
-        MIX_SetTrackLoops(_musicTrack, -1);// -1 = loop indefinitely
-        if (!MIX_PlayTrack(_musicTrack, 0)) {
+        SDL_PropertiesID props = SDL_CreateProperties();
+        SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+        if (!MIX_PlayTrack(_musicTrack, props)) {
             DebugLogError("Music could not be played. SDL Error: %s", SDL_GetError());
         }
+        SDL_DestroyProperties(props);
     }
 
     void AudioSystem::SetMusicVolume(float volume) const {
