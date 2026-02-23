@@ -47,6 +47,13 @@ namespace Harpia::Internal {
         _quit = false;
 
 #ifdef __EMSCRIPTEN__
+        {
+            int w = 0, h = 0;
+            SDL_GetWindowSizeInPixels(_window, &w, &h);
+            if (w > 0 && h > 0) {
+                onWindowResize.Invoke(Vector2Int(w, h));
+            }
+        }
         emscripten_set_main_loop_arg(EmscriptenTick, this, 0, 0);
         return 0;
 #else
@@ -134,6 +141,7 @@ namespace Harpia::Internal {
                 onWindowResize.Invoke(Vector2Int(e.window.data1, e.window.data2));
                 break;
             case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+                onWindowResize.Invoke(Vector2Int(e.window.data1, e.window.data2));
                 break;
             case SDL_EVENT_WINDOW_MINIMIZED:
                 break;
