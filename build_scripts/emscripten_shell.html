@@ -13,30 +13,41 @@
         html, body {
             width: 100%;
             height: 100%;
-            background: #1a1a2e;
+            background: #000;
             overflow: hidden;
         }
-        body {
+        /* Full-page centering wrapper */
+        #canvas-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #e0e0e0;
         }
         #canvas {
             display: block;
             border: none;
             outline: none;
+            /* CSS display size is controlled by fitCanvas() below.
+               The internal buffer size (canvas.width / canvas.height)
+               is set by SDL and never touched by JS. */
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
+        /* Loading overlay */
         #status {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 10;
             transition: opacity 0.3s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #e0e0e0;
         }
         #status.hidden {
             opacity: 0;
@@ -64,17 +75,68 @@
     </style>
 </head>
 <body>
+    <div id="canvas-wrapper">
+        <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    </div>
     <div id="status">
         <div id="spinner">Loading...</div>
         <div id="progress"><div id="progress-bar"></div></div>
     </div>
-    <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
     <script>
+        // ---------------------------------------------------------------------------
+        // Canvas letterboxing
+        // ---------------------------------------------------------------------------
+        // SDL sets canvas.width / canvas.height (the GPU buffer resolution).
+        // We set canvas.style.width / canvas.style.height (the CSS display size)
+        // independently so the game always fills the available space while keeping
+        // the correct aspect ratio — works for standalone HTML and itch.io iframes.
+
+        var _gameW = 0; // resolved from canvas.width after SDL initialises
+        var _gameH = 0;
+
+        function fitCanvas() {
+            var canvas = document.getElementById('canvas');
+            if (!canvas) return;
+
+            // Use the SDL buffer dimensions once available, fall back to 800x600
+            var gw = canvas.width  > 0 ? canvas.width  : (_gameW > 0 ? _gameW : 800);
+            var gh = canvas.height > 0 ? canvas.height : (_gameH > 0 ? _gameH : 600);
+            _gameW = gw;
+            _gameH = gh;
+
+            var scale = Math.min(window.innerWidth / gw, window.innerHeight / gh);
+            canvas.style.width  = Math.round(gw * scale) + 'px';
+            canvas.style.height = Math.round(gh * scale) + 'px';
+        }
+
+        // Re-fit whenever the browser window (or itch.io iframe) is resized
+        window.addEventListener('resize', fitCanvas);
+
+        // SDL sets canvas.width/height during main(); watch for that attribute
+        // change so we can apply the correct initial scale immediately.
+        var _observer = new MutationObserver(function(mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                var attr = mutations[i].attributeName;
+                if (attr === 'width' || attr === 'height') {
+                    fitCanvas();
+                    break;
+                }
+            }
+        });
+        var _canvas = document.getElementById('canvas');
+        if (_canvas) {
+            _observer.observe(_canvas, { attributes: true });
+        }
+
+        // ---------------------------------------------------------------------------
+        // Emscripten Module
+        // ---------------------------------------------------------------------------
         var Module = {
             canvas: (function() { return document.getElementById('canvas'); })(),
+
             setStatus: function(text) {
-                var statusEl = document.getElementById('status');
+                var statusEl  = document.getElementById('status');
                 var spinnerEl = document.getElementById('spinner');
                 var progressBar = document.getElementById('progress-bar');
                 if (!text) {
@@ -86,14 +148,17 @@
                 if (m) {
                     var progress = (parseInt(m[2]) / parseInt(m[4])) * 100;
                     progressBar.style.width = progress + '%';
-                    spinnerEl.textContent = m[1].trim();
+                    spinnerEl.textContent   = m[1].trim();
                 } else {
                     progressBar.style.width = '0%';
-                    spinnerEl.textContent = text;
+                    spinnerEl.textContent   = text;
                 }
             },
+
             onRuntimeInitialized: function() {
                 document.getElementById('status').classList.add('hidden');
+                // SDL runs main() synchronously here; canvas.width/height are set by now
+                fitCanvas();
             }
         };
     </script>

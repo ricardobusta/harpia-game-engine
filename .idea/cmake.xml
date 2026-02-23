@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSharedSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug"          CONFIG_NAME="Debug"          GENERATION_DIR="build/debug"   />
+      <configuration PROFILE_NAME="Release"        CONFIG_NAME="Release"        GENERATION_DIR="build/release" />
+      <configuration PROFILE_NAME="RelWithDebInfo" CONFIG_NAME="RelWithDebInfo" GENERATION_DIR="build/relwithdebinfo" />
+    </configurations>
+  </component>
+</project>

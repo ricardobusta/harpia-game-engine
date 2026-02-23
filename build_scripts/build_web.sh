@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$SCRIPT_DIR/.."
 EMSDK_DIR="$PROJECT_DIR/harpia/third_party/emsdk"
 BUILD_TYPE="${1:-Debug}"
-BUILD_DIR="$PROJECT_DIR/cmake-build-web"
+BUILD_DIR="$PROJECT_DIR/build/web"
 
 # Verify emsdk is installed
 if [ ! -f "$EMSDK_DIR/emsdk_env.sh" ]; then

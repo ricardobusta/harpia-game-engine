@@ -7,7 +7,7 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$SCRIPT_DIR/.."
 PORT="${1:-8080}"
-BUILD_DIR="${2:-$PROJECT_DIR/cmake-build-web/bin}"
+BUILD_DIR="${2:-$PROJECT_DIR/build/web/bin}"
 
 if [ ! -d "$BUILD_DIR" ]; then
     echo "Error: Build output not found at $BUILD_DIR"

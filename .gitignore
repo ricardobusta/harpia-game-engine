@@ -32,5 +32,4 @@
 *.app
 
 #builds
-cmake-build-*
-.idea
+build/

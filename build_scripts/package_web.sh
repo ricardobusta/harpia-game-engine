@@ -10,8 +10,8 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$SCRIPT_DIR/.."
-BUILD_DIR="${1:-$PROJECT_DIR/cmake-build-web/bin}"
-OUTPUT_DIR="${2:-$PROJECT_DIR/itch_upload}"
+BUILD_DIR="${1:-$PROJECT_DIR/build/web/bin}"
+OUTPUT_DIR="${2:-$PROJECT_DIR/build/itch_upload}"
 GAME_NAME="Harpia.SampleGame"
 
 if [ ! -f "$BUILD_DIR/$GAME_NAME.js" ]; then
@@ -36,12 +36,12 @@ fi
 
 # Create zip for itch.io
 cd "$OUTPUT_DIR"
-zip -r "$PROJECT_DIR/itch_upload.zip" .
+zip -r "$PROJECT_DIR/build/itch_upload.zip" .
 
 echo ""
 echo "== Package complete!"
 echo "   Folder: $OUTPUT_DIR/"
-echo "   Zip:    $PROJECT_DIR/itch_upload.zip"
+echo "   Zip:    $PROJECT_DIR/build/itch_upload.zip"
 echo ""
-echo "   Upload itch_upload.zip to itch.io as an HTML5 game."
+echo "   Upload build/itch_upload.zip to itch.io as an HTML5 game."
 echo "   Set 'SharedArrayBuffer' if needed in itch.io embed settings."
