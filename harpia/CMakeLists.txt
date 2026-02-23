@@ -27,7 +27,11 @@ else ()
     message("== Desktop Build")
     option(BUILD_SHARED_LIBS "" ON)
     set(SDL3MIXER_VENDORED ON)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror") # Handle warnings as errors
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX") # Treat warnings as errors (MSVC)
+    else ()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror") # Treat warnings as errors (GCC/Clang)
+    endif ()
 endif ()
 
 set(SDLTTF_VENDORED ON CACHE BOOL "" FORCE)
@@ -63,12 +67,15 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 add_subdirectory(engine)
 add_subdirectory(third_party)
 
-# With Mingw64 compiler, these DLL are required to run the app on Windows
+# With Mingw64 compiler, these DLL are required to run the app on Windows.
+# Guard with EXISTS so MSVC builds (which don't have these files) are not broken.
 IF (WIN32)
     get_filename_component(COMPILER_PATH ${CMAKE_CXX_COMPILER} DIRECTORY)
-    file(COPY ${COMPILER_PATH}/libwinpthread-1.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-    file(COPY ${COMPILER_PATH}/libstdc++-6.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-    file(COPY ${COMPILER_PATH}/libgcc_s_seh-1.dll DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+    foreach (_dll libwinpthread-1.dll libstdc++-6.dll libgcc_s_seh-1.dll)
+        if (EXISTS "${COMPILER_PATH}/${_dll}")
+            file(COPY "${COMPILER_PATH}/${_dll}" DESTINATION "${CMAKE_BINARY_DIR}/bin/")
+        endif ()
+    endforeach ()
 endif (WIN32)
 
 if (NOT EMSCRIPTEN)

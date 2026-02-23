@@ -1,71 +1,54 @@
-name: build
+name: Build
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
-    name: ${{ matrix.platform.name }}
-    runs-on: ${{ matrix.platform.os }}
-
-    defaults:
-      run:
-        shell: ${{ matrix.platform.shell }}
-
+  # ─── Desktop builds (Linux · macOS · Windows) ───────────────────────────────
+  build-desktop:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - { name: Linux (CMake), os: ubuntu-latest, shell: sh, flags: true }
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Install Dependencies (Linux)
+
+      # OpenGL dev headers are not installed by default on Ubuntu runners
+      - name: Install OpenGL dev headers (Linux)
         if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install \
-          libxext-dev mesa-common-dev build-essential git make autoconf automake libtool \
-          pkg-config cmake ninja-build gnome-desktop-testing libasound2-dev libpulse-dev \
-          libaudio-dev libjack-dev libsndio-dev libsamplerate0-dev libx11-dev libxext-dev \
-          libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libwayland-dev \
-          libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
-          libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev \
-          python3
-      - name: Setup gl3w
-        if: runner.os == 'Linux'
-        run: python ./harpia/third_party/gl3w/gl3w_gen.py
-      - name: Run Tests
-        if: runner.os == 'Linux'
-        run: |
-          cmake -S . -B tests-build
-          cmake --build tests-build/ --verbose --target Harpia.Tests
-          ./tests-build/bin/Harpia.Tests --gtest_color=no
-      - uses: ricardobusta/setup-emsdk@v11a
-        with:
-          version: 3.1.24
-      - name: Configure Emcmake CMake
-        run: |
-          emcmake cmake -S . -B build \
-            -DSDL_TESTS=ON \
-            -DSDL_INSTALL_TESTS=ON \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_INSTALL_PREFIX=prefix
+        run: sudo apt-get update && sudo apt-get install -y libgl-dev
+
+      - name: Configure
+        run: cmake --preset release
+
       - name: Build
-        run: cmake --build build/ --verbose
-      - name: Print Build Logs
-        if: always()
-        run: |
-          if test -f "/home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"; then
-              echo "=== cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log"
-              cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeOutput.log
-          fi
-          if test -f "/home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log"; then
-              echo "=== cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log"
-              cat /home/runner/work/harpia-game-engine/harpia-game-engine/build/CMakeFiles/CMakeError.log
-          fi
+        run: cmake --build --preset release --parallel
+
+  # ─── Web / Emscripten build (Linux runner) ───────────────────────────────────
+  build-web:
+    name: Build (Web)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+
+      # Override the preset's toolchainFile with the one installed by setup-emsdk
+      # so CI doesn't depend on the bundled emsdk submodule having the toolchain
+      # pre-installed (the submodule contains only the emsdk scripts, not the
+      # full toolchain — those are downloaded by setup-emsdk with caching).
+      - name: Configure (Web)
+        run: cmake --preset web -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+
+      - name: Build (Web)
+        run: cmake --build --preset web --parallel

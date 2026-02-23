@@ -1,13 +1,19 @@
 # Harpia Game Engine
 
-[![build](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml)
+[![Build](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml/badge.svg)](https://github.com/ricardobusta/harpia-game-engine/actions/workflows/build.yml)
 
+### 28/05/2022
 Game Engine made with learning purposes. My idea is to train my knowledge with C++ language and different aspects of engine/ development.
 
 The original engine was started around 2008, with the name of `RGine`, being uploaded to Google Code in 2011 and migrated to Github in 2015. In 2022 I decided to give it another try and see how far I can get.
 
 -- Ricardo Bustamante (aka Busta)
 
+### 22/02/2026
+
+I'm back and I have resurrected my game engine. Now it's improved and have support for other build platforms (Web/ItchIo)
+
+-- Busta
 # Building
 
 ## Requirements
