@@ -105,13 +105,19 @@ if (EMSCRIPTEN)
 
     # ---------------------------------------------------------------------------
     # itch target: package build output into build/itch_upload.zip for itch.io.
+    # itch.io requires files at the root of the zip (no subfolder), so we split
+    # this into two steps:
+    #   _itch_stage  – copies files into build/itch_upload/ (safe working dir)
+    #   itch         – zips from inside build/itch_upload/ so "." == root of zip
     # Usage: cmake --build --preset itch
     #        cmake --workflow --preset itch
     # ---------------------------------------------------------------------------
     set(_ITCH_DIR "${CMAKE_SOURCE_DIR}/build/itch_upload")
     set(_ITCH_ZIP "${CMAKE_SOURCE_DIR}/build/itch_upload.zip")
-    add_custom_target(itch
-        COMMAND ${CMAKE_COMMAND} -E rm -rf  "${_ITCH_DIR}"
+
+    # Step 1: stage — runs from build/ which always exists
+    add_custom_target(_itch_stage
+        COMMAND ${CMAKE_COMMAND} -E rm -rf "${_ITCH_DIR}"
         COMMAND ${CMAKE_COMMAND} -E make_directory "${_ITCH_DIR}"
         COMMAND ${CMAKE_COMMAND} -E copy
                 "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.html"
@@ -125,9 +131,16 @@ if (EMSCRIPTEN)
         COMMAND ${CMAKE_COMMAND} -E copy
                 "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.data"
                 "${_ITCH_DIR}/"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build"
+        DEPENDS ${PROJECT_NAME}
+        VERBATIM
+    )
+
+    # Step 2: zip — runs from inside itch_upload/ so files land at zip root
+    add_custom_target(itch
         COMMAND ${CMAKE_COMMAND} -E tar "cf" "${_ITCH_ZIP}" --format=zip -- .
         WORKING_DIRECTORY "${_ITCH_DIR}"
-        DEPENDS ${PROJECT_NAME}
+        DEPENDS _itch_stage
         COMMENT "Packaging → build/itch_upload.zip"
         VERBATIM
     )
