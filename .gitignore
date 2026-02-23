@@ -33,3 +33,6 @@
 
 #builds
 build/
+
+# Local CMake preset overrides (personal toolchain paths, etc.)
+CMakeUserPresets.json

@@ -77,10 +77,58 @@ if (EMSCRIPTEN)
             "SHELL:-s MAX_WEBGL_VERSION=2"
             "--preload-file" "${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
     )
-    # Use custom HTML shell if available
-    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../build_scripts/emscripten_shell.html")
+    # Use custom HTML shell if present next to this CMakeLists.txt
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/emscripten_shell.html")
         target_link_options(${PROJECT_NAME} PRIVATE
-                "--shell-file" "${CMAKE_CURRENT_SOURCE_DIR}/../build_scripts/emscripten_shell.html"
+                "--shell-file" "${CMAKE_CURRENT_SOURCE_DIR}/emscripten_shell.html"
         )
     endif ()
+
+    # ---------------------------------------------------------------------------
+    # serve target: build then immediately host on localhost for quick testing.
+    # Usage: cmake --build --preset serve
+    #        cmake --workflow --preset serve   (configure + build in one step)
+    # ---------------------------------------------------------------------------
+    set(HARPIA_WEB_PORT "8080" CACHE STRING "Port for the 'serve' target")
+    set(_SERVE_URL "http://localhost:${HARPIA_WEB_PORT}/${PROJECT_NAME}.html")
+    add_custom_target(serve
+        COMMAND ${CMAKE_COMMAND} -E echo ""
+        COMMAND ${CMAKE_COMMAND} -E echo "  Open: ${_SERVE_URL}"
+        COMMAND ${CMAKE_COMMAND} -E echo ""
+        COMMAND python3 -m http.server ${HARPIA_WEB_PORT}
+        WORKING_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+        USES_TERMINAL
+        COMMENT "Serving ${_SERVE_URL}"
+        VERBATIM
+    )
+    add_dependencies(serve ${PROJECT_NAME})
+
+    # ---------------------------------------------------------------------------
+    # itch target: package build output into build/itch_upload.zip for itch.io.
+    # Usage: cmake --build --preset itch
+    #        cmake --workflow --preset itch
+    # ---------------------------------------------------------------------------
+    set(_ITCH_DIR "${CMAKE_SOURCE_DIR}/build/itch_upload")
+    set(_ITCH_ZIP "${CMAKE_SOURCE_DIR}/build/itch_upload.zip")
+    add_custom_target(itch
+        COMMAND ${CMAKE_COMMAND} -E rm -rf  "${_ITCH_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${_ITCH_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.html"
+                "${_ITCH_DIR}/index.html"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.js"
+                "${_ITCH_DIR}/"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.wasm"
+                "${_ITCH_DIR}/"
+        COMMAND ${CMAKE_COMMAND} -E copy
+                "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.data"
+                "${_ITCH_DIR}/"
+        COMMAND ${CMAKE_COMMAND} -E tar "cf" "${_ITCH_ZIP}" --format=zip -- .
+        WORKING_DIRECTORY "${_ITCH_DIR}"
+        DEPENDS ${PROJECT_NAME}
+        COMMENT "Packaging → build/itch_upload.zip"
+        VERBATIM
+    )
 endif ()

@@ -1,0 +1,111 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 4, "minor": 1, "patch": 2 },
+
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "web",
+      "displayName": "Web / Debug",
+      "binaryDir": "${sourceDir}/build/web",
+      "toolchainFile": "${sourceDir}/harpia/third_party/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "web-release",
+      "displayName": "Web / Release",
+      "binaryDir": "${sourceDir}/build/web-release",
+      "toolchainFile": "${sourceDir}/harpia/third_party/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+
+  "buildPresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "configurePreset": "release"
+    },
+    {
+      "name": "web",
+      "displayName": "Web / Debug",
+      "configurePreset": "web"
+    },
+    {
+      "name": "web-release",
+      "displayName": "Web / Release",
+      "configurePreset": "web-release"
+    },
+    {
+      "name": "serve",
+      "displayName": "Web / Serve (Debug)",
+      "configurePreset": "web",
+      "targets": ["serve"]
+    },
+    {
+      "name": "itch",
+      "displayName": "Web / Package for itch.io",
+      "configurePreset": "web-release",
+      "targets": ["itch"]
+    }
+  ],
+
+  "workflowPresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "steps": [
+        { "type": "configure", "name": "debug" },
+        { "type": "build",     "name": "debug" }
+      ]
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "steps": [
+        { "type": "configure", "name": "release" },
+        { "type": "build",     "name": "release" }
+      ]
+    },
+    {
+      "name": "serve",
+      "displayName": "Web / Build + Serve",
+      "steps": [
+        { "type": "configure", "name": "web"   },
+        { "type": "build",     "name": "serve" }
+      ]
+    },
+    {
+      "name": "itch",
+      "displayName": "Web / Build + Package for itch.io",
+      "steps": [
+        { "type": "configure", "name": "web-release" },
+        { "type": "build",     "name": "itch"        }
+      ]
+    }
+  ]
+}
