@@ -7,16 +7,29 @@
 
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
-#include "imgui/imgui.h"
+#include <list>
+
+struct ImGuiContext;
 
 namespace Harpia::Internal {
     class UISystem : public Internal::IApplicationSystem {
+    private:
+        std::list<GuiComponent_Internal *> _guiComponents;
+        ImGuiContext *_imguiContext = nullptr;
+        bool _initialized = false;
+
     public:
-        int Initialize(GameConfiguration &configuration, Application *application, CoreSystem *coreSystem);
+        int Initialize(const Configuration &configuration, RenderingSystem *renderingSystem, CoreSystem *coreSystem);
         int GetInitFlags() override;
         int GetWindowFlags() override;
         void Quit() override;
-    };
-}
 
-#endif //HARPIAGAMEENGINE_UI_SYSTEM_H
+        void AddGuiComponent(GuiComponent_Internal *component);
+        void RemoveGuiComponent(GuiComponent_Internal *component);
+
+    private:
+        void RenderGui();
+    };
+}// namespace Harpia::Internal
+
+#endif//HARPIAGAMEENGINE_UI_SYSTEM_H

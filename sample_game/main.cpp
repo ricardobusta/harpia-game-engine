@@ -20,7 +20,7 @@ static Harpia::Application *gApp = nullptr;
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
 #ifndef __EMSCRIPTEN__
     if (!std::filesystem::is_directory("./assets")) {
-        DebugLogError("Assets folder missing");
+        HDebugLogError("Assets folder missing");
         return -1;
     }
     auto app = Harpia::Application(GameConfig::Configure);

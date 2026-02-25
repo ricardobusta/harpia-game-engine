@@ -16,12 +16,12 @@ namespace Harpia::Internal {
     int RenderingSystem::Initialize(Configuration const &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init Rendering");
+        HDebugLog("Init Rendering");
 
         auto window = coreSystem->GetWindow();
 
         if (window == nullptr) {
-            DebugLogError("Window is null.");
+            HDebugLogError("Window is null.");
             return -1;
         }
         _window = window;
@@ -32,7 +32,7 @@ namespace Harpia::Internal {
         });
 
         if (auto result = RenderingInitialize(); result < 0) {
-            DebugLogError("Failed to initialize specifics.");
+            HDebugLogError("Failed to initialize specifics.");
             return result;
         }
 
@@ -63,7 +63,7 @@ namespace Harpia::Internal {
     }
 
     void RenderingSystem::Quit() {
-        DebugLog("Quit Rendering");
+        HDebugLog("Quit Rendering");
     }
 
     bool RenderingSystem::LoadFbxMeshes(const std::string &path, std::map<std::string, MeshAsset *, std::less<>> &meshes) {

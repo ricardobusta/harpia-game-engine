@@ -6,4 +6,7 @@ file(GLOB ${PROJECT_NAME}_SRC CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/imgui/*.cp
 file(GLOB ${PROJECT_NAME}_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/imgui/*.h)
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 target_sources(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SRC} ${${PROJECT_NAME}_HEADERS})
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/)
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${PROJECT_SOURCE_DIR}/        # for #include "imgui/imgui.h" (engine style)
+        ${PROJECT_SOURCE_DIR}/imgui/  # for #include "imgui.h"  (backend style)
+)

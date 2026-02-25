@@ -12,6 +12,6 @@ namespace Harpia::Internal {
     }
     void ShaderAssetGL::Release() {
         _renderingSystem->ReleaseShader(this);
-        DebugLog("Shader released.");
+        HDebugLog("Shader released.");
     }
 }// namespace Harpia::Internal

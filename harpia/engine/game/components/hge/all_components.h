@@ -8,6 +8,8 @@
 #include "hge/component.h"
 #include "hge/audio_component.h"
 #include "hge/camera_component.h"
+#include "hge/gui_button_component.h"
+#include "hge/gui_label_component.h"
 #include "hge/music_component.h"
 #include "hge/renderer_component.h"
 #include "hge/text_renderer_component.h"

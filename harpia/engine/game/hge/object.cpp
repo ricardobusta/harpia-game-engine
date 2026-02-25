@@ -5,10 +5,12 @@
 #include "hge/object.h"
 #include "hge/camera_internal.h"
 #include "hge/component.h"
+#include "hge/gui_component_internal.h"
 #include "hge/in/application_internal.h"
 #include "hge/renderer_component_internal.h"
 #include "hge/rendering_system.h"
 #include "hge/scene.h"
+#include "hge/ui_system.h"
 #include <utility>
 
 namespace Harpia {
@@ -17,7 +19,7 @@ namespace Harpia {
     }
 
     Object::~Object() {
-        DebugLog("Destroying %s object.", name.c_str());
+        HDebugLog("Destroying %s object.", name.c_str());
         _components.clear();
     }
 
@@ -48,6 +50,12 @@ namespace Harpia {
     void Object::AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) const {
         if (renderer != nullptr) {
             _applicationInternal->_renderSystem->AddRenderer(renderer);
+        }
+    }
+
+    void Object::AddToUiSystemIfGuiComponent(Internal::GuiComponent_Internal *component) const {
+        if (component != nullptr && _applicationInternal->_uiSystem != nullptr) {
+            _applicationInternal->_uiSystem->AddGuiComponent(component);
         }
     }
 

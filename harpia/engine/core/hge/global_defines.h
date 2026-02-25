@@ -37,6 +37,7 @@ namespace Harpia {// Components
     class AudioComponent;
     class MusicComponent;
     class RendererComponent;
+    class GuiComponent;
 }// namespace Harpia
 
 #endif//HARPIAGAMEENGINE_GLOBALDEFINES_H

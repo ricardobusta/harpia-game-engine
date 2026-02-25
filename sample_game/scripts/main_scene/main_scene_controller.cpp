@@ -18,7 +18,7 @@ namespace SampleGame {
         }
 
         if (Input()->GetKeyDown(Harpia::KeyCode::Escape)) {
-            DebugLog("Quit");
+            HDebugLog("Quit");
         }
     }
 }// namespace SampleGame

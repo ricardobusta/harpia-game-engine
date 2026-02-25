@@ -30,6 +30,8 @@ namespace Harpia::Internal {
     class Scene_Internal;
     class RendererComponent_Internal;
     class RendererComponentPlatform;
+    class UISystem;
+    class GuiComponent_Internal;
 }// namespace Harpia::Internal
 
 namespace Harpia::Internal {// GL

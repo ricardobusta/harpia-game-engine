@@ -42,6 +42,18 @@ set(SDL3MIXER_OGG ON)
 list(
         APPEND
         ${PROJECT_NAME}_INCLUDES
+        engine/application/
+        engine/application/internal/
+        engine/audio/
+        engine/core/
+        engine/debug/
+        engine/game/
+        engine/game/components/
+        engine/game/internal/
+        engine/input/
+        engine/rendering/
+        engine/structures/
+        engine/ui/
         third_party/glm/
         third_party/sdl/include/
         third_party/sdl_mixer/include/
@@ -59,8 +71,7 @@ else()
     add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SRC})
 endif()
 
-# TODO In order to generate webgl builds, need to also create a static lib with static dependencies
-target_link_libraries(${PROJECT_NAME} PUBLIC Harpia.Application)
+target_link_libraries(${PROJECT_NAME} PRIVATE Harpia.Application)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_INCLUDES})
 

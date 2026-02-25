@@ -42,10 +42,10 @@ namespace SampleGame {
 
         auto mousePos = Input()->GetMousePos();
         if (Input()->GetMouseButtonIsDown(MouseButton::Left)) {
-            DebugLog("Mouse down: pos %d,%d", mousePos.x, mousePos.y);
+            HDebugLog("Mouse down: pos %d,%d", mousePos.x, mousePos.y);
         }
         if (Input()->GetMouseButtonUp(MouseButton::Left)) {
-            DebugLog("Mouse up: pos %d,%d", mousePos.x, mousePos.y);
+            HDebugLog("Mouse up: pos %d,%d", mousePos.x, mousePos.y);
         }
     }
 }// namespace SampleGame

@@ -80,7 +80,7 @@ namespace Harpia::Internal {
         FILE *fp = fopen(path.c_str(), "rb");
 
         if (!fp) {
-            DebugLogError("Failed to open file %s.", path.c_str());
+            HDebugLogError("Failed to open file %s.", path.c_str());
             return false;
         }
 
@@ -96,7 +96,7 @@ namespace Harpia::Internal {
         delete[] content;
 
         if (!scene) {
-            DebugLogError(ofbx::getError());
+            HDebugLogError(ofbx::getError());
             return false;
         }
 
@@ -178,7 +178,7 @@ namespace Harpia::Internal {
 
             auto mesh = rs.LoadMesh(points, meshNormals, meshUvs, indices);
             if (!mesh) {
-                DebugLogError("Mesh was null: %s", ofbx::getError());
+                HDebugLogError("Mesh was null: %s", ofbx::getError());
             }
             loadedMeshes[name] = mesh;
         }

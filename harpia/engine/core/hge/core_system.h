@@ -30,6 +30,7 @@ namespace Harpia::Internal {
         Event<const SDL_MouseButtonEvent &> onMouseButtonUp;
         Event<const SDL_MouseWheelEvent &> onMouseWheel;
         Event<Vector2Int> onWindowResize;
+        Event<const SDL_Event &> onSDLEvent;// Fires for every SDL event before engine processing (used by UI)
 
     private:
         SDL_Window *_window = nullptr;

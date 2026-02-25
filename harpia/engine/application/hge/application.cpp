@@ -10,13 +10,15 @@
 #include "hge/input_system.h"
 #include "hge/scene_system.h"
 #include "hge/system_gl/rendering_system_gl.h"
+#include "hge/ui_system.h"
 
 #define SystemInit(system, args...)                            \
     do {                                                       \
+        HDebugLog("Will initialize %s", #system);                 \
         _systems.push_front(system.get());                     \
         auto result = system->Initialize(args);                \
         if (result < 0) {                                      \
-            DebugLogError("%s was not initialized.", #system); \
+            HDebugLogError("%s was not initialized.", #system); \
             return result;                                     \
         }                                                      \
     } while (0)
@@ -24,7 +26,7 @@
 namespace Harpia {
     Application::Application(const std::function<void(Configuration &)> &configure) {
         if (configure == nullptr) {
-            DebugLogError("Configure method missing");
+            HDebugLogError("Configure method missing");
             return;
         }
 
@@ -36,6 +38,7 @@ namespace Harpia {
         _inputSystem = std::make_unique<Internal::InputSystem>();
         _audioSystem = std::make_unique<Internal::AudioSystem>();
         _sceneManagementSystem = std::make_unique<Internal::SceneSystem>();
+        _uiSystem = std::make_unique<Internal::UISystem>();
 
         _coreSystem->onWindowResize.AddListener([this](auto size) {
             screenSize = size;
@@ -48,19 +51,20 @@ namespace Harpia {
 
     int Application::Execute() {
         if (!_createdWithSuccess) {
-            DebugLogError("Application not created with success.");
+            HDebugLogError("Application not created with success.");
             return -1;
         }
 
-        DebugLog("Application %s is starting", configuration.game.title.c_str());
+        HDebugLog("Application %s is starting", configuration.game.title.c_str());
 
         SystemInit(_coreSystem, configuration, GetInitFlags(), GetWindowFlags());
         SystemInit(_renderSystem, configuration, _coreSystem.get());
         SystemInit(_inputSystem, configuration.input, _coreSystem.get());
         SystemInit(_audioSystem, configuration.audio, _coreSystem.get());
+        SystemInit(_uiSystem, configuration, _renderSystem.get(), _coreSystem.get());
         SystemInit(_sceneManagementSystem, configuration.game, this, _coreSystem.get());
 
-        DebugLog("All systems initialized");
+        HDebugLog("All systems initialized");
 
 #ifdef __EMSCRIPTEN__
         _coreSystem->onShutdown += [this]() {
@@ -73,14 +77,14 @@ namespace Harpia {
 #else
         auto result = _coreSystem->Execute();
         if (result < 0) {
-            DebugLogError("Application executed with an error");
+            HDebugLogError("Application executed with an error");
         }
 
         for (auto &_system: _systems) {
             _system->Quit();
         }
 
-        DebugLog("Quit Application");
+        HDebugLog("Quit Application");
         return result;
 #endif
     }

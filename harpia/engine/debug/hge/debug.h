@@ -5,9 +5,9 @@
 #ifndef HARPIAGAMEENGINE_DEBUG_H
 #define HARPIAGAMEENGINE_DEBUG_H
 #ifndef HARPIA_DEBUG
-#define DebugLog(args...) (void(0))
-#define DebugLogWarning(args...) (void(0))
-#define DebugLogError(args...) (void(0))
+#define HDebugLog(args...) (void(0))
+#define HDebugLogWarning(args...) (void(0))
+#define HDebugLogError(args...) (void(0))
 #else//HARPIA_DEBUG
 
 #include <memory>
@@ -20,11 +20,11 @@
 #else//__MINGW32__
 #define HARPIA_CALLER __func__
 #endif//__MINGW32__
-#define DebugLog(args...) \
+#define HDebugLog(args...) \
     do { Harpia::Debug::Log(HARPIA_CALLER, args); } while (0)
-#define DebugLogWarning(args...) \
+#define HDebugLogWarning(args...) \
     do { Harpia::Debug::LogWarning(HARPIA_CALLER, args); } while (0)
-#define DebugLogError(args...) \
+#define HDebugLogError(args...) \
     do { Harpia::Debug::LogError(HARPIA_CALLER, __FILE__, __LINE__, args); } while (0)
 
 namespace Harpia {
@@ -45,7 +45,7 @@ namespace Harpia {
         }
 
         template<typename... Args>
-        static void LogError(const char *tag, const char *file, int line, const char *format, Args... args) {
+        static void LogError(const char *tag, const char *file, const int line, const char *format, Args... args) {
             LogError(tag, file, line, Format(format, args...).c_str());
         }
 
@@ -59,9 +59,9 @@ namespace Harpia {
         template<typename... Args>
         static std::string Format(const char *format, Args... args) {
             // Thanks https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf
-            int stringSize = std::snprintf(nullptr, 0, format, args...) + 1;// Extra space for '\0'
+            const int stringSize = std::snprintf(nullptr, 0, format, args...) + 1;// Extra space for '\0'
             if (stringSize <= 0) { throw std::range_error("Error during formatting."); }
-            auto size = static_cast<size_t>(stringSize);
+            const auto size = static_cast<size_t>(stringSize);
             std::vector<char> buf(size);
             std::snprintf(buf.data(), size, format, args...);
             auto res = std::string(buf.data(), buf.data() + size - 1);// We don't want the '\0' inside

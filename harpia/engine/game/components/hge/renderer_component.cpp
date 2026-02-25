@@ -23,7 +23,7 @@ namespace Harpia {
 
     void RendererComponent::SetMesh(MeshAsset *mesh) {
         if (mesh == nullptr) {
-            DebugLogError("Mesh was null");
+            HDebugLogError("Mesh was null");
             return;
         }
         _platform->SetMesh(mesh);

@@ -5,6 +5,7 @@
 #ifndef HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 #define HARPIAGAMEENGINE_RENDERING_SYSTEM_H
 
+#include "hge/event.h"
 #include "hge/i_application_system.h"
 #include "hge/internal_defines.h"
 #include "hge/material_asset.h"
@@ -22,6 +23,10 @@ namespace Harpia::Internal {
         bool _useVsync;
 
     public:
+        // Fires after all cameras are rendered but before the back buffer is swapped.
+        // UISystem subscribes here to draw ImGui on top of the 3D scene.
+        Event<> onPreSwapBuffer;
+
         ~RenderingSystem() override = default;
 
         virtual MaterialAsset *CreateMaterial() = 0;

@@ -47,10 +47,10 @@ namespace Harpia::Internal {
 
             glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog("[Harpia] Program log: %s", infoLog.data());
+                HDebugLog("[Harpia] Program log: %s", infoLog.data());
             }
         } else {
-            DebugLogError("[Harpia] Name %d is not a program", program);
+            HDebugLogError("[Harpia] Name %d is not a program", program);
         }
     }
 
@@ -65,10 +65,10 @@ namespace Harpia::Internal {
 
             glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
             if (infoLogLength > 0) {
-                DebugLog("[Harpia] Shader log: %s", infoLog.data());
+                HDebugLog("[Harpia] Shader log: %s", infoLog.data());
             }
         } else {
-            DebugLogError("[Harpia] Name %d is not a shader", shader);
+            HDebugLogError("[Harpia] Name %d is not a shader", shader);
         }
     }
 
@@ -80,7 +80,7 @@ namespace Harpia::Internal {
         glEnable(GL_DEPTH_TEST);
         //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); // For debug
 
-        DebugLog("GL Initialized");
+        HDebugLog("GL Initialized");
 
         return success;
     }
@@ -93,6 +93,7 @@ namespace Harpia::Internal {
         for (auto camera: _cameras) {
             RenderCameraFrame(camera);
         }
+        onPreSwapBuffer.Invoke();// UISystem renders ImGui overlay here, before swapping buffers
         SDL_GL_SwapWindow(_window);
     }
 
@@ -154,7 +155,7 @@ namespace Harpia::Internal {
 
     void RenderingSystemGL::Quit() {
         RenderingSystem::Quit();
-        DebugLog("Quit rendering GL");
+        HDebugLog("Quit rendering GL");
     }
 
     int RenderingSystemGL::RenderingInitialize() {
@@ -170,30 +171,30 @@ namespace Harpia::Internal {
 
         _context = SDL_GL_CreateContext(_window);
         if (_context == nullptr) {
-            DebugLogError("OpenGL context could not be created! SDL Error: %s", SDL_GetError());
+            HDebugLogError("OpenGL context could not be created! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
 #ifndef __EMSCRIPTEN__
         if (GLenum gl3wError = gl3wInit(); gl3wError != GL3W_OK) {
-            DebugLogError("Error initializing GL3W! %d", gl3wError);
+            HDebugLogError("Error initializing GL3W! %d", gl3wError);
         }
 #endif
 
         //Use Vsync
         if (_useVsync) {
             if (!SDL_GL_SetSwapInterval(-1) && !SDL_GL_SetSwapInterval(1)) {
-                DebugLogError("Warning: Unable to set VSync = true! SDL Error: %s", SDL_GetError());
+                HDebugLogError("Warning: Unable to set VSync = true! SDL Error: %s", SDL_GetError());
             }
         } else {
             if (!SDL_GL_SetSwapInterval(0)) {
-                DebugLogError("Warning: Unable to set VSync = false! SDL Error: %s", SDL_GetError());
+                HDebugLogError("Warning: Unable to set VSync = false! SDL Error: %s", SDL_GetError());
             }
         }
 
         //Initialize OpenGL
         if (!InitGL()) {
-            DebugLogError("Unable to initialize OpenGL!");
+            HDebugLogError("Unable to initialize OpenGL!");
             return -1;
         }
 
@@ -305,13 +306,13 @@ namespace Harpia::Internal {
             auto ok = false;
             auto vertSrc = Harpia::String::ReadFile(vertPath, &ok);
             if (!ok) {
-                DebugLogError("[Harpia] Cannot read vertex shader: %s", vertPath.c_str());
+                HDebugLogError("[Harpia] Cannot read vertex shader: %s", vertPath.c_str());
                 return nullptr;
             }
 
             auto fragSrc = Harpia::String::ReadFile(fragPath, &ok);
             if (!ok) {
-                DebugLogError("[Harpia] Cannot read fragment shader: %s", fragPath.c_str());
+                HDebugLogError("[Harpia] Cannot read fragment shader: %s", fragPath.c_str());
                 return nullptr;
             }
 
@@ -346,7 +347,7 @@ namespace Harpia::Internal {
         success = GL_FALSE;
         glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("[Harpia] Vertex shader %d compile failed%s:", vertexShader, isFallback ? " (fallback)" : "");
+            HDebugLogError("[Harpia] Vertex shader %d compile failed%s:", vertexShader, isFallback ? " (fallback)" : "");
             PrintShaderLog(vertexShader);
             goto clean_v_shader;
         }
@@ -359,7 +360,7 @@ namespace Harpia::Internal {
         success = GL_FALSE;
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("[Harpia] Fragment shader %d compile failed%s:", fragmentShader, isFallback ? " (fallback)" : "");
+            HDebugLogError("[Harpia] Fragment shader %d compile failed%s:", fragmentShader, isFallback ? " (fallback)" : "");
             PrintShaderLog(fragmentShader);
             goto clean_f_shader;
         }
@@ -368,7 +369,7 @@ namespace Harpia::Internal {
         success = GL_TRUE;
         glGetProgramiv(programId, GL_LINK_STATUS, &success);
         if (success != GL_TRUE) {
-            DebugLogError("[Harpia] Program %d link failed%s:", programId, isFallback ? " (fallback)" : "");
+            HDebugLogError("[Harpia] Program %d link failed%s:", programId, isFallback ? " (fallback)" : "");
             PrintProgramLog(programId);
             goto clean_link_program;
         }
@@ -380,13 +381,13 @@ namespace Harpia::Internal {
 
         worldToObjectLoc = glGetUniformLocation(programId, "harpia_WorldToObject");
         if (worldToObjectLoc == -1) {
-            DebugLogError("[Harpia] harpia_WorldToObject uniform not found%s", isFallback ? " (fallback)" : "");
+            HDebugLogError("[Harpia] harpia_WorldToObject uniform not found%s", isFallback ? " (fallback)" : "");
             goto clean_get_attrib;
         }
 
         objectToCameraLoc = glGetUniformLocation(programId, "harpia_ObjectToCamera");
         if (objectToCameraLoc == -1) {
-            DebugLogError("[Harpia] harpia_ObjectToCamera uniform not found%s", isFallback ? " (fallback)" : "");
+            HDebugLogError("[Harpia] harpia_ObjectToCamera uniform not found%s", isFallback ? " (fallback)" : "");
             goto clean_get_attrib;
         }
 
@@ -410,7 +411,7 @@ namespace Harpia::Internal {
         glDeleteShader(vertexShader);
         glDeleteProgram(programId);
         if (isFallback) {
-            DebugLogError("[Harpia] Fallback shader also failed. Rendering will be broken.");
+            HDebugLogError("[Harpia] Fallback shader also failed. Rendering will be broken.");
             return nullptr;
         }
         return LoadShaderBySrc(
@@ -439,7 +440,7 @@ namespace Harpia::Internal {
     std::unique_ptr<TextureAssetGL> RenderingSystemGL::LoadTextureAsset(const std::string &path) {
         SDL_Surface *surface = IMG_Load(path.c_str());
         if (surface == nullptr) {
-            DebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), SDL_GetError());
+            HDebugLogError("Texture %s not loaded. SDL_image Error: %s", path.c_str(), SDL_GetError());
             return nullptr;
         }
 
@@ -452,11 +453,11 @@ namespace Harpia::Internal {
         SDL_DestroySurface(surface);
         surface = converted;
         if (surface == nullptr) {
-            DebugLogError("Failed to convert texture %s to RGBA: %s", path.c_str(), SDL_GetError());
+            HDebugLogError("Failed to convert texture %s to RGBA: %s", path.c_str(), SDL_GetError());
             return nullptr;
         }
 
-        DebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
+        HDebugLog("Loading texture %s Size: (%d, %d)", path.c_str(), surface->w, surface->h);
 
         auto w = surface->w;
         auto h = surface->h;
@@ -523,7 +524,7 @@ namespace Harpia::Internal {
             case CameraClearType::Nothing:
                 return 0;
             default:
-                DebugLogError("Invalid clear type %d", clearType);
+                HDebugLogError("Invalid clear type %d", clearType);
                 return 0;
         }
     }

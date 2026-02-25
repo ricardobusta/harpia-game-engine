@@ -41,6 +41,9 @@ namespace Harpia {
             if (std::is_base_of_v<CameraComponent, T>) {
                 AddToRenderSystemIfCamera((Internal::Camera_Internal *) newComponent);
             }
+            if (std::is_base_of_v<GuiComponent, T>) {
+                AddToUiSystemIfGuiComponent((Internal::GuiComponent_Internal *) newComponent);
+            }
             return newComponent;
         }
 
@@ -62,6 +65,7 @@ namespace Harpia {
     private:
         void AddToRenderSystemIfCamera(Internal::Camera_Internal *camera) const;
         void AddToRenderSystemIfRenderer(Internal::RendererComponent_Internal *renderer) const;
+        void AddToUiSystemIfGuiComponent(Internal::GuiComponent_Internal *component) const;
     };
 }// namespace Harpia
 

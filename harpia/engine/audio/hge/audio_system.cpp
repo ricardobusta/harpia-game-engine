@@ -15,22 +15,22 @@ namespace Harpia::Internal {
     int AudioSystem::Initialize([[maybe_unused]] const AudioConfiguration &config, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init Audio");
+        HDebugLog("Init Audio");
 
         if (!MIX_Init()) {
-            DebugLogError("SDL_mixer could not initialize! SDL Error: %s", SDL_GetError());
+            HDebugLogError("SDL_mixer could not initialize! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
         _mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
         if (_mixer == nullptr) {
-            DebugLogError("SDL_mixer could not open audio device! SDL Error: %s", SDL_GetError());
+            HDebugLogError("SDL_mixer could not open audio device! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
         _musicTrack = MIX_CreateTrack(_mixer);
         if (_musicTrack == nullptr) {
-            DebugLogError("SDL_mixer could not create music track! SDL Error: %s", SDL_GetError());
+            HDebugLogError("SDL_mixer could not create music track! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
@@ -57,12 +57,12 @@ namespace Harpia::Internal {
             _mixer = nullptr;
         }
         MIX_Quit();
-        DebugLog("Quit Audio");
+        HDebugLog("Quit Audio");
     }
 
     void AudioSystem::PlayAudio(AudioAsset *audio) const {
         if (!MIX_PlayAudio(_mixer, audio->ref)) {
-            DebugLogError("Audio could not be played. SDL Error: %s", SDL_GetError());
+            HDebugLogError("Audio could not be played. SDL Error: %s", SDL_GetError());
         }
     }
 
@@ -71,7 +71,7 @@ namespace Harpia::Internal {
             // predecode=true: fully decode into memory up-front, suitable for short sound effects
             auto ref = MIX_LoadAudio(_mixer, p.c_str(), true);
             if (ref == nullptr) {
-                DebugLogError("AudioAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
+                HDebugLogError("AudioAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
                 return nullptr;
             }
             auto audio = std::make_unique<AudioAsset>(this);
@@ -95,7 +95,7 @@ namespace Harpia::Internal {
             // predecode=false: stream from disk, suitable for long music tracks
             auto ref = MIX_LoadAudio(_mixer, p.c_str(), false);
             if (ref == nullptr) {
-                DebugLogError("MusicAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
+                HDebugLogError("MusicAsset %s was not loaded. SDL Error: %s", p.c_str(), SDL_GetError());
                 return nullptr;
             }
             auto music = std::make_unique<MusicAsset>(this);
@@ -109,7 +109,7 @@ namespace Harpia::Internal {
         SDL_PropertiesID props = SDL_CreateProperties();
         SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
         if (!MIX_PlayTrack(_musicTrack, props)) {
-            DebugLogError("Music could not be played. SDL Error: %s", SDL_GetError());
+            HDebugLogError("Music could not be played. SDL Error: %s", SDL_GetError());
         }
         SDL_DestroyProperties(props);
     }
@@ -133,7 +133,7 @@ namespace Harpia::Internal {
     void AudioSystem::SetMusicPosition(float positionInSeconds) const {
         Sint64 frames = MIX_TrackMSToFrames(_musicTrack, (Sint64) (positionInSeconds * 1000.0f));
         if (!MIX_SetTrackPlaybackPosition(_musicTrack, frames)) {
-            DebugLogError("Music position not set. SDL Error: %s", SDL_GetError());
+            HDebugLogError("Music position not set. SDL Error: %s", SDL_GetError());
         }
     }
 

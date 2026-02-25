@@ -98,7 +98,7 @@ namespace Harpia::Internal {
     int InputSystem::Initialize(InputConfiguration &configuration, CoreSystem *coreSystem) {
         AssertNotNull(coreSystem);
 
-        DebugLog("Init Input");
+        HDebugLog("Init Input");
 
         _keyMap.clear();
         for (Harpia::KeyCode key: configuration.mappedKeys) {
@@ -106,7 +106,7 @@ namespace Harpia::Internal {
         }
 
         _inputReader = new InputReader(&_mouseState, &_keyMap, [this](auto key) {
-            DebugLogWarning("Unmapped key encountered, consider adding it in the game configs");
+            HDebugLogWarning("Unmapped key encountered, consider adding it in the game configs");
             _keyMap[key] = KeyState();
         });
 
@@ -126,7 +126,7 @@ namespace Harpia::Internal {
     void InputSystem::Quit() {
         delete _inputReader;
         _inputReader = nullptr;
-        DebugLog("Quit Input");
+        HDebugLog("Quit Input");
     }
 
     int InputSystem::GetInitFlags() {

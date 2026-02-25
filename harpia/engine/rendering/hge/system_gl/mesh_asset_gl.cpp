@@ -17,6 +17,6 @@ namespace Harpia::Internal {
 
     void MeshAssetGL::Release() {
         _renderingSystem->ReleaseMesh(this);
-        DebugLog("Mesh released.");
+        HDebugLog("Mesh released.");
     }
 }// namespace Harpia::Internal

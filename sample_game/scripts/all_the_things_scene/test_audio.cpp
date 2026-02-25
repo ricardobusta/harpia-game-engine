@@ -18,8 +18,8 @@ namespace SampleGame {
 
     void TestAudio::Update() {
         if (Input()->GetKeyDown(Harpia::KeyCode::Alpha1)) {
-            DebugLog("1 pressed");
-            DebugLog(music->IsPaused()?"Playing music":"Pausing music");
+            HDebugLog("1 pressed");
+            HDebugLog(music->IsPaused()?"Playing music":"Pausing music");
             music->Pause(!music->IsPaused());
         }
     }

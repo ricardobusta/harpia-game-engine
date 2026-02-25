@@ -15,7 +15,7 @@
 namespace Harpia::Internal {
     int CoreSystem::Initialize(const Configuration &config, int InitFlags, int WindowFlags) {
         if (!SDL_Init(InitFlags)) {
-            DebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
+            HDebugLogError("SDL was not initialized. SDL_Error: %s", SDL_GetError());
             return -1;
         }
 
@@ -23,7 +23,7 @@ namespace Harpia::Internal {
         auto h = config.window.size.y;
         _window = SDL_CreateWindow(config.game.title.c_str(), w, h, WindowFlags);
         if (_window == nullptr) {
-            DebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
+            HDebugLogError("Window could not be created! SDL Error: %s", SDL_GetError());
             return -1;
         }
 
@@ -75,6 +75,7 @@ namespace Harpia::Internal {
         onPreEvents.Invoke();
 
         while (SDL_PollEvent(&_event) != 0) {
+            onSDLEvent.Invoke(_event);
             HandleEvents(_event);
         }
 
@@ -105,28 +106,28 @@ namespace Harpia::Internal {
             case SDL_EVENT_QUIT:
                 onQuit.Invoke();
                 _quit = true;
-                DebugLog("Requested to quit");
+                HDebugLog("Requested to quit");
                 break;
             case SDL_EVENT_TERMINATING:
-                DebugLog("App terminating");
+                HDebugLog("App terminating");
                 break;
             case SDL_EVENT_LOW_MEMORY:
-                DebugLogWarning("App low on memory. Free stuff.");
+                HDebugLogWarning("App low on memory. Free stuff.");
                 break;
             case SDL_EVENT_WILL_ENTER_BACKGROUND:
-                DebugLog("App will pause.");
+                HDebugLog("App will pause.");
                 break;
             case SDL_EVENT_DID_ENTER_BACKGROUND:
-                DebugLog("App paused.");
+                HDebugLog("App paused.");
                 break;
             case SDL_EVENT_WILL_ENTER_FOREGROUND:
-                DebugLog("App will resume.");
+                HDebugLog("App will resume.");
                 break;
             case SDL_EVENT_DID_ENTER_FOREGROUND:
-                DebugLog("App resumed.");
+                HDebugLog("App resumed.");
                 break;
             case SDL_EVENT_LOCALE_CHANGED:
-                DebugLog("Device locale changed.");
+                HDebugLog("Device locale changed.");
                 break;
             // Window events (now top-level in SDL3)
             case SDL_EVENT_WINDOW_SHOWN:
@@ -186,98 +187,98 @@ namespace Harpia::Internal {
                 break;
             // Joystick events
             case SDL_EVENT_JOYSTICK_AXIS_MOTION:
-                DebugLog("Joy Axis Motion");
+                HDebugLog("Joy Axis Motion");
                 break;
             case SDL_EVENT_JOYSTICK_BALL_MOTION:
-                DebugLog("Joy Ball Motion");
+                HDebugLog("Joy Ball Motion");
                 break;
             case SDL_EVENT_JOYSTICK_HAT_MOTION:
-                DebugLog("Joy Hat Motion");
+                HDebugLog("Joy Hat Motion");
                 break;
             case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
-                DebugLog("Joy Button Down");
+                HDebugLog("Joy Button Down");
                 break;
             case SDL_EVENT_JOYSTICK_BUTTON_UP:
-                DebugLog("Joy Button Up");
+                HDebugLog("Joy Button Up");
                 break;
             case SDL_EVENT_JOYSTICK_ADDED:
-                DebugLog("Joy Device Added");
+                HDebugLog("Joy Device Added");
                 break;
             case SDL_EVENT_JOYSTICK_REMOVED:
-                DebugLog("Joy Device Removed");
+                HDebugLog("Joy Device Removed");
                 break;
             case SDL_EVENT_JOYSTICK_BATTERY_UPDATED:
-                DebugLog("Joy Battery Updated");
+                HDebugLog("Joy Battery Updated");
                 break;
             // Gamepad events (formerly "Controller" in SDL2)
             case SDL_EVENT_GAMEPAD_AXIS_MOTION:
-                DebugLog("Controller Axis Motion");
+                HDebugLog("Controller Axis Motion");
                 break;
             case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
-                DebugLog("Controller Button Down");
+                HDebugLog("Controller Button Down");
                 break;
             case SDL_EVENT_GAMEPAD_BUTTON_UP:
-                DebugLog("Controller Button Up");
+                HDebugLog("Controller Button Up");
                 break;
             case SDL_EVENT_GAMEPAD_ADDED:
-                DebugLog("Controller Device Added");
+                HDebugLog("Controller Device Added");
                 break;
             case SDL_EVENT_GAMEPAD_REMOVED:
-                DebugLog("Controller Device Removed");
+                HDebugLog("Controller Device Removed");
                 break;
             case SDL_EVENT_GAMEPAD_REMAPPED:
-                DebugLog("Controller Device Remapped");
+                HDebugLog("Controller Device Remapped");
                 break;
             case SDL_EVENT_GAMEPAD_TOUCHPAD_DOWN:
-                DebugLog("Controller Touchpad Down");
+                HDebugLog("Controller Touchpad Down");
                 break;
             case SDL_EVENT_GAMEPAD_TOUCHPAD_MOTION:
-                DebugLog("Controller Touchpad Motion");
+                HDebugLog("Controller Touchpad Motion");
                 break;
             case SDL_EVENT_GAMEPAD_TOUCHPAD_UP:
-                DebugLog("Controller Touchpad Up");
+                HDebugLog("Controller Touchpad Up");
                 break;
             case SDL_EVENT_GAMEPAD_SENSOR_UPDATE:
-                DebugLog("Controller Sensor Update");
+                HDebugLog("Controller Sensor Update");
                 break;
             // Touch events
             case SDL_EVENT_FINGER_DOWN:
-                DebugLog("Finger Down");
+                HDebugLog("Finger Down");
                 break;
             case SDL_EVENT_FINGER_UP:
-                DebugLog("Finger Up");
+                HDebugLog("Finger Up");
                 break;
             case SDL_EVENT_FINGER_MOTION:
-                DebugLog("Finger Motion");
+                HDebugLog("Finger Motion");
                 break;
             // Misc events
             case SDL_EVENT_CLIPBOARD_UPDATE:
-                DebugLog("Clipboard Update");
+                HDebugLog("Clipboard Update");
                 break;
             case SDL_EVENT_DROP_FILE:
-                DebugLog("Drop File");
+                HDebugLog("Drop File");
                 break;
             case SDL_EVENT_DROP_TEXT:
-                DebugLog("Drop Text");
+                HDebugLog("Drop Text");
                 break;
             case SDL_EVENT_DROP_BEGIN:
-                DebugLog("Drop Begin");
+                HDebugLog("Drop Begin");
                 break;
             case SDL_EVENT_DROP_COMPLETE:
-                DebugLog("Drop Complete");
+                HDebugLog("Drop Complete");
                 break;
             case SDL_EVENT_AUDIO_DEVICE_ADDED:
                 break;
             case SDL_EVENT_AUDIO_DEVICE_REMOVED:
                 break;
             case SDL_EVENT_SENSOR_UPDATE:
-                DebugLog("Sensor Update");
+                HDebugLog("Sensor Update");
                 break;
             case SDL_EVENT_RENDER_TARGETS_RESET:
-                DebugLog("Targets Reset");
+                HDebugLog("Targets Reset");
                 break;
             case SDL_EVENT_RENDER_DEVICE_RESET:
-                DebugLog("Device Reset");
+                HDebugLog("Device Reset");
                 break;
             default:
                 // Unknown event

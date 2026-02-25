@@ -9,6 +9,8 @@
 #include <hge/color.h>
 #include <hge/debug.h>
 #include <hge/material_asset.h>
+#include <hge/gui_button_component.h>
+#include <hge/gui_label_component.h>
 #include <hge/text_renderer_component.h>
 #include <hge/texture_asset.h>
 
@@ -24,7 +26,7 @@ namespace SampleGame {
     }
 
     void MainScene::Load(Harpia::Application *application) {
-        DebugLog("Starting MainScene");
+        HDebugLog("Starting MainScene");
 
         auto sizeV = 20.0f;
 
@@ -61,5 +63,16 @@ namespace SampleGame {
         CreateText("[8] ... soon ...", {h, v -= space}, fontMaterial);
         CreateText("[9] ... soon ...", {h, v -= space}, fontMaterial);
         CreateText("[Esc] Quit", {h, v -= space}, fontMaterial);
+
+        auto *uiObj = CreateObject("UI");
+
+        auto *label = uiObj->AddComponent<GuiLabelComponent>();
+        label->SetText("Score: 0");
+        label->SetPosition({10, 10});
+
+        auto *btn = uiObj->AddComponent<GuiButtonComponent>();
+        btn->SetLabel("Restart");
+        btn->SetPosition({10, 50});
+        btn->onClick += [this]() {  };
     }
 }// namespace SampleGame

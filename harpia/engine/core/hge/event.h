@@ -25,7 +25,7 @@ namespace Harpia {
             if (it != _listeners.end()) {
                 _listeners.erase(it);
             } else {
-                DebugLogWarning("Trying to remove a listener that was not assigned.");
+                HDebugLogWarning("Trying to remove a listener that was not assigned.");
             }
         }
 

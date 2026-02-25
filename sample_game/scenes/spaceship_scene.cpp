@@ -29,12 +29,12 @@ namespace SampleGame {
 
         std::map<std::string, MeshAsset *, std::less<>> meshCollection;
         if (!LoadFbxMeshAssets("assets/spaceships/spaceships.fbx", meshCollection)) {
-            DebugLogError("Error!");
+            HDebugLogError("Error!");
         }
         auto spaceshipMesh = meshCollection["Spaceship"];
         auto projectileMesh = meshCollection["Projectile"];
         for (const auto &[k, v]: meshCollection) {
-            DebugLog("Loaded mesh: %s %d", k.c_str(), v);
+            HDebugLog("Loaded mesh: %s %d", k.c_str(), v);
         }
 
         auto player = CreateObject("Player");

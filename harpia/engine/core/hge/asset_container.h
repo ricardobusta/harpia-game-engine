@@ -33,7 +33,7 @@ namespace Harpia::Internal {
         TAsset *LoadAsset(const std::string &path, std::function<std::unique_ptr<TAsset>(const std::string &)> loadFunction) {
             if (auto it = _assetMap.find(path); it != _assetMap.end()) {
                 it->second->useCount++;
-                DebugLog("Loading existing %s %s use count: %d", typeid(TAsset).name(), path.c_str(), it->second->useCount);
+                HDebugLog("Loading existing %s %s use count: %d", typeid(TAsset).name(), path.c_str(), it->second->useCount);
                 return it->second->asset.get();
             }
             auto asset = std::move(loadFunction(path));
@@ -51,19 +51,19 @@ namespace Harpia::Internal {
 
         void ReleaseAsset(TAsset *asset, std::function<void(TAsset *asset)> deleteAsset) {
             if (asset == nullptr) {
-                DebugLogError("%s reference was null.", typeid(TAsset).name());
+                HDebugLogError("%s reference was null.", typeid(TAsset).name());
                 return;
             }
 
             auto path = static_cast<Asset *>(asset)->path;
             auto it = _assetMap.find(path);
             if (it == _assetMap.end()) {
-                DebugLogError("Trying to release %s %s, but asset was not loaded.", typeid(TAsset).name(), path.c_str());
+                HDebugLogError("Trying to release %s %s, but asset was not loaded.", typeid(TAsset).name(), path.c_str());
                 return;
             }
 
             it->second->useCount--;
-            DebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
+            HDebugLog("%s released. Usages: %d", typeid(TAsset).name(), it->second->useCount);
             if (it->second->useCount <= 0) {
                 deleteAsset(asset);
                 _assetMap.erase(path);

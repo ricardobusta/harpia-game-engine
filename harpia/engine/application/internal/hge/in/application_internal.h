@@ -18,6 +18,7 @@ namespace Harpia::Internal {
         std::unique_ptr<AudioSystem> _audioSystem;
         std::unique_ptr<CoreSystem> _coreSystem;
         std::unique_ptr<SceneSystem> _sceneManagementSystem;
+        std::unique_ptr<UISystem> _uiSystem;
 
         Vector2Int screenSize = {0, 0};
     };

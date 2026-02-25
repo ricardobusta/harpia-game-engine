@@ -41,7 +41,7 @@ namespace SampleGame {
     }
 
     void AllTheThingsScene::Load(Harpia::Application *application) {
-        DebugLog("Starting AllTheThingsScene");
+        HDebugLog("Starting AllTheThingsScene");
 
         auto testAudio = CreateAudioObject();
 
@@ -60,7 +60,7 @@ namespace SampleGame {
         auto oldBox = LoadBoxMeshAsset(Vector<3>::zero, {1, 2, 3}, true);
 
         for (auto const &[k, v]: meshCollection) {
-            DebugLog("Loaded mesh: %s", k.c_str());
+            HDebugLog("Loaded mesh: %s", k.c_str());
         }
 
         auto floor = CreateObject("Floor");
